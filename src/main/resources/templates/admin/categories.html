@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Category Management')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-5 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('categories')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 alert-dismissible fade show small mb-3">
+                <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Add Category Card -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-3">
+                        <div class="card-header bg-success text-white py-3">
+                            <h6 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i>Add New Category</h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <form th:action="@{/admin/categories/add}" th:object="${categoryDto}" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Category Name (English) *</label>
+                                    <input type="text" th:field="*{name}" class="form-control form-control-sm" placeholder="e.g. Bio-Pesticides" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">वर्गाचे नाव (मराठी)</label>
+                                    <input type="text" th:field="*{nameMr}" class="form-control form-control-sm" placeholder="उदा. सेंद्रिय कीटकनाशके">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Description</label>
+                                    <textarea th:field="*{description}" class="form-control form-control-sm" rows="2" placeholder="Short description"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Image Name</label>
+                                    <input type="text" th:field="*{existingImage}" class="form-control form-control-sm" placeholder="e.g. seeds.jpg">
+                                </div>
+                                <button type="submit" class="btn btn-krushi w-100 fw-bold">Create Category</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories List Table -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-tags-fill text-success me-2"></i>Product Categories (<span th:text="${categories.size()}">8</span>)</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-krushi mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Category Name</th>
+                                            <th>Marathi Name</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th class="text-end">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="cat : ${categories}">
+                                            <td th:text="${cat.id}">1</td>
+                                            <td><strong class="text-dark" th:text="${cat.name}">Seeds</strong></td>
+                                            <td th:text="${cat.nameMr}">बियाणे</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 200px;" th:text="${cat.description}">Description</td>
+                                            <td>
+                                                <span class="badge" th:classappend="${cat.status == 'ACTIVE'} ? 'bg-success' : 'bg-secondary'" th:text="${cat.status}">ACTIVE</span>
+                                            </td>
+                                            <td class="text-end">
+                                                <form th:action="@{'/admin/categories/' + ${cat.id} + '/toggle-status'}" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-xs btn-outline-secondary" th:text="${cat.status == 'ACTIVE'} ? 'Disable' : 'Enable'"></button>
+                                                </form>
+                                                <form th:action="@{'/admin/categories/' + ${cat.id} + '/delete'}" method="POST" class="d-inline ms-1" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                                    <button type="submit" class="btn btn-xs btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

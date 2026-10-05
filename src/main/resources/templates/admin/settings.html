@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Shop Settings')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-5 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('settings')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <h5 class="mb-0 fw-bold text-success"><i class="bi bi-gear-fill me-2"></i>Krushi Seva Kendra Store & GST Configuration</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Store Name</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopName}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">GSTIN Registration Number</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopGstin}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Contact Phone / Mobile</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopMobile}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Official Email Address</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopEmail}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Default Merchant UPI ID</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopUpiId}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Counter Opening Hours</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopHours}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-success">Google Maps Share URL / स्थान लिंक</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control bg-light" th:value="${shopMapUrl}" readonly>
+                                <a th:href="${shopMapUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success">
+                                    <i class="bi bi-box-arrow-up-right me-1"></i> Open
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-success">Physical Store Address</label>
+                            <input type="text" class="form-control form-control-sm bg-light" th:value="${shopAddress}" readonly>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="form-label small fw-bold text-success">Live Location Map Preview</label>
+                            <div class="rounded-3 overflow-hidden border" style="height: 300px;">
+                                <iframe th:src="${shopMapEmbedUrl}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

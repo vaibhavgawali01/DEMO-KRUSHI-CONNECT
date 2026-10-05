@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header :: head('About Us - Saptashrungi Agro Services')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<!-- ===== ABOUT HERO ===== -->
+<section style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 50%, #0d3b0d 100%); min-height: 320px; display:flex; align-items:center; position:relative; overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:url('/images/hero_farm_bg.png') center/cover no-repeat; opacity:0.18;"></div>
+    <div class="container text-center py-5" style="position:relative;z-index:2;">
+        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;">🌾 आमच्याबद्दल / About Us</span>
+        <h1 class="display-5 fw-bold text-white mb-3">सप्तशृंगी ॲग्रो सर्व्हिसेस</h1>
+        <p class="lead mb-0" style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto;">
+            शेतकऱ्यांसाठी विश्वासाचे अधिकृत कृषी सेवा केंद्र — Mirakhnagar, Vaijapur
+        </p>
+    </div>
+</section>
+
+<!-- ===== OUR STORY ===== -->
+<section class="container my-5">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">
+                🌱 आमची कहाणी / Our Story
+            </span>
+            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;">
+                शेतकऱ्यांच्या विश्वासाचे केंद्र —<br>
+                <span style="color:#1b5e20;">एक दशकाहून अधिक काळ</span>
+            </h2>
+            <p class="text-muted mb-3" style="line-height:1.8;">
+                <strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे Mirakhnagar, Vaijapur येथे स्थापित एक अधिकृत कृषी सेवा केंद्र आहे. 
+                शेतकऱ्यांना उच्च दर्जाचे बियाणे, खते, कीटकनाशके आणि आधुनिक शेती साहित्य रास्त किंमतीत उपलब्ध करून देणे हेच आमचे ध्येय आहे.
+            </p>
+            <p class="text-muted mb-4" style="line-height:1.8;">
+                आम्ही <strong>Mahyco, Syngenta, IFFCO, Bayer CropScience, Jain Irrigation</strong> यांसारख्या देशातील आघाडीच्या कंपन्यांचे अधिकृत वितरक आहोत. 
+                प्रत्येक उत्पादन <strong>100% प्रमाणित आणि खात्रीशीर</strong> आहे.
+            </p>
+
+            <!-- Key Points -->
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-3">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-patch-check-fill text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">100% प्रमाणित उत्पादने</h6>
+                        <p class="text-muted small mb-0">सरकारमान्य आणि कंपनी-प्रमाणित बियाणे, खते व कीटकनाशके — बनावट उत्पादनांना थारा नाही.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#fff3e0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-people-fill fs-5" style="color:#f97316;"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">तज्ञ मार्गदर्शन (Expert Advice)</h6>
+                        <p class="text-muted small mb-0">कोणते बियाणे, किती खत, कोणते कीटकनाशक — प्रत्येक शेतकऱ्याला वैयक्तिक मार्गदर्शन.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start gap-3">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#e3f2fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-credit-card-2-front-fill fs-5" style="color:#0288d1;"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">उधारी सुविधा (Credit / Udhari)</h6>
+                        <p class="text-muted small mb-0">विश्वासू शेतकऱ्यांना उधारीवर माल — शेती हंगामानंतर सोयीने परतफेड.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="position-relative">
+                <img th:src="@{/images/saptashrungi_shop.jpg}"
+                     onerror="this.src='/images/hero_farm_bg.png'"
+                     alt="Saptashrungi Agro Services Shop"
+                     class="img-fluid rounded-4 shadow-lg w-100"
+                     style="object-fit:cover; max-height:420px;">
+                <!-- Floating Badge -->
+                <div style="position:absolute;bottom:20px;left:20px;background:white;border-radius:14px;padding:14px 20px;box-shadow:0 8px 30px rgba(0,0,0,0.15);border-left:4px solid #16a34a;">
+                    <div class="d-flex align-items-center gap-2">
+                        <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Logo"
+                             style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+                        <div>
+                            <div class="fw-bold text-success" style="font-size:0.85rem;">सप्तशृंगी ॲग्रो सर्व्हिसेस</div>
+                            <div class="text-muted" style="font-size:0.75rem;">📍 Mirakhnagar, Vaijapur</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<section style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:3rem 0;">
+    <div class="container">
+        <div class="row g-4 text-center text-white">
+            <div class="col-6 col-md-3">
+                <div class="display-5 fw-bold mb-1" style="color:#86efac;">10+</div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">वर्षांचा अनुभव<br><small>Years Experience</small></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-5 fw-bold mb-1" style="color:#fbbf24;">5,000+</div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">शेतकरी ग्राहक<br><small>Farmers Served</small></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-5 fw-bold mb-1" style="color:#86efac;">500+</div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">प्रमाणित उत्पादने<br><small>Certified Products</small></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-5 fw-bold mb-1" style="color:#fbbf24;">50+</div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">ब्रँड्स उपलब्ध<br><small>Top Brands</small></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="container my-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">🛒 आमच्या सेवा</span>
+        <h2 class="fw-bold text-success">आम्ही काय देतो?</h2>
+        <p class="text-muted">शेतीसाठी लागणारी प्रत्येक गोष्ट एकाच ठिकाणी</p>
+    </div>
+    <div class="row g-4">
+        <!-- Service 1 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">🌱</div>
+                <h5 class="fw-bold text-success mb-2">प्रमाणित बियाणे</h5>
+                <p class="text-muted small mb-0">Mahyco, Mahabeej, Monsanto यांचे संकरित व प्रमाणित बियाणे — कापूस, सोयाबीन, मका, ज्वारी, भाजीपाला सर्व उपलब्ध.</p>
+            </div>
+        </div>
+        <!-- Service 2 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#fff7ed;border:1px solid #fed7aa;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(249,115,22,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">🌿</div>
+                <h5 class="fw-bold mb-2" style="color:#c2410c;">रासायनिक व सेंद्रिय खते</h5>
+                <p class="text-muted small mb-0">IFFCO युरिया, Mahadhan NPK, Coromandel, नीम केक, व्हर्मीकंपोस्ट — सर्व प्रकारची खते रास्त दरात.</p>
+            </div>
+        </div>
+        <!-- Service 3 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0f9ff;border:1px solid #bae6fd;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(2,132,199,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">💧</div>
+                <h5 class="fw-bold mb-2" style="color:#0369a1;">ठिबक सिंचन साहित्य</h5>
+                <p class="text-muted small mb-0">Jain Irrigation, Netafim यांचे ठिबक पाईप, ड्रीपर, फिल्टर, फिटिंग्ज — शेतीचा पाणी खर्च 50% कमी करा.</p>
+            </div>
+        </div>
+        <!-- Service 4 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#fdf4ff;border:1px solid #e9d5ff;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(124,58,237,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">🐛</div>
+                <h5 class="fw-bold mb-2" style="color:#6d28d9;">कीटकनाशके व बुरशीनाशके</h5>
+                <p class="text-muted small mb-0">Syngenta, Bayer, Tata Rallis, UPL यांची अत्याधुनिक कीटकनाशके — पिकाला 100% संरक्षण.</p>
+            </div>
+        </div>
+        <!-- Service 5 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#fefce8;border:1px solid #fef08a;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(234,179,8,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">🔧</div>
+                <h5 class="fw-bold mb-2" style="color:#a16207;">शेती अवजारे व फवारणी पंप</h5>
+                <p class="text-muted small mb-0">Battery sprayers, hand pumps, power weeders, pruning shears — आधुनिक शेतीसाठी दर्जेदार उपकरणे.</p>
+            </div>
+        </div>
+        <!-- Service 6 -->
+        <div class="col-md-4 col-sm-6">
+            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:2.8rem;margin-bottom:1rem;">💰</div>
+                <h5 class="fw-bold text-success mb-2">उधारी सुविधा (Udhari)</h5>
+                <p class="text-muted small mb-0">विश्वासू शेतकऱ्यांना क्रेडिट सुविधा — हंगामानंतर सोयीने परतफेड. Digital udhari record ठेवले जाते.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== WHY CHOOSE US ===== -->
+<section style="background:linear-gradient(135deg,#f0fdf4,#e8f5e9); padding:4rem 0;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">⭐ आम्हीच का?</span>
+            <h2 class="fw-bold text-success">सप्तशृंगी का निवडावे?</h2>
+        </div>
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="d-flex flex-column gap-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</span>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">नामांकित कंपन्यांचे थेट वितरक</h6>
+                            <p class="text-muted small mb-0">Mahyco, Syngenta, IFFCO, Bayer, Jain Irrigation यांचे अधिकृत वितरक — बनावट माल मिळण्याची शून्य शक्यता.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</span>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">तज्ञ कृषी सल्लागार</h6>
+                            <p class="text-muted small mb-0">आमचे प्रशिक्षित कर्मचारी तुमच्या पिकांसाठी योग्य उत्पादन निवडण्यात मदत करतात — मोफत सल्ला.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</span>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">रास्त किंमत — कोणतीही लपलेली किंमत नाही</h6>
+                            <p class="text-muted small mb-0">MRP पेक्षा जास्त किंमत आकारली जात नाही. शेतकऱ्यांसाठी विशेष सवलत योजना.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start gap-3">
+                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</span>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Expiry Date Track — नो एक्सपायरी माल</h6>
+                            <p class="text-muted small mb-0">प्रत्येक product ची expiry date digitally track केली जाते — expired माल विकण्याची शून्य शक्यता.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- Fun Fact Card -->
+                <div class="p-4 rounded-4 text-white text-center" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);box-shadow:0 16px 40px rgba(27,94,32,0.3);">
+                    <div style="font-size:3.5rem;margin-bottom:1rem;">🏆</div>
+                    <h4 class="fw-bold mb-3">आमचे खास वैशिष्ट्य</h4>
+                    <div class="row g-3 mt-2">
+                        <div class="col-6">
+                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
+                                <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">🌾</div>
+                                <div style="font-size:0.82rem;">Kharif + Rabi<br>दोन्ही हंगामात उपलब्ध</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
+                                <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">📱</div>
+                                <div style="font-size:0.82rem;">WhatsApp वर<br>तात्काळ उत्तर</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
+                                <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">💳</div>
+                                <div style="font-size:0.82rem;">UPI / Cash /<br>Udhari सुविधा</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
+                                <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">🧾</div>
+                                <div style="font-size:0.82rem;">GST Bill<br>उपलब्ध</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT & MAP ===== -->
+<section class="container my-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">📍 आमचा पत्ता</span>
+        <h2 class="fw-bold text-success">आम्हाला भेटा / Find Us</h2>
+    </div>
+    <div class="row g-4">
+        <!-- Contact Info -->
+        <div class="col-lg-5">
+            <div class="p-4 rounded-4 h-100" style="background:#f8fffe;border:1px solid #d1fae5;">
+                <h5 class="fw-bold text-success mb-4">📞 संपर्क माहिती</h5>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-geo-alt-fill text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark mb-1">दुकानाचा पत्ता</div>
+                        <div class="text-muted small">सप्तशृंगी ॲग्रो सर्व्हिसेस<br>
+                        Mirakhnagar, Vaijapur,<br>
+                        Chhatrapati Sambhajinagar, Maharashtra - 423703</div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-telephone-fill text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark mb-1">फोन नंबर</div>
+                        <a href="tel:+918600813827" class="text-success fw-bold text-decoration-none" style="font-size:1.1rem;">+91 8600813827</a>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#dcfce7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-whatsapp text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark mb-1">WhatsApp</div>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-success fw-bold text-decoration-none">+91 8600813827 वर WhatsApp करा</a>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div style="width:44px;height:44px;border-radius:12px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-clock-fill fs-5" style="color:#d97706;"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark mb-1">दुकान वेळ</div>
+                        <div class="text-muted small">
+                            सोमवार - शनिवार: <strong class="text-dark">सकाळी 8:00 — संध्याकाळी 8:00</strong><br>
+                            रविवार: <strong class="text-dark">सकाळी 9:00 — दुपारी 2:00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="d-flex gap-2 flex-wrap mt-4">
+                    <a href="tel:+918600813827" class="btn btn-success px-4 fw-bold d-flex align-items-center gap-2">
+                        <i class="bi bi-telephone-fill"></i> Call Now
+                    </a>
+                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
+                       class="btn btn-outline-success px-4 fw-bold d-flex align-items-center gap-2">
+                        <i class="bi bi-map-fill"></i> Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Map Embed -->
+        <div class="col-lg-7">
+            <div class="rounded-4 overflow-hidden shadow-sm" style="height:420px;border:1px solid #d1fae5;">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.123456789!2d74.7!3d20.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sMirakhnagar%2C+Vaijapur%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1234567890"
+                    width="100%" height="420"
+                    style="border:0;"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="mt-3 text-center">
+                <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
+                   class="btn btn-success px-5 py-2 fw-bold shadow">
+                    <i class="bi bi-google me-2"></i> Google Maps वर उघडा
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== MISSION STATEMENT ===== -->
+<section style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:4rem 0; text-align:center;">
+    <div class="container">
+        <div style="font-size:3rem;margin-bottom:1rem;">🌾</div>
+        <h2 class="fw-bold text-white mb-3">आमचे ध्येय</h2>
+        <p style="color:rgba(255,255,255,0.85); font-size:1.15rem; max-width:700px; margin:0 auto 2rem; line-height:1.8;">
+            <em>"प्रत्येक शेतकऱ्याला दर्जेदार आणि प्रमाणित कृषी निविष्ठा रास्त किंमतीत उपलब्ध करून देणे
+            आणि आधुनिक तंत्रज्ञानाद्वारे त्यांचे उत्पन्न वाढवण्यास मदत करणे."</em>
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a th:href="@{/products}" class="btn px-5 py-2 fw-bold rounded-pill" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;">
+                🛒 Products पाहा
+            </a>
+            <a href="tel:+918600813827" class="btn btn-outline-light px-5 py-2 fw-bold rounded-pill">
+                📞 आत्ता Call करा
+            </a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

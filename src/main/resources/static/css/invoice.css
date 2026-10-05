@@ -1,0 +1,113 @@
+/* ===================================================================
+   🧾 GST TAX INVOICE & RECEIPT PRINT STYLESHEET
+   =================================================================== */
+
+.invoice-box {
+  max-width: 850px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.invoice-header {
+  border-bottom: 2px solid #1b5e20;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.invoice-logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1b5e20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.invoice-meta-table td {
+  padding: 4px 8px;
+}
+
+.invoice-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.invoice-items-table th {
+  background-color: #f1f8e9;
+  color: #1b5e20;
+  border: 1px solid #c8e6c9;
+  padding: 10px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.invoice-items-table td {
+  border: 1px solid #e0e0e0;
+  padding: 9px 10px;
+}
+
+.invoice-summary-box {
+  float: right;
+  width: 320px;
+  margin-top: 1rem;
+}
+
+.invoice-summary-table {
+  width: 100%;
+}
+
+.invoice-summary-table td {
+  padding: 6px 10px;
+}
+
+.invoice-total-row {
+  background-color: #e8f5e9;
+  font-weight: 800;
+  color: #1b5e20;
+  font-size: 16px;
+}
+
+.invoice-footer {
+  border-top: 1px dashed #bbb;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  font-size: 12px;
+  color: #666;
+}
+
+.signature-box {
+  margin-top: 2.5rem;
+  text-align: right;
+}
+
+.signature-line {
+  display: inline-block;
+  width: 200px;
+  border-top: 1px solid #333;
+  margin-top: 40px;
+}
+
+@media print {
+  body {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .invoice-box {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+}

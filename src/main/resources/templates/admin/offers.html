@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Offers Management')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-5 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('offers')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 alert-dismissible fade show small mb-3">
+                <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Add Offer Form -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-3">
+                        <div class="card-header bg-success text-white py-3">
+                            <h6 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i>Create Offer / Coupon</h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <form th:action="@{/admin/offers/add}" th:object="${offerForm}" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Offer Title *</label>
+                                    <input type="text" th:field="*{title}" class="form-control form-control-sm" placeholder="e.g. Kharif Monsoon Discount" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Description</label>
+                                    <textarea th:field="*{description}" class="form-control form-control-sm" rows="2" placeholder="Short offer summary"></textarea>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-success">Discount Type</label>
+                                        <select th:field="*{discountType}" class="form-select form-select-sm">
+                                            <option value="PERCENTAGE">Percentage (%)</option>
+                                            <option value="FIXED">Flat Amount (₹)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-success">Discount Value *</label>
+                                        <input type="number" step="0.01" th:field="*{discountValue}" class="form-control form-control-sm" placeholder="10 or 150" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Coupon Code *</label>
+                                    <input type="text" th:field="*{couponCode}" class="form-control form-control-sm text-uppercase" placeholder="e.g. KHARIF10" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success">Min Order Amount (₹)</label>
+                                    <input type="number" step="0.01" th:field="*{minOrderAmount}" class="form-control form-control-sm" placeholder="1000.00">
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-success">Start Date</label>
+                                        <input type="date" th:field="*{startDate}" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small fw-bold text-success">End Date</label>
+                                        <input type="date" th:field="*{endDate}" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-krushi w-100 fw-bold">Publish Offer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offers List Table -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-gift-fill text-warning me-2"></i>Active Promotional Offers (<span th:text="${offers.size()}">0</span>)</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-krushi mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Code</th>
+                                            <th>Discount</th>
+                                            <th>Min Order</th>
+                                            <th>Validity</th>
+                                            <th>Status</th>
+                                            <th class="text-end">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="off : ${offers}">
+                                            <td>
+                                                <strong class="text-dark d-block" th:text="${off.title}">Title</strong>
+                                                <small class="text-muted" th:text="${off.description}">Desc</small>
+                                            </td>
+                                            <td><code class="fw-bold fs-6 text-success" th:text="${off.couponCode}">CODE</code></td>
+                                            <td>
+                                                <span class="badge bg-success" th:text="${off.discountType == 'PERCENTAGE' ? off.discountValue + '%' : '₹' + off.discountValue}">10%</span>
+                                            </td>
+                                            <td class="small" th:text="'₹' + ${off.minOrderAmount}">₹1,000</td>
+                                            <td class="small" th:text="${off.startDate + ' to ' + off.endDate}">Dates</td>
+                                            <td>
+                                                <span class="badge" th:classappend="${off.active} ? 'bg-success' : 'bg-secondary'" th:text="${off.active} ? 'ACTIVE' : 'INACTIVE'">ACTIVE</span>
+                                            </td>
+                                            <td class="text-end">
+                                                <form th:action="@{'/admin/offers/' + ${off.id} + '/toggle'}" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-xs btn-outline-secondary" th:text="${off.active} ? 'Disable' : 'Enable'"></button>
+                                                </form>
+                                                <form th:action="@{'/admin/offers/' + ${off.id} + '/delete'}" method="POST" class="d-inline ms-1" onsubmit="return confirm('Delete this coupon?');">
+                                                    <button type="submit" class="btn btn-xs btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

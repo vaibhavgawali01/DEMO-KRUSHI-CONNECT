@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Contact Shop')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">Always at your service</span>
+        <h2 class="fw-bold text-success">Contact Saptashrungi Agro Services</h2>
+        <p class="text-muted">Visit our counter or contact our agronomists directly for orders and crop inquiries</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Contact Cards -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shop text-success me-2"></i>Store Information</h5>
+                    
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="bg-success text-white rounded p-2"><i class="bi bi-geo-alt-fill"></i></div>
+                        <div>
+                            <strong class="d-block">Shop Address / पत्ता</strong>
+                            <span class="small text-muted" th:text="${shopAddress}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="bg-success text-white rounded p-2"><i class="bi bi-telephone-fill"></i></div>
+                        <div>
+                            <strong class="d-block">Phone & Mobile / संपर्क</strong>
+                            <span class="small text-muted" th:text="${shopMobile}">+91 8600813827</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                        <div class="bg-success text-white rounded p-2"><i class="bi bi-clock-fill"></i></div>
+                        <div>
+                            <strong class="d-block">Working Hours / वेळ</strong>
+                            <span class="small text-muted" th:text="${shopHours}">Mon - Sat: 8:00 AM - 8:30 PM | Sun: 9:00 AM - 2:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-success text-white rounded p-2"><i class="bi bi-receipt"></i></div>
+                        <div>
+                            <strong class="d-block">GSTIN Registration</strong>
+                            <span class="small text-muted" th:text="${shopGstin}">27AAAAA0000A1Z5</span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Direct Action Buttons -->
+                    <div class="d-grid gap-2">
+                        <a th:href="@{'https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services'}" target="_blank" class="btn btn-success d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-whatsapp"></i> Chat on WhatsApp (8600813827)
+                        </a>
+                        <a th:href="@{'tel:+918600813827'}" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-telephone-outbound"></i> Direct Call Shop (+91 8600813827)
+                        </a>
+                        <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" class="btn btn-light border d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-map"></i> Open in Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Maps Embed -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100" style="min-height: 400px;">
+                <iframe th:src="${shopMapEmbedUrl != null ? shopMapEmbedUrl : 'https://maps.google.com/maps?q=19.9852957,74.9312239&hl=mr&z=17&output=embed'}" 
+                        width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

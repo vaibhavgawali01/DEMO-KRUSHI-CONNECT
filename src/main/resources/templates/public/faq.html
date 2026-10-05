@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Frequently Asked Questions')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">Help & Assistance</span>
+        <h2 class="fw-bold text-success">Frequently Asked Questions (FAQ)</h2>
+        <p class="text-muted">Answers to common questions regarding ordering, Udhari facility, GST billing, and farming advisory</p>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="accordion shadow-sm rounded-3" id="krushiFaqAccordion">
+                <!-- Q1 -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="bi bi-question-circle me-2"></i> How can I place an order for seeds and fertilizers?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#krushiFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            You can browse our online catalog, add your required products to the shopping cart, and proceed to checkout. You can select either Counter Pickup or Field Delivery, and pay via Cash, UPI QR code, or Udhari.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            <i class="bi bi-credit-card me-2"></i> How does the Udhari (Credit) facility work?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Verified local farmers with an active customer account can choose Udhari at checkout. The bill amount is automatically logged to your personal credit ledger with a 30-day payment term. You can view your balance and pay online via UPI or cash anytime.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            <i class="bi bi-receipt me-2"></i> How can I download my GST tax invoice?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Log in to your Customer Dashboard, go to <strong>My Orders</strong>, click on your order, and select <strong>Download / Print GST Invoice</strong>. The system generates a compliant invoice with HSN and tax breakdown.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            <i class="bi bi-calculator me-2"></i> How accurate is the Fertilizer Calculator?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            The calculator uses standard state agricultural university (MPKV Rahuri / ICAR) fertilizer recommendations based on acreage and soil type. For micro-soil deficiencies, farmers are encouraged to also review their soil health cards.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            <i class="bi bi-clock me-2"></i> What are the shop working hours?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Our physical retail counter is open Monday through Saturday from 8:00 AM to 8:30 PM, and on Sundays from 9:00 AM to 2:00 PM. Online orders and inquiries can be submitted 24/7.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

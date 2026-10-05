@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Offers & Discounts')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="text-center mb-5">
+        <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mb-2 fw-bold">Seasonal Deals</span>
+        <h2 class="fw-bold text-success" th:text="#{home.offers.title}">Current Seasonal Offers</h2>
+        <p class="text-muted">Exclusive festival coupons, bulk fertilizer rebates, and drip irrigation subsidies</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-4" th:each="offer : ${offers}">
+            <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden" style="border-top: 4px solid #f57f17 !important;">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-success" th:text="${offer.discountType == 'PERCENTAGE' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' FLAT OFF'}">10% OFF</span>
+                        <small class="text-muted" th:text="'Valid till: ' + ${offer.endDate}">Valid till</small>
+                    </div>
+
+                    <h5 class="fw-bold text-dark mt-2" th:text="${offer.title}">Offer Title</h5>
+                    <p class="text-muted small flex-grow-1" th:text="${offer.description}">Description</p>
+
+                    <div class="bg-light p-3 rounded-2 border d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">COUPON CODE</small>
+                            <code class="fw-bold fs-5 text-success" th:text="${offer.couponCode}">KHARIF10</code>
+                        </div>
+                        <a th:href="@{/products}" class="btn btn-sm btn-krushi">Use Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

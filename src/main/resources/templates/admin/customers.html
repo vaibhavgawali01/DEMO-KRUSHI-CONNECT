@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Customers Management')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('customers')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Header & Search Toolbar -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <span>👨‍🌾 Registered Farmer Directory</span>
+                    </h1>
+                    <p class="text-muted small m-0 mt-1">Total: <strong th:text="${customerPage.totalElements}">3</strong> registered farmers in the network</p>
+                </div>
+            </div>
+
+            <!-- Flash Messages -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-alert-circle me-1"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Filter Card -->
+            <form th:action="@{/admin/customers}" method="GET" class="modern-card p-3 mb-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
+                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" placeholder="Search name, mobile, village..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">Search</button>
+                        <a th:href="@{/admin/customers}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Customers Table -->
+            <div class="modern-card overflow-hidden mb-4">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
+                        <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                            <tr>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">#</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Farmer Name</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Mobile Number</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Email</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Village & Location</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">District</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${customerPage.empty}">
+                                <td colspan="8" class="text-center py-5 text-muted">No customers found.</td>
+                            </tr>
+                            <tr th:each="c : ${customerPage.content}" style="border-bottom: 1px solid #f3f4f6;">
+                                <td style="padding: 12px 16px;" th:text="${c.id}">1</td>
+                                <td style="padding: 12px 16px;">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: #e0f2fe; color: #0284c7; font-weight: 600; font-size: 13px;">
+                                            <i class="ti ti-user"></i>
+                                        </div>
+                                        <strong class="text-dark" th:text="${c.name}">Ramesh Patil</strong>
+                                    </div>
+                                </td>
+                                <td style="padding: 12px 16px;"><code class="text-dark fw-semibold" th:text="${c.mobile}">9822012345</code></td>
+                                <td style="padding: 12px 16px;" class="small text-muted" th:text="${c.email}">email@example.com</td>
+                                <td style="padding: 12px 16px;" class="small" th:text="${c.village + ' (' + (c.taluka != null ? c.taluka : '') + ')'}">Kasbe Digraj (Miraj)</td>
+                                <td style="padding: 12px 16px;" class="small" th:text="${c.district}">Sangli</td>
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <span class="status-pill" th:classappend="${c.status == 'ACTIVE'} ? 'status-pill-green' : 'status-pill-red'" th:text="${c.status}">ACTIVE</span>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <div class="d-inline-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1 px-2 py-1 text-primary shadow-sm" style="font-size: 12px; border-radius: 6px;"
+                                                th:onclick="'openCustomerEditModal(' + ${c.id} + ', \'' + ${#strings.escapeJavaScript(c.name)} + '\', \'' + ${#strings.escapeJavaScript(c.mobile)} + '\', \'' + ${#strings.escapeJavaScript(c.email)} + '\', \'' + ${#strings.escapeJavaScript(c.village != null ? c.village : '')} + '\', \'' + ${#strings.escapeJavaScript(c.taluka != null ? c.taluka : '')} + '\', \'' + ${#strings.escapeJavaScript(c.district != null ? c.district : '')} + '\', \'' + ${#strings.escapeJavaScript(c.address != null ? c.address : '')} + '\', \'' + ${c.status} + '\')'">
+                                            <i class="ti ti-edit"></i> Edit Profile
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-success d-inline-flex align-items-center gap-1 px-2 py-1 shadow-sm" style="font-size: 12px; border-radius: 6px;"
+                                                th:onclick="'openQuickUdhariModal(' + ${c.id} + ', \'' + ${#strings.escapeJavaScript(c.name)} + '\', \'' + ${#strings.escapeJavaScript(c.mobile)} + '\')'">
+                                            <i class="ti ti-credit-card"></i> उधारी जोडा
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${customerPage.totalPages > 1}">
+                    <a th:href="@{/admin/customers(page=${customerPage.number - 1}, query=${query})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${customerPage.first} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        ← Previous
+                    </a>
+
+                    <span th:each="i : ${#numbers.sequence(0, customerPage.totalPages - 1)}" 
+                          th:if="${i >= customerPage.number - 2 and i <= customerPage.number + 2}">
+                        <a th:href="@{/admin/customers(page=${i}, query=${query})}"
+                           class="btn btn-sm"
+                           th:classappend="${customerPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
+                           th:style="${customerPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
+                           th:text="${i + 1}">1</a>
+                    </span>
+
+                    <a th:href="@{/admin/customers(page=${customerPage.number + 1}, query=${query})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${customerPage.last} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        Next →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Customer Modal -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #1a5f3d;">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;">
+                    <i class="ti ti-user-edit me-2"></i>Edit Farmer Details / शेतकरी माहिती बदला
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/customers/edit}" th:object="${customerEditDto}" method="POST">
+                <input type="hidden" id="editCustId" th:field="*{id}">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Farmer Full Name / शेतकऱ्याचे नाव *</label>
+                            <input type="text" id="editCustName" th:field="*{name}" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Mobile Number / मोबाईल *</label>
+                            <input type="text" id="editCustMobile" th:field="*{mobile}" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Email / ईमेल</label>
+                            <input type="email" id="editCustEmail" th:field="*{email}" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Village / गाव</label>
+                            <input type="text" id="editCustVillage" th:field="*{village}" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Taluka / तालुका</label>
+                            <input type="text" id="editCustTaluka" th:field="*{taluka}" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">District / जिल्हा</label>
+                            <input type="text" id="editCustDistrict" th:field="*{district}" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Full Address / पत्ता</label>
+                            <textarea id="editCustAddress" th:field="*{address}" class="form-control form-control-sm" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Account Status / खाते स्थिती</label>
+                            <select id="editCustStatus" th:field="*{status}" class="form-select form-select-sm">
+                                <option value="ACTIVE">ACTIVE (सक्रिय)</option>
+                                <option value="INACTIVE">INACTIVE (बंद / स्थगित)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-check me-1"></i> Save Changes / सेव्ह करा
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Set Udhari Modal -->
+<div class="modal fade" id="quickUdhariModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #16a34a;">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;">
+                    <i class="ti ti-credit-card me-2"></i>Set / Add Udhari for Farmer (उधारी नोंदवा / सेट करा)
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/udhari/create-or-set}" method="POST">
+                <input type="hidden" id="quickUdhariUserId" name="userId">
+                <div class="modal-body p-4">
+                    <div class="mb-3 p-3 bg-light rounded-3 border">
+                        <small class="text-muted d-block">Farmer / शेतकरी:</small>
+                        <strong class="text-dark fs-6" id="quickUdhariCustomerName">Customer Name</strong>
+                        <div class="text-muted small mt-1">Mobile: <strong id="quickUdhariCustomerMobile">9822012345</strong></div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Total Udhari / एकूण उधारी (₹) *</label>
+                            <input type="number" step="0.01" min="1" name="totalAmount" class="form-control form-control-sm" placeholder="उदा. 5000" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Paid Amount / जमा रक्कम (₹)</label>
+                            <input type="number" step="0.01" min="0" name="paidAmount" value="0" class="form-control form-control-sm" placeholder="0">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Due Date / परत देण्याची तारीख 📅 *</label>
+                            <input type="date" name="dueDate" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Notes / शेरा</label>
+                            <textarea name="notes" class="form-control form-control-sm" rows="2" placeholder="उदा. खरीप हंगाम खते व बियाणे उधारी..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-check me-1"></i> Save Udhari / उधारी जतन करा
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openCustomerEditModal(id, name, mobile, email, village, taluka, district, address, status) {
+    document.getElementById('editCustId').value = id;
+    document.getElementById('editCustName').value = name || '';
+    document.getElementById('editCustMobile').value = mobile || '';
+    document.getElementById('editCustEmail').value = email || '';
+    document.getElementById('editCustVillage').value = village || '';
+    document.getElementById('editCustTaluka').value = taluka || '';
+    document.getElementById('editCustDistrict').value = district || '';
+    document.getElementById('editCustAddress').value = address || '';
+    document.getElementById('editCustStatus').value = status || 'ACTIVE';
+
+    var modal = new bootstrap.Modal(document.getElementById('editCustomerModal'));
+    modal.show();
+}
+
+function openQuickUdhariModal(userId, name, mobile) {
+    document.getElementById('quickUdhariUserId').value = userId;
+    document.getElementById('quickUdhariCustomerName').innerText = name;
+    document.getElementById('quickUdhariCustomerMobile').innerText = mobile;
+
+    var modal = new bootstrap.Modal(document.getElementById('quickUdhariModal'));
+    modal.show();
+}
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header :: head('Home')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section">
+
+    <!-- 🌾 Farm Background with Ken Burns Animation -->
+    <div class="hero-farm-bg" id="heroBg"></div>
+
+    <!-- Cinematic Dark Overlay -->
+    <div class="video-overlay"></div>
+
+    <!-- Spacious, Glassmorphic Hero Card -->
+    <div class="hero-content">
+
+        <!-- Eyebrow Pill Badge -->
+        <div class="hero-pill-badge">
+            <span class="hero-pill-dot"></span>
+            <span>सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+            <span class="hero-pill-tag">🌾 100% अस्सल उत्पादने</span>
+        </div>
+
+        <!-- Master Headline -->
+        <h1>
+            Quality Agricultural Products<br class="d-none d-md-block">
+            for <span class="hero-gradient-text">Better Farming</span> 🌿
+        </h1>
+
+        <!-- Subtitle -->
+        <p>
+            प्रमाणित संकरित बियाणे, दर्जेदार खते, पीक संरक्षण औषधे आणि सिंचन साहित्य — वैजापूर तालुक्यातील शेतकऱ्यांच्या भरघोस उत्पादनासाठी खात्रीशीर कृषी सेवा केंद्र.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="hero-buttons">
+            <a th:href="@{/products}" class="btn-hero-primary">
+                <i class="bi bi-grid-fill"></i>
+                <span>Explore Products</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+            <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20कृषी%20उत्पादनांविषयी%20माहिती%20हवी%20आहे." target="_blank" class="btn-hero-outline">
+                <i class="bi bi-whatsapp text-success"></i>
+                <span>WhatsApp Advisory</span>
+            </a>
+            <a th:href="@{/farming-tips}" class="btn-hero-outline">
+                <i class="bi bi-journal-text text-warning"></i>
+                <span>Farming Advice</span>
+            </a>
+        </div>
+
+        <!-- Trust Badges Strip -->
+        <div class="hero-trust-strip">
+            <div class="hero-trust-item">
+                <i class="bi bi-patch-check-fill"></i>
+                <span>100% Certified Genuine Brands</span>
+            </div>
+            <div class="hero-trust-item">
+                <i class="bi bi-people-fill"></i>
+                <span>5,000+ Farmers Served</span>
+            </div>
+            <div class="hero-trust-item">
+                <i class="bi bi-credit-card-2-front-fill"></i>
+                <span>उधारी व UPI सुविधा</span>
+            </div>
+            <div class="hero-trust-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>मिरखनगर, वैजापूर</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== ⚡ QUICK ACTION CARDS ===== -->
+<section class="container-fluid px-3 px-md-5" style="margin-top:-40px; position:relative; z-index:10;">
+    <div class="row g-3 justify-content-center">
+
+        <!-- Card 1: Explore Products -->
+        <div class="col-6 col-md-3">
+            <a th:href="@{/products}" class="text-decoration-none">
+                <div class="quick-action-card" style="--card-color:#1b5e20; --card-bg:#f0fdf4;">
+                    <div class="qa-icon">🌱</div>
+                    <div class="qa-title">Explore Products</div>
+                    <div class="qa-sub">Browse All Products</div>
+                    <div class="qa-arrow">→</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card 2: Contact Shop -->
+        <div class="col-6 col-md-3">
+            <a href="tel:+918600813827" class="text-decoration-none">
+                <div class="quick-action-card" style="--card-color:#0369a1; --card-bg:#f0f9ff;">
+                    <div class="qa-icon">📞</div>
+                    <div class="qa-title">Contact Shop</div>
+                    <div class="qa-sub">Call / WhatsApp</div>
+                    <div class="qa-arrow">→</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card 3: Check Udhari -->
+        <div class="col-6 col-md-3">
+            <a th:href="@{/customer/udhari}" class="text-decoration-none">
+                <div class="quick-action-card" style="--card-color:#b45309; --card-bg:#fffbeb;">
+                    <div class="qa-icon">💳</div>
+                    <div class="qa-title">Check Udhari</div>
+                    <div class="qa-sub">Credit Balance</div>
+                    <div class="qa-arrow">→</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card 4: Visit Shop (Map) -->
+        <div class="col-6 col-md-3">
+            <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                <div class="quick-action-card" style="--card-color:#7c3aed; --card-bg:#fdf4ff;">
+                    <div class="qa-icon">📍</div>
+                    <div class="qa-title">Visit Shop</div>
+                    <div class="qa-sub">Get Directions</div>
+                    <div class="qa-arrow">→</div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== 🌾 WHY CHOOSE SAPTASHRUNGI ===== -->
+<section class="container my-5 pt-3">
+    <div class="text-center mb-5">
+        <span class="badge px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
+              style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#1b5e20;font-size:0.82rem;">
+            ⭐ आम्हीच का?
+        </span>
+        <h2 class="fw-bold text-success mb-2">Why Choose Saptashrungi Agro?</h2>
+        <p class="text-muted" style="max-width:500px;margin:0 auto;">शेतकऱ्यांचा विश्वास — एक दशकाहून अधिक काळ</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- 1. Genuine Products -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#e8f5e9;">
+                    <span style="font-size:2rem;">✅</span>
+                </div>
+                <h5 class="why-title">Genuine Products</h5>
+                <p class="why-desc">100% सरकार-प्रमाणित उत्पादने — बनावट माल मिळण्याची शून्य शक्यता. प्रत्येक batch verified.</p>
+            </div>
+        </div>
+
+        <!-- 2. Quality Seeds -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#f0f9ff;">
+                    <span style="font-size:2rem;">🌱</span>
+                </div>
+                <h5 class="why-title">Quality Seeds</h5>
+                <p class="why-desc">Mahyco, Mahabeej, Monsanto यांचे certified hybrid seeds — उच्च germination rate आणि जास्त उत्पादन.</p>
+            </div>
+        </div>
+
+        <!-- 3. Trusted Fertilizers -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#fffbeb;">
+                    <span style="font-size:2rem;">🧪</span>
+                </div>
+                <h5 class="why-title">Trusted Fertilizers</h5>
+                <p class="why-desc">IFFCO, Mahadhan, Coromandel यांची दर्जेदार खते — रास्त किंमतीत, MRP पेक्षा जास्त नाही.</p>
+            </div>
+        </div>
+
+        <!-- 4. Crop Protection -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#fdf4ff;">
+                    <span style="font-size:2rem;">🛡️</span>
+                </div>
+                <h5 class="why-title">Crop Protection</h5>
+                <p class="why-desc">Syngenta, Bayer, UPL यांची अत्याधुनिक कीटकनाशके — पिकाला बोंडअळी, मावा, करपा पासून संपूर्ण संरक्षण.</p>
+            </div>
+        </div>
+
+        <!-- 5. Farmer Guidance -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#f0fdf4;">
+                    <span style="font-size:2rem;">👨‍🌾</span>
+                </div>
+                <h5 class="why-title">Farmer Guidance</h5>
+                <p class="why-desc">प्रत्येक शेतकऱ्याला वैयक्तिक कृषी सल्ला — कोणते बियाणे, किती खत, केव्हा फवारणी — मोफत मार्गदर्शन.</p>
+            </div>
+        </div>
+
+        <!-- 6. Local Support + Udhari -->
+        <div class="col-md-4 col-sm-6">
+            <div class="why-card">
+                <div class="why-icon-wrap" style="background:#fff0f0;">
+                    <span style="font-size:2rem;">🤝</span>
+                </div>
+                <h5 class="why-title">Local Support & Udhari</h5>
+                <p class="why-desc">Mirakhnagar, Vaijapur मधील तुमचे स्थानिक केंद्र — उधारी सुविधा, UPI/Cash, GST bill उपलब्ध.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Saptashrungi Agro Services Storefront Showcase -->
+
+<section class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #ffffff; border: 1px solid #e5e7eb !important;">
+        <div class="row g-0 align-items-center">
+            <div class="col-lg-7">
+                <div class="position-relative">
+                    <img th:src="@{/images/saptashrungi_shop.jpg}" alt="Saptashrungi Agro Services Shop" class="img-fluid w-100" style="object-fit: cover; max-height: 420px;" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                    <span class="badge bg-success position-absolute top-0 start-0 m-3 px-3 py-2 fs-6 shadow">
+                        <i class="ti ti-building-store me-1"></i> Authorized Farmers' Outlet
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-5 p-4 p-lg-5">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Shop Logo" class="rounded-circle shadow-sm" style="width: 58px; height: 58px; object-fit: cover; border: 2px solid #16a34a;">
+                    <div>
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning px-2 py-1 rounded-pill fw-bold" style="font-size: 11px;">
+                            🌾 Official Store / अधिकृत कृषी केंद्र
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0 mt-1">Saptashrungi Agro Services</h3>
+                        <h6 class="fw-semibold text-success mb-0">सप्तशृंगी ॲग्रो सर्व्हिसेस</h6>
+                    </div>
+                </div>
+                <p class="text-muted small mb-4" style="line-height: 1.6;">
+                    आपल्या विश्वासाचे अधिकृत कृषी सेवा केंद्र! सर्व नामांकित कंपन्यांचे प्रमाणित संकरित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, कीटकनाशके, फवारणी यंत्रे व ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.
+                </p>
+
+
+
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <a th:href="@{/products}" class="btn btn-success px-4 py-2 fw-semibold shadow-sm" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-shopping-cart me-1"></i> Shop Inputs
+                    </a>
+                    <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success px-3 py-2 fw-semibold">
+                        <i class="ti ti-map-pin me-1"></i> 📍 Store Map
+                    </a>
+                    <a href="tel:+918600813827" class="btn btn-light border px-3 py-2 fw-semibold text-dark">
+                        <i class="ti ti-phone-call text-success me-1"></i> Call 8600813827
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Categories Grid -->
+<section class="container mb-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-success" th:text="#{home.categories.title}">Explore Agricultural Categories</h2>
+        <p class="text-muted" th:text="#{home.categories.subtitle}">Comprehensive range of verified farming inputs and modern equipment</p>
+    </div>
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-3">
+        <div class="col" th:each="cat : ${categories}">
+            <a th:href="@{/products(categoryId=${cat.id})}" class="category-pill-card h-100">
+                <div class="category-icon-bubble">
+                    <i class="bi bi-seedling" th:if="${cat.id == 1}"></i>
+                    <i class="bi bi-droplet-half" th:if="${cat.id == 2}"></i>
+                    <i class="bi bi-bug" th:if="${cat.id == 3}"></i>
+                    <i class="bi bi-tools" th:if="${cat.id == 4}"></i>
+                    <i class="bi bi-water" th:if="${cat.id == 5}"></i>
+                    <i class="bi bi-egg-fried" th:if="${cat.id == 6}"></i>
+                    <i class="bi bi-recycle" th:if="${cat.id == 7}"></i>
+                    <i class="bi bi-flower2" th:if="${cat.id == 8}"></i>
+                </div>
+                <strong class="d-block" th:text="${#locale.language == 'mr' and cat.nameMr != null ? cat.nameMr : cat.name}">Category</strong>
+                <small class="text-muted text-truncate w-100" th:text="${cat.description}">Short description</small>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Active Offers Carousel / Grid -->
+
+<section th:if="${offers != null and !offers.isEmpty()}" class="container mb-5">
+    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #fff8e1, #ffecb3); border-radius: var(--radius-md);">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <span class="badge bg-danger mb-2 px-3 py-1">Limited Time Special</span>
+                    <h3 class="fw-bold text-dark" th:text="#{home.offers.title}">Current Seasonal Offers</h3>
+                    <p class="text-muted small m-0">Use exclusive coupon codes at checkout for instant discounts.</p>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row g-3">
+                        <div class="col-md-6" th:each="offer : ${offers}">
+                            <div class="bg-white p-3 rounded border border-warning shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h6 class="fw-bold text-success mb-1" th:text="${offer.title}">Offer Title</h6>
+                                    <span class="badge bg-success" th:text="${offer.discountType == 'PERCENTAGE' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' OFF'}">10% OFF</span>
+                                </div>
+                                <p class="small text-muted mb-2" th:text="${offer.description}">Offer details</p>
+                                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                    <code class="fw-bold fs-6 text-dark" th:text="${offer.couponCode}">KHARIF10</code>
+                                    <small class="text-muted" th:text="'Min Order: ₹' + ${offer.minOrderAmount}">Min: ₹1000</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Farmers Trust Us Section -->
+<section class="bg-white py-5 mb-5 border-top border-bottom">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-success" th:text="#{home.why_us.title}">Why Farmers Trust Krushi Seva Kendra</h2>
+            <p class="text-muted">Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.</p>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-3">
+                <div class="p-3">
+                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="fw-bold" th:text="#{home.why_us.quality}">100% Certified Genuine</h5>
+                    <p class="small text-muted">All seed lots and chemicals are batch-tested and government certified.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
+                        <i class="bi bi-tags"></i>
+                    </div>
+                    <h5 class="fw-bold" th:text="#{home.why_us.prices}">Fair APMC Rates</h5>
+                    <p class="small text-muted">Transparent wholesale and retail pricing with standard GST invoices.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
+                        <i class="bi bi-credit-card-2-front"></i>
+                    </div>
+                    <h5 class="fw-bold" th:text="#{home.why_us.credit}">Udhari Facility</h5>
+                    <p class="small text-muted">Flexible harvest-to-harvest credit ledger facility for verified farmers.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
+                        <i class="bi bi-chat-heart"></i>
+                    </div>
+                    <h5 class="fw-bold" th:text="#{home.why_us.guidance}">Agronomist Support</h5>
+                    <p class="small text-muted">Free dosage advice, crop advisory, and disease diagnosis anytime.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Store Location & Google Maps Section -->
+<section class="container mb-5">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #ffffff; border: 1px solid #e5e7eb !important;">
+        <div class="row g-0">
+            <!-- Left: Google Maps Interactive Embed -->
+            <div class="col-lg-7">
+                <div class="h-100" style="min-height: 380px;">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=19.9852957,74.9312239&hl=mr&z=17&output=embed" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; min-height: 380px; width: 100%; display: block;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            
+            <!-- Right: Location Details & Action Buttons -->
+            <div class="col-lg-5 p-4 p-lg-5 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-1 rounded-pill fw-bold">
+                            <i class="ti ti-map-pin-filled me-1"></i> दुकानाचे प्रत्यक्ष स्थान / Shop Location
+                        </span>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">Saptashrungi Agro Services</h3>
+                    <h5 class="fw-semibold text-success mb-3">सप्तशृंगी ॲग्रो सर्व्हिसेस</h5>
+                    
+                    <div class="d-flex flex-column gap-3 mb-4 text-muted small">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center bg-light text-danger flex-shrink-0" style="width: 36px; height: 36px; font-size: 18px;">
+                                <i class="ti ti-map-pin"></i>
+                            </div>
+                            <div>
+                                <strong class="text-dark d-block">पत्ता / Address:</strong>
+                                <span th:text="${shopAddress}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center bg-light text-primary flex-shrink-0" style="width: 36px; height: 36px; font-size: 18px;">
+                                <i class="ti ti-clock"></i>
+                            </div>
+                            <div>
+                                <strong class="text-dark d-block">वेळ / Opening Hours:</strong>
+                                <span th:text="${shopHours}">सोमवार ते शनिवार: सकाळी ८:०० ते रात्री ८:३०</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center bg-light text-success flex-shrink-0" style="width: 36px; height: 36px; font-size: 18px;">
+                                <i class="ti ti-phone"></i>
+                            </div>
+                            <div>
+                                <strong class="text-dark d-block">संपर्क / Mobile:</strong>
+                                <span><a href="tel:+918600813827" class="text-dark fw-bold text-decoration-none" th:text="${shopMobile}">+91 8600813827</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column gap-2">
+                    <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" rel="noopener noreferrer" class="btn btn-success py-2 px-3 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-map-2 fs-5"></i> 📍 Open in Google Maps (मॅपवर उघडा)
+                    </a>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=19.9852957,74.9312239" target="_blank" rel="noopener noreferrer" class="btn btn-light border py-2 px-3 fw-semibold text-dark flex-fill d-flex align-items-center justify-content-center gap-1">
+                            <i class="ti ti-navigation text-primary"></i> Get Directions (मार्ग)
+                        </a>
+                        <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="btn btn-light border py-2 px-3 fw-semibold text-success flex-fill d-flex align-items-center justify-content-center gap-1">
+                            <i class="ti ti-brand-whatsapp"></i> WhatsApp (8600813827)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- UPI Modal Fragment -->
+<div th:replace="~{customer/checkout :: upiModal}"></div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="customer-sidebar(activeTab)" class="sidebar-krushi mb-4">
+    <div class="px-3 py-2 border-bottom mb-2 text-center">
+        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 55px; height: 55px; font-size: 1.5rem;">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <h6 class="mb-0 fw-bold" th:text="${user != null ? user.name : 'Farmer'}">Farmer Name</h6>
+        <small class="text-muted" th:text="${user != null ? user.village + ', ' + user.district : 'Maharashtra'}">Village, District</small>
+    </div>
+
+    <div class="sidebar-heading">Farmer Menu</div>
+    <nav class="nav flex-column">
+        <a class="sidebar-link" th:classappend="${activeTab == 'dashboard'} ? 'active'" th:href="@{/customer/dashboard}">
+            <i class="bi bi-grid-1x2-fill text-success"></i><span th:text="#{nav.dashboard}">Dashboard</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'orders'} ? 'active'" th:href="@{/customer/orders}">
+            <i class="bi bi-bag-check-fill text-primary"></i><span th:text="#{nav.my_orders}">My Orders</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'cart'} ? 'active'" th:href="@{/cart}">
+            <i class="bi bi-cart3 text-info"></i><span th:text="#{nav.cart}">My Cart</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'udhari'} ? 'active'" th:href="@{/customer/udhari}">
+            <i class="bi bi-credit-card-2-front-fill text-warning"></i><span th:text="#{nav.my_udhari}">My Udhari</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'pay'} ? 'active'" th:href="@{/customer/pay}">
+            <i class="bi bi-qr-code-scan text-success"></i><span>💳 Pay Now (UPI)</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'payments'} ? 'active'" th:href="@{/customer/payments}">
+            <i class="bi bi-receipt-cutoff text-secondary"></i><span>Payment History</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'notifications'} ? 'active'" th:href="@{/customer/notifications}">
+            <i class="bi bi-bell-fill text-danger"></i><span>Notifications</span>
+        </a>
+        <a class="sidebar-link" th:classappend="${activeTab == 'profile'} ? 'active'" th:href="@{/customer/profile}">
+            <i class="bi bi-person-lines-fill text-dark"></i><span th:text="#{nav.profile}">My Profile</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-heading mt-3">Agri Tools</div>
+    <nav class="nav flex-column">
+
+        <a class="sidebar-link" th:href="@{/weather}">
+            <i class="bi bi-cloud-sun text-primary"></i><span>Agri Weather</span>
+        </a>
+        <a class="sidebar-link" th:href="@{/farming-tips}">
+            <i class="bi bi-journal-check text-warning"></i><span>Crop Tips</span>
+        </a>
+    </nav>
+
+    <div class="p-3 mt-3 border-top">
+        <form th:action="@{/logout}" method="POST" class="m-0">
+            <button type="submit" class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-box-arrow-right"></i><span th:text="#{nav.logout}">Logout</span>
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

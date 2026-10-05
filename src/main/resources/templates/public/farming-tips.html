@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Farming Advisory & Pest Guide')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="text-center mb-5">
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">Agronomist Guidelines</span>
+        <h2 class="fw-bold text-success">Crop Care & Pest Management Guide</h2>
+        <p class="text-muted">Expert seasonal management practices, disease symptoms, and integrated pest management (IPM) measures</p>
+    </div>
+
+    <!-- Crop Care Tips Grid -->
+    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-flower1 text-success me-2"></i>Seasonal Crop Management</h4>
+    <div class="row g-4 mb-5">
+        <div class="col-md-6" th:each="tip : ${cropCareTips}">
+            <div class="card h-100 border-0 shadow-sm rounded-3">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-success" th:text="${tip.crop}">Crop Name</span>
+                        <i class="bi bi-check2-circle text-success fs-5"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark" th:text="${#locale.language == 'mr' ? tip.titleMr : tip.title}">Tip Title</h5>
+                    <p class="text-muted small m-0" style="white-space: pre-line;" th:text="${#locale.language == 'mr' ? tip.descriptionMr : tip.description}">Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pest & Disease Identification Guide -->
+    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-bug-fill text-danger me-2"></i>Pest & Disease Diagnosis Table</h4>
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-5">
+        <div class="table-responsive">
+            <table class="table table-krushi mb-0">
+                <thead>
+                    <tr>
+                        <th>Pest / Disease Name</th>
+                        <th>Affected Crops</th>
+                        <th>Symptoms & Damage</th>
+                        <th>Chemical Control (रासायनिक)</th>
+                        <th>Organic / Bio Control (जैविक)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pest : ${pestTips}">
+                        <td><strong class="text-danger" th:text="${pest.pestName}">Pest</strong></td>
+                        <td th:text="${pest.affectedCrops}">Crops</td>
+                        <td class="small" th:text="${pest.symptoms}">Symptoms</td>
+                        <td class="small text-primary"><i class="bi bi-prescription2 me-1"></i><span th:text="${pest.chemicalControl}">Chemical</span></td>
+                        <td class="small text-success"><i class="bi bi-tree me-1"></i><span th:text="${pest.organicControl}">Organic</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('My Udhari')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('udhari')}"></div>
+        </div>
+
+        <div class="col-lg-9">
+            <!-- Header Balance Highlight Card -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" 
+                 th:style="${remainingBalance > 0} ? 'background: linear-gradient(135deg, #fff1f2, #ffe4e6); border: 2px solid #fecdd3 !important;' : 'background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #bbf7d0 !important;'">
+                <div class="card-body p-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-7">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge px-3 py-1 rounded-pill fw-bold"
+                                      th:classappend="${remainingBalance > 0} ? 'bg-danger text-white' : 'bg-success text-white'">
+                                    <i class="ti me-1" th:classappend="${remainingBalance > 0} ? 'ti-alert-circle' : 'ti-circle-check'"></i>
+                                    <span th:text="${remainingBalance > 0} ? '🔴 उधारी बाकी / Outstanding Udhari' : '✅ उधारी निरंक / Nil Balance'">उधारी स्थिती</span>
+                                </span>
+                                <span class="badge bg-white text-dark border px-2 py-1 small" th:if="${earliestDueDate != null and remainingBalance > 0}">
+                                    📅 देण्याची तारीख: <strong th:text="${#temporals.format(earliestDueDate, 'dd MMM yyyy')}">15 Sep 2026</strong>
+                                </span>
+                            </div>
+
+                            <div class="d-flex align-items-baseline gap-3">
+                                <h1 class="display-5 fw-bold m-0"
+                                    th:classappend="${remainingBalance > 0} ? 'text-danger' : 'text-success'"
+                                    th:text="'₹' + ${#numbers.formatDecimal(remainingBalance, 1, 'COMMA', 2, 'POINT')}">
+                                    ₹2,500.00
+                                </h1>
+                                <span class="fs-6 fw-semibold text-muted">माझी एकूण बाकी रक्कम (Pending Balance)</span>
+                            </div>
+
+                            <!-- 3-Pill Breakdown -->
+                            <div class="d-flex flex-wrap gap-2 mt-3" th:if="${remainingBalance > 0}">
+                                <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                    <span class="text-muted d-block" style="font-size: 11px;">एकूण उधारी (Total Credit):</span>
+                                    <strong class="text-dark" th:text="'₹' + ${#numbers.formatDecimal(userTotalCredit, 1, 'COMMA', 2, 'POINT')}">₹5,000.00</strong>
+                                </div>
+                                <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                    <span class="text-muted d-block" style="font-size: 11px;">आतापर्यंत जमा (Paid):</span>
+                                    <strong class="text-success" th:text="'₹' + ${#numbers.formatDecimal(userTotalPaid, 1, 'COMMA', 2, 'POINT')}">₹2,500.00</strong>
+                                </div>
+                                <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                    <span class="text-muted d-block" style="font-size: 11px;">शिल्लक बाकी (Net Due):</span>
+                                    <strong class="text-danger" th:text="'₹' + ${#numbers.formatDecimal(remainingBalance, 1, 'COMMA', 2, 'POINT')}">₹2,500.00</strong>
+                                </div>
+                            </div>
+
+                            <p class="m-0 mt-2 text-success fw-semibold small" th:if="${remainingBalance <= 0}">
+                                🎉 अभिनंदन! आपल्या खात्यावर सध्या कोणतीही उधारी बाकी नाही.
+                            </p>
+                        </div>
+                        <div class="col-md-5 text-md-end mt-3 mt-md-0">
+                            <button type="button" class="btn btn-danger btn-lg px-4 fw-bold shadow-sm"
+                                    th:onclick="'openUpiModal(' + ${remainingBalance} + ', \'Udhari Settlement\', \'' + ${shopUpiId} + '\')'"
+                                    th:disabled="${remainingBalance <= 0}">
+                                <i class="bi bi-qr-code-scan me-2"></i> <span th:text="#{udhari.btn.pay_now}">Pay Online / UPI QR</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Udhari Accounts Ledger Table -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-journal-bookmark-fill text-warning me-2"></i>Udhari Accounts Ledger / उधारी खाते नोंदी</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-krushi mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID / Order</th>
+                                    <th>Date</th>
+                                    <th>Total Credit</th>
+                                    <th>Paid Amount</th>
+                                    <th>Remaining Due</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${udhariList.empty}">
+                                    <td colspan="7" class="text-center py-5 text-muted">No credit records found.</td>
+                                </tr>
+                                <tr th:each="u : ${udhariList}">
+                                    <td>
+                                        <strong class="text-dark" th:text="${u.order != null ? u.order.orderNumber : 'Direct Ledger #' + u.id}">KSK-001</strong>
+                                    </td>
+                                    <td class="small" th:text="${#temporals.format(u.createdAt, 'dd MMM yyyy')}">01 Aug 2026</td>
+                                    <td><strong class="text-dark" th:text="'₹' + ${u.totalAmount}">₹5,000.00</strong></td>
+                                    <td><span class="text-success fw-bold" th:text="'₹' + ${u.paidAmount}">₹2,500.00</span></td>
+                                    <td><strong class="text-danger" th:text="'₹' + ${u.remainingAmount}">₹2,500.00</strong></td>
+                                    <td class="small">
+                                        <span th:text="${u.dueDate}">25 Aug 2026</span>
+                                        <span th:if="${u.isOverdue()}" class="badge bg-danger ms-1">OVERDUE</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" 
+                                              th:classappend="${u.status.name() == 'PAID_IN_FULL'} ? 'bg-success' : (${u.status.name() == 'OVERDUE'} ? 'bg-danger' : 'bg-warning text-dark')"
+                                              th:text="${u.status.displayNameEn}">Active</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Transactions Table -->
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-receipt text-success me-2"></i>Payment History / जमा पावत्या</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-krushi mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Receipt #</th>
+                                    <th>Payment Date</th>
+                                    <th>Amount Paid</th>
+                                    <th>Payment Method</th>
+                                    <th>Transaction ID</th>
+                                    <th>Receipt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${paymentsList.empty}">
+                                    <td colspan="6" class="text-center py-4 text-muted">No payment transactions recorded yet.</td>
+                                </tr>
+                                <tr th:each="p : ${paymentsList}">
+                                    <td><strong class="text-dark" th:text="'REC-' + ${p.id}">REC-1</strong></td>
+                                    <td class="small" th:text="${#temporals.format(p.paymentDate, 'dd MMM yyyy, hh:mm a')}">10 Aug 2026</td>
+                                    <td><strong class="text-success" th:text="'₹' + ${p.amount}">₹2,500.00</strong></td>
+                                    <td><span class="badge bg-light text-dark border" th:text="${p.paymentMethod.displayNameEn}">UPI</span></td>
+                                    <td><code class="small text-muted" th:text="${p.transactionId}">UPI-TXN-123</code></td>
+                                    <td>
+                                        <a th:href="@{'/customer/payments/' + ${p.id} + '/receipt'}" target="_blank" class="btn btn-sm btn-outline-success py-1 px-2" title="Download Receipt">
+                                            <i class="bi bi-file-earmark-pdf me-1"></i> <span th:text="#{udhari.btn.receipt}">Receipt</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamic UPI QR Modal -->
+<div th:replace="~{customer/checkout :: upiModal}"></div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header :: head('Login')}"></head>
+<body>
+
+<div class="auth-split-layout">
+
+    <!-- Left Panel: Branding -->
+    <div class="auth-left-panel">
+        <div class="auth-left-content">
+            <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Logo" class="auth-logo">
+            <h2 class="auth-shop-name">Saptashrungi Agro Services</h2>
+            <p class="auth-shop-name-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</p>
+            <p class="auth-tagline">Quality Agricultural Products for Better Farming</p>
+        </div>
+    </div>
+
+    <!-- Right Panel: Login Form -->
+    <div class="auth-right-panel">
+        <div class="auth-form-card">
+
+            <div class="text-center mb-4">
+                <h3 class="fw-bold text-dark mb-1">Login</h3>
+                <p class="text-muted small">Saptashrungi Agro Services Secure Login</p>
+            </div>
+
+            <!-- Error Alert -->
+            <div th:if="${param.error}" class="alert alert-danger border-0 small d-flex align-items-center gap-2 mb-3">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <span>Invalid email or password. Please try again.</span>
+            </div>
+
+            <!-- Success Alert -->
+            <div th:if="${param.logout}" class="alert alert-success border-0 small d-flex align-items-center gap-2 mb-3">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>You have been logged out successfully.</span>
+            </div>
+
+            <!-- Login Form -->
+            <form th:action="@{/login}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small" style="color:var(--primary-green);">
+                        Mobile Number or Email
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                        <input type="text" name="username" id="loginUsername"
+                               class="form-control border-start-0 auth-input"
+                               placeholder="e.g. 9822012345 or admin@krushiseva.com"
+                               required autofocus>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label fw-semibold small mb-0" style="color:var(--primary-green);">
+                            Password
+                        </label>
+                        <a th:href="@{/forgot-password}" class="small text-muted text-decoration-none">Forgot?</a>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input type="password" name="password" id="loginPassword"
+                               class="form-control border-start-0 auth-input"
+                               placeholder="••••••••" required>
+                        <button type="button" class="input-group-text bg-light border-start-0"
+                                onclick="togglePass()">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4 form-check">
+                    <input type="checkbox" name="remember-me" class="form-check-input" id="rememberMeCheck">
+                    <label class="form-check-label small text-muted" for="rememberMeCheck">
+                        Remember Me / माझ्याकडे लक्षात ठेवा
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-krushi w-100 py-2 fw-bold mb-3">
+                    Login
+                </button>
+
+                <div class="text-center small text-muted">
+                    Don't have an account?
+                    <a th:href="@{/register}" class="text-success fw-bold text-decoration-none">Register Here</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+function togglePass() {
+    var p = document.getElementById('loginPassword');
+    var i = document.getElementById('eyeIcon');
+    if (p.type === 'password') {
+        p.type = 'text';
+        i.className = 'bi bi-eye-slash';
+    } else {
+        p.type = 'password';
+        i.className = 'bi bi-eye';
+    }
+}
+</script>
+
+</body>
+</html>

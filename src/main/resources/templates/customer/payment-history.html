@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Payment History')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('payments')}"></div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <h5 class="mb-0 fw-bold text-success"><i class="bi bi-receipt-cutoff me-2"></i>My Payment Receipts / जमा पावत्या</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-krushi mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Receipt #</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Transaction Ref</th>
+                                    <th>Remarks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${paymentPage.empty}">
+                                    <td colspan="7" class="text-center py-5 text-muted">No payments recorded.</td>
+                                </tr>
+                                <tr th:each="p : ${paymentPage.content}">
+                                    <td><strong class="text-dark" th:text="'REC-' + ${p.id}">REC-1</strong></td>
+                                    <td class="small" th:text="${#temporals.format(p.paymentDate, 'dd MMM yyyy')}">10 Aug 2026</td>
+                                    <td><strong class="text-success" th:text="'₹' + ${p.amount}">₹2,500.00</strong></td>
+                                    <td><span class="badge bg-light text-dark border" th:text="${p.paymentMethod.displayNameEn}">UPI</span></td>
+                                    <td><code class="small text-muted" th:text="${p.transactionId}">TXN-123</code></td>
+                                    <td class="small text-muted" th:text="${p.remarks}">Remarks</td>
+                                    <td>
+                                        <a th:href="@{'/customer/payments/' + ${p.id} + '/receipt'}" target="_blank" class="btn btn-sm btn-outline-success py-1 px-2">
+                                            <i class="bi bi-printer"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

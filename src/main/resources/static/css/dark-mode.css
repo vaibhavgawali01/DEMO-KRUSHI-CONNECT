@@ -1,0 +1,115 @@
+/* ===================================================================
+   🌙 KRUSHI SEVA KENDRA - HIGH-CONTRAST DARK MODE
+   =================================================================== */
+
+[data-theme="dark"] {
+  --primary-green: #4caf50;
+  --primary-green-hover: #66bb6a;
+  --accent-green: #81c784;
+  --light-green: #1b3320;
+  --leaf-green: #81c784;
+  --harvest-gold: #ffb74d;
+  --harvest-amber: #ffa726;
+  --bg-light: #121814;
+  --card-bg: #1e2621;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border-color: #2e3a32;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] body {
+  background-color: var(--bg-light);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .navbar-krushi {
+  background-color: #1a221c;
+  border-bottom-color: #2e3a32;
+}
+
+[data-theme="dark"] .nav-link-custom {
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .nav-link-custom:hover, 
+[data-theme="dark"] .nav-link-custom.active {
+  background-color: #243528;
+  color: #81c784 !important;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .product-card,
+[data-theme="dark"] .category-pill-card,
+[data-theme="dark"] .dash-card,
+[data-theme="dark"] .sidebar-krushi,
+[data-theme="dark"] .fertilizer-calc-card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .product-img-wrapper {
+  background-color: #17201a;
+}
+
+[data-theme="dark"] .table-krushi {
+  background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .table-krushi th {
+  background-color: #17241b;
+  color: #81c784;
+  border-bottom-color: #2e3a32;
+}
+
+[data-theme="dark"] .table-krushi td {
+  border-bottom-color: #2a362e;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #161e18;
+  border-color: #2e3a32;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background-color: #1a241d;
+  border-color: #4caf50;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .udhari-outstanding-card {
+  background: linear-gradient(135deg, #37231a, #2a1a13);
+  border-color: #8d4f2b;
+}
+
+[data-theme="dark"] .modal-content {
+  background-color: #1e2621;
+  color: #e2e8f0;
+  border-color: #2e3a32;
+}
+
+[data-theme="dark"] .list-group-item {
+  background-color: #1e2621;
+  border-color: #2e3a32;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .dropdown-menu {
+  background-color: #1e2621;
+  border-color: #2e3a32;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #27342b;
+  color: #81c784;
+}

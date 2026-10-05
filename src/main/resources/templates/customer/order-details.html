@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Order Details')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('orders')}"></div>
+        </div>
+
+        <div class="col-lg-9">
+            <!-- Order Success Alert if redirected from checkout -->
+            <div th:if="${orderSuccess or param.success}" class="alert alert-success border-0 shadow-sm d-flex align-items-center gap-3 p-3 mb-4">
+                <i class="bi bi-check-circle-fill fs-3 text-success"></i>
+                <div>
+                    <h5 class="fw-bold mb-0">Order Placed Successfully! / ऑर्डर यशस्वीरित्या नोंदवली!</h5>
+                    <small>Thank you for choosing Krushi Seva Kendra. Your order is being processed.</small>
+                </div>
+            </div>
+
+            <!-- Order Details Card -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold text-success">Order #<span th:text="${order.orderNumber}">KSK-2026-00001</span></h5>
+                        <small class="text-muted" th:text="'Placed on: ' + ${#temporals.format(order.createdAt, 'dd MMMM yyyy, hh:mm a')}">01 Aug 2026</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{'/customer/orders/' + ${order.id} + '/invoice'}" target="_blank" class="btn btn-krushi btn-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-printer"></i> Print / Download Bill
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Status & Delivery meta -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted text-uppercase d-block" style="font-size: 0.75rem;">Order Status</small>
+                                <span class="badge fs-6 mt-1" 
+                                      th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'bg-success' : 'bg-warning text-dark'"
+                                      th:text="${order.orderStatus.displayNameEn}">Delivered</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted text-uppercase d-block" style="font-size: 0.75rem;">Payment Method</small>
+                                <strong class="text-dark d-block mt-1" th:text="${order.paymentMethod.displayNameEn}">UDHARI</strong>
+                                <small class="text-success" th:text="'Status: ' + ${order.paymentStatus.displayNameEn}">Status</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted text-uppercase d-block" style="font-size: 0.75rem;">Delivery Location</small>
+                                <span class="small text-dark d-block mt-1" th:text="${order.deliveryAddress}">Kasbe Digraj, Sangli</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <h6 class="fw-bold text-dark mb-3">Purchased Products</h6>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Rate</th>
+                                    <th>Qty</th>
+                                    <th>GST</th>
+                                    <th>Line Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item, stat : ${order.orderItems}">
+                                    <td th:text="${stat.count}">1</td>
+                                    <td>
+                                        <strong class="text-dark" th:text="${item.product.name}">JS 335 Soybean Seeds</strong>
+                                        <div class="small text-muted" th:text="${item.product.company}">Company</div>
+                                    </td>
+                                    <td th:text="'₹' + ${item.price}">₹2,700.00</td>
+                                    <td th:text="${item.quantity}">1</td>
+                                    <td th:text="'₹' + ${item.gst}">₹0.00</td>
+                                    <td><strong class="text-success" th:text="'₹' + ${item.total}">₹2,700.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Calculation Totals -->
+                    <div class="row justify-content-end">
+                        <div class="col-md-5">
+                            <div class="bg-light p-3 rounded border">
+                                <div class="d-flex justify-content-between py-1 small">
+                                    <span class="text-muted">Subtotal:</span>
+                                    <strong th:text="'₹' + ${order.subtotal}">₹4,380.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between py-1 small text-danger" th:if="${order.discount > 0}">
+                                    <span>Discount:</span>
+                                    <strong th:text="'-₹' + ${order.discount}">-₹100.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between py-1 small text-muted">
+                                    <span>CGST (Central):</span>
+                                    <span th:text="'₹' + ${order.cgst}">₹109.50</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-1 small text-muted">
+                                    <span>SGST (State):</span>
+                                    <span th:text="'₹' + ${order.sgst}">₹109.50</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-2 border-top mt-2 fs-5 fw-bold text-success">
+                                    <span>Grand Total:</span>
+                                    <span th:text="'₹' + ${order.total}">₹4,499.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

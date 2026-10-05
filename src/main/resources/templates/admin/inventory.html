@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Inventory Management')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('inventory')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <span>📦 Inventory & Stock Movement</span>
+                    </h1>
+                    <p class="text-muted small m-0 mt-1">Audit log of all inward, outward, adjustments, and damaged stock movements</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <a th:href="@{/admin/products}" class="btn btn-light border px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 13px;">
+                        <i class="ti ti-box me-1"></i> Product Catalog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Low Stock Alert Banner -->
+            <div th:if="${!lowStockProducts.empty}" class="urgent-alert-box d-flex align-items-center justify-content-between p-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="ti ti-alert-triangle fs-4 text-warning"></i>
+                    <div>
+                        <strong class="text-dark">Low Stock Warning / कमी साठा सूचना:</strong>
+                        <span class="text-secondary small ms-1" th:text="${lowStockProducts.size()} + ' products have reached or fallen below minimum threshold.'">Alert</span>
+                    </div>
+                </div>
+                <a th:href="@{/admin/products(stockStatus='LOW')}" class="btn btn-warning btn-sm fw-bold shadow-sm">Review Stock</a>
+            </div>
+
+            <!-- Inventory Movements Audit Trail Table -->
+            <div class="modern-card overflow-hidden mb-4">
+                <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background: #fff; border-color: #e5e7eb !important;">
+                    <h5 class="h6 mb-0 fw-bold text-dark"><i class="ti ti-arrows-left-right text-success me-2"></i>Stock Movement Log</h5>
+                    <span class="badge bg-light text-dark border">Audit Records</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
+                        <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                            <tr>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Txn #</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Timestamp</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Product</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Movement Type</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Quantity</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Reference / Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${transactionsPage.empty}">
+                                <td colspan="6" class="text-center py-5 text-muted">No inventory transactions recorded.</td>
+                            </tr>
+                            <tr th:each="tx : ${transactionsPage.content}" style="border-bottom: 1px solid #f3f4f6;">
+                                <td style="padding: 12px 16px;"><code class="text-dark fw-semibold" th:text="'TXN-' + ${tx.id}">TXN-1</code></td>
+                                <td style="padding: 12px 16px;" class="small text-muted" th:text="${#temporals.format(tx.transactionDate, 'dd MMM yyyy, hh:mm a')}">Date</td>
+                                <td style="padding: 12px 16px;">
+                                    <strong class="text-dark d-block" th:text="${tx.product.name}">Product</strong>
+                                    <small class="text-muted" th:text="'SKU: ' + ${tx.product.sku}">SKU</small>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <span class="status-pill" 
+                                          th:classappend="${tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE'} ? 'status-pill-green' : 'status-pill-red'"
+                                          th:text="${tx.type.displayNameEn}">STOCK_IN</span>
+                                </td>
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <strong th:classappend="${tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE'} ? 'text-success' : 'text-danger'"
+                                            th:text="(${tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE'} ? '+' : '-') + ${tx.quantity} + ' Units'">+10 Units</strong>
+                                </td>
+                                <td style="padding: 12px 16px;" class="small text-muted" th:text="${tx.reason}">Reason</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${transactionsPage.totalPages > 1}">
+                    <a th:href="@{/admin/inventory(page=${transactionsPage.number - 1})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${transactionsPage.first} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        ← Previous
+                    </a>
+
+                    <span th:each="i : ${#numbers.sequence(0, transactionsPage.totalPages - 1)}" 
+                          th:if="${i >= transactionsPage.number - 2 and i <= transactionsPage.number + 2}">
+                        <a th:href="@{/admin/inventory(page=${i})}"
+                           class="btn btn-sm"
+                           th:classappend="${transactionsPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
+                           th:style="${transactionsPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
+                           th:text="${i + 1}">1</a>
+                    </span>
+
+                    <a th:href="@{/admin/inventory(page=${transactionsPage.number + 1})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${transactionsPage.last} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        Next →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

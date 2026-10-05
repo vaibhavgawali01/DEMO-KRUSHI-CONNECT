@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Product Management')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('products')}"></div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-lg-10">
+            <!-- Flash Alert -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-alert-circle me-1"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Header with Actions -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <span>📦 Product Management</span>
+                    </h1>
+                    <p class="text-muted small m-0 mt-1">Inventory & SKU Management System</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center flex-wrap">
+                    <a th:href="@{/admin/inventory}" class="btn btn-light border d-flex align-items-center gap-2 text-dark px-3 py-2 rounded-3 text-decoration-none" style="font-size: 13px;">
+                        <i class="ti ti-box"></i> Manage Inventory
+                    </a>
+                    <a th:href="@{/admin/products/add}" class="btn btn-success d-flex align-items-center gap-2 px-3 py-2 rounded-3 fw-semibold text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 13px;">
+                        <i class="ti ti-plus"></i> Add Product
+                    </a>
+                </div>
+            </div>
+
+            <!-- Filter Bar Form -->
+            <form th:action="@{/admin/products}" method="GET" class="modern-card p-3 mb-4">
+                <div class="row g-2 align-items-center">
+                    <!-- Category Dropdown -->
+                    <div class="col-6 col-md-auto">
+                        <select name="categoryId" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
+                            <option value="">All Categories</option>
+                            <option th:each="cat : ${categories}" 
+                                    th:value="${cat.id}" 
+                                    th:text="${cat.name}" 
+                                    th:selected="${categoryId != null and categoryId == cat.id}">Seeds</option>
+                        </select>
+                    </div>
+
+                    <!-- Status Dropdown -->
+                    <div class="col-6 col-md-auto">
+                        <select name="status" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
+                            <option value="" th:selected="${status == null or status == ''}">All Status</option>
+                            <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">Active</option>
+                            <option value="INACTIVE" th:selected="${status == 'INACTIVE'}">Inactive</option>
+                            <option value="DISCONTINUED" th:selected="${status == 'DISCONTINUED'}">Discontinued</option>
+                        </select>
+                    </div>
+
+                    <!-- Stock Status Dropdown -->
+                    <div class="col-6 col-md-auto">
+                        <select name="stockStatus" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
+                            <option value="" th:selected="${stockStatus == null or stockStatus == ''}">Stock Status</option>
+                            <option value="LOW" th:selected="${stockStatus == 'LOW'}">Low Stock</option>
+                            <option value="MEDIUM" th:selected="${stockStatus == 'MEDIUM'}">Medium Stock</option>
+                            <option value="ADEQUATE" th:selected="${stockStatus == 'ADEQUATE'}">Adequate Stock</option>
+                        </select>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="col-12 col-md">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
+                            <input type="text" name="keyword" th:value="${keyword}" class="form-control border-start-0" placeholder="Search by SKU, Barcode, Product or Supplier..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                        </div>
+                    </div>
+
+                    <!-- Filter & Reset Buttons -->
+                    <div class="col-auto d-flex gap-2">
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">Filter</button>
+                        <a th:href="@{/admin/products}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Products Table Card -->
+            <div class="modern-card overflow-hidden mb-4">
+                <!-- Table Header Stats -->
+                <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background-color: #ffffff; border-color: #e5e7eb !important;">
+                    <p class="m-0 fw-semibold" style="font-size: 13px; color: #4b5563;">
+                        <span th:text="${productPage.totalElements}">438</span> Products | Inventory
+                    </p>
+                    <p class="m-0 text-muted" style="font-size: 13px;">
+                        Page <span th:text="${productPage.number + 1}">1</span> of <span th:text="${productPage.totalPages > 0 ? productPage.totalPages : 1}">44</span>
+                    </p>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
+                        <thead style="background-color: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                            <tr>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563; min-width: 260px;">Product Name</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Category</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">SKU / Barcode</th>
+                                <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: #4b5563;">Price</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Stock</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Min Level</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Empty State -->
+                            <tr th:if="${productPage.empty}">
+                                <td colspan="8" class="text-center py-5 text-muted">
+                                    <i class="ti ti-box-off fs-2 d-block mb-2 text-secondary"></i>
+                                    No products found matching your filter criteria.
+                                </td>
+                            </tr>
+
+                            <!-- Product Rows -->
+                            <tr th:each="p : ${productPage.content}" style="border-bottom: 1px solid #f3f4f6;">
+                                <!-- Product Name with Icon & Supplier -->
+                                <td style="padding: 12px 16px;">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <!-- Category specific colorful icon box -->
+                                        <div class="product-icon-box"
+                                             th:style="${p.category.name.contains('Seed') ? 'background: #dbeafe; color: #0284c7;' : 
+                                                       (p.category.name.contains('Fertilizer') ? 'background: #fef3c7; color: #d97706;' : 
+                                                       (p.category.name.contains('Pesticide') ? 'background: #f3e8ff; color: #7c3aed;' : 
+                                                       (p.category.name.contains('Tool') ? 'background: #dbeafe; color: #0284c7;' : 
+                                                       (p.category.name.contains('Irrigation') ? 'background: #e0f2fe; color: #0369a1;' : 'background: #fce7f3; color: #ec4899;'))))}">
+                                            <i th:class="${p.category.name.contains('Seed') ? 'ti ti-leaf' : 
+                                                         (p.category.name.contains('Fertilizer') ? 'ti ti-spray' : 
+                                                         (p.category.name.contains('Pesticide') ? 'ti ti-bug' : 
+                                                         (p.category.name.contains('Tool') ? 'ti ti-tool' : 
+                                                         (p.category.name.contains('Irrigation') ? 'ti ti-droplet' : 'ti ti-leaf'))))}"></i>
+                                        </div>
+                                        <div>
+                                            <p class="m-0 fw-semibold text-dark" style="font-size: 13px;" th:text="${p.name}">Wheat Seeds (10 kg)</p>
+                                            <p class="m-0 text-muted" style="font-size: 11px;" th:text="'Supplier: ' + ${p.company}">Supplier: Indira Seeds</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Category -->
+                                <td style="padding: 12px 16px; color: #666;" th:text="${p.category.name}">Seeds</td>
+
+                                <!-- SKU / Barcode -->
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <span style="background: #f3f4f6; color: #1f2937; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 500;" th:text="${p.sku != null ? p.sku : 'SKU-' + p.id}">SKU-001</span>
+                                    <small class="d-block text-muted" style="font-size: 10px;" th:if="${p.barcode != null}" th:text="${p.barcode}">890123</small>
+                                </td>
+
+                                <!-- Price -->
+                                <td style="padding: 12px 16px; text-align: right; font-weight: 600; color: #16a34a;" th:text="'₹' + ${p.effectivePrice}">₹850</td>
+
+                                <!-- Stock Pill -->
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <span class="stock-pill"
+                                          th:classappend="${p.stockQuantity > (p.minimumStock * 2)} ? 'status-pill-green' : (${p.stockQuantity > p.minimumStock} ? 'status-pill-blue' : (${p.stockQuantity > 0} ? 'status-pill-amber' : 'status-pill-red'))"
+                                          th:text="${p.stockQuantity}">245</span>
+                                </td>
+
+                                <!-- Min Level -->
+                                <td style="padding: 12px 16px; text-align: center; color: #666;" th:text="${p.minimumStock}">50</td>
+
+                                <!-- Status Badge -->
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <span class="status-pill"
+                                          th:if="${p.stockQuantity <= 0}"
+                                          style="background: #fee2e2; color: #dc2626;">Critical</span>
+                                    <span class="status-pill"
+                                          th:if="${p.stockQuantity > 0 and p.stockQuantity <= p.minimumStock}"
+                                          style="background: #fef3c7; color: #b45309;">Low Stock</span>
+                                    <span class="status-pill"
+                                          th:if="${p.stockQuantity > p.minimumStock and p.status == 'ACTIVE'}"
+                                          style="background: #d1fae5; color: #047857;">Active</span>
+                                    <span class="status-pill"
+                                          th:if="${p.status == 'INACTIVE'}"
+                                          style="background: #f3f4f6; color: #6b7280;">Inactive</span>
+                                </td>
+
+                                <!-- Actions -->
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <div class="d-inline-flex align-items-center gap-2">
+                                        <!-- Stock Quick Adjustment Modal Trigger -->
+                                        <button type="button" class="btn btn-link p-0 text-decoration-none" style="color: #d97706; font-size: 15px;" title="Stock Adjustment"
+                                                th:onclick="'openStockModal(' + ${p.id} + ', \'' + ${p.name.replace('\'', '')} + '\', ' + ${p.stockQuantity} + ')'">
+                                            <i class="ti ti-arrows-left-right"></i>
+                                        </button>
+                                        <!-- Edit -->
+                                        <a th:href="@{'/admin/products/' + ${p.id} + '/edit'}" style="color: #0284c7; font-size: 15px; text-decoration: none;" title="Edit Product">
+                                            <i class="ti ti-edit"></i>
+                                        </a>
+                                        <!-- Delete -->
+                                        <form th:action="@{'/admin/products/' + ${p.id} + '/delete'}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                            <button type="submit" class="btn btn-link p-0 text-decoration-none" style="color: #dc2626; font-size: 15px;" title="Delete">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Empty State: No Products Found -->
+                    <div th:if="${productPage == null or productPage.totalElements == 0}"
+                         class="text-center py-5 px-3" style="background: linear-gradient(135deg,#f0f9f0,#e8f5e9); border-top: none;">
+                        <div style="font-size:3.5rem;" class="mb-3">📦</div>
+                        <h5 class="fw-bold text-success mb-2">कोणतेही Products सापडले नाहीत</h5>
+                        <p class="text-muted mb-4 small">नवीन product add करा — ते homepage वर featured products मध्ये दिसतील</p>
+                        <a th:href="@{/admin/products/add}"
+                           class="btn btn-krushi px-5 py-2 fw-bold rounded-3 shadow">
+                            <i class="bi bi-plus-circle-fill me-2"></i>➕ पहिला Product Add करा
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${productPage.totalPages > 1}">
+                    <a th:href="@{/admin/products(page=${productPage.number - 1}, categoryId=${categoryId}, status=${status}, stockStatus=${stockStatus}, keyword=${keyword})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${productPage.first} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        ← Previous
+                    </a>
+
+                    <span th:each="i : ${#numbers.sequence(0, productPage.totalPages - 1)}" 
+                          th:if="${i >= productPage.number - 2 and i <= productPage.number + 2}">
+                        <a th:href="@{/admin/products(page=${i}, categoryId=${categoryId}, status=${status}, stockStatus=${stockStatus}, keyword=${keyword})}"
+                           class="btn btn-sm"
+                           th:classappend="${productPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
+                           th:style="${productPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
+                           th:text="${i + 1}">1</a>
+                    </span>
+
+                    <a th:href="@{/admin/products(page=${productPage.number + 1}, categoryId=${categoryId}, status=${status}, stockStatus=${stockStatus}, keyword=${keyword})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${productPage.last} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        Next →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stock Adjustment Modal -->
+<div class="modal fade" id="stockAdjustmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #16a34a;">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;"><i class="ti ti-box me-2"></i>Quick Stock Adjustment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="stockAdjustmentForm" method="POST" action="">
+                <div class="modal-body p-4">
+                    <p class="mb-3 text-muted small">Adjust physical inventory for <strong id="modalProductName" class="text-dark">Product</strong></p>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Current Stock In Hand</label>
+                        <input type="text" id="modalCurrentStock" class="form-control form-control-sm bg-light" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Adjustment Type</label>
+                        <select name="type" class="form-select form-select-sm" required>
+                            <option value="STOCK_IN">STOCK IN (New Purchase Batch +)</option>
+                            <option value="STOCK_OUT">STOCK OUT (Wholesale Sale -)</option>
+                            <option value="RETURN">RETURN (Customer Return +)</option>
+                            <option value="ADJUSTMENT">ADJUSTMENT (Expired / Damaged / Audit)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Quantity</label>
+                        <input type="number" name="quantity" min="1" class="form-control form-control-sm" placeholder="Enter units..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Reason / Note</label>
+                        <input type="text" name="reason" class="form-control form-control-sm" placeholder="e.g. New consignment delivery" required>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success px-3" style="background-color: #16a34a;">Update Stock</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openStockModal(productId, productName, currentStock) {
+    document.getElementById('stockAdjustmentForm').action = '/admin/products/' + productId + '/adjust-stock';
+    document.getElementById('modalProductName').innerText = productName;
+    document.getElementById('modalCurrentStock').value = currentStock + ' Units';
+    var modal = new bootstrap.Modal(document.getElementById('stockAdjustmentModal'));
+    modal.show();
+}
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

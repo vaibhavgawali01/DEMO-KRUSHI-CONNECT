@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header :: head('Admin Dashboard - Saptashrungi Agro')}"></head>
+<body style="background: #f1f5f9;">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+
+        <!-- Left Admin Navigation Sidebar -->
+        <div class="col-lg-3 col-xl-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('dashboard')}"></div>
+        </div>
+
+        <!-- Main Workspace Area -->
+        <div class="col-lg-9 col-xl-10">
+
+            <!-- Premium Header Welcome Banner -->
+            <div class="admin-welcome-banner mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div>
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-25 small mb-2 fw-semibold">
+                            <span>🌱</span>
+                            <span>सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
+                        </div>
+                        <h2 class="h3 fw-bold mb-1 text-white">व्यवस्थापन डॅशबोर्ड (Admin Hub)</h2>
+                        <p class="text-white-50 small mb-0">Overview of sales, inventory, farmer accounts, and store performance.</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <a th:href="@{/admin/products/add}" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
+                            <i class="bi bi-plus-circle-fill fs-5"></i>
+                            <span>Add Product</span>
+                        </a>
+                        <a th:href="@{/admin/reports}" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+                            <span>Reports</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Low Stock / Expiry Alert Banner -->
+            <div th:if="${lowStockProducts != null and !lowStockProducts.empty}" 
+                 class="alert alert-warning border-0 shadow-sm rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 p-3"
+                 style="background: #fffbeb; border-left: 5px solid #f59e0b !important;">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: #fef3c7; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                        ⚠️
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0 text-dark">कमी स्टॉक चेतावणी (Stock Alert)</h6>
+                        <small class="text-muted"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा संपत आला आहे. त्वरित रिस्टॉक करा.</small>
+                    </div>
+                </div>
+                <a th:href="@{/admin/inventory}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill">
+                    इन्व्हेंटरी तपासा &rarr;
+                </a>
+            </div>
+
+            <!-- Key Performance Metrics (6 Cards Grid) -->
+            <div class="row g-3 mb-4">
+
+                <!-- 1. Total Sales -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">एकूण विक्री (Sales)</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" th:text="'₹' + ${totalSales != null ? #numbers.formatDecimal(totalSales, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
+                            <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-arrow-up-short"></i> Active Year
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Total Orders -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">एकूण ऑर्डर्स</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
+                                <i class="bi bi-bag-check-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" th:text="${totalOrders != null ? totalOrders : '0'}">0</div>
+                            <span class="admin-kpi-badge" style="background: #f0f9ff; color: #0284c7;">
+                                Store Invoices
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Customers / Farmers -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">शेतकरी ग्राहक</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" th:text="${totalCustomers != null ? totalCustomers : '0'}">0</div>
+                            <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
+                                Registered
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Pending Udhari -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">बाकी उधारी (Due)</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
+                                <i class="bi bi-wallet-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" style="color: #dc2626;" th:text="'₹' + ${totalRemainingUdhari != null ? #numbers.formatDecimal(totalRemainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
+                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="(${overdueCount != null ? overdueCount : 0}) + ' Overdue'">
+                                0 Overdue
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Low Stock Alert -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">कमी स्टॉक</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #fef3c7; color: #d97706;">
+                                <i class="bi bi-exclamation-octagon-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" th:text="${lowStockCount != null ? lowStockCount : '0'}">0</div>
+                            <span class="admin-kpi-badge" style="background: #fffbeb; color: #d97706;">
+                                Urgent Reorder
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Inventory Value -->
+                <div class="col-sm-6 col-md-4 col-xl-2">
+                    <div class="admin-kpi-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label">स्टॉक किंमत (Value)</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #f1f5f9; color: #475569;">
+                                <i class="bi bi-box-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" th:text="'₹' + ${inventoryValue != null ? #numbers.formatDecimal(inventoryValue, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
+                            <span class="admin-kpi-badge" style="background: #f8fafc; color: #475569;" th:text="(${totalProducts != null ? totalProducts : 0}) + ' Products'">
+                                0 Products
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Two Column Section: Recent Invoices & Fast Actions -->
+            <div class="row g-4 mb-4">
+
+                <!-- Left: Recent Orders / Invoices -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-receipt text-success fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0">अलीकडील पावत्या / ऑर्डर्स (Recent Orders)</h6>
+                            </div>
+                            <a th:href="@{/admin/orders}" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                                सर्व पाहा &rarr;
+                            </a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-muted small">
+                                    <tr>
+                                        <th class="ps-4">पावती क्र. (Order ID)</th>
+                                        <th>शेतकरी (Customer)</th>
+                                        <th class="text-end">रक्कम (Amount)</th>
+                                        <th class="text-center">स्थिती (Status)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${recentOrders == null or recentOrders.empty}">
+                                        <td colspan="4" class="text-center py-5 text-muted">
+                                            <i class="bi bi-receipt-cutoff fs-2 d-block text-secondary mb-2"></i>
+                                            कोणत्याही ऑर्डर्स नाहीत (No recent orders found)
+                                        </td>
+                                    </tr>
+                                    <tr th:each="order : ${recentOrders}">
+                                        <td class="ps-4">
+                                            <a th:href="@{'/admin/orders/' + ${order.id}}" class="fw-bold text-success text-decoration-none" th:text="${order.orderNumber}">
+                                                KSK-001
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark" th:text="${order.user != null ? order.user.name : 'Walk-in Farmer'}">Customer</div>
+                                        </td>
+                                        <td class="text-end fw-bold text-dark" th:text="'₹' + ${order.total}">₹0</td>
+                                        <td class="text-center">
+                                            <span class="status-pill"
+                                                  th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'status-pill-green' : 
+                                                                 (${order.orderStatus.name() == 'PROCESSING'} ? 'status-pill-blue' : 
+                                                                 (${order.orderStatus.name() == 'CANCELLED'} ? 'status-pill-red' : 'status-pill-amber'))"
+                                                  th:text="${order.orderStatus.displayNameEn}">
+                                                Status
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Admin Shortcuts -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
+                            <h6 class="fw-bold text-dark mb-0">क्विक ॲक्शन्स (Quick Actions)</h6>
+                        </div>
+
+                        <a th:href="@{/admin/products/add}" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-plus-lg"></i>
+                            </div>
+                            <div class="flex-grow-1">नवीन उत्पादन जोडा (Add Product)</div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a th:href="@{/admin/inventory}" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #e0f2fe; color: #0284c7;">
+                                <i class="bi bi-boxes"></i>
+                            </div>
+                            <div class="flex-grow-1">इन्व्हेंटरी व्यवस्थापन (Stock)</div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a th:href="@{/admin/udhari}" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #fef3c7; color: #d97706;">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                            <div class="flex-grow-1">उधारी खाते (Credit Accounts)</div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a th:href="@{/admin/customers}" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #f3e8ff; color: #7c3aed;">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="flex-grow-1">शेतकरी यादी (Farmers Directory)</div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a th:href="@{/admin/reports}" class="admin-tool-item mb-0">
+                            <div class="admin-tool-icon-box" style="background: #f1f5f9; color: #475569;">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div class="flex-grow-1">विक्री अहवाल (Sales Reports)</div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <!-- Shop Info Small Card -->
+                        <div class="mt-4 p-3 rounded-3" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge bg-success">Online Shop</span>
+                                <small class="fw-bold text-dark">सप्तशृंगी ॲग्रो सर्व्हिसेस</small>
+                            </div>
+                            <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                📍 मिरखनगर, वैजापूर, छत्रपती संभाजीनगर<br>
+                                📞 8600813827 | UPI Active
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Overdue Udhari Table Row -->
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-exclamation-diamond-fill text-danger fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0">मुदत संपलेली उधारी (Overdue Credit Accounts)</h6>
+                            </div>
+                            <a th:href="@{/admin/udhari}" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold">
+                                संपूर्ण उधारी व्यवस्थापन &rarr;
+                            </a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-muted small">
+                                    <tr>
+                                        <th class="ps-4">शेतकरी (Customer Name)</th>
+                                        <th class="text-end">एकूण उधारी (Total)</th>
+                                        <th class="text-end">शिल्लक बाकी (Remaining)</th>
+                                        <th class="text-center">थकबाकी दिवस (Overdue Days)</th>
+                                        <th class="text-center pe-4">ॲक्शन (Action)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${overdueUdhariList == null or overdueUdhariList.empty}">
+                                        <td colspan="5" class="text-center py-4 text-success fw-semibold">
+                                            <i class="bi bi-check-circle-fill me-1"></i> सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही! (All clear)
+                                        </td>
+                                    </tr>
+                                    <tr th:each="u : ${overdueUdhariList}">
+                                        <td class="ps-4">
+                                            <div class="fw-bold text-dark" th:text="${u.user != null ? u.user.name : 'Farmer'}">Farmer Name</div>
+                                            <small class="text-muted" th:text="${u.user != null ? u.user.phone : ''}">Phone</small>
+                                        </td>
+                                        <td class="text-end fw-semibold text-muted" th:text="'₹' + ${u.totalAmount}">₹0</td>
+                                        <td class="text-end fw-bold text-danger" th:text="'₹' + ${u.remainingAmount}">₹0</td>
+                                        <td class="text-center">
+                                            <span class="status-pill status-pill-red" th:text="${u.daysOverdue} + ' दिवस बाकी'">0 days</span>
+                                        </td>
+                                        <td class="text-center pe-4">
+                                            <a th:href="@{'/admin/udhari?customerId=' + ${u.user != null ? u.user.id : ''}}" class="btn btn-xs btn-outline-success rounded-pill px-2 py-1" style="font-size: 0.75rem;">
+                                                तपशील &rarr;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

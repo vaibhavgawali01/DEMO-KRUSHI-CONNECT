@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Udhari Credit Management')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('udhari')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <span>💰 उधार नेणारे ग्राहक व खातेवही (Credit Customers & Ledger)</span>
+                    </h1>
+                    <p class="text-muted small m-0 mt-1">उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख | Live Sync</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-success px-4 py-2 fw-bold shadow d-flex align-items-center gap-2" style="background-color: #16a34a; border: none; font-size: 14px; border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#createUdhariModal">
+                        <i class="ti ti-user-plus fs-5"></i> + नवीन उधार नेणारा ग्राहक जोडा (Add Credit Customer)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
+                <i class="ti ti-alert-circle me-1"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- KPI Metric Cards for Credit Ledger -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">एकूण दिलेली उधारी (Total Credit Issued)</small>
+                            <h4 class="fw-bold text-dark my-1" th:text="'₹' + ${totalIssued}">₹8,500</h4>
+                            <small class="text-muted">एकूण उधारी नोंदी</small>
+                        </div>
+                        <div class="kpi-icon-bubble" style="background: #dbeafe;">
+                            <i class="ti ti-credit-card" style="color: #0284c7;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">एकूण जमा रक्कम (Total Recovered)</small>
+                            <h4 class="fw-bold text-success my-1" th:text="'₹' + ${totalCollected}">₹3,500</h4>
+                            <small class="text-success">शेतकऱ्यांनी भरलेली रक्कम</small>
+                        </div>
+                        <div class="kpi-icon-bubble" style="background: #dcfce7;">
+                            <i class="ti ti-check" style="color: #16a34a;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center" style="border-left: 4px solid #dc2626;">
+                        <div>
+                            <small class="text-danger text-uppercase fw-bold" style="font-size: 11px;">🔴 एकूण बाकी उधारी (Pending Outstanding Due)</small>
+                            <h4 class="fw-bold text-danger my-1" th:text="'₹' + ${totalRemaining}">₹5,000</h4>
+                            <small class="text-danger" th:text="${overdueList.size()} + ' मुदत संपलेली खाती (Overdue)'"></small>
+                        </div>
+                        <div class="kpi-icon-bubble" style="background: #fee2e2;">
+                            <i class="ti ti-alert-triangle" style="color: #dc2626;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <form th:action="@{/admin/udhari}" method="GET" class="modern-card p-3 mb-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
+                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" placeholder="ग्राहकाचे नाव, मोबाईल, गाव शोधा..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">शोधा (Search)</button>
+                        <a th:href="@{/admin/udhari}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Udhari Table -->
+            <div class="modern-card overflow-hidden mb-4">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
+                        <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                            <tr>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">#</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">उधार नेणारा ग्राहक (Customer)</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">गाव (Village)</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">काय नेले / तपशील (Items Taken)</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;">एकूण उधारी</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;">जमा</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #dc2626;">🔴 बाकी रक्कम</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">देण्याची तारीख 📅</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">स्थिती</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">कृती (Actions)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${udhariPage.empty}">
+                                <td colspan="10" class="text-center py-5 text-muted">कोणतीही उधारी नोंद सापडली नाही (No Udhari records found).</td>
+                            </tr>
+                            <tr th:each="u : ${udhariPage.content}" style="border-bottom: 1px solid #f3f4f6;">
+                                <td style="padding: 12px 14px;" th:text="${u.id}">1</td>
+                                <td style="padding: 12px 14px;">
+                                    <strong class="text-dark d-block fs-6" th:text="${u.user.name}">Ramesh Patil</strong>
+                                    <small class="text-muted"><i class="ti ti-phone text-success"></i> <span th:text="${u.user.mobile}">9822012345</span></small>
+                                </td>
+                                <td style="padding: 12px 14px;">
+                                    <span class="badge bg-light text-dark border" th:text="${u.user.village != null and !u.user.village.isBlank() ? u.user.village : 'वैजापूर'}">गाव</span>
+                                </td>
+                                <td style="padding: 12px 14px; max-width: 180px;">
+                                    <span th:if="${u.notes != null and !u.notes.isBlank()}" th:text="${u.notes}" class="small text-dark fw-medium">कापूस बियाणे</span>
+                                    <span th:if="${u.notes == null or u.notes.isBlank()}" class="text-muted small">
+                                        <span th:if="${u.order != null}" th:text="'Order #' + ${u.order.orderNumber}">Order #KSK-1</span>
+                                        <span th:if="${u.order == null}">थेट खते / बियाणे उधारी</span>
+                                    </span>
+                                </td>
+                                <td style="padding: 12px 14px; text-align: right;" class="small fw-semibold text-secondary" th:text="'₹' + ${u.totalAmount}">₹5,000.00</td>
+                                <td style="padding: 12px 14px; text-align: right;"><span class="text-success fw-bold small" th:text="'₹' + ${u.paidAmount}">₹2,500.00</span></td>
+                                <td style="padding: 12px 14px; text-align: right;"><strong class="text-danger fs-6" th:text="'₹' + ${u.remainingAmount}">₹2,500.00</strong></td>
+                                <td style="padding: 12px 14px; text-align: center;" class="small">
+                                    <span class="badge bg-light text-dark border px-2 py-1" th:text="${u.dueDate}">2026-08-25</span>
+                                    <span th:if="${u.isOverdue()}" class="status-pill status-pill-red ms-1 d-block mt-1">मुदत संपली (OVERDUE)</span>
+                                </td>
+                                <td style="padding: 12px 14px; text-align: center;">
+                                    <span class="status-pill" 
+                                          th:classappend="${u.status.name() == 'PAID_IN_FULL'} ? 'status-pill-green' : (${u.status.name() == 'OVERDUE'} ? 'status-pill-red' : 'status-pill-amber')"
+                                          th:text="${u.status.name() == 'PAID_IN_FULL' ? 'पूर्ण भरली' : (u.status.name() == 'OVERDUE' ? 'थकबाकी' : 'चालू उधारी')}">Active</span>
+                                </td>
+                                <td style="padding: 12px 14px; text-align: center;">
+                                    <div class="d-inline-flex gap-1">
+                                        <!-- Edit Udhari Record Button -->
+                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1 text-primary shadow-sm" style="font-size: 11px;" title="उधारी माहिती बदला (Edit Record)"
+                                                th:onclick="'openUdhariEditModal(' + ${u.id} + ', \'' + ${#strings.escapeJavaScript(u.user.name)} + '\', \'' + ${#strings.escapeJavaScript(u.user.mobile)} + '\', ' + ${u.totalAmount} + ', ' + ${u.paidAmount} + ', ' + ${u.remainingAmount} + ', \'' + ${u.dueDate} + '\', \'' + ${u.status.name()} + '\', \'' + ${#strings.escapeJavaScript(u.notes != null ? u.notes : '')} + '\')'">
+                                            <i class="ti ti-edit"></i> बदला
+                                        </button>
+
+                                        <!-- Record Payment Button -->
+                                        <button type="button" class="btn btn-sm btn-success d-flex align-items-center gap-1 px-2 py-1 text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 11px;" title="रक्कम जमा करा (Collect Payment)"
+                                                th:disabled="${u.remainingAmount <= 0}"
+                                                th:onclick="'openUdhariPayModal(' + ${u.id} + ', \'' + ${u.user.name} + '\', ' + ${u.remainingAmount} + ')'">
+                                            <i class="ti ti-cash"></i> जमा
+                                        </button>
+
+                                        <!-- Send Reminder Button -->
+                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1" style="font-size: 11px; color: #0284c7;" title="मेसेज पाठवा (Send Reminder)"
+                                                th:disabled="${u.remainingAmount <= 0}"
+                                                th:onclick="'openReminderModal(' + ${u.user.id} + ', ' + ${u.id} + ', \'' + ${u.user.name} + '\', \'' + ${u.user.mobile} + '\', ' + ${u.remainingAmount} + ', \'' + ${u.dueDate} + '\', ' + ${u.isOverdue()} + ')'">
+                                            <i class="ti ti-bell"></i> Remind
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${udhariPage.totalPages > 1}">
+                    <a th:href="@{/admin/udhari(page=${udhariPage.number - 1}, query=${query})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${udhariPage.first} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        ← Previous
+                    </a>
+
+                    <span th:each="i : ${#numbers.sequence(0, udhariPage.totalPages - 1)}" 
+                          th:if="${i >= udhariPage.number - 2 and i <= udhariPage.number + 2}">
+                        <a th:href="@{/admin/udhari(page=${i}, query=${query})}"
+                           class="btn btn-sm"
+                           th:classappend="${udhariPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
+                           th:style="${udhariPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
+                           th:text="${i + 1}">1</a>
+                    </span>
+
+                    <a th:href="@{/admin/udhari(page=${udhariPage.number + 1}, query=${query})}" 
+                       class="btn btn-sm btn-light border" 
+                       th:classappend="${udhariPage.last} ? 'disabled'"
+                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
+                        Next →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 0: Add Credit Customer / नवीन उधार नेणारा ग्राहक जोडा -->
+<div class="modal fade" id="createUdhariModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #16a34a;">
+                <h5 class="modal-title fw-bold" style="font-size: 17px;">
+                    <i class="ti ti-user-plus me-2"></i>💰 नवीन उधार नेणारा ग्राहक व उधारी नोंद (Add Credit Customer)
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/udhari/add-credit-customer}" method="POST">
+                <div class="modal-body p-4">
+                    <!-- Customer Type Selection Tabs -->
+                    <div class="btn-group w-100 mb-3" role="group">
+                        <input type="radio" class="btn-check" name="customerTypeRadio" id="typeNewCust" checked onchange="toggleCustomerType()">
+                        <label class="btn btn-outline-success fw-semibold" for="typeNewCust">
+                            <i class="ti ti-user-plus me-1"></i> नवीन ग्राहक / New Walk-in Farmer
+                        </label>
+
+                        <input type="radio" class="btn-check" name="customerTypeRadio" id="typeExistingCust" onchange="toggleCustomerType()">
+                        <label class="btn btn-outline-success fw-semibold" for="typeExistingCust">
+                            <i class="ti ti-users me-1"></i> हयात शेतकरी निवडा / Select Registered
+                        </label>
+                    </div>
+
+                    <!-- Existing Customer Dropdown -->
+                    <div id="existingCustomerSection" class="mb-3 d-none p-3 bg-light rounded-3 border">
+                        <label class="form-label small fw-bold text-dark">नोंदणीकृत शेतकरी निवडा (Select Farmer) *</label>
+                        <select name="userId" id="existingUserIdSelect" class="form-select form-select-sm">
+                            <option value="" selected>-- शेतकरी निवडा / Select Customer --</option>
+                            <option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.name + ' (' + cust.mobile + ' - ' + (cust.village != null ? cust.village : '') + ')'}">
+                                Ramesh Patil (9822012345)
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- New Customer Info Fields -->
+                    <div id="newCustomerSection" class="p-3 bg-light rounded-3 border mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-5">
+                                <label class="form-label small fw-bold text-dark">ग्राहकाचे नाव (Customer Full Name) *</label>
+                                <input type="text" name="customerName" id="newCustNameInput" class="form-control form-control-sm" placeholder="उदा. गजानन विठ्ठल पाटील" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-dark">मोबाईल नंबर (Mobile Number) *</label>
+                                <input type="tel" name="customerMobile" id="newCustMobileInput" pattern="[0-9]{10}" maxlength="10" class="form-control form-control-sm" placeholder="उदा. 9822012345" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-dark">गाव / पत्ता (Village / Address)</label>
+                                <input type="text" name="customerVillage" class="form-control form-control-sm" placeholder="उदा. वैजापूर / मिराखनगर">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Items / Goods Taken -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">
+                            <i class="ti ti-package text-success me-1"></i> काय वस्तू नेल्या / उधारी तपशील (Items / Products Taken) *
+                        </label>
+                        <input type="text" name="itemsDescription" class="form-control form-control-sm" placeholder="उदा. २ पोती महाधन २४:२४:० खत, १ पाकीट कापूस बियाणे, ५०० मिली कीटकनाशक..." required>
+                    </div>
+
+                    <!-- Amounts & Due Date Row -->
+                    <div class="row g-3 p-3 rounded-3" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                        <!-- Total Credit Amount -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">एकूण उधारी रक्कम (Total ₹) *</label>
+                            <input type="number" step="0.01" min="1" name="totalAmount" id="newUdhariTotal" class="form-control form-control-sm fw-bold" placeholder="उदा. 4500" oninput="calcNewUdhariRemaining()" required>
+                        </div>
+
+                        <!-- Paid Amount -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-success">जमा रक्कम (Paid ₹)</label>
+                            <input type="number" step="0.01" min="0" name="paidAmount" id="newUdhariPaid" value="0" class="form-control form-control-sm text-success fw-bold" placeholder="0" oninput="calcNewUdhariRemaining()">
+                        </div>
+
+                        <!-- Remaining Due -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-danger">🔴 बाकी रक्कम (Pending ₹)</label>
+                            <input type="number" step="0.01" id="newUdhariRemaining" class="form-control form-control-sm border-danger text-danger fw-bold bg-white" readonly placeholder="0.00">
+                        </div>
+
+                        <!-- Promise Due Date -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">📅 देण्याची तारीख (Promise Date) *</label>
+                            <input type="date" name="dueDate" id="newUdhariDueDate" class="form-control form-control-sm fw-bold border-success" required>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="mt-3">
+                        <label class="form-label small fw-bold text-dark">शेरा / टीप / जामीनदार (Notes / Remarks)</label>
+                        <textarea name="notes" class="form-control form-control-sm" rows="2" placeholder="उदा. कापूस वेचणी झाल्यावर पूर्ण रक्कम देणार..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">रद्द करा (Cancel)</button>
+                    <button type="submit" class="btn btn-sm btn-success px-4 fw-bold" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-check me-1"></i> 💾 उधारी नोंद जतन करा (Save Credit Customer)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 1: Edit Full Udhari Record (नवीन उधारी संपादन मोडल) -->
+<div class="modal fade" id="editUdhariRecordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #1a5f3d;">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;">
+                    <i class="ti ti-edit me-2"></i>Edit Udhari Record / उधारी खाते माहिती बदला
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/udhari/edit}" th:object="${udhariEditDto}" method="POST">
+                <input type="hidden" id="editUdhariId" th:field="*{id}">
+                <div class="modal-body p-4">
+                    <div class="mb-3 p-3 bg-light rounded-3 border">
+                        <small class="text-muted d-block">Farmer / ग्राहक:</small>
+                        <strong class="text-dark fs-6" id="editUdhariCustomerName">Customer Name</strong>
+                        <div class="text-muted small mt-1">Mobile: <strong id="editUdhariCustomerMobile">9822012345</strong></div>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Total Credit Amount -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Total Udhari / एकूण उधारी (₹) *</label>
+                            <input type="number" step="0.01" min="0" id="editUdhariTotalAmount" th:field="*{totalAmount}" class="form-control form-control-sm" oninput="calculateUdhariRemaining()" required>
+                        </div>
+
+                        <!-- Paid Amount -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Paid Amount / जमा रक्कम (₹) *</label>
+                            <input type="number" step="0.01" min="0" id="editUdhariPaidAmount" th:field="*{paidAmount}" class="form-control form-control-sm" oninput="calculateUdhariRemaining()" required>
+                        </div>
+
+                        <!-- Remaining Due / Pending -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-danger">Pending Amount / बाकी रक्कम (₹) *</label>
+                            <input type="number" step="0.01" min="0" id="editUdhariRemainingAmount" th:field="*{remainingAmount}" class="form-control form-control-sm border-danger text-danger fw-bold" required>
+                        </div>
+
+                        <!-- Due Date / Payment Promise Date -->
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Due Date / देण्याची तारीख 📅 *</label>
+                            <input type="date" id="editUdhariDueDate" th:field="*{dueDate}" class="form-control form-control-sm" required>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Udhari Status / स्थिती</label>
+                            <select id="editUdhariStatus" th:field="*{status}" class="form-select form-select-sm">
+                                <option value="ACTIVE">ACTIVE (सक्रिय / चालू)</option>
+                                <option value="OVERDUE">OVERDUE (थकबाकी / मुदत संपलेली)</option>
+                                <option value="PAID_IN_FULL">PAID_IN_FULL (पूर्ण भरणा झालेला)</option>
+                            </select>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Notes / शेरा</label>
+                            <textarea id="editUdhariNotes" th:field="*{notes}" class="form-control form-control-sm" rows="2" placeholder="उदा. खरीप कापूस काढणीनंतर देणार..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a; border: none;">
+                        <i class="ti ti-check me-1"></i> Save Udhari Changes / सेव्ह करा
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Record Udhari Payment -->
+<div class="modal fade" id="recordUdhariPaymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header text-white" style="background-color: #16a34a;">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;"><i class="ti ti-cash me-2"></i>Record Udhari Payment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/udhari/record-payment}" th:object="${paymentDto}" method="POST">
+                <input type="hidden" id="udhariPayModalId" th:field="*{udhariId}">
+                <div class="modal-body p-4">
+                    <div class="mb-3 p-3 bg-light rounded-3 border">
+                        <small class="text-muted d-block">Customer:</small>
+                        <strong class="text-dark fs-6" id="udhariPayCustomerName">Customer Name</strong>
+                        <div class="text-danger small mt-1">Remaining Due: <strong id="udhariPayRemaining">₹0</strong></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">Payment Amount (₹) *</label>
+                        <input type="number" step="0.01" min="1" id="udhariPayAmountInput" th:field="*{amount}" class="form-control form-control-sm" placeholder="Enter amount received" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">Payment Mode *</label>
+                        <select th:field="*{paymentMethod}" class="form-select form-select-sm">
+                            <option value="CASH">Cash (रोख)</option>
+                            <option value="UPI">UPI / PhonePe / GPay</option>
+                            <option value="BANK_TRANSFER">Bank Transfer / NEFT</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">Transaction Ref / Cheque No.</label>
+                        <input type="text" th:field="*{transactionId}" class="form-control form-control-sm" placeholder="e.g. UPI-TXN-12345">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-dark">Remarks</label>
+                        <input type="text" th:field="*{remarks}" class="form-control form-control-sm" placeholder="e.g. Counter cash deposit">
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a;">Record Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Send Reminder Modal -->
+<div class="modal fade" id="sendReminderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" style="font-size: 16px;"><i class="ti ti-bell me-2"></i>Send Udhari Reminder Alert</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/admin/udhari/send-reminder}" method="POST">
+                <input type="hidden" id="reminderUserId" name="userId">
+                <input type="hidden" id="reminderUdhariId" name="udhariId">
+                <div class="modal-body p-4">
+                    <div class="mb-3 p-3 bg-light rounded-3 border">
+                        <small class="text-muted d-block">Recipient Farmer:</small>
+                        <strong class="text-dark fs-6" id="reminderCustomerName">Ramesh Patil</strong>
+                        <div class="text-muted small">Mobile: <strong id="reminderMobile">9822012345</strong></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-primary">Dispatch Channel</label>
+                        <select name="type" class="form-select form-select-sm">
+                            <option value="WHATSAPP">📲 WhatsApp Message</option>
+                            <option value="SMS">💬 SMS Gateway</option>
+                            <option value="IN_APP">🔔 In-App Portal Notification</option>
+                            <option value="EMAIL">✉️ Email Notification</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-primary">Reminder Message Text</label>
+                        <textarea id="reminderMessageText" name="message" class="form-control form-control-sm" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary px-4 fw-semibold">Send Reminder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleCustomerType() {
+    var isNew = document.getElementById('typeNewCust').checked;
+    var newSection = document.getElementById('newCustomerSection');
+    var existingSection = document.getElementById('existingCustomerSection');
+    var nameInput = document.getElementById('newCustNameInput');
+    var mobileInput = document.getElementById('newCustMobileInput');
+    var existingSelect = document.getElementById('existingUserIdSelect');
+
+    if (isNew) {
+        newSection.classList.remove('d-none');
+        existingSection.classList.add('d-none');
+        nameInput.setAttribute('required', 'required');
+        mobileInput.setAttribute('required', 'required');
+        existingSelect.removeAttribute('required');
+        existingSelect.value = '';
+    } else {
+        newSection.classList.add('d-none');
+        existingSection.classList.remove('d-none');
+        nameInput.removeAttribute('required');
+        mobileInput.removeAttribute('required');
+        existingSelect.setAttribute('required', 'required');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var d = new Date();
+    d.setDate(d.getDate() + 30);
+    var dateStr = d.toISOString().split('T')[0];
+    var dueInput = document.getElementById('newUdhariDueDate');
+    if (dueInput && !dueInput.value) {
+        dueInput.value = dateStr;
+    }
+});
+
+function calcNewUdhariRemaining() {
+    var total = parseFloat(document.getElementById('newUdhariTotal').value) || 0;
+    var paid = parseFloat(document.getElementById('newUdhariPaid').value) || 0;
+    var remaining = total - paid;
+    if (remaining < 0) remaining = 0;
+    document.getElementById('newUdhariRemaining').value = remaining.toFixed(2);
+}
+
+function openUdhariEditModal(id, customerName, mobile, totalAmount, paidAmount, remainingAmount, dueDate, status, notes) {
+    document.getElementById('editUdhariId').value = id;
+    document.getElementById('editUdhariCustomerName').innerText = customerName;
+    document.getElementById('editUdhariCustomerMobile').innerText = mobile;
+    document.getElementById('editUdhariTotalAmount').value = totalAmount;
+    document.getElementById('editUdhariPaidAmount').value = paidAmount;
+    document.getElementById('editUdhariRemainingAmount').value = remainingAmount;
+    document.getElementById('editUdhariDueDate').value = dueDate;
+    document.getElementById('editUdhariStatus').value = status || 'ACTIVE';
+    document.getElementById('editUdhariNotes').value = notes || '';
+
+    var modal = new bootstrap.Modal(document.getElementById('editUdhariRecordModal'));
+    modal.show();
+}
+
+function calculateUdhariRemaining() {
+    var total = parseFloat(document.getElementById('editUdhariTotalAmount').value) || 0;
+    var paid = parseFloat(document.getElementById('editUdhariPaidAmount').value) || 0;
+    var remaining = total - paid;
+    if (remaining < 0) remaining = 0;
+    document.getElementById('editUdhariRemainingAmount').value = remaining.toFixed(2);
+    
+    if (remaining === 0) {
+        document.getElementById('editUdhariStatus').value = 'PAID_IN_FULL';
+    } else {
+        var dueDateVal = document.getElementById('editUdhariDueDate').value;
+        if (dueDateVal && new Date(dueDateVal) < new Date()) {
+            document.getElementById('editUdhariStatus').value = 'OVERDUE';
+        } else {
+            document.getElementById('editUdhariStatus').value = 'ACTIVE';
+        }
+    }
+}
+
+function openUdhariPayModal(udhariId, customerName, remainingAmount) {
+    document.getElementById('udhariPayModalId').value = udhariId;
+    document.getElementById('udhariPayCustomerName').innerText = customerName;
+    document.getElementById('udhariPayRemaining').innerText = '₹' + remainingAmount;
+    document.getElementById('udhariPayAmountInput').value = remainingAmount;
+    var modal = new bootstrap.Modal(document.getElementById('recordUdhariPaymentModal'));
+    modal.show();
+}
+
+function openReminderModal(userId, udhariId, customerName, mobile, remainingAmount, dueDate, isOverdue) {
+    document.getElementById('reminderUserId').value = userId;
+    document.getElementById('reminderUdhariId').value = udhariId;
+    document.getElementById('reminderCustomerName').innerText = customerName;
+    document.getElementById('reminderMobile').innerText = mobile;
+    
+    var msg = "Dear " + customerName + ", your outstanding Udhari balance at Saptashrungi Agro Services is ₹" + remainingAmount + " due on " + dueDate + ". Kindly make payment via UPI or visit shop. Thank you!";
+    if (isOverdue) {
+        msg = "URGENT: Dear " + customerName + ", your Udhari balance of ₹" + remainingAmount + " was due on " + dueDate + " and is now OVERDUE. Please clear immediately. Thank you!";
+    }
+    document.getElementById('reminderMessageText').value = msg;
+    
+    var modal = new bootstrap.Modal(document.getElementById('sendReminderModal'));
+    modal.show();
+}
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

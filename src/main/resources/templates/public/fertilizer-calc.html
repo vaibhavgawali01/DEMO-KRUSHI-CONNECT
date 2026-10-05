@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Fertilizer Calculator')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+            <i class="bi bi-cpu me-1"></i> Smart Agri Advisory Engine
+        </span>
+        <h2 class="fw-bold text-success" th:text="#{advisory.calc.title}">Smart Fertilizer Requirement Calculator</h2>
+        <p class="text-muted">Calculate exact NPK dosages and commercial bag requirements tailored to your crop and land acreage</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Left Form Column -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-success text-white py-3">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-sliders me-2"></i>Enter Farm Parameters</h6>
+                </div>
+                <div class="card-body p-4">
+                    <form th:action="@{/fertilizer-calculator}" method="GET" id="fertForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-success text-uppercase" th:text="#{advisory.calc.crop}">Select Crop</label>
+                            <select name="crop" id="calcCrop" class="form-select">
+                                <option value="sugarcane" th:selected="${calc.crop == 'sugarcane'}">Sugarcane (ऊस)</option>
+                                <option value="cotton" th:selected="${calc.crop == 'cotton'}">Cotton (कापूस - बीजी II)</option>
+                                <option value="soybean" th:selected="${calc.crop == 'soybean'}">Soybean (सोयाबीन)</option>
+                                <option value="wheat" th:selected="${calc.crop == 'wheat'}">Wheat (गहू)</option>
+                                <option value="onion" th:selected="${calc.crop == 'onion'}">Onion (कांदा)</option>
+                                <option value="vegetables" th:selected="${calc.crop == 'vegetables'}">Vegetables & Fruits (भाजीपाला)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-success text-uppercase" th:text="#{advisory.calc.area}">Farm Area (Acres)</label>
+                            <div class="input-group">
+                                <input type="number" step="0.25" min="0.25" max="100" name="acres" id="calcArea" class="form-control" th:value="${calc.farmAreaAcres}">
+                                <span class="input-group-text">Acres / एकर</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-success text-uppercase" th:text="#{advisory.calc.soil}">Soil Type</label>
+                            <select name="soilType" id="calcSoil" class="form-select">
+                                <option value="Medium Black" th:selected="${calc.soilType == 'Medium Black'}">Medium Black Soil (मध्यम काळी जमीन)</option>
+                                <option value="Heavy Black Clay" th:selected="${calc.soilType == 'Heavy Black Clay'}">Heavy Clay Soil (भारी काळी जमीन)</option>
+                                <option value="Light / Sandy Soil" th:selected="${calc.soilType == 'Light / Sandy Soil'}">Light / Sandy Soil (हलकी / पोयट्याची जमीन)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small text-success text-uppercase">Growth Stage</label>
+                            <select name="stage" id="calcStage" class="form-select">
+                                <option value="Full Season" th:selected="${calc.cropStage == 'Full Season'}">Complete Season Nutrition Plan</option>
+                                <option value="Basal Stage" th:selected="${calc.cropStage == 'Basal Stage'}">Basal / Planting Application Only</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-krushi w-100 fw-bold py-2">
+                            <i class="bi bi-calculator me-1"></i> <span th:text="#{advisory.calc.calculate}">Calculate Nutrients</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Results Column -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 fw-bold text-success"><i class="bi bi-check2-circle me-2"></i>Nutrient Dose Results (<span th:text="${calc.farmAreaAcres}">1</span> Acre)</h6>
+                    <span class="badge bg-warning text-dark">Estimated Cost: <strong id="calcEstCost" th:text="'₹' + ${calc.estimatedTotalCost}">₹4,500</strong></span>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Pure Nutrients Metric row -->
+                    <div class="row g-2 mb-4 text-center">
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted d-block">Nitrogen (N)</small>
+                                <h4 class="fw-bold text-success mb-0" id="calcResN" th:text="${calc.requiredN} + ' kg'">160 kg</h4>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted d-block">Phosphorus (P₂O₅)</small>
+                                <h4 class="fw-bold text-primary mb-0" id="calcResP" th:text="${calc.requiredP} + ' kg'">68 kg</h4>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded border">
+                                <small class="text-muted d-block">Potassium (K₂O)</small>
+                                <h4 class="fw-bold text-warning mb-0" id="calcResK" th:text="${calc.requiredK} + ' kg'">68 kg</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Option 1: Straight Bags -->
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-bag me-1 text-success"></i>Option 1: Straight Fertilizer Bags</h6>
+                    <div class="row g-2 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-2 border rounded bg-white">
+                                <small class="text-muted">Urea (46% N, 45kg)</small>
+                                <div class="fw-bold text-dark fs-6" id="calcUreaBags" th:text="${calc.ureaBags} + ' Bags'">7.7 Bags</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-2 border rounded bg-white">
+                                <small class="text-muted">SSP (16% P, 50kg)</small>
+                                <div class="fw-bold text-dark fs-6" id="calcSspBags" th:text="${calc.sspBags} + ' Bags'">8.5 Bags</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-2 border rounded bg-white">
+                                <small class="text-muted">MOP (60% K, 50kg)</small>
+                                <div class="fw-bold text-dark fs-6" id="calcMopBags" th:text="${calc.mopBags} + ' Bags'">2.3 Bags</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Option 2: Complex Fertilizers -->
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-star me-1 text-success"></i>Option 2: Recommended Complex Strategy</h6>
+                    <div class="p-3 bg-light-green rounded border border-success-subtle mb-4">
+                        <div class="fw-bold text-success mb-1" id="calcComplexName" th:text="${calc.complexFertilizerName}">Coromandel Gromor 10:26:26 (50 Kg)</div>
+                        <div class="small text-dark" id="calcComplexBags" th:text="${calc.complexBags} + ' Bags + ' + ${calc.supplementaryUreaBags} + ' Bags Urea Top Dress'">4 Bags + 5.2 Bags Urea</div>
+                    </div>
+
+                    <!-- Schedule -->
+                    <h6 class="fw-bold text-dark mb-2" th:text="#{advisory.calc.schedule}">Nutrient Application Schedule</h6>
+                    <ul class="list-group list-group-flush small mb-3">
+                        <li class="list-group-item px-0 py-1 border-0" th:each="s : ${calc.applicationSchedule}">
+                            <i class="bi bi-arrow-right-circle-fill text-success me-2"></i><span th:text="${s}">Stage Schedule</span>
+                        </li>
+                    </ul>
+
+                    <!-- Micronutrient tips -->
+                    <div class="alert alert-warning border-0 p-3 small mb-0" th:if="${calc.micronutrientAdvice != null and !calc.micronutrientAdvice.isEmpty()}">
+                        <strong class="d-block mb-1"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>Micronutrient Recommendations:</strong>
+                        <ul class="m-0 ps-3">
+                            <li th:each="m : ${calc.micronutrientAdvice}" th:text="${m}">Micro tip</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

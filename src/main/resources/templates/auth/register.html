@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Farmer Registration')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+                <div class="card-header bg-success text-white py-4 text-center">
+                    <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Shop Logo" class="rounded-circle shadow mb-2" style="width: 60px; height: 60px; object-fit: cover; border: 3px solid #ffffff;">
+                    <h4 class="fw-bold mb-1 text-white">👨🌾 New Farmer Registration / नवीन शेतकरी नोंदणी</h4>
+                    <small class="text-white-50">Saptashrungi Agro Services - Create your farmer account</small>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <!-- General Error Alert -->
+                    <div th:if="${errorMessage}" class="alert alert-danger border-0 d-flex align-items-center gap-2 small">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <span th:text="${errorMessage}">Error Message</span>
+                    </div>
+
+                    <form th:action="@{/register}" th:object="${registrationDto}" method="POST">
+                        <div class="row g-3">
+                            <!-- Full Name -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Full Name / पूर्ण नाव *</label>
+                                <input type="text" th:field="*{name}" class="form-control" placeholder="e.g. Ramesh Ananda Patil" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+                            </div>
+
+                            <!-- Mobile Number -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Mobile Number / मोबाईल नंबर *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+91</span>
+                                    <input type="tel" th:field="*{mobile}" class="form-control" placeholder="10-digit mobile" maxlength="10" th:classappend="${#fields.hasErrors('mobile')} ? 'is-invalid'">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Mobile Error</div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Email Address / ईमेल *</label>
+                                <input type="email" th:field="*{email}" class="form-control" placeholder="farmer@example.com" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+                            </div>
+
+                            <!-- Village -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Village / गाव *</label>
+                                <input type="text" th:field="*{village}" class="form-control" placeholder="e.g. Kasbe Digraj" th:classappend="${#fields.hasErrors('village')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('village')}" th:errors="*{village}">Village Error</div>
+                            </div>
+
+                            <!-- Taluka -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Taluka / तालुका *</label>
+                                <input type="text" th:field="*{taluka}" class="form-control" placeholder="e.g. Miraj" th:classappend="${#fields.hasErrors('taluka')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('taluka')}" th:errors="*{taluka}">Taluka Error</div>
+                            </div>
+
+                            <!-- District -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">District / जिल्हा *</label>
+                                <input type="text" th:field="*{district}" class="form-control" placeholder="e.g. Sangli" th:classappend="${#fields.hasErrors('district')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('district')}" th:errors="*{district}">District Error</div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small text-success">Complete Address / पत्ता *</label>
+                                <textarea th:field="*{address}" class="form-control" rows="2" placeholder="Gat No, Landmark, Post..." th:classappend="${#fields.hasErrors('address')} ? 'is-invalid'"></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Password / पासवर्ड *</label>
+                                <input type="password" th:field="*{password}" class="form-control" placeholder="At least 6 characters" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">Confirm Password / पासवर्ड पुष्टी करा *</label>
+                                <input type="password" th:field="*{confirmPassword}" class="form-control" placeholder="Re-enter password" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Password Match Error</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-krushi w-100 py-2 fw-bold">
+                                <i class="bi bi-person-check-fill me-1"></i> Register Account / खाते तयार करा
+                            </button>
+                        </div>
+
+                        <div class="text-center small text-muted mt-3">
+                            Already registered? <a th:href="@{/login}" class="text-success fw-bold text-decoration-none">Login to your account</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

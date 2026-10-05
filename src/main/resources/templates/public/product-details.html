@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header :: head(${product.name})}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" class="text-success text-decoration-none" th:text="#{nav.home}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/products}" class="text-success text-decoration-none" th:text="#{nav.products}">Products</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/products(categoryId=${product.category.id})}" class="text-success text-decoration-none" th:text="${product.category.name}">Category</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}">Product</li>
+        </ol>
+    </nav>
+
+    <!-- Product Overview Card -->
+    <div class="card border-0 shadow-sm rounded-3 mb-4">
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <!-- Left: Product Image -->
+                <div class="col-lg-5 text-center">
+                    <div class="p-4 bg-light rounded-3 d-flex align-items-center justify-content-center" style="height: 380px;">
+                        <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" class="img-fluid" style="max-height: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/400x350/e8f5e9/2e7d32?text=Krushi+Product'">
+                    </div>
+                </div>
+
+                <!-- Right: Product Details & Purchase Controls -->
+                <div class="col-lg-7">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 mb-2 fw-semibold" th:text="${product.category.name}">Category</span>
+                            <h3 class="fw-bold mb-1 text-dark" th:text="${#locale.language == 'mr' and product.nameMr != null ? product.nameMr : product.name}">Product Name</h3>
+                            <div class="text-muted mb-2">
+                                <span class="fw-semibold">Company:</span> <span class="text-success fw-bold" th:text="${product.company}">Company Name</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rating & Reviews snippet -->
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                        <span class="fw-bold text-dark" th:text="${product.rating}">4.8</span>
+                        <span class="text-muted small" th:text="'(' + ${product.reviewCount} + ' Verified Farmer Reviews)'">(12)</span>
+                    </div>
+
+                    <hr class="my-2">
+
+                    <!-- Pricing Box -->
+                    <div class="d-flex align-items-baseline gap-3 my-3">
+                        <span class="display-6 fw-bold text-success" th:text="'₹' + ${product.effectivePrice}">₹820.00</span>
+                        <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="text-muted fs-5 text-decoration-line-through" th:text="'MRP: ₹' + ${product.price}">MRP: ₹864.00</span>
+                        <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="badge bg-danger rounded-pill px-2 py-1">Save ₹<span th:text="${product.price - product.discountPrice}">44</span></span>
+                    </div>
+                    <div class="small text-muted mb-3">
+                        <i class="bi bi-info-circle text-success me-1"></i> <span th:text="#{product.gst_included}">Inclusive of all taxes</span> (<span th:text="'GST: ' + ${product.gstRate} + '%'">GST 5%</span>)
+                    </div>
+
+                    <!-- Stock & Batch Specs -->
+                    <div class="row g-2 mb-4 small bg-light p-3 rounded">
+                        <div class="col-sm-6">
+                            <span class="text-muted">Stock Status:</span>
+                            <span th:if="${product.stockQuantity > product.minimumStock}" class="badge bg-success ms-1"><i class="bi bi-check-circle me-1"></i>In Stock (<span th:text="${product.stockQuantity}">65</span> Available)</span>
+                            <span th:if="${product.stockQuantity <= product.minimumStock and product.stockQuantity > 0}" class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle me-1"></i>Only <span th:text="${product.stockQuantity}">3</span> Left</span>
+                            <span th:if="${product.stockQuantity == 0}" class="badge bg-danger ms-1"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="text-muted">SKU / Code:</span>
+                            <strong class="text-dark ms-1" th:text="${product.sku}">SKU-01</strong>
+                        </div>
+                        <div class="col-sm-6" th:if="${product.batchNumber != null}">
+                            <span class="text-muted">Batch Number:</span>
+                            <strong class="text-dark ms-1" th:text="${product.batchNumber}">BCH-2026</strong>
+                        </div>
+                        <div class="col-sm-6" th:if="${product.expiryDate != null}">
+                            <span class="text-muted">Expiry Date:</span>
+                            <strong class="text-dark ms-1" th:text="${product.expiryDate}">2027-04-30</strong>
+                        </div>
+                    </div>
+
+                    <!-- Order by Phone / WhatsApp -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <a href="tel:+918600813827"
+                           class="btn btn-krushi px-4 fw-bold d-flex align-items-center gap-2">
+                            <i class="bi bi-telephone-fill"></i> Order by Phone: 8600813827
+                        </a>
+                        <a th:href="@{'https://wa.me/918600813827?text=Hello Krushi Seva Kendra, I am interested in: ' + ${product.name}}"
+                           target="_blank"
+                           class="btn btn-outline-success d-flex align-items-center gap-2">
+                            <i class="bi bi-whatsapp"></i> WhatsApp Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Tabs: Description, Usage Instructions, Reviews -->
+    <div class="card border-0 shadow-sm rounded-3 mb-5">
+        <div class="card-header bg-white border-bottom pt-3 px-4">
+            <ul class="nav nav-tabs card-header-tabs" id="productDetailTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold text-success" id="desc-tab" data-bs-toggle="tab" data-bs-target="#descContent" type="button" role="tab" th:text="#{product.tab.description}">Description</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-success" id="usage-tab" data-bs-toggle="tab" data-bs-target="#usageContent" type="button" role="tab" th:text="#{product.tab.usage}">Usage & Dosage</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-success" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviewsContent" type="button" role="tab" th:text="#{product.tab.reviews}">Reviews & Ratings</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body p-4 tab-content" id="productDetailTabsContent">
+            <!-- Tab 1: Description -->
+            <div class="tab-pane fade show active" id="descContent" role="tabpanel">
+                <h5 class="fw-bold text-dark mb-3">Product Overview & Features</h5>
+                <p class="text-secondary" style="white-space: pre-line;" th:text="${product.description}">Full product detailed description.</p>
+            </div>
+
+            <!-- Tab 2: Usage Instructions -->
+            <div class="tab-pane fade" id="usageContent" role="tabpanel">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-journal-check text-success me-2"></i>Agronomic Usage & Spraying Guidelines</h5>
+                <div class="alert alert-success border-0 bg-light-green p-3">
+                    <p class="m-0 text-dark" style="white-space: pre-line;" th:text="${product.usageInstructions != null ? product.usageInstructions : 'Standard crop application as per recommendation.'}">Dosage & Timing Details</p>
+                </div>
+                <small class="text-muted"><i class="bi bi-shield-exclamation text-warning me-1"></i>Always read product safety precautions and wear protective equipment before application.</small>
+            </div>
+
+            <!-- Tab 3: Reviews -->
+            <div class="tab-pane fade" id="reviewsContent" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <h5 class="fw-bold text-dark mb-3">Farmer Feedback (<span th:text="${reviews.size()}">0</span>)</h5>
+                        <div th:if="${reviews.empty}" class="text-muted py-3">No reviews yet for this product. Be the first farmer to share your experience!</div>
+                        
+                        <div class="d-flex flex-column gap-3" th:if="${!reviews.empty}">
+                            <div class="p-3 bg-light rounded border" th:each="rev : ${reviews}">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong class="text-dark"><i class="bi bi-person-circle text-success me-1"></i><span th:text="${rev.user.name}">Ramesh Patil</span></strong>
+                                    <div class="text-warning small">
+                                        <i class="bi bi-star-fill" th:each="s : ${#numbers.sequence(1, rev.rating)}"></i>
+                                    </div>
+                                </div>
+                                <p class="small text-muted mb-1" th:text="${rev.review}">Review comment</p>
+                                <small class="text-muted" style="font-size: 0.75rem;" th:text="${#temporals.format(rev.createdAt, 'dd MMM yyyy')}">10 Aug 2026</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Form -->
+                    <div class="col-md-5">
+                        <div class="p-3 bg-light rounded border">
+                            <h6 class="fw-bold mb-3">Write a Farmer Review</h6>
+                            <form th:if="${isLoggedIn}" th:action="@{'/products/' + ${product.id} + '/review'}" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Rating (1 to 5 Stars)</label>
+                                    <select name="rating" class="form-select form-select-sm" required>
+                                        <option value="5">⭐⭐⭐⭐⭐ 5 Stars (Excellent)</option>
+                                        <option value="4">⭐⭐⭐⭐ 4 Stars (Good)</option>
+                                        <option value="3">⭐⭐⭐ 3 Stars (Average)</option>
+                                        <option value="2">⭐⭐ 2 Stars (Poor)</option>
+                                        <option value="1">⭐ 1 Star (Very Bad)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Your Review / अनुभव</label>
+                                    <textarea name="review" class="form-control form-control-sm" rows="3" placeholder="Share crop yield, germination or efficacy results..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-krushi btn-sm w-100 fw-bold">Submit Review</button>
+                            </form>
+                            <div th:if="${!isLoggedIn}" class="text-center py-3">
+                                <p class="small text-muted mb-2">Please login to write a verified review.</p>
+                                <a th:href="@{/login}" class="btn btn-krushi-outline btn-sm">Login to Review</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="mb-4" th:if="${relatedProducts != null and !relatedProducts.isEmpty()}">
+        <h4 class="fw-bold text-success mb-3">Related Products in <span th:text="${product.category.name}">Category</span></h4>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            <div class="col" th:each="rel : ${relatedProducts}" th:if="${rel.id != product.id}">
+                <div class="product-card">
+                    <div class="product-img-wrapper" style="height: 140px;">
+                        <img th:src="@{'/images/' + ${rel.image}}" th:alt="${rel.name}" onerror="this.src='https://placehold.co/200x140/e8f5e9/2e7d32?text=Krushi'">
+                    </div>
+                    <div class="product-body p-2">
+                        <small class="text-muted" th:text="${rel.company}">Brand</small>
+                        <h6 class="product-title small mb-1">
+                            <a th:href="@{'/products/' + ${rel.id}}" class="text-dark text-decoration-none" th:text="${rel.name}">Product</a>
+                        </h6>
+                        <div class="fw-bold text-success" th:text="'₹' + ${rel.effectivePrice}">₹820</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Access Denied')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-5 py-5 text-center">
+    <div class="brand-icon-wrapper mx-auto mb-3" style="width: 80px; height: 80px; background: #fff3e0; color: #e65100; font-size: 2.5rem;">
+        <i class="bi bi-shield-lock-fill"></i>
+    </div>
+    <h1 class="display-4 fw-bold text-dark">403</h1>
+    <h4 class="fw-bold mb-3">Access Denied / प्रवेश नाकारला</h4>
+    <p class="text-muted mb-4">You do not have administrative permission to view this restricted page.</p>
+    <a th:href="@{/}" class="btn btn-krushi px-4 py-2">&laquo; Return to Store Home</a>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Manage Order #' + ${order.orderNumber})}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-5 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('orders')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 alert-dismissible fade show small mb-3">
+                <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Order Header -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 mb-2">Order Management</span>
+                        <h3 class="fw-bold mb-1 text-dark">Order #<span th:text="${order.orderNumber}">KSK-2026-00001</span></h3>
+                        <small class="text-muted" th:text="'Created: ' + ${#temporals.format(order.createdAt, 'dd MMM yyyy, hh:mm a')}">Date</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{'/customer/orders/' + ${order.id} + '/invoice'}" target="_blank" class="btn btn-krushi btn-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-printer"></i> Print GST Invoice
+                        </a>
+                        <a th:href="@{/admin/orders}" class="btn btn-light border btn-sm">&laquo; Back to Orders</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Updaters & Customer info -->
+            <div class="row g-4 mb-4">
+                <!-- Status Updater Forms -->
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-3 h-100">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h6 class="mb-0 fw-bold text-success"><i class="bi bi-sliders me-2"></i>Update Order & Payment Status</h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Order Status Form -->
+                            <form th:action="@{'/admin/orders/' + ${order.id} + '/status'}" method="POST" class="mb-3">
+                                <label class="form-label small fw-bold text-dark">Order Lifecycle Status</label>
+                                <div class="input-group">
+                                    <select name="status" class="form-select form-select-sm">
+                                        <option th:each="st : ${orderStatuses}" th:value="${st}" th:text="${st.displayNameEn + ' (' + st.displayNameMr + ')'}" th:selected="${order.orderStatus == st}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-krushi btn-sm px-3">Update Status</button>
+                                </div>
+                            </form>
+
+                            <!-- Payment Status Form -->
+                            <form th:action="@{'/admin/orders/' + ${order.id} + '/payment-status'}" method="POST">
+                                <label class="form-label small fw-bold text-dark">Payment Settlement Status</label>
+                                <div class="input-group">
+                                    <select name="paymentStatus" class="form-select form-select-sm">
+                                        <option th:each="pst : ${paymentStatuses}" th:value="${pst}" th:text="${pst.displayNameEn}" th:selected="${order.paymentStatus == pst}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-outline-success btn-sm px-3">Update Payment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-3 h-100">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h6 class="mb-0 fw-bold text-success"><i class="bi bi-person-lines-fill me-2"></i>Customer & Delivery Address</h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <strong class="fs-5 text-dark d-block" th:text="${order.user.name}">Ramesh Patil</strong>
+                            <div class="small text-muted mb-1">
+                                <i class="bi bi-telephone text-success me-1"></i> <span th:text="${order.user.mobile}">9822012345</span> | 
+                                <i class="bi bi-envelope text-success ms-2 me-1"></i> <span th:text="${order.user.email}">ramesh@patil.com</span>
+                            </div>
+                            <div class="small text-dark mt-2 p-2 bg-light rounded border">
+                                <strong>Delivery Location:</strong> <span th:text="${order.deliveryAddress}">Kasbe Digraj, Sangli</span>
+                            </div>
+                            <div class="small text-muted mt-2" th:if="${order.notes != null}">
+                                <strong>Special Instructions:</strong> <span th:text="${order.notes}">Notes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <h6 class="mb-0 fw-bold text-dark">Order Line Items (<span th:text="${order.orderItems.size()}">0</span>)</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Rate (₹)</th>
+                                    <th>Quantity</th>
+                                    <th>GST (₹)</th>
+                                    <th>Total (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item, stat : ${order.orderItems}">
+                                    <td th:text="${stat.count}">1</td>
+                                    <td>
+                                        <strong class="text-dark" th:text="${item.product.name}">Product</strong>
+                                        <div class="small text-muted" th:text="${item.product.company} + ' | SKU: ' + ${item.product.sku}">Company</div>
+                                    </td>
+                                    <td th:text="'₹' + ${item.price}">₹2,700.00</td>
+                                    <td th:text="${item.quantity}">1</td>
+                                    <td th:text="'₹' + ${item.gst}">₹0.00</td>
+                                    <td><strong class="text-success" th:text="'₹' + ${item.total}">₹2,700.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

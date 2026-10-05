@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Pay Now - UPI Payment')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('pay')}"></div>
+        </div>
+        <div class="col-lg-9">
+
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div style="width:50px;height:50px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+                    <i class="bi bi-qr-code text-white fs-4"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold text-dark mb-0">UPI Payment</h4>
+                    <small class="text-muted">सप्तशृंगी ॲग्रो सर्व्हिसेस ला थेट पेमेंट करा</small>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 h-100" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0!important;">
+                        <div class="card-body p-4 text-center">
+                            <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#16a34a,#15803d);color:white;font-size:0.8rem;">📱 QR Code Scan करा</span>
+                            <div class="mx-auto mb-3" style="max-width:240px;background:white;border-radius:16px;padding:12px;box-shadow:0 8px 30px rgba(22,163,74,0.15);border:2px solid #bbf7d0;">
+                                <img th:src="@{/images/upi_qr.jpg}" alt="UPI QR Code" class="img-fluid" style="border-radius:10px;">
+                            </div>
+                            <div class="mb-3">
+                                <p class="text-muted small mb-1">UPI ID</p>
+                                <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill fw-bold" style="background:white;border:2px solid #16a34a;font-size:1rem;color:#15803d;">
+                                    <i class="bi bi-upc-scan"></i>
+                                    <span id="upiId">8600813827@upi</span>
+                                    <button onclick="copyUPI()" class="btn btn-sm p-0 ms-1" style="color:#16a34a;background:none;border:none;" title="Copy">
+                                        <i class="bi bi-copy fs-6" id="copyIcon"></i>
+                                    </button>
+                                </div>
+                                <div id="copyMsg" class="text-success small mt-1 fw-bold" style="display:none;">✅ Copied!</div>
+                            </div>
+                            <p class="text-muted small mb-2">या apps ने pay करा:</p>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#5f259f;"><div style="font-size:1.4rem;">📲</div><small>PhonePe</small></a>
+                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#1a73e8;"><div style="font-size:1.4rem;">💳</div><small>GPay</small></a>
+                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#002970;"><div style="font-size:1.4rem;">💰</div><small>Paytm</small></a>
+                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#ff6600;"><div style="font-size:1.4rem;">🏦</div><small>BHIM</small></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4" style="border:1px solid #e5e7eb!important;">
+                        <div class="card-body p-4">
+                            <h6 class="fw-bold text-dark mb-4"><i class="bi bi-send-fill text-success me-2"></i>Payment Details</h6>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-dark small">💵 Amount (₹)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text fw-bold fs-5" style="background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;">₹</span>
+                                    <input type="number" id="payAmount" class="form-control fw-bold" placeholder="0.00" min="1" style="border-color:#bbf7d0;font-size:1.2rem;" oninput="updateLinks()">
+                                </div>
+                                <div class="d-flex gap-2 flex-wrap mt-2">
+                                    <button onclick="setAmt(500)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹500</button>
+                                    <button onclick="setAmt(1000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹1,000</button>
+                                    <button onclick="setAmt(2000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹2,000</button>
+                                    <button onclick="setAmt(5000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹5,000</button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold text-dark small">📋 Payment कशासाठी?</label>
+                                <select class="form-select" id="payPurpose" style="border-color:#d1fae5;" onchange="updateLinks()">
+                                    <option value="">-- Select Purpose --</option>
+                                    <option value="Udhari Payment - उधारी परतफेड">💳 Udhari Payment — उधारी परतफेड</option>
+                                    <option value="Seeds Purchase - बियाणे">🌱 Seeds — बियाणे</option>
+                                    <option value="Fertilizer Purchase - खत">🌿 Fertilizer — खत</option>
+                                    <option value="Pesticide Purchase - कीटकनाशक">🛡️ Pesticide — कीटकनाशक</option>
+                                    <option value="Equipment Purchase - साहित्य">🔧 Equipment — साहित्य</option>
+                                    <option value="Other Payment">📌 Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold text-dark small">📝 Note (Optional)</label>
+                                <input type="text" id="payNote" class="form-control" placeholder="Invoice #, शेत नाव..." style="border-color:#d1fae5;" oninput="updateLinks()">
+                            </div>
+                            <a id="upiPayBtn" href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR"
+                               class="btn w-100 fw-bold py-3 mb-3 d-flex align-items-center justify-content-center gap-2"
+                               style="background:linear-gradient(135deg,#16a34a,#15803d);color:white;border-radius:12px;font-size:1rem;border:none;">
+                                <i class="bi bi-phone-fill fs-5"></i> UPI App ने Pay करा
+                            </a>
+                            <a id="waBtn" href="https://wa.me/918600813827" target="_blank"
+                               class="btn btn-outline-success w-100 fw-bold py-2 d-flex align-items-center justify-content-center gap-2"
+                               style="border-radius:12px;border-width:2px;">
+                                <i class="bi bi-whatsapp fs-5"></i> WhatsApp वर Confirm करा
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mt-4" style="background:#fefce8;border:1px solid #fef9c3!important;">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-warning-emphasis mb-3">📖 UPI ने Pay कसे करावे?</h6>
+                    <div class="row g-3 text-center">
+                        <div class="col-6 col-md-3"><div style="font-size:2rem;">1️⃣</div><small class="text-muted fw-semibold">Amount आणि Purpose टाका</small></div>
+                        <div class="col-6 col-md-3"><div style="font-size:2rem;">2️⃣</div><small class="text-muted fw-semibold">QR Scan करा किंवा UPI ID Copy करा</small></div>
+                        <div class="col-6 col-md-3"><div style="font-size:2rem;">3️⃣</div><small class="text-muted fw-semibold">PhonePe / GPay / Paytm ने Pay करा</small></div>
+                        <div class="col-6 col-md-3"><div style="font-size:2rem;">4️⃣</div><small class="text-muted fw-semibold">WhatsApp वर Screenshot पाठवा</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mt-4" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);">
+                <div class="card-body p-4 text-white d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div><h6 class="fw-bold mb-1">🙋 मदत हवी?</h6><small style="color:rgba(255,255,255,0.8);">Payment बद्दल अडचण असल्यास संपर्क करा</small></div>
+                    <div class="d-flex gap-2">
+                        <a href="tel:+918600813827" class="btn btn-sm fw-bold px-4 py-2" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;border-radius:10px;"><i class="bi bi-telephone-fill me-1"></i>8600813827</a>
+                        <a href="https://wa.me/918600813827" target="_blank" class="btn btn-sm btn-outline-light fw-bold px-4 py-2" style="border-radius:10px;"><i class="bi bi-whatsapp me-1"></i>WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+.pay-app-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 12px;border-radius:14px;background:white;border:1.5px solid #e5e7eb;text-decoration:none;color:#374151;font-size:0.7rem;font-weight:600;transition:all 0.2s ease;min-width:56px;}
+.pay-app-btn:hover{border-color:var(--app-color,#16a34a);color:var(--app-color,#16a34a);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+</style>
+<script>
+function copyUPI(){navigator.clipboard.writeText('8600813827@upi').then(()=>{document.getElementById('copyMsg').style.display='block';document.getElementById('copyIcon').className='bi bi-check-circle-fill fs-6';setTimeout(()=>{document.getElementById('copyMsg').style.display='none';document.getElementById('copyIcon').className='bi bi-copy fs-6';},2500);});}
+function setAmt(a){document.getElementById('payAmount').value=a;updateLinks();}
+function updateLinks(){
+  const amt=document.getElementById('payAmount').value||'';
+  const pur=document.getElementById('payPurpose').value||'';
+  const note=document.getElementById('payNote').value||'';
+  let upi=upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR;
+  if(amt)upi+=&am=;
+  if(pur)upi+=&tn=;
+  document.getElementById('upiPayBtn').href=upi;
+  let msg=Hello Saptashrungi Agro Services 🌾\n\nमी UPI Payment केले:\n;
+  if(amt)msg+=💵 Amount: ₹\n;
+  if(pur)msg+=📋 Purpose: \n;
+  if(note)msg+=📝 Note: \n;
+  msg+=\nUPI: 8600813827@upi\nकृपया confirm करावे. 🙏;
+  document.getElementById('waBtn').href=https://wa.me/918600813827?text=;
+}
+</script>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

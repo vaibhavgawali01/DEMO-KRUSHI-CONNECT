@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head(${isEdit} ? 'Edit Product' : 'Add Product')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('products')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Header & Navigation -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <i class="ti" th:classappend="${isEdit} ? 'ti-edit text-primary' : 'ti-plus text-success'"></i>
+                        <span th:text="${isEdit} ? 'Edit Agricultural Product' : 'Add New Agricultural Product'">Add Product</span>
+                    </h1>
+                    <p class="text-muted small m-0 mt-1">Configure SKU, pricing, inventory threshold, and chemical/crop specifications</p>
+                </div>
+                <a th:href="@{/admin/products}" class="btn btn-light border px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 13px;">
+                    <i class="ti ti-arrow-left me-1"></i> Back to Products
+                </a>
+            </div>
+
+            <div class="modern-card p-4">
+                <form th:action="${isEdit} ? @{'/admin/products/' + ${productDto.id} + '/edit'} : @{/admin/products/add}" 
+                      th:object="${productDto}" method="POST">
+                    
+                    <div class="row g-3">
+                        <!-- Category -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Category / वर्ग *</label>
+                            <select th:field="*{categoryId}" class="form-select form-select-sm" th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
+                                <option value="">-- Select Category --</option>
+                                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name + ' (' + (cat.nameMr != null ? cat.nameMr : '') + ')'}">Seeds</option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+                        </div>
+
+                        <!-- Product Name (English) -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Product Name (English) *</label>
+                            <input type="text" th:field="*{name}" class="form-control form-control-sm" placeholder="e.g. Mahyco Bollgard II Cotton Seeds (475g)" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                        </div>
+
+                        <!-- Product Name (Marathi) -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">उत्पादनाचे नाव (मराठी)</label>
+                            <input type="text" th:field="*{nameMr}" class="form-control form-control-sm" placeholder="उदा. माहिको बीजी-२ कापूस बियाणे">
+                        </div>
+
+                        <!-- Company / Brand -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Company / Manufacturer *</label>
+                            <input type="text" th:field="*{company}" class="form-control form-control-sm" placeholder="e.g. Syngenta, Mahyco, IFFCO, Bayer" th:classappend="${#fields.hasErrors('company')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></div>
+                        </div>
+
+                        <!-- Price (MRP) -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">MRP / Price (₹) *</label>
+                            <input type="number" step="0.01" th:field="*{price}" class="form-control form-control-sm" placeholder="0.00" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                        </div>
+
+                        <!-- Discount Price -->
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-dark">Discount / Offer Price (₹)</label>
+                            <input type="number" step="0.01" th:field="*{discountPrice}" class="form-control form-control-sm" placeholder="Leave empty if same as MRP">
+                        </div>
+
+                        <!-- GST Rate % -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">GST Tax Rate *</label>
+                            <select th:field="*{gstRate}" class="form-select form-select-sm">
+                                <option value="0.00">0% (Seeds / Exempt)</option>
+                                <option value="5.00">5% (Fertilizers / Feed)</option>
+                                <option value="12.00">12% (Drip / Hand Sprayers)</option>
+                                <option value="18.00">18% (Pesticides / PGR)</option>
+                            </select>
+                        </div>
+
+                        <!-- Initial Stock -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Stock Quantity (Units) *</label>
+                            <input type="number" th:field="*{stockQuantity}" class="form-control form-control-sm" min="0" th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}"></div>
+                        </div>
+
+                        <!-- Minimum Stock Threshold -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Minimum Stock Alert Level *</label>
+                            <input type="number" th:field="*{minimumStock}" class="form-control form-control-sm" min="0">
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Listing Status</label>
+                            <select th:field="*{status}" class="form-select form-select-sm">
+                                <option value="ACTIVE">ACTIVE (Visible in Store)</option>
+                                <option value="INACTIVE">INACTIVE (Hidden)</option>
+                            </select>
+                        </div>
+
+                        <!-- SKU -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">SKU Code</label>
+                            <input type="text" th:field="*{sku}" class="form-control form-control-sm" placeholder="e.g. MAH-COT-01">
+                        </div>
+
+                        <!-- Barcode -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Barcode / EAN</label>
+                            <input type="text" th:field="*{barcode}" class="form-control form-control-sm" placeholder="e.g. 890123456701">
+                        </div>
+
+                        <!-- Batch Number -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Batch Number</label>
+                            <input type="text" th:field="*{batchNumber}" class="form-control form-control-sm" placeholder="e.g. BCH-2026-01">
+                        </div>
+
+                        <!-- Expiry Date -->
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-dark">Expiry Date (if applicable)</label>
+                            <input type="date" th:field="*{expiryDate}" class="form-control form-control-sm">
+                        </div>
+
+                        <!-- Image File Name -->
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold text-dark">Product Image Name (Place in /images folder)</label>
+                            <input type="text" th:field="*{existingImage}" class="form-control form-control-sm" placeholder="e.g. cotton_seeds.jpg, fertilizer_npk.jpg, battery_sprayer.jpg">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Product Description</label>
+                            <textarea th:field="*{description}" class="form-control form-control-sm" rows="3" placeholder="Technical specifications, features, composition..."></textarea>
+                        </div>
+
+                        <!-- Usage Instructions -->
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Agronomic Usage & Spraying Instructions</label>
+                            <textarea th:field="*{usageInstructions}" class="form-control form-control-sm" rows="3" placeholder="Dosage per acre / liter of water, application stages, safety precautions..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top d-flex gap-2">
+                        <button type="submit" class="btn btn-success px-4 fw-semibold text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 13px;">
+                            <i class="ti ti-check me-1"></i> <span th:text="${isEdit} ? 'Save Changes' : 'Publish Product'">Save Product</span>
+                        </button>
+                        <a th:href="@{/admin/products}" class="btn btn-light border px-4" style="font-size: 13px;">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

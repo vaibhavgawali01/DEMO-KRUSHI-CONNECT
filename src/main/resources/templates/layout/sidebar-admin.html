@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="admin-sidebar(activeTab)" class="admin-sidebar-wrap mb-4">
+
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img th:src="@{/images/saptashrungi_logo_round.jpg}" class="admin-sidebar-logo shadow-sm" alt="Shop Logo"
+                     onerror="this.src='https://ui-avatars.com/api/?name=SA&background=16a34a&color=fff&rounded=true';">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate">Admin Portal</div>
+                <div class="admin-sidebar-sub text-truncate">सप्तशृंगी ॲग्रो सर्व्हिसेस</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section">Operations & Management</div>
+    <nav class="nav flex-column gap-1">
+        <a th:href="@{/admin/dashboard}" class="admin-nav-link" th:classappend="${activeTab == 'dashboard'} ? ' active'">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+        </a>
+        <a th:href="@{/admin/products}" class="admin-nav-link" th:classappend="${activeTab == 'products'} ? ' active'">
+            <i class="bi bi-box-seam-fill"></i>
+            <span>Products</span>
+        </a>
+        <a th:href="@{/admin/categories}" class="admin-nav-link" th:classappend="${activeTab == 'categories'} ? ' active'">
+            <i class="bi bi-tags-fill"></i>
+            <span>Categories</span>
+        </a>
+        <a th:href="@{/admin/inventory}" class="admin-nav-link" th:classappend="${activeTab == 'inventory'} ? ' active'">
+            <i class="bi bi-boxes"></i>
+            <span>Inventory</span>
+        </a>
+        <a th:href="@{/admin/expiry-tracking}" class="admin-nav-link" th:classappend="${activeTab == 'expiry'} ? ' active'">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span>Expiry Tracking</span>
+            <span class="admin-nav-badge-warn">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section">Sales &amp; Customers</div>
+    <nav class="nav flex-column gap-1">
+        <a th:href="@{/admin/customers}" class="admin-nav-link" th:classappend="${activeTab == 'customers'} ? ' active'">
+            <i class="bi bi-people-fill"></i>
+            <span>Customers</span>
+        </a>
+        <a th:href="@{/admin/udhari}" class="admin-nav-link" th:classappend="${activeTab == 'udhari'} ? ' active'">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span>उधारी खाते (Credit)</span>
+        </a>
+        <a th:href="@{/admin/payments}" class="admin-nav-link" th:classappend="${activeTab == 'payments'} ? ' active'">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span>Payments</span>
+        </a>
+        <a th:href="@{/admin/offers}" class="admin-nav-link" th:classappend="${activeTab == 'offers'} ? ' active'">
+            <i class="bi bi-percent text-danger"></i>
+            <span>Offers &amp; Coupons</span>
+        </a>
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section">Reports &amp; Config</div>
+    <nav class="nav flex-column gap-1">
+        <a th:href="@{/admin/reports}" class="admin-nav-link" th:classappend="${activeTab == 'reports'} ? ' active'">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span>Reports Center</span>
+        </a>
+        <a th:href="@{/admin/backup}" class="admin-nav-link" th:classappend="${activeTab == 'backup'} ? ' active'">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span>Database Backup</span>
+        </a>
+        <a th:href="@{/admin/settings}" class="admin-nav-link" th:classappend="${activeTab == 'settings'} ? ' active'">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span>Shop Settings</span>
+        </a>
+    </nav>
+
+    <!-- Logout Area -->
+    <div class="admin-sidebar-footer mt-4">
+        <form th:action="@{/logout}" method="POST" class="m-0">
+            <button type="submit" class="admin-logout-btn w-100">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout Portal</span>
+            </button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

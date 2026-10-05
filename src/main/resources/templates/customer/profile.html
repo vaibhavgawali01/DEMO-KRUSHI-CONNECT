@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Farmer Profile')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('profile')}"></div>
+        </div>
+
+        <div class="col-lg-9">
+            <!-- Flash Message -->
+            <div th:if="${successMessage}" class="alert alert-success border-0 small mb-3">
+                <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${successMessage}"></span>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <h5 class="mb-0 fw-bold text-success"><i class="bi bi-person-lines-fill me-2"></i>Farmer Profile Settings / माझी माहिती</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form th:action="@{/customer/profile}" th:object="${user}" method="POST">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Full Name / नाव</label>
+                                <input type="text" th:field="*{name}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Mobile Number (Read-only)</label>
+                                <input type="text" th:field="*{mobile}" class="form-control bg-light" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Email Address (Read-only)</label>
+                                <input type="email" th:field="*{email}" class="form-control bg-light" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Village / गाव</label>
+                                <input type="text" th:field="*{village}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Taluka / तालुका</label>
+                                <input type="text" th:field="*{taluka}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">District / जिल्हा</label>
+                                <input type="text" th:field="*{district}" class="form-control" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-success">Farm Address / शेताचा पत्ता</label>
+                                <textarea th:field="*{address}" class="form-control" rows="2" required></textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-success">Change Password (Leave blank to keep current)</label>
+                                <input type="password" name="passwordHash" class="form-control" placeholder="New Password">
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-krushi px-4 fw-bold">Update Profile / माहिती साठवा</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

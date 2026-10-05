@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Reports Center')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-5 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('reports')}"></div>
+        </div>
+
+        <div class="col-lg-10">
+            <!-- Header & Filter Bar -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                        <div>
+                            <h4 class="fw-bold text-success mb-0"><i class="bi bi-file-earmark-bar-graph me-2"></i>Sales, Stock & Financial Reports</h4>
+                            <small class="text-muted">Generate comprehensive operational and audit intelligence</small>
+                        </div>
+
+                        <!-- CSV Export Buttons -->
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/admin/reports/export/sales(startDate=${filter.startDate}, endDate=${filter.endDate})}" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Sales CSV
+                            </a>
+                            <a th:href="@{/admin/reports/export/stock}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Stock CSV
+                            </a>
+                            <a th:href="@{/admin/reports/export/udhari}" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Udhari CSV
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Date Range Filter Form -->
+                    <form th:action="@{/admin/reports}" method="GET" class="row g-2 align-items-end pt-3 border-top">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted">Start Date</label>
+                            <input type="date" name="startDate" class="form-control form-control-sm" th:value="${filter.startDate}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted">End Date</label>
+                            <input type="date" name="endDate" class="form-control form-control-sm" th:value="${filter.endDate}">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-krushi btn-sm w-100 fw-bold">
+                                <i class="bi bi-funnel me-1"></i> Apply Date Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Report KPI Summary Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted d-block">Period Sales Revenue</small>
+                        <h4 class="fw-bold text-success mb-0" th:text="'₹' + ${salesReport.totalRevenue}">₹85,000</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted d-block">Total GST Collected</small>
+                        <h4 class="fw-bold text-primary mb-0" th:text="'₹' + ${salesReport.totalGst}">₹4,250</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted d-block">Estimated Gross Profit (~12%)</small>
+                        <h4 class="fw-bold text-dark mb-0" th:text="'₹' + ${profitReport.estimatedProfit}">₹10,200</h4>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-3 bg-light rounded border">
+                        <small class="text-muted d-block">Total Inventory Valuation</small>
+                        <h4 class="fw-bold text-warning mb-0" th:text="'₹' + ${stockReport.totalStockValue}">₹4,50,000</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Tabs -->
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white border-bottom pt-3 px-4">
+                    <ul class="nav nav-tabs card-header-tabs" id="reportTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active fw-bold text-success" id="sales-tab" data-bs-toggle="tab" data-bs-target="#salesReportContent" type="button" role="tab">Sales Orders Report</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold text-success" id="stock-tab" data-bs-toggle="tab" data-bs-target="#stockReportContent" type="button" role="tab">Stock & Inventory Report</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold text-success" id="udhari-tab" data-bs-toggle="tab" data-bs-target="#udhariReportContent" type="button" role="tab">Udhari Credit Report</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body p-4 tab-content" id="reportTabsContent">
+                    <!-- Tab 1: Sales Orders -->
+                    <div class="tab-pane fade show active" id="salesReportContent" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-krushi mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Subtotal</th>
+                                        <th>Discount</th>
+                                        <th>GST</th>
+                                        <th>Total</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="o : ${salesReport.orders}">
+                                        <td><strong class="text-dark" th:text="${o.orderNumber}">KSK-001</strong></td>
+                                        <td class="small" th:text="${#temporals.format(o.createdAt, 'dd MMM yyyy')}">Date</td>
+                                        <td class="small" th:text="${o.user.name}">Customer</td>
+                                        <td th:text="'₹' + ${o.subtotal}">₹4,380</td>
+                                        <td class="text-danger" th:text="'-₹' + ${o.discount}">-₹100</td>
+                                        <td class="text-muted" th:text="'₹' + ${o.gst}">₹219</td>
+                                        <td><strong class="text-success" th:text="'₹' + ${o.total}">₹4,499</strong></td>
+                                        <td><span class="badge bg-light text-dark border" th:text="${o.paymentMethod.displayNameEn}">UPI</span></td>
+                                        <td><span class="badge bg-success" th:text="${o.orderStatus.displayNameEn}">Delivered</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Stock & Valuation -->
+                    <div class="tab-pane fade" id="stockReportContent" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-krushi mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Unit Price</th>
+                                        <th>In Stock Qty</th>
+                                        <th>Stock Valuation</th>
+                                        <th>Min Level</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="p : ${stockReport.products}">
+                                        <td><strong class="text-dark" th:text="${p.name}">Product</strong></td>
+                                        <td th:text="${p.category.name}">Category</td>
+                                        <td th:text="'₹' + ${p.price}">₹820</td>
+                                        <td><strong th:text="${p.stockQuantity} + ' Units'">65 Units</strong></td>
+                                        <td><strong class="text-success" th:text="'₹' + ${p.price * p.stockQuantity}">₹53,300</strong></td>
+                                        <td th:text="${p.minimumStock} + ' Units'">10 Units</td>
+                                        <td>
+                                            <span class="badge" th:classappend="${p.stockQuantity > p.minimumStock} ? 'bg-success' : 'bg-warning text-dark'" th:text="${p.stockQuantity > p.minimumStock} ? 'Good' : 'Low Stock'">Good</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Udhari Report -->
+                    <div class="tab-pane fade" id="udhariReportContent" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-krushi mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Mobile</th>
+                                        <th>Total Credit</th>
+                                        <th>Paid Amount</th>
+                                        <th>Remaining Balance</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="u : ${udhariReport.udhariList}">
+                                        <td><strong class="text-dark" th:text="${u.user.name}">Customer</strong></td>
+                                        <td th:text="${u.user.mobile}">Mobile</td>
+                                        <td th:text="'₹' + ${u.totalAmount}">₹5,000</td>
+                                        <td class="text-success fw-bold" th:text="'₹' + ${u.paidAmount}">₹2,500</td>
+                                        <td><strong class="text-danger" th:text="'₹' + ${u.remainingAmount}">₹2,500</strong></td>
+                                        <td th:text="${u.dueDate}">Due Date</td>
+                                        <td>
+                                            <span class="badge" th:classappend="${u.status.name() == 'OVERDUE'} ? 'bg-danger' : 'bg-warning text-dark'" th:text="${u.status.displayNameEn}">Active</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

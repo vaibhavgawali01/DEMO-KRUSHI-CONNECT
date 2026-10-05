@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Weather Forecast')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+            <i class="bi bi-cloud-sun me-1"></i> Agricultural Meteorology
+        </span>
+        <h2 class="fw-bold text-success" th:text="#{advisory.weather.title}">Local Agri Weather Forecast</h2>
+        <p class="text-muted">Plan spraying, fertilizer broadcasting, and irrigation according to real-time micro-climate trends</p>
+    </div>
+
+    <!-- City Search Form -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <form th:action="@{/weather}" method="GET" class="d-flex gap-2">
+                <input type="text" name="city" class="form-control" placeholder="Enter City/District (e.g. Sangli, Kolhapur, Pune, Satara)..." th:value="${selectedCity}">
+                <button type="submit" class="btn btn-krushi px-4">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Weather Overview Card -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white" style="background: linear-gradient(135deg, #1565c0, #0288d1);">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h3 class="fw-bold mb-0 text-white"><i class="bi bi-geo-alt-fill text-warning me-2"></i><span th:text="${weather.city}">Sangli</span></h3>
+                            <small class="text-white-50">Maharashtra, India</small>
+                        </div>
+                        <span class="badge bg-light text-dark px-3 py-2 fw-bold">Live Forecast</span>
+                    </div>
+
+                    <div class="row align-items-center my-4">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            <h1 class="display-3 fw-bold mb-0 text-white" th:text="${weather.temperature}">28°C</h1>
+                            <p class="lead text-white-50 mb-0" th:text="${weather.condition}">Partly Cloudy / अंशतः ढगाळ</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-white bg-opacity-10 p-3 rounded-3">
+                                <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
+                                    <span class="text-white-50" th:text="#{advisory.weather.rain}">Rain Probability:</span>
+                                    <strong class="text-white" th:text="${weather.rainChance}">30%</strong>
+                                </div>
+                                <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
+                                    <span class="text-white-50" th:text="#{advisory.weather.humidity}">Humidity:</span>
+                                    <strong class="text-white" th:text="${weather.humidity}">74%</strong>
+                                </div>
+                                <div class="d-flex justify-content-between py-1">
+                                    <span class="text-white-50" th:text="#{advisory.weather.wind}">Wind Speed:</span>
+                                    <strong class="text-white" th:text="${weather.windSpeed}">14 km/h</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agri Advisory Alert -->
+                    <div class="bg-warning text-dark p-3 rounded-3 fw-semibold small mt-3">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <span th:text="${#locale.language == 'mr' ? weather.agriAdvisoryMr : weather.agriAdvisory}">Agri Advisory</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

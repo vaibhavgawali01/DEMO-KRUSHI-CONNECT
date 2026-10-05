@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('My Orders')}"></head>
+<body>
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container my-4">
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('orders')}"></div>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-success"><i class="bi bi-bag-check-fill me-2"></i>My Order History / खरेदी इतिहास</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-krushi mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total Amount</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${orderPage.empty}">
+                                    <td colspan="7" class="text-center py-5 text-muted">You have not placed any orders yet.</td>
+                                </tr>
+                                <tr th:each="order : ${orderPage.content}">
+                                    <td><strong class="text-dark" th:text="${order.orderNumber}">KSK-2026-00001</strong></td>
+                                    <td class="small" th:text="${#temporals.format(order.createdAt, 'dd MMM yyyy')}">01 Aug 2026</td>
+                                    <td class="small" th:text="${order.orderItems.size()} + ' Items'">2 Items</td>
+                                    <td><strong class="text-success" th:text="'₹' + ${order.total}">₹4,499.00</strong></td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border" th:text="${order.paymentMethod.displayNameEn}">UPI</span>
+                                        <div class="small" th:classappend="${order.paymentStatus.name() == 'PAID'} ? 'text-success' : 'text-danger'" th:text="${order.paymentStatus.displayNameEn}">Paid</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge" 
+                                              th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'bg-success' : (${order.orderStatus.name() == 'PENDING'} ? 'bg-warning text-dark' : 'bg-info')"
+                                              th:text="${order.orderStatus.displayNameEn}">Delivered</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a th:href="@{'/customer/orders/' + ${order.id}}" class="btn btn-outline-success py-1 px-2" title="Details">
+                                                <i class="bi bi-eye"></i> Details
+                                            </a>
+                                            <a th:href="@{'/customer/orders/' + ${order.id} + '/invoice'}" target="_blank" class="btn btn-outline-primary py-1 px-2" title="Invoice">
+                                                <i class="bi bi-file-earmark-pdf"></i> Bill
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>
