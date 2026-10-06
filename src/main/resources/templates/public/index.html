@@ -239,49 +239,95 @@
     </div>
 </section>
 
-<!-- Saptashrungi Agro Services Storefront Showcase -->
+<!-- Saptashrungi Agro Services Storefront Showcase v2 -->
+<section class="container my-5">
+    <div class="flagship-store-card">
+        <div class="row g-0 align-items-stretch">
+            <!-- Left: High-Res Store Image Showcase -->
+            <div class="col-lg-6">
+                <div class="flagship-img-container">
+                    <img th:src="@{/images/saptashrungi_shop.jpg}" alt="Saptashrungi Agro Services Shop" class="flagship-img" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                    <div class="flagship-img-overlay"></div>
+                    
+                    <!-- Live Outlet Status Badge -->
+                    <div class="flagship-badge-top">
+                        <span class="flagship-badge-dot"></span>
+                        <span th:text="${#locale.language == 'mr' ? 'शासकीय मान्यताप्राप्त अधिकृत केंद्र' : 'Government Authorized Outlet'}">Government Authorized Outlet</span>
+                    </div>
 
-<section class="container my-4">
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: #ffffff; border: 1px solid #e5e7eb !important;">
-        <div class="row g-0 align-items-center">
-            <div class="col-lg-7">
-                <div class="position-relative">
-                    <img th:src="@{/images/saptashrungi_shop.jpg}" alt="Saptashrungi Agro Services Shop" class="img-fluid w-100" style="object-fit: cover; max-height: 420px;" onerror="this.src='/images/saptashrungi_shop.jpg'">
-                    <span class="badge bg-success position-absolute top-0 start-0 m-3 px-3 py-2 fs-6 shadow">
-                        <i class="ti ti-building-store me-1"></i> <span th:text="${#locale.language == 'mr' ? 'अधिकृत कृषी केंद्र' : 'Authorized Farmers Outlet'}">Authorized Farmers Outlet</span>
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-5 p-4 p-lg-5">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Shop Logo" class="rounded-circle shadow-sm" style="width: 58px; height: 58px; object-fit: cover; border: 2px solid #16a34a;">
-                    <div>
-                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning px-2 py-1 rounded-pill fw-bold" style="font-size: 11px;"
-                              th:text="${#locale.language == 'mr' ? '🌾 अधिकृत कृषी केंद्र' : '🌾 Official Agro Store'}">
-                            🌾 Official Agro Store
+                    <!-- Bottom Floating Info Badges -->
+                    <div class="flagship-badge-bottom">
+                        <span class="flagship-pill-chip">
+                            <i class="bi bi-clock me-1 text-warning"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'सकाळी ८:०० ते रात्री ८:३०' : 'Open 8:00 AM - 8:30 PM'}">Open 8:00 AM - 8:30 PM</span>
                         </span>
-                        <h3 class="fw-bold text-dark mb-0 mt-1"
-                            th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">
-                            Saptashrungi Agro Services
-                        </h3>
+                        <span class="flagship-pill-chip">
+                            <i class="bi bi-geo-alt-fill me-1 text-danger"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर' : 'Mirakhnagar, Vaijapur'}">Mirakhnagar, Vaijapur</span>
+                        </span>
                     </div>
                 </div>
-                <p class="text-muted small mb-4" style="line-height: 1.6;" th:if="${#locale.language == 'mr'}">
-                    आपल्या विश्वासाचे अधिकृत कृषी सेवा केंद्र! सर्व नामांकित कंपन्यांचे प्रमाणित संकरित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, कीटकनाशके, फवारणी यंत्रे व ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.
-                </p>
-                <p class="text-muted small mb-4" style="line-height: 1.6;" th:if="${#locale.language != 'mr'}">
-                    Your trusted authorized agro services center! Certified hybrid seeds, high-grade chemical &amp; organic fertilizers, crop protection, spray pumps, and drip irrigation equipment available at fair prices.
-                </p>
+            </div>
 
-                <div class="d-flex gap-2 flex-wrap">
-                    <a th:href="@{/products}" class="btn btn-success px-4 py-2 fw-semibold shadow-sm" style="background-color: #16a34a; border: none;">
-                        <i class="ti ti-shopping-cart me-1"></i> <span th:text="${#locale.language == 'mr' ? 'साहित्य खरेदी करा' : 'Shop Inputs'}">Shop Inputs</span>
+            <!-- Right: Content & Action Details -->
+            <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Header with Verified Logo & Badge -->
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="position-relative">
+                            <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Shop Logo" class="flagship-logo-ring">
+                            <i class="bi bi-patch-check-fill text-success position-absolute bottom-0 end-0 fs-5" style="background:#fff; border-radius:50%; line-height:1;"></i>
+                        </div>
+                        <div>
+                            <span class="badge px-3 py-1 rounded-pill fw-bold text-success" style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.75rem;"
+                                  th:text="${#locale.language == 'mr' ? '🌿 अधिकृत कृषी सेवा केंद्र' : '🌿 Official Agro Store'}">
+                                🌿 Official Agro Store
+                            </span>
+                            <h2 class="flagship-title-gradient mb-0 mt-1"
+                                th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">
+                                Saptashrungi Agro Services
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <p class="text-secondary mb-3" style="line-height: 1.65; font-size: 0.95rem;" th:if="${#locale.language == 'mr'}">
+                        आपल्या विश्वासाचे अधिकृत कृषी सेवा केंद्र! सर्व नामांकित कंपन्यांचे प्रमाणित संकरित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, कीटकनाशके, फवारणी यंत्रे व ठिबक सिंचन साहित्य थेट शेतकरी दरात उपलब्ध.
+                    </p>
+                    <p class="text-secondary mb-3" style="line-height: 1.65; font-size: 0.95rem;" th:if="${#locale.language != 'mr'}">
+                        Your trusted authorized agro services center! Certified hybrid seeds, high-grade chemical &amp; organic fertilizers, crop protection, spray pumps, and drip irrigation equipment available at fair prices.
+                    </p>
+
+                    <!-- Feature Badges Strip -->
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <span class="flagship-feature-pill">
+                            <i class="bi bi-patch-check text-success"></i>
+                            <span th:text="${#locale.language == 'mr' ? '१००% अस्सल बियाणे' : '100% Certified Seeds'}">100% Certified Seeds</span>
+                        </span>
+                        <span class="flagship-feature-pill">
+                            <i class="bi bi-tag text-primary"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'रास्त APMC दर' : 'Fair APMC Rates'}">Fair APMC Rates</span>
+                        </span>
+                        <span class="flagship-feature-pill">
+                            <i class="bi bi-credit-card-2-front text-warning"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'उधारी खाते उपलब्ध' : 'Credit Facility'}">Credit Facility</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Action CTA Buttons -->
+                <div class="d-flex gap-2 flex-wrap pt-3 border-top" style="border-color: rgba(22, 163, 74, 0.15) !important;">
+                    <a th:href="@{/products}" class="btn-flagship-primary">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'साहित्य खरेदी करा' : 'Shop Inputs'}">Shop Inputs</span>
                     </a>
-                    <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success px-3 py-2 fw-semibold">
-                        <i class="ti ti-map-pin me-1"></i> <span th:text="${#locale.language == 'mr' ? '📍 दुकानाचा पत्ता' : '📍 Store Map'}">📍 Store Map</span>
+                    <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" rel="noopener noreferrer" class="btn-flagship-map">
+                        <i class="bi bi-geo-alt-fill text-danger fs-5"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'दुकानाचा नकाशा' : 'Store Map'}">Store Map</span>
                     </a>
-                    <a href="tel:+918600813827" class="btn btn-light border px-3 py-2 fw-semibold text-dark">
-                        <i class="ti ti-phone-call text-success me-1"></i> <span th:text="${#locale.language == 'mr' ? 'कॉल करा 8600813827' : 'Call 8600813827'}">Call 8600813827</span>
+                    <a href="tel:+918600813827" class="btn-flagship-call">
+                        <i class="bi bi-telephone-fill text-success fs-5"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'कॉल करा 8600813827' : 'Call 8600813827'}">Call 8600813827</span>
                     </a>
                 </div>
             </div>
@@ -289,58 +335,84 @@
     </div>
 </section>
 
-<!-- Product Categories Grid -->
-<section class="container mb-5">
+<!-- Product Categories Grid v2 -->
+<section class="container my-5">
     <div class="text-center mb-4">
-        <h2 class="fw-bold text-success" th:text="#{home.categories.title}">Explore Agricultural Categories</h2>
-        <p class="text-muted" th:text="#{home.categories.subtitle}">Comprehensive range of verified farming inputs and modern equipment</p>
+        <span class="badge px-3 py-1 rounded-pill fw-semibold mb-2 d-inline-block text-success"
+              style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.78rem;"
+              th:text="${#locale.language == 'mr' ? '🌱 आमची उत्पादने' : '🌱 Product Range'}">
+            🌱 Product Range
+        </span>
+        <h2 class="fw-bold text-success mb-2" style="font-size: 1.85rem;"
+            th:text="${#locale.language == 'mr' ? 'कृषी उत्पादनांची वर्गवारी' : 'Explore Agricultural Categories'}">
+            Explore Agricultural Categories
+        </h2>
+        <p class="text-muted small mx-auto" style="max-width: 580px;"
+           th:text="${#locale.language == 'mr' ? 'सर्व प्रकारची प्रमाणित शेती उत्पादने आणि आधुनिक साधने एकाच ठिकाणी उपलब्ध' : 'Comprehensive range of verified farming inputs and modern equipment'}">
+            Comprehensive range of verified farming inputs and modern equipment
+        </p>
     </div>
+    
     <div class="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-3">
         <div class="col" th:each="cat : ${categories}">
-            <a th:href="@{/products(categoryId=${cat.id})}" class="category-pill-card h-100">
-                <div class="category-icon-bubble">
-                    <i class="bi bi-seedling" th:if="${cat.id == 1}"></i>
-                    <i class="bi bi-droplet-half" th:if="${cat.id == 2}"></i>
-                    <i class="bi bi-bug" th:if="${cat.id == 3}"></i>
-                    <i class="bi bi-tools" th:if="${cat.id == 4}"></i>
-                    <i class="bi bi-water" th:if="${cat.id == 5}"></i>
-                    <i class="bi bi-egg-fried" th:if="${cat.id == 6}"></i>
-                    <i class="bi bi-recycle" th:if="${cat.id == 7}"></i>
-                    <i class="bi bi-flower2" th:if="${cat.id == 8}"></i>
+            <a th:href="@{/products(categoryId=${cat.id})}" 
+               th:class="'category-card-v2 h-100 ' + (${cat.id == 1 ? 'cat-theme-seeds' : cat.id == 2 ? 'cat-theme-fertilizers' : cat.id == 3 ? 'cat-theme-pesticides' : cat.id == 4 ? 'cat-theme-tools' : cat.id == 5 ? 'cat-theme-irrigation' : cat.id == 6 ? 'cat-theme-animalfeed' : cat.id == 7 ? 'cat-theme-organic' : 'cat-theme-promoters'})">
+                
+                <div class="w-100 d-flex flex-column align-items-center">
+                    <div class="category-icon-box-v2">
+                        <i class="bi bi-flower1" th:if="${cat.id == 1}"></i>
+                        <i class="bi bi-droplet-half" th:if="${cat.id == 2}"></i>
+                        <i class="bi bi-bug-fill" th:if="${cat.id == 3}"></i>
+                        <i class="bi bi-tools" th:if="${cat.id == 4}"></i>
+                        <i class="bi bi-water" th:if="${cat.id == 5}"></i>
+                        <i class="bi bi-egg-fried" th:if="${cat.id == 6}"></i>
+                        <i class="bi bi-recycle" th:if="${cat.id == 7}"></i>
+                        <i class="bi bi-flower2" th:if="${cat.id == 8 or (cat.id > 8)}"></i>
+                    </div>
+                    <div class="category-title-v2" th:text="${#locale.language == 'mr' and cat.nameMr != null ? cat.nameMr : cat.name}">Category</div>
+                    <div class="category-sub-v2" th:text="${cat.description}">Short description</div>
                 </div>
-                <strong class="d-block" th:text="${#locale.language == 'mr' and cat.nameMr != null ? cat.nameMr : cat.name}">Category</strong>
-                <small class="text-muted text-truncate w-100" th:text="${cat.description}">Short description</small>
+
+                <div class="category-explore-link mt-2">
+                    <span th:text="${#locale.language == 'mr' ? 'पहा' : 'Explore'}">Explore</span>
+                    <i class="bi bi-arrow-right"></i>
+                </div>
             </a>
         </div>
     </div>
 </section>
 
-
-
-<!-- Active Offers Carousel / Grid -->
-
-<section th:if="${offers != null and !offers.isEmpty()}" class="container mb-5">
-    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #fff8e1, #ffecb3); border-radius: var(--radius-md);">
-        <div class="card-body p-4">
-            <div class="row align-items-center">
-                <div class="col-lg-4 mb-3 mb-lg-0">
-                    <span class="badge bg-danger mb-2 px-3 py-1">Limited Time Special</span>
-                    <h3 class="fw-bold text-dark" th:text="#{home.offers.title}">Current Seasonal Offers</h3>
-                    <p class="text-muted small m-0">Use exclusive coupon codes at checkout for instant discounts.</p>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row g-3">
-                        <div class="col-md-6" th:each="offer : ${offers}">
-                            <div class="bg-white p-3 rounded border border-warning shadow-sm">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <h6 class="fw-bold text-success mb-1" th:text="${offer.title}">Offer Title</h6>
-                                    <span class="badge bg-success" th:text="${offer.discountType == 'PERCENTAGE' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' OFF'}">10% OFF</span>
+<!-- Active Offers Banner v2 -->
+<section th:if="${offers != null and !offers.isEmpty()}" class="container my-5">
+    <div class="offers-banner-v2 p-4 p-md-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-4">
+                <span class="badge bg-danger mb-2 px-3 py-1 rounded-pill shadow-sm" style="font-size: 0.78rem;">
+                    🔥 <span th:text="${#locale.language == 'mr' ? 'मर्यादित कालावधी ऑफर' : 'Limited Time Special'}">Limited Time Special</span>
+                </span>
+                <h3 class="fw-bold text-dark mb-2" th:text="${#locale.language == 'mr' ? 'हंगामातील विशेष ऑफर्स व सवलती' : 'Current Seasonal Offers'}">
+                    Current Seasonal Offers
+                </h3>
+                <p class="text-secondary small mb-0" th:text="${#locale.language == 'mr' ? 'ऑर्डर करताना खालील कूपन कोड वापरा आणि त्वरित सवलत मिळवा.' : 'Use exclusive coupon codes at checkout for instant discounts.'}">
+                    Use exclusive coupon codes at checkout for instant discounts.
+                </p>
+            </div>
+            <div class="col-lg-8">
+                <div class="row g-3">
+                    <div class="col-md-6" th:each="offer : ${offers}">
+                        <div class="coupon-card-v2">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="fw-bold text-dark mb-0" th:text="${offer.title}">Offer Title</h6>
+                                <span class="badge bg-success px-2 py-1 rounded-pill" th:text="${offer.discountType == 'PERCENTAGE' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' OFF'}">10% OFF</span>
+                            </div>
+                            <p class="small text-muted mb-3" th:text="${offer.description}">Offer details</p>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: #fef3c7 !important;">
+                                <div class="coupon-code-pill" th:onclick="'navigator.clipboard.writeText(\'' + ${offer.couponCode} + '\'); alert(\'' + (${#locale.language == 'mr' ? 'कूपन कोड कॉपी केला: ' : 'Coupon copied: '}) + ${offer.couponCode} + '\');'">
+                                    <i class="bi bi-scissors text-warning"></i>
+                                    <span th:text="${offer.couponCode}">KHARIF10</span>
+                                    <i class="bi bi-copy text-muted ms-1" style="font-size:0.75rem;"></i>
                                 </div>
-                                <p class="small text-muted mb-2" th:text="${offer.description}">Offer details</p>
-                                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                                    <code class="fw-bold fs-6 text-dark" th:text="${offer.couponCode}">KHARIF10</code>
-                                    <small class="text-muted" th:text="'Min Order: ₹' + ${offer.minOrderAmount}">Min: ₹1000</small>
-                                </div>
+                                <small class="text-secondary fw-semibold" th:text="${#locale.language == 'mr' ? 'किमान ऑर्डर: ₹' + offer.minOrderAmount : 'Min: ₹' + offer.minOrderAmount}">Min: ₹1000</small>
                             </div>
                         </div>
                     </div>
@@ -350,49 +422,90 @@
     </div>
 </section>
 
-<!-- Why Farmers Trust Us Section -->
-<section class="bg-white py-5 mb-5 border-top border-bottom">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold text-success" th:text="#{home.why_us.title}">Why Farmers Trust Krushi Seva Kendra</h2>
-            <p class="text-muted">Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.</p>
+<!-- Why Farmers Trust Us Section v2 -->
+<section class="container my-5 py-3">
+    <div class="text-center mb-5">
+        <span class="badge px-3 py-1 rounded-pill fw-semibold mb-2 d-inline-block text-success"
+              style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.78rem;"
+              th:text="${#locale.language == 'mr' ? '⭐ शेतकऱ्यांचा विश्वास' : '⭐ Why Farmers Trust Us'}">
+            ⭐ Why Farmers Trust Us
+        </span>
+        <h2 class="fw-bold text-success mb-2" style="font-size: 1.85rem;"
+            th:text="${#locale.language == 'mr' ? 'शेतकरी सप्तशृंगी ॲग्रोवर का विश्वास ठेवतात?' : 'Why Farmers Trust Saptashrungi Agro Services'}">
+            Why Farmers Trust Saptashrungi Agro Services
+        </h2>
+        <p class="text-muted small mx-auto" style="max-width: 580px;"
+           th:text="${#locale.language == 'mr' ? 'पारदर्शकता, शासकीय प्रमाणित गुणवत्ता, रास्त भाव आणि तत्पर शेतकरी सेवेची दशकाहून अधिक काळाची खात्री.' : 'Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.'}">
+            Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <!-- 1. 100% Certified Genuine -->
+        <div class="col-md-3 col-sm-6">
+            <div class="trust-card-v2">
+                <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
+                    th:text="${#locale.language == 'mr' ? '१००% प्रमाणित अस्सल उत्पादने' : '100% Certified Genuine'}">
+                    100% Certified Genuine
+                </h5>
+                <p class="small text-muted mb-0"
+                   th:text="${#locale.language == 'mr' ? 'सर्व बियाणे व औषधे शासकीय मानकांनुसार तपासलेली आणि अधिकृत कंपनी सीलबंद पॅकिंगमध्ये.' : 'All seed lots and chemicals are batch-tested and government certified.'}">
+                    All seed lots and chemicals are batch-tested and government certified.
+                </p>
+            </div>
         </div>
-        <div class="row g-4 text-center">
-            <div class="col-md-3">
-                <div class="p-3">
-                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <h5 class="fw-bold" th:text="#{home.why_us.quality}">100% Certified Genuine</h5>
-                    <p class="small text-muted">All seed lots and chemicals are batch-tested and government certified.</p>
+
+        <!-- 2. Fair APMC Rates -->
+        <div class="col-md-3 col-sm-6">
+            <div class="trust-card-v2">
+                <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+                    <i class="bi bi-tag-fill"></i>
                 </div>
+                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
+                    th:text="${#locale.language == 'mr' ? 'रास्त व पारदर्शक APMC भाव' : 'Fair &amp; Transparent Rates'}">
+                    Fair &amp; Transparent Rates
+                </h5>
+                <p class="small text-muted mb-0"
+                   th:text="${#locale.language == 'mr' ? 'कोणतेही छुपे शुल्क नाही. बाजारभावाप्रमाणे रास्त दर आणि सोबत पक्के संगणकीकृत जीएसटी बिल.' : 'Transparent wholesale and retail pricing with standard GST invoices.'}">
+                    Transparent wholesale and retail pricing with standard GST invoices.
+                </p>
             </div>
-            <div class="col-md-3">
-                <div class="p-3">
-                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
-                        <i class="bi bi-tags"></i>
-                    </div>
-                    <h5 class="fw-bold" th:text="#{home.why_us.prices}">Fair APMC Rates</h5>
-                    <p class="small text-muted">Transparent wholesale and retail pricing with standard GST invoices.</p>
+        </div>
+
+        <!-- 3. Udhari Facility -->
+        <div class="col-md-3 col-sm-6">
+            <div class="trust-card-v2">
+                <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <i class="bi bi-credit-card-2-front-fill"></i>
                 </div>
+                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
+                    th:text="${#locale.language == 'mr' ? 'सुलभ उधारी खाते सुविधा' : 'Hassle-Free Credit Facility'}">
+                    Hassle-Free Credit Facility
+                </h5>
+                <p class="small text-muted mb-0"
+                   th:text="${#locale.language == 'mr' ? 'नोंदणीकृत शेतकऱ्यांसाठी हंगामनिहाय सोयीस्कर उधारी लेजर आणि ऑनलाइन हिशोब तपासण्याची सुविधा.' : 'Flexible harvest-to-harvest credit ledger facility for verified farmers.'}">
+                    Flexible harvest-to-harvest credit ledger facility for verified farmers.
+                </p>
             </div>
-            <div class="col-md-3">
-                <div class="p-3">
-                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
-                        <i class="bi bi-credit-card-2-front"></i>
-                    </div>
-                    <h5 class="fw-bold" th:text="#{home.why_us.credit}">Udhari Facility</h5>
-                    <p class="small text-muted">Flexible harvest-to-harvest credit ledger facility for verified farmers.</p>
+        </div>
+
+        <!-- 4. Agronomist Support -->
+        <div class="col-md-3 col-sm-6">
+            <div class="trust-card-v2">
+                <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">
+                    <i class="bi bi-chat-heart-fill"></i>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="p-3">
-                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:65px; height:65px; font-size:1.75rem;">
-                        <i class="bi bi-chat-heart"></i>
-                    </div>
-                    <h5 class="fw-bold" th:text="#{home.why_us.guidance}">Agronomist Support</h5>
-                    <p class="small text-muted">Free dosage advice, crop advisory, and disease diagnosis anytime.</p>
-                </div>
+                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
+                    th:text="${#locale.language == 'mr' ? 'मोफत तज्ज्ञ कृषी सल्ला' : 'Free Agronomist Support'}">
+                    Free Agronomist Support
+                </h5>
+                <p class="small text-muted mb-0"
+                   th:text="${#locale.language == 'mr' ? 'पिकावरील रोग व कीड निदान, फवारणीचे वेळापत्रक आणि खतांच्या योग्य प्रमाणाचे मोफत मार्गदर्शन.' : 'Free dosage advice, crop advisory, and disease diagnosis anytime.'}">
+                    Free dosage advice, crop advisory, and disease diagnosis anytime.
+                </p>
             </div>
         </div>
     </div>

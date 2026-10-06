@@ -1965,3 +1965,454 @@ body {
 [data-theme="dark"] .quick-demo-chip { background: #1e293b; border-color: #334155; color: #cbd5e1; }
 [data-theme="dark"] .auth-security-badge { background: #0f172a; border-color: #334155; color: #64748b; }
 
+/* ===================================================================
+   🌾 ULTRA-PREMIUM HOME PAGE SECTIONS v2.0
+   =================================================================== */
+
+/* 1. Flagship Storefront Showcase */
+.flagship-store-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f7fdf9 100%);
+    border: 1.5px solid rgba(22, 163, 74, 0.22) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 20px 45px -12px rgba(22, 101, 52, 0.12), 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.flagship-store-card:hover {
+    box-shadow: 0 25px 60px -10px rgba(22, 101, 52, 0.18), 0 10px 30px -5px rgba(0, 0, 0, 0.06);
+    border-color: rgba(22, 163, 74, 0.38) !important;
+}
+.flagship-img-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 400px;
+}
+.flagship-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.flagship-store-card:hover .flagship-img {
+    transform: scale(1.04);
+}
+.flagship-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.1) 50%, transparent 100%);
+    pointer-events: none;
+}
+.flagship-badge-top {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(22, 101, 52, 0.90);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+}
+.flagship-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #4ade80;
+    box-shadow: 0 0 10px #4ade80;
+    animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+}
+.flagship-badge-bottom {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    color: #ffffff;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.flagship-pill-chip {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+.flagship-logo-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.18), 0 8px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+.flagship-logo-ring:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+.flagship-title-gradient {
+    font-size: 1.85rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
+}
+.flagship-feature-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+}
+.flagship-feature-pill:hover {
+    background: #dcfce7;
+    transform: translateY(-1px);
+}
+.btn-flagship-primary {
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.65rem 1.4rem;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 8px 20px -4px rgba(22, 163, 74, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+.btn-flagship-primary:hover {
+    background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px -4px rgba(22, 163, 74, 0.5);
+}
+.btn-flagship-map {
+    background: #ffffff;
+    color: #166534;
+    border: 1.5px solid #86efac;
+    font-weight: 600;
+    padding: 0.65rem 1.2rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+.btn-flagship-map:hover {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #14532d;
+    transform: translateY(-2px);
+}
+.btn-flagship-call {
+    background: #f8fafc;
+    color: #1e293b;
+    border: 1.5px solid #e2e8f0;
+    font-weight: 600;
+    padding: 0.65rem 1.2rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+.btn-flagship-call:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+    transform: translateY(-2px);
+}
+
+/* 2. Advanced Agricultural Categories Grid v2 */
+.category-card-v2 {
+    background: #ffffff;
+    border: 1.5px solid var(--cat-border, #e2e8f0);
+    border-radius: 20px;
+    padding: 1.5rem 1.1rem;
+    text-align: center;
+    text-decoration: none;
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 205px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+.category-card-v2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--cat-accent, #16a34a);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+.category-card-v2:hover::before {
+    transform: scaleX(1);
+}
+.category-card-v2:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 36px -8px var(--cat-shadow, rgba(22, 163, 74, 0.18));
+    border-color: var(--cat-accent, #16a34a);
+    color: #0f172a;
+}
+.category-icon-box-v2 {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--cat-bg, #f0fdf4);
+    color: var(--cat-accent, #16a34a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.85rem;
+    margin-bottom: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--cat-border, #dcfce7);
+}
+.category-card-v2:hover .category-icon-box-v2 {
+    transform: scale(1.12) rotate(4deg);
+    background: var(--cat-accent, #16a34a);
+    color: #ffffff;
+    box-shadow: 0 8px 18px -4px var(--cat-shadow, rgba(22, 163, 74, 0.3));
+}
+.category-title-v2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+}
+.category-card-v2:hover .category-title-v2 {
+    color: var(--cat-accent, #15803d);
+}
+.category-sub-v2 {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.category-explore-link {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--cat-accent, #16a34a);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    opacity: 0.85;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+}
+.category-card-v2:hover .category-explore-link {
+    opacity: 1;
+    gap: 0.55rem;
+}
+
+/* Category Specific Variables */
+.cat-theme-seeds {
+    --cat-accent: #059669;
+    --cat-bg: #ecfdf5;
+    --cat-border: #a7f3d0;
+    --cat-shadow: rgba(5, 150, 105, 0.22);
+}
+.cat-theme-fertilizers {
+    --cat-accent: #0284c7;
+    --cat-bg: #f0f9ff;
+    --cat-border: #bae6fd;
+    --cat-shadow: rgba(2, 132, 199, 0.22);
+}
+.cat-theme-pesticides {
+    --cat-accent: #ea580c;
+    --cat-bg: #fff7ed;
+    --cat-border: #fed7aa;
+    --cat-shadow: rgba(234, 88, 12, 0.22);
+}
+.cat-theme-tools {
+    --cat-accent: #7c3aed;
+    --cat-bg: #f5f3ff;
+    --cat-border: #ddd6fe;
+    --cat-shadow: rgba(124, 58, 237, 0.22);
+}
+.cat-theme-irrigation {
+    --cat-accent: #0891b2;
+    --cat-bg: #ecfeff;
+    --cat-border: #a5f3fc;
+    --cat-shadow: rgba(8, 145, 178, 0.22);
+}
+.cat-theme-animalfeed {
+    --cat-accent: #d97706;
+    --cat-bg: #fffbeb;
+    --cat-border: #fde68a;
+    --cat-shadow: rgba(217, 119, 6, 0.22);
+}
+.cat-theme-organic {
+    --cat-accent: #16a34a;
+    --cat-bg: #f0fdf4;
+    --cat-border: #bbf7d0;
+    --cat-shadow: rgba(22, 163, 74, 0.22);
+}
+.cat-theme-promoters {
+    --cat-accent: #e11d48;
+    --cat-bg: #fff1f2;
+    --cat-border: #fecdd3;
+    --cat-shadow: rgba(225, 29, 72, 0.22);
+}
+
+/* 3. Seasonal Offers Banner v2 */
+.offers-banner-v2 {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 45%, #ffedd5 100%);
+    border: 1.5px solid #fcd34d !important;
+    border-radius: 26px !important;
+    box-shadow: 0 16px 36px -10px rgba(245, 158, 11, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+.coupon-card-v2 {
+    background: #ffffff;
+    border: 1.5px dashed #f59e0b;
+    border-radius: 18px;
+    padding: 1.25rem 1.25rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+.coupon-card-v2:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -6px rgba(245, 158, 11, 0.25);
+    border-color: #d97706;
+}
+.coupon-code-pill {
+    background: #fffbeb;
+    border: 1.5px dashed #f59e0b;
+    color: #92400e;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.coupon-code-pill:hover {
+    background: #fde68a;
+    color: #78350f;
+    transform: scale(1.03);
+}
+
+/* 4. Why Farmers Trust Us Section v2 */
+.trust-card-v2 {
+    background: #ffffff;
+    border: 1.5px solid #eef2f6;
+    border-radius: 22px;
+    padding: 2rem 1.4rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.trust-card-v2:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+    border-color: rgba(22, 163, 74, 0.3);
+}
+.trust-icon-box-v2 {
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    color: #ffffff;
+    box-shadow: 0 10px 22px -5px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+.trust-card-v2:hover .trust-icon-box-v2 {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Dark mode adjustments for new sections */
+[data-theme="dark"] .flagship-store-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-color: rgba(74, 222, 128, 0.2) !important;
+}
+[data-theme="dark"] .category-card-v2 {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+[data-theme="dark"] .category-title-v2 { color: #f8fafc; }
+[data-theme="dark"] .category-sub-v2 { color: #94a3b8; }
+[data-theme="dark"] .offers-banner-v2 {
+    background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+    border-color: #b45309 !important;
+}
+[data-theme="dark"] .coupon-card-v2 {
+    background: #1e293b;
+    border-color: #d97706;
+}
+[data-theme="dark"] .trust-card-v2 {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+[data-theme="dark"] .btn-flagship-map {
+    background: #1e293b;
+    color: #4ade80;
+    border-color: #166534;
+}
+[data-theme="dark"] .btn-flagship-call {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #334155;
+}
+
