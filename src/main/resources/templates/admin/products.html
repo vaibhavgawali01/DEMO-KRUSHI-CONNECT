@@ -27,16 +27,16 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
                     <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <span>📦 Product Management</span>
+                        <span th:text="${#locale.language == 'mr' ? '📦 उत्पादने व्यवस्थापन' : '📦 Product Management'}">📦 Product Management</span>
                     </h1>
-                    <p class="text-muted small m-0 mt-1">Inventory & SKU Management System</p>
+                    <p class="text-muted small m-0 mt-1" th:text="${#locale.language == 'mr' ? 'इन्व्हेंटरी व प्रॉडक्ट कॅटलॉग व्यवस्थापन' : 'Inventory & SKU Management System'}">Inventory & SKU Management System</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center flex-wrap">
                     <a th:href="@{/admin/inventory}" class="btn btn-light border d-flex align-items-center gap-2 text-dark px-3 py-2 rounded-3 text-decoration-none" style="font-size: 13px;">
-                        <i class="ti ti-box"></i> Manage Inventory
+                        <i class="ti ti-box"></i> <span th:text="${#locale.language == 'mr' ? 'साठा व्यवस्थापन' : 'Manage Inventory'}">Manage Inventory</span>
                     </a>
                     <a th:href="@{/admin/products/add}" class="btn btn-success d-flex align-items-center gap-2 px-3 py-2 rounded-3 fw-semibold text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 13px;">
-                        <i class="ti ti-plus"></i> Add Product
+                        <i class="ti ti-plus"></i> <span th:text="${#locale.language == 'mr' ? 'नवीन उत्पादन जोडा' : 'Add Product'}">Add Product</span>
                     </a>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     <!-- Category Dropdown -->
                     <div class="col-6 col-md-auto">
                         <select name="categoryId" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
-                            <option value="">All Categories</option>
+                            <option value="" th:text="${#locale.language == 'mr' ? 'सर्व कॅटेगरी' : 'All Categories'}">All Categories</option>
                             <option th:each="cat : ${categories}" 
                                     th:value="${cat.id}" 
                                     th:text="${cat.name}" 
@@ -58,20 +58,20 @@
                     <!-- Status Dropdown -->
                     <div class="col-6 col-md-auto">
                         <select name="status" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
-                            <option value="" th:selected="${status == null or status == ''}">All Status</option>
-                            <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">Active</option>
-                            <option value="INACTIVE" th:selected="${status == 'INACTIVE'}">Inactive</option>
-                            <option value="DISCONTINUED" th:selected="${status == 'DISCONTINUED'}">Discontinued</option>
+                            <option value="" th:selected="${status == null or status == ''}" th:text="${#locale.language == 'mr' ? 'सर्व स्थिती' : 'All Status'}">All Status</option>
+                            <option value="ACTIVE" th:selected="${status == 'ACTIVE'}" th:text="${#locale.language == 'mr' ? 'सक्रीय' : 'Active'}">Active</option>
+                            <option value="INACTIVE" th:selected="${status == 'INACTIVE'}" th:text="${#locale.language == 'mr' ? 'निष्क्रिय' : 'Inactive'}">Inactive</option>
+                            <option value="DISCONTINUED" th:selected="${status == 'DISCONTINUED'}" th:text="${#locale.language == 'mr' ? 'बंद केलेले' : 'Discontinued'}">Discontinued</option>
                         </select>
                     </div>
 
                     <!-- Stock Status Dropdown -->
                     <div class="col-6 col-md-auto">
                         <select name="stockStatus" class="form-select form-select-sm" style="font-size: 12px; border-color: #ddd; border-radius: 6px;">
-                            <option value="" th:selected="${stockStatus == null or stockStatus == ''}">Stock Status</option>
-                            <option value="LOW" th:selected="${stockStatus == 'LOW'}">Low Stock</option>
-                            <option value="MEDIUM" th:selected="${stockStatus == 'MEDIUM'}">Medium Stock</option>
-                            <option value="ADEQUATE" th:selected="${stockStatus == 'ADEQUATE'}">Adequate Stock</option>
+                            <option value="" th:selected="${stockStatus == null or stockStatus == ''}" th:text="${#locale.language == 'mr' ? 'साठा स्थिती' : 'Stock Status'}">Stock Status</option>
+                            <option value="LOW" th:selected="${stockStatus == 'LOW'}" th:text="${#locale.language == 'mr' ? 'कमी साठा' : 'Low Stock'}">Low Stock</option>
+                            <option value="MEDIUM" th:selected="${stockStatus == 'MEDIUM'}" th:text="${#locale.language == 'mr' ? 'मध्यम साठा' : 'Medium Stock'}">Medium Stock</option>
+                            <option value="ADEQUATE" th:selected="${stockStatus == 'ADEQUATE'}" th:text="${#locale.language == 'mr' ? 'पुरेसा साठा' : 'Adequate Stock'}">Adequate Stock</option>
                         </select>
                     </div>
 
@@ -79,14 +79,15 @@
                     <div class="col-12 col-md">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
-                            <input type="text" name="keyword" th:value="${keyword}" class="form-control border-start-0" placeholder="Search by SKU, Barcode, Product or Supplier..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                            <input type="text" name="keyword" th:value="${keyword}" class="form-control border-start-0" 
+                                   th:placeholder="${#locale.language == 'mr' ? 'उत्पादन नाव, बारकोड किंवा कोड शोधा...' : 'Search by SKU, Barcode, Product or Supplier...'}" style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
                         </div>
                     </div>
 
                     <!-- Filter & Reset Buttons -->
                     <div class="col-auto d-flex gap-2">
-                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">Filter</button>
-                        <a th:href="@{/admin/products}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;" th:text="${#locale.language == 'mr' ? 'शोधा' : 'Filter'}">Filter</button>
+                        <a th:href="@{/admin/products}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;" th:text="${#locale.language == 'mr' ? 'रीसेट' : 'Reset'}">Reset</a>
                     </div>
                 </div>
             </form>
@@ -96,10 +97,10 @@
                 <!-- Table Header Stats -->
                 <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background-color: #ffffff; border-color: #e5e7eb !important;">
                     <p class="m-0 fw-semibold" style="font-size: 13px; color: #4b5563;">
-                        <span th:text="${productPage.totalElements}">438</span> Products | Inventory
+                        <span th:text="${productPage.totalElements}">438</span> <span th:text="${#locale.language == 'mr' ? 'उत्पादने उपलब्ध' : 'Products | Inventory'}">Products</span>
                     </p>
                     <p class="m-0 text-muted" style="font-size: 13px;">
-                        Page <span th:text="${productPage.number + 1}">1</span> of <span th:text="${productPage.totalPages > 0 ? productPage.totalPages : 1}">44</span>
+                        <span th:text="${#locale.language == 'mr' ? 'पान' : 'Page'}">Page</span> <span th:text="${productPage.number + 1}">1</span> / <span th:text="${productPage.totalPages > 0 ? productPage.totalPages : 1}">44</span>
                     </p>
                 </div>
 
@@ -108,14 +109,14 @@
                     <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
                         <thead style="background-color: #f9fafb; border-bottom: 1px solid #e5e7eb;">
                             <tr>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563; min-width: 260px;">Product Name</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Category</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">SKU / Barcode</th>
-                                <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: #4b5563;">Price</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Stock</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Min Level</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Status</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Actions</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563; min-width: 260px;" th:text="${#locale.language == 'mr' ? 'उत्पादनाचे नाव' : 'Product Name'}">Product Name</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कॅटेगरी' : 'Category'}">Category</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'बारकोड / कोड' : 'SKU / Barcode'}">SKU / Barcode</th>
+                                <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'किंमत' : 'Price'}">Price</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'साठा' : 'Stock'}">Stock</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'किमान मर्यादा' : 'Min Level'}">Min Level</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                             </tr>
                         </thead>
                         <tbody>

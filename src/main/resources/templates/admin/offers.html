@@ -75,20 +75,20 @@
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                         <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-gift-fill text-warning me-2"></i>Active Promotional Offers (<span th:text="${offers.size()}">0</span>)</h5>
+                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-gift-fill text-warning me-2"></i><span th:text="${#locale.language == 'mr' ? 'सक्रीय चालू ऑफर्स' : 'Active Promotional Offers'}">Active Promotional Offers</span> (<span th:text="${offers.size()}">0</span>)</h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-krushi mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Code</th>
-                                            <th>Discount</th>
-                                            <th>Min Order</th>
-                                            <th>Validity</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Actions</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'शीर्षक' : 'Title'}">Title</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'कुपन कोड' : 'Code'}">Code</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'सूट' : 'Discount'}">Discount</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'किमान ऑर्डर' : 'Min Order'}">Min Order</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'कालावधी' : 'Validity'}">Validity</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                                            <th class="text-end" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>

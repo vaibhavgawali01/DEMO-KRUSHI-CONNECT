@@ -21,19 +21,19 @@
                     <div>
                         <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-25 small mb-2 fw-semibold">
                             <span>🌱</span>
-                            <span>सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
+                            <span th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर' : 'Saptashrungi Agro Services, Mirkhanagar'}">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
                         </div>
-                        <h2 class="h3 fw-bold mb-1 text-white">व्यवस्थापन डॅशबोर्ड (Admin Hub)</h2>
-                        <p class="text-white-50 small mb-0">Overview of sales, inventory, farmer accounts, and store performance.</p>
+                        <h2 class="h3 fw-bold mb-1 text-white" th:text="${#locale.language == 'mr' ? 'व्यवस्थापन डॅशबोर्ड' : 'Admin Dashboard'}">व्यवस्थापन डॅशबोर्ड</h2>
+                        <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'विक्री, इन्व्हेंटरी, शेतकरी खाती आणि दुकानाच्या कामगिरीचा आढावा.' : 'Overview of sales, inventory, farmer accounts, and store performance.'}">Overview of sales, inventory, farmer accounts, and store performance.</p>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
                         <a th:href="@{/admin/products/add}" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
                             <i class="bi bi-plus-circle-fill fs-5"></i>
-                            <span>Add Product</span>
+                            <span th:text="${#locale.language == 'mr' ? 'नवीन उत्पादन जोडा' : 'Add Product'}">Add Product</span>
                         </a>
                         <a th:href="@{/admin/reports}" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-bar-graph"></i>
-                            <span>Reports</span>
+                            <span th:text="${#locale.language == 'mr' ? 'अहवाल' : 'Reports'}">Reports</span>
                         </a>
                     </div>
                 </div>
@@ -48,11 +48,12 @@
                         ⚠️
                     </div>
                     <div>
-                        <h6 class="fw-bold mb-0 text-dark">कमी स्टॉक चेतावणी (Stock Alert)</h6>
-                        <small class="text-muted"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा संपत आला आहे. त्वरित रिस्टॉक करा.</small>
+                        <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'कमी साठा चेतावणी' : 'Low Stock Alert'}">कमी साठा चेतावणी</h6>
+                        <small class="text-muted" th:if="${#locale.language == 'mr'}"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा संपत आला आहे. त्वरित रिस्टॉक करा.</small>
+                        <small class="text-muted" th:if="${#locale.language != 'mr'}"><strong th:text="${lowStockCount}">0</strong> products are running low in stock. Please reorder.</small>
                     </div>
                 </div>
-                <a th:href="@{/admin/inventory}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill">
+                <a th:href="@{/admin/inventory}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill" th:text="${#locale.language == 'mr' ? 'इन्व्हेंटरी तपासा &rarr;' : 'Check Inventory &rarr;'}">
                     इन्व्हेंटरी तपासा &rarr;
                 </a>
             </div>
@@ -64,7 +65,7 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">एकूण विक्री (Sales)</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण विक्री' : 'Total Sales'}">एकूण विक्री</span>
                             <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
                                 <i class="bi bi-graph-up-arrow"></i>
                             </div>
@@ -72,7 +73,7 @@
                         <div>
                             <div class="admin-kpi-val" th:text="'₹' + ${totalSales != null ? #numbers.formatDecimal(totalSales, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
                             <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
-                                <i class="bi bi-arrow-up-short"></i> Active Year
+                                <i class="bi bi-arrow-up-short"></i> <span th:text="${#locale.language == 'mr' ? 'चालू वर्ष' : 'Active Year'}">Active Year</span>
                             </span>
                         </div>
                     </div>
@@ -82,14 +83,14 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">एकूण ऑर्डर्स</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण ऑर्डर्स' : 'Total Orders'}">एकूण ऑर्डर्स</span>
                             <div class="admin-kpi-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
                                 <i class="bi bi-bag-check-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" th:text="${totalOrders != null ? totalOrders : '0'}">0</div>
-                            <span class="admin-kpi-badge" style="background: #f0f9ff; color: #0284c7;">
+                            <span class="admin-kpi-badge" style="background: #f0f9ff; color: #0284c7;" th:text="${#locale.language == 'mr' ? 'दुकानातील पावत्या' : 'Store Invoices'}">
                                 Store Invoices
                             </span>
                         </div>
@@ -100,14 +101,14 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">शेतकरी ग्राहक</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक' : 'Farmer Customers'}">शेतकरी ग्राहक</span>
                             <div class="admin-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
                                 <i class="bi bi-people-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" th:text="${totalCustomers != null ? totalCustomers : '0'}">0</div>
-                            <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
+                            <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत' : 'Registered'}">
                                 Registered
                             </span>
                         </div>
@@ -118,14 +119,14 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">बाकी उधारी (Due)</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'बाकी उधारी' : 'Outstanding Credit'}">बाकी उधारी</span>
                             <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
                                 <i class="bi bi-wallet-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" style="color: #dc2626;" th:text="'₹' + ${totalRemainingUdhari != null ? #numbers.formatDecimal(totalRemainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="(${overdueCount != null ? overdueCount : 0}) + ' Overdue'">
+                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="${#locale.language == 'mr' ? (overdueCount != null ? overdueCount : 0) + ' मुदत संपलेली' : (overdueCount != null ? overdueCount : 0) + ' Overdue'}">
                                 0 Overdue
                             </span>
                         </div>
@@ -136,14 +137,14 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">कमी स्टॉक</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'कमी साठा' : 'Low Stock'}">कमी साठा</span>
                             <div class="admin-kpi-icon-wrap" style="background: #fef3c7; color: #d97706;">
                                 <i class="bi bi-exclamation-octagon-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" th:text="${lowStockCount != null ? lowStockCount : '0'}">0</div>
-                            <span class="admin-kpi-badge" style="background: #fffbeb; color: #d97706;">
+                            <span class="admin-kpi-badge" style="background: #fffbeb; color: #d97706;" th:text="${#locale.language == 'mr' ? 'तातडीने खरेदी करा' : 'Urgent Reorder'}">
                                 Urgent Reorder
                             </span>
                         </div>
@@ -154,14 +155,14 @@
                 <div class="col-sm-6 col-md-4 col-xl-2">
                     <div class="admin-kpi-card">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label">स्टॉक किंमत (Value)</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'स्टॉक मूल्य' : 'Inventory Value'}">स्टॉक मूल्य</span>
                             <div class="admin-kpi-icon-wrap" style="background: #f1f5f9; color: #475569;">
                                 <i class="bi bi-box-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" th:text="'₹' + ${inventoryValue != null ? #numbers.formatDecimal(inventoryValue, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #f8fafc; color: #475569;" th:text="(${totalProducts != null ? totalProducts : 0}) + ' Products'">
+                            <span class="admin-kpi-badge" style="background: #f8fafc; color: #475569;" th:text="${#locale.language == 'mr' ? (totalProducts != null ? totalProducts : 0) + ' उत्पादने' : (totalProducts != null ? totalProducts : 0) + ' Products'}">
                                 0 Products
                             </span>
                         </div>
@@ -179,9 +180,9 @@
                         <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-receipt text-success fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0">अलीकडील पावत्या / ऑर्डर्स (Recent Orders)</h6>
+                                <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'अलीकडील पावत्या' : 'Recent Orders'}">अलीकडील पावत्या</h6>
                             </div>
-                            <a th:href="@{/admin/orders}" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                            <a th:href="@{/admin/orders}" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold" th:text="${#locale.language == 'mr' ? 'सर्व पाहा &rarr;' : 'View All &rarr;'}">
                                 सर्व पाहा &rarr;
                             </a>
                         </div>
@@ -189,17 +190,16 @@
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light text-muted small">
                                     <tr>
-                                        <th class="ps-4">पावती क्र. (Order ID)</th>
-                                        <th>शेतकरी (Customer)</th>
-                                        <th class="text-end">रक्कम (Amount)</th>
-                                        <th class="text-center">स्थिती (Status)</th>
+                                        <th class="ps-4" th:text="${#locale.language == 'mr' ? 'पावती क्रमांक' : 'Order ID'}">पावती क्रमांक</th>
+                                        <th th:text="${#locale.language == 'mr' ? 'शेतकरी नाव' : 'Customer Name'}">शेतकरी नाव</th>
+                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'रक्कम' : 'Amount'}">रक्कम</th>
+                                        <th class="text-center" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">स्थिती</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:if="${recentOrders == null or recentOrders.empty}">
-                                        <td colspan="4" class="text-center py-5 text-muted">
-                                            <i class="bi bi-receipt-cutoff fs-2 d-block text-secondary mb-2"></i>
-                                            कोणत्याही ऑर्डर्स नाहीत (No recent orders found)
+                                        <td colspan="4" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणत्याही अलीकडील ऑर्डर्स नाहीत.' : 'No recent orders found.'}">
+                                            कोणत्याही अलीकडील ऑर्डर्स नाहीत.
                                         </td>
                                     </tr>
                                     <tr th:each="order : ${recentOrders}">
@@ -209,7 +209,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <div class="fw-semibold text-dark" th:text="${order.user != null ? order.user.name : 'Walk-in Farmer'}">Customer</div>
+                                            <div class="fw-semibold text-dark" th:text="${order.user != null ? order.user.name : (#locale.language == 'mr' ? 'थेट शेतकरी ग्राहक' : 'Walk-in Customer')}">Customer</div>
                                         </td>
                                         <td class="text-end fw-bold text-dark" th:text="'₹' + ${order.total}">₹0</td>
                                         <td class="text-center">
@@ -217,7 +217,7 @@
                                                   th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'status-pill-green' : 
                                                                  (${order.orderStatus.name() == 'PROCESSING'} ? 'status-pill-blue' : 
                                                                  (${order.orderStatus.name() == 'CANCELLED'} ? 'status-pill-red' : 'status-pill-amber'))"
-                                                  th:text="${order.orderStatus.displayNameEn}">
+                                                  th:text="${#locale.language == 'mr' ? order.orderStatus.displayNameMr : order.orderStatus.displayNameEn}">
                                                 Status
                                             </span>
                                         </td>
@@ -233,14 +233,14 @@
                     <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
-                            <h6 class="fw-bold text-dark mb-0">क्विक ॲक्शन्स (Quick Actions)</h6>
+                            <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'जलद ॲक्शन्स' : 'Quick Actions'}">जलद ॲक्शन्स</h6>
                         </div>
 
                         <a th:href="@{/admin/products/add}" class="admin-tool-item">
                             <div class="admin-tool-icon-box" style="background: #dcfce7; color: #16a34a;">
                                 <i class="bi bi-plus-lg"></i>
                             </div>
-                            <div class="flex-grow-1">नवीन उत्पादन जोडा (Add Product)</div>
+                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'नवीन उत्पादन जोडा' : 'Add New Product'}">नवीन उत्पादन जोडा</div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
@@ -248,7 +248,7 @@
                             <div class="admin-tool-icon-box" style="background: #e0f2fe; color: #0284c7;">
                                 <i class="bi bi-boxes"></i>
                             </div>
-                            <div class="flex-grow-1">इन्व्हेंटरी व्यवस्थापन (Stock)</div>
+                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'साठा व्यवस्थापन' : 'Inventory Management'}">साठा व्यवस्थापन</div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
@@ -256,7 +256,7 @@
                             <div class="admin-tool-icon-box" style="background: #fef3c7; color: #d97706;">
                                 <i class="bi bi-wallet2"></i>
                             </div>
-                            <div class="flex-grow-1">उधारी खाते (Credit Accounts)</div>
+                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'उधारी खाते' : 'Credit Ledger'}">उधारी खाते</div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
@@ -264,7 +264,7 @@
                             <div class="admin-tool-icon-box" style="background: #f3e8ff; color: #7c3aed;">
                                 <i class="bi bi-people"></i>
                             </div>
-                            <div class="flex-grow-1">शेतकरी यादी (Farmers Directory)</div>
+                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक यादी' : 'Farmers Directory'}">शेतकरी ग्राहक यादी</div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
@@ -272,18 +272,22 @@
                             <div class="admin-tool-icon-box" style="background: #f1f5f9; color: #475569;">
                                 <i class="bi bi-graph-up"></i>
                             </div>
-                            <div class="flex-grow-1">विक्री अहवाल (Sales Reports)</div>
+                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'विक्री अहवाल' : 'Sales Reports'}">विक्री अहवाल</div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
                         <!-- Shop Info Small Card -->
                         <div class="mt-4 p-3 rounded-3" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
                             <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="badge bg-success">Online Shop</span>
-                                <small class="fw-bold text-dark">सप्तशृंगी ॲग्रो सर्व्हिसेस</small>
+                                <span class="badge bg-success" th:text="${#locale.language == 'mr' ? 'ऑनलाइन कृषी केंद्र' : 'Online Shop'}">ऑनलाइन केंद्र</span>
+                                <small class="fw-bold text-dark" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">सप्तशृंगी ॲग्रो सर्व्हिसेस</small>
                             </div>
-                            <small class="text-muted d-block" style="font-size: 0.75rem;">
+                            <small class="text-muted d-block" style="font-size: 0.75rem;" th:if="${#locale.language == 'mr'}">
                                 📍 मिरखनगर, वैजापूर, छत्रपती संभाजीनगर<br>
+                                📞 8600813827 | UPI सक्रीय
+                            </small>
+                            <small class="text-muted d-block" style="font-size: 0.75rem;" th:if="${#locale.language != 'mr'}">
+                                📍 Mirkhanagar, Vaijapur, Chhatrapati Sambhajinagar<br>
                                 📞 8600813827 | UPI Active
                             </small>
                         </div>
@@ -299,9 +303,9 @@
                         <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-exclamation-diamond-fill text-danger fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0">मुदत संपलेली उधारी (Overdue Credit Accounts)</h6>
+                                <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'मुदत संपलेली उधारी' : 'Overdue Credit Accounts'}">मुदत संपलेली उधारी</h6>
                             </div>
-                            <a th:href="@{/admin/udhari}" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold">
+                            <a th:href="@{/admin/udhari}" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold" th:text="${#locale.language == 'mr' ? 'संपूर्ण उधारी व्यवस्थापन &rarr;' : 'Manage All Credit &rarr;'}">
                                 संपूर्ण उधारी व्यवस्थापन &rarr;
                             </a>
                         </div>
@@ -309,31 +313,31 @@
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light text-muted small">
                                     <tr>
-                                        <th class="ps-4">शेतकरी (Customer Name)</th>
-                                        <th class="text-end">एकूण उधारी (Total)</th>
-                                        <th class="text-end">शिल्लक बाकी (Remaining)</th>
-                                        <th class="text-center">थकबाकी दिवस (Overdue Days)</th>
-                                        <th class="text-center pe-4">ॲक्शन (Action)</th>
+                                        <th class="ps-4" th:text="${#locale.language == 'mr' ? 'शेतकरी नाव' : 'Customer Name'}">शेतकरी नाव</th>
+                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'एकूण उधारी' : 'Total Credit'}">एकूण उधारी</th>
+                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'शिल्लक बाकी' : 'Remaining Due'}">शिल्लक बाकी</th>
+                                        <th class="text-center" th:text="${#locale.language == 'mr' ? 'थकबाकी दिवस' : 'Overdue Days'}">थकबाकी दिवस</th>
+                                        <th class="text-center pe-4" th:text="${#locale.language == 'mr' ? 'कृती' : 'Action'}">कृती</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:if="${overdueUdhariList == null or overdueUdhariList.empty}">
-                                        <td colspan="5" class="text-center py-4 text-success fw-semibold">
-                                            <i class="bi bi-check-circle-fill me-1"></i> सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही! (All clear)
+                                        <td colspan="5" class="text-center py-4 text-success fw-semibold" th:text="${#locale.language == 'mr' ? 'सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही!' : 'All clear! No overdue credit accounts.'}">
+                                            सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही!
                                         </td>
                                     </tr>
                                     <tr th:each="u : ${overdueUdhariList}">
                                         <td class="ps-4">
-                                            <div class="fw-bold text-dark" th:text="${u.user != null ? u.user.name : 'Farmer'}">Farmer Name</div>
+                                            <div class="fw-bold text-dark" th:text="${u.user != null ? u.user.name : (#locale.language == 'mr' ? 'शेतकरी' : 'Farmer')}">Farmer Name</div>
                                             <small class="text-muted" th:text="${u.user != null ? u.user.mobile : ''}">Phone</small>
                                         </td>
                                         <td class="text-end fw-semibold text-muted" th:text="'₹' + ${u.totalAmount}">₹0</td>
                                         <td class="text-end fw-bold text-danger" th:text="'₹' + ${u.remainingAmount}">₹0</td>
                                         <td class="text-center">
-                                            <span class="status-pill status-pill-red" th:text="${u.daysOverdue} + ' दिवस बाकी'">0 days</span>
+                                            <span class="status-pill status-pill-red" th:text="${#locale.language == 'mr' ? (u.daysOverdue + ' दिवस बाकी') : (u.daysOverdue + ' days overdue')}">0 days</span>
                                         </td>
                                         <td class="text-center pe-4">
-                                            <a th:href="@{'/admin/udhari?customerId=' + ${u.user != null ? u.user.id : ''}}" class="btn btn-xs btn-outline-success rounded-pill px-2 py-1" style="font-size: 0.75rem;">
+                                            <a th:href="@{'/admin/udhari?customerId=' + ${u.user != null ? u.user.id : ''}}" class="btn btn-xs btn-outline-success rounded-pill px-2 py-1" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'तपशील &rarr;' : 'Details &rarr;'}">
                                                 तपशील &rarr;
                                             </a>
                                         </td>

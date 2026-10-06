@@ -16,13 +16,13 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
                     <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <span>💰 उधार नेणारे ग्राहक व खातेवही (Credit Customers & Ledger)</span>
+                        <span th:text="${#locale.language == 'mr' ? '💰 उधार नेणारे ग्राहक व खातेवही' : '💰 Credit Customers & Ledger'}">💰 Credit Ledger</span>
                     </h1>
-                    <p class="text-muted small m-0 mt-1">उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख | Live Sync</p>
+                    <p class="text-muted small m-0 mt-1" th:text="${#locale.language == 'mr' ? 'उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख' : 'Customer credit records, items taken, total amount, payments, balance, and due dates'}">उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख</p>
                 </div>
                 <div>
                     <button type="button" class="btn btn-success px-4 py-2 fw-bold shadow d-flex align-items-center gap-2" style="background-color: #16a34a; border: none; font-size: 14px; border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#createUdhariModal">
-                        <i class="ti ti-user-plus fs-5"></i> + नवीन उधार नेणारा ग्राहक जोडा (Add Credit Customer)
+                        <i class="ti ti-user-plus fs-5"></i> <span th:text="${#locale.language == 'mr' ? '+ नवीन उधार नेणारा ग्राहक जोडा' : '+ Add Credit Customer'}">+ Add Credit Customer</span>
                     </button>
                 </div>
             </div>
@@ -42,9 +42,9 @@
                 <div class="col-md-4">
                     <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
                         <div>
-                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">एकूण दिलेली उधारी (Total Credit Issued)</small>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? 'एकूण दिलेली उधारी' : 'Total Credit Issued'}">एकूण दिलेली उधारी</small>
                             <h4 class="fw-bold text-dark my-1" th:text="'₹' + ${totalIssued}">₹8,500</h4>
-                            <small class="text-muted">एकूण उधारी नोंदी</small>
+                            <small class="text-muted" th:text="${#locale.language == 'mr' ? 'एकूण उधारी नोंदी' : 'Total Credit Records'}">एकूण उधारी नोंदी</small>
                         </div>
                         <div class="kpi-icon-bubble" style="background: #dbeafe;">
                             <i class="ti ti-credit-card" style="color: #0284c7;"></i>
@@ -55,9 +55,9 @@
                 <div class="col-md-4">
                     <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
                         <div>
-                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">एकूण जमा रक्कम (Total Recovered)</small>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? 'एकूण जमा रक्कम' : 'Total Recovered'}">एकूण जमा रक्कम</small>
                             <h4 class="fw-bold text-success my-1" th:text="'₹' + ${totalCollected}">₹3,500</h4>
-                            <small class="text-success">शेतकऱ्यांनी भरलेली रक्कम</small>
+                            <small class="text-success" th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांनी भरलेली रक्कम' : 'Amount Recovered'}">शेतकऱ्यांनी भरलेली रक्कम</small>
                         </div>
                         <div class="kpi-icon-bubble" style="background: #dcfce7;">
                             <i class="ti ti-check" style="color: #16a34a;"></i>
@@ -68,9 +68,9 @@
                 <div class="col-md-4">
                     <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center" style="border-left: 4px solid #dc2626;">
                         <div>
-                            <small class="text-danger text-uppercase fw-bold" style="font-size: 11px;">🔴 एकूण बाकी उधारी (Pending Outstanding Due)</small>
+                            <small class="text-danger text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? '🔴 एकूण बाकी उधारी' : '🔴 Total Outstanding Due'}">🔴 एकूण बाकी उधारी</small>
                             <h4 class="fw-bold text-danger my-1" th:text="'₹' + ${totalRemaining}">₹5,000</h4>
-                            <small class="text-danger" th:text="${overdueList.size()} + ' मुदत संपलेली खाती (Overdue)'"></small>
+                            <small class="text-danger" th:text="${#locale.language == 'mr' ? (overdueList.size() + ' मुदत संपलेली खाती') : (overdueList.size() + ' Overdue Accounts')}"></small>
                         </div>
                         <div class="kpi-icon-bubble" style="background: #fee2e2;">
                             <i class="ti ti-alert-triangle" style="color: #dc2626;"></i>
@@ -85,12 +85,13 @@
                     <div class="col-md-6">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
-                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" placeholder="ग्राहकाचे नाव, मोबाईल, गाव शोधा..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" 
+                                   th:placeholder="${#locale.language == 'mr' ? 'ग्राहकाचे नाव, मोबाईल किंवा गाव शोधा...' : 'Search customer by name, mobile, village...'}" style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">शोधा (Search)</button>
-                        <a th:href="@{/admin/udhari}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;" th:text="${#locale.language == 'mr' ? 'शोधा' : 'Search'}">Search</button>
+                        <a th:href="@{/admin/udhari}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;" th:text="${#locale.language == 'mr' ? 'रीसेट' : 'Reset'}">Reset</a>
                     </div>
                 </div>
             </form>
@@ -102,20 +103,20 @@
                         <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
                             <tr>
                                 <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">#</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">उधार नेणारा ग्राहक (Customer)</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">गाव (Village)</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">काय नेले / तपशील (Items Taken)</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;">एकूण उधारी</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;">जमा</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #dc2626;">🔴 बाकी रक्कम</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">देण्याची तारीख 📅</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">स्थिती</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;">कृती (Actions)</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'उधार नेणारा ग्राहक' : 'Customer'}">उधार नेणारा ग्राहक</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'गाव' : 'Village'}">गाव</th>
+                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'काय नेले / तपशील' : 'Items Taken'}">काय नेले / तपशील</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'एकूण उधारी' : 'Total Credit'}">एकूण उधारी</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'जमा रक्कम' : 'Paid Amount'}">जमा</th>
+                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #dc2626;" th:text="${#locale.language == 'mr' ? '🔴 बाकी रक्कम' : '🔴 Balance Due'}">🔴 बाकी रक्कम</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'परत देण्याची तारीख' : 'Due Date'}">देण्याची तारीख</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">स्थिती</th>
+                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">कृती</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${udhariPage.empty}">
-                                <td colspan="10" class="text-center py-5 text-muted">कोणतीही उधारी नोंद सापडली नाही (No Udhari records found).</td>
+                                <td colspan="10" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणतीही उधारी नोंद सापडली नाही.' : 'No credit records found.'}">कोणतीही उधारी नोंद सापडली नाही.</td>
                             </tr>
                             <tr th:each="u : ${udhariPage.content}" style="border-bottom: 1px solid #f3f4f6;">
                                 <td style="padding: 12px 14px;" th:text="${u.id}">1</td>

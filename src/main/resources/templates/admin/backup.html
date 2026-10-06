@@ -21,12 +21,12 @@
             <div class="card border-0 shadow-sm rounded-3 mb-4">
                 <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
-                        <h4 class="fw-bold text-success mb-1"><i class="bi bi-database-down me-2"></i>Database Backup & Disaster Recovery</h4>
-                        <p class="text-muted small m-0">Generate secure encrypted SQL database snapshots for offsite archival</p>
+                        <h4 class="fw-bold text-success mb-1"><i class="bi bi-database-down me-2"></i><span th:text="${#locale.language == 'mr' ? 'डेटाबेस बॅकअप व सुरक्षा' : 'Database Backup & Disaster Recovery'}">Database Backup & Disaster Recovery</span></h4>
+                        <p class="text-muted small m-0" th:text="${#locale.language == 'mr' ? 'दुकानाच्या डेटाबेसची सुरक्षित SQL फाईल तयार करा व डाउनलोड करा' : 'Generate secure encrypted SQL database snapshots for offsite archival'}">Generate secure encrypted SQL database snapshots</p>
                     </div>
                     <form th:action="@{/admin/backup/trigger}" method="POST" class="m-0">
                         <button type="submit" class="btn btn-krushi px-4 py-2 fw-bold d-flex align-items-center gap-2">
-                            <i class="bi bi-cloud-arrow-down-fill"></i> Trigger Instant Database Backup
+                            <i class="bi bi-cloud-arrow-down-fill"></i> <span th:text="${#locale.language == 'mr' ? 'आताच डेटाबेस बॅकअप घ्या' : 'Trigger Instant Database Backup'}">Trigger Instant Database Backup</span>
                         </button>
                     </form>
                 </div>
@@ -35,7 +35,7 @@
             <!-- Backup History Table -->
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
                 <div class="card-header bg-white py-3 border-bottom">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Backup History Log</h5>
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i><span th:text="${#locale.language == 'mr' ? 'बॅकअप इतिहास' : 'Backup History Log'}">Backup History Log</span></h5>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -43,11 +43,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Backup Filename</th>
-                                    <th>File Size</th>
-                                    <th>Status</th>
-                                    <th>Backup Date</th>
-                                    <th class="text-end">Download</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'बॅकअप फाईल' : 'Backup Filename'}">Backup Filename</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'आकार' : 'File Size'}">File Size</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'तारीख व वेळ' : 'Backup Date'}">Backup Date</th>
+                                    <th class="text-end" th:text="${#locale.language == 'mr' ? 'डाउनलोड' : 'Download'}">Download</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -15,13 +15,14 @@
             <div class="card border-0 shadow-sm rounded-3 mb-4">
                 <div class="card-body p-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
-                        <h4 class="fw-bold text-success mb-0"><i class="bi bi-cart-check me-2"></i>Orders & Billing Manager</h4>
-                        <small class="text-muted">Total: <span th:text="${orderPage.totalElements}">3</span> orders</small>
+                        <h4 class="fw-bold text-success mb-0"><i class="bi bi-cart-check me-2"></i><span th:text="${#locale.language == 'mr' ? 'ऑर्डर्स व बिलिंग व्यवस्थापन' : 'Orders & Billing Manager'}">Orders & Billing Manager</span></h4>
+                        <small class="text-muted"><span th:text="${#locale.language == 'mr' ? 'एकूण ऑर्डर्स: ' : 'Total orders: '}">Total: </span><span th:text="${orderPage.totalElements}">3</span></small>
                     </div>
 
                     <form th:action="@{/admin/orders}" method="GET" class="d-flex">
                         <div class="input-group input-group-sm">
-                            <input type="text" name="query" class="form-control" placeholder="Search order #, customer, mobile..." th:value="${query}">
+                            <input type="text" name="query" class="form-control" 
+                                   th:placeholder="${#locale.language == 'mr' ? 'ऑर्डर क्र., नाव किंवा मोबाईल शोधा...' : 'Search order #, customer, mobile...'}" th:value="${query}">
                             <button type="submit" class="btn btn-krushi"><i class="bi bi-search"></i></button>
                         </div>
                     </form>
@@ -35,21 +36,21 @@
                         <table class="table table-krushi mb-0">
                             <thead>
                                 <tr>
-                                    <th>Order #</th>
-                                    <th>Date</th>
-                                    <th>Customer</th>
-                                    <th>Subtotal</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'ऑर्डर क्रमांक' : 'Order #'}">Order #</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'तारीख' : 'Date'}">Date</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक' : 'Customer'}">Customer</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'रक्कम' : 'Subtotal'}">Subtotal</th>
                                     <th>GST</th>
-                                    <th>Total Amount</th>
-                                    <th>Payment Method</th>
-                                    <th>Payment Status</th>
-                                    <th>Order Status</th>
-                                    <th class="text-end">Actions</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'एकूण रक्कम' : 'Total Amount'}">Total Amount</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'पेमेंट पद्धत' : 'Payment Method'}">Payment Method</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'पेमेंट स्थिती' : 'Payment Status'}">Payment Status</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'ऑर्डर स्थिती' : 'Order Status'}">Order Status</th>
+                                    <th class="text-end" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:if="${orderPage.empty}">
-                                    <td colspan="10" class="text-center py-5 text-muted">No orders found.</td>
+                                    <td colspan="10" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणत्याही ऑर्डर्स सापडल्या नाहीत.' : 'No orders found.'}">No orders found.</td>
                                 </tr>
                                 <tr th:each="o : ${orderPage.content}">
                                     <td><strong class="text-dark" th:text="${o.orderNumber}">KSK-2026-00001</strong></td>

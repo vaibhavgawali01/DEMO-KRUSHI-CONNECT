@@ -22,27 +22,27 @@
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-header bg-success text-white py-3">
-                            <h6 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i>Add New Category</h6>
+                            <h6 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i><span th:text="${#locale.language == 'mr' ? 'नवीन कॅटेगरी जोडा' : 'Add New Category'}">Add New Category</span></h6>
                         </div>
                         <div class="card-body p-4">
                             <form th:action="@{/admin/categories/add}" th:object="${categoryDto}" method="POST">
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold text-success">Category Name (English) *</label>
+                                    <label class="form-label small fw-bold text-success" th:text="${#locale.language == 'mr' ? 'कॅटेगरी नाव (English) *' : 'Category Name (English) *'}">Category Name (English) *</label>
                                     <input type="text" th:field="*{name}" class="form-control form-control-sm" placeholder="e.g. Bio-Pesticides" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold text-success">वर्गाचे नाव (मराठी)</label>
+                                    <label class="form-label small fw-bold text-success" th:text="${#locale.language == 'mr' ? 'कॅटेगरी नाव (मराठी)' : 'Category Name (Marathi)'}">वर्गाचे नाव (मराठी)</label>
                                     <input type="text" th:field="*{nameMr}" class="form-control form-control-sm" placeholder="उदा. सेंद्रिय कीटकनाशके">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold text-success">Description</label>
+                                    <label class="form-label small fw-bold text-success" th:text="${#locale.language == 'mr' ? 'वर्णन' : 'Description'}">Description</label>
                                     <textarea th:field="*{description}" class="form-control form-control-sm" rows="2" placeholder="Short description"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold text-success">Image Name</label>
+                                    <label class="form-label small fw-bold text-success" th:text="${#locale.language == 'mr' ? 'इमेज नाव' : 'Image Name'}">Image Name</label>
                                     <input type="text" th:field="*{existingImage}" class="form-control form-control-sm" placeholder="e.g. seeds.jpg">
                                 </div>
-                                <button type="submit" class="btn btn-krushi w-100 fw-bold">Create Category</button>
+                                <button type="submit" class="btn btn-krushi w-100 fw-bold" th:text="${#locale.language == 'mr' ? 'कॅटेगरी सेव्ह करा' : 'Create Category'}">Create Category</button>
                             </form>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                         <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-tags-fill text-success me-2"></i>Product Categories (<span th:text="${categories.size()}">8</span>)</h5>
+                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-tags-fill text-success me-2"></i><span th:text="${#locale.language == 'mr' ? 'उत्पादन कॅटेगरीज' : 'Product Categories'}">Product Categories</span> (<span th:text="${categories.size()}">8</span>)</h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -60,11 +60,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Category Name</th>
-                                            <th>Marathi Name</th>
-                                            <th>Description</th>
-                                            <th>Status</th>
-                                            <th class="text-end">Actions</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'कॅटेगरी नाव' : 'Category Name'}">Category Name</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'मराठी नाव' : 'Marathi Name'}">Marathi Name</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'वर्णन' : 'Description'}">Description</th>
+                                            <th th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                                            <th class="text-end" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>

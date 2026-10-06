@@ -16,20 +16,20 @@
                 <div class="card-body p-4">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
                         <div>
-                            <h4 class="fw-bold text-success mb-0"><i class="bi bi-file-earmark-bar-graph me-2"></i>Sales, Stock & Financial Reports</h4>
-                            <small class="text-muted">Generate comprehensive operational and audit intelligence</small>
+                            <h4 class="fw-bold text-success mb-0"><i class="bi bi-file-earmark-bar-graph me-2"></i><span th:text="${#locale.language == 'mr' ? 'विक्री, साठा व आर्थिक अहवाल' : 'Sales, Stock & Financial Reports'}">Sales, Stock & Financial Reports</span></h4>
+                            <small class="text-muted" th:text="${#locale.language == 'mr' ? 'दुकानाचे तपशीलवार अहवाल व ऑडिट माहिती' : 'Generate comprehensive operational and audit intelligence'}">Generate comprehensive operational and audit intelligence</small>
                         </div>
 
                         <!-- CSV Export Buttons -->
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
                             <a th:href="@{/admin/reports/export/sales(startDate=${filter.startDate}, endDate=${filter.endDate})}" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1">
-                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Sales CSV
+                                <i class="bi bi-file-earmark-spreadsheet"></i> <span th:text="${#locale.language == 'mr' ? 'विक्री CSV डाउनलोड' : 'Export Sales CSV'}">Export Sales CSV</span>
                             </a>
                             <a th:href="@{/admin/reports/export/stock}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
-                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Stock CSV
+                                <i class="bi bi-file-earmark-spreadsheet"></i> <span th:text="${#locale.language == 'mr' ? 'साठा CSV डाउनलोड' : 'Export Stock CSV'}">Export Stock CSV</span>
                             </a>
                             <a th:href="@{/admin/reports/export/udhari}" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
-                                <i class="bi bi-file-earmark-spreadsheet"></i> Export Udhari CSV
+                                <i class="bi bi-file-earmark-spreadsheet"></i> <span th:text="${#locale.language == 'mr' ? 'उधारी CSV डाउनलोड' : 'Export Udhari CSV'}">Export Udhari CSV</span>
                             </a>
                         </div>
                     </div>
@@ -37,16 +37,16 @@
                     <!-- Date Range Filter Form -->
                     <form th:action="@{/admin/reports}" method="GET" class="row g-2 align-items-end pt-3 border-top">
                         <div class="col-md-3">
-                            <label class="form-label small fw-bold text-muted">Start Date</label>
+                            <label class="form-label small fw-bold text-muted" th:text="${#locale.language == 'mr' ? 'सुरुवात तारीख' : 'Start Date'}">Start Date</label>
                             <input type="date" name="startDate" class="form-control form-control-sm" th:value="${filter.startDate}">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label small fw-bold text-muted">End Date</label>
+                            <label class="form-label small fw-bold text-muted" th:text="${#locale.language == 'mr' ? 'शेवट तारीख' : 'End Date'}">End Date</label>
                             <input type="date" name="endDate" class="form-control form-control-sm" th:value="${filter.endDate}">
                         </div>
                         <div class="col-md-3">
                             <button type="submit" class="btn btn-krushi btn-sm w-100 fw-bold">
-                                <i class="bi bi-funnel me-1"></i> Apply Date Filter
+                                <i class="bi bi-funnel me-1"></i> <span th:text="${#locale.language == 'mr' ? 'तारीख फिल्टर लावा' : 'Apply Date Filter'}">Apply Date Filter</span>
                             </button>
                         </div>
                     </form>

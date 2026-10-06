@@ -12,84 +12,84 @@
                 <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle"></span>
             </div>
             <div class="overflow-hidden">
-                <div class="admin-sidebar-title text-truncate">Admin Portal</div>
-                <div class="admin-sidebar-sub text-truncate">सप्तशृंगी ॲग्रो सर्व्हिसेस</div>
+                <div class="admin-sidebar-title text-truncate" th:text="${#locale.language == 'mr' ? 'ॲडमिन पोर्टल' : 'Admin Portal'}">Admin Portal</div>
+                <div class="admin-sidebar-sub text-truncate" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">सप्तशृंगी ॲग्रो सर्व्हिसेस</div>
             </div>
         </div>
     </div>
 
     <!-- Section: Operations -->
-    <div class="admin-nav-section">Operations & Management</div>
+    <div class="admin-nav-section" th:text="${#locale.language == 'mr' ? 'कामकाज व व्यवस्थापन' : 'Operations & Management'}">Operations & Management</div>
     <nav class="nav flex-column gap-1">
         <a th:href="@{/admin/dashboard}" class="admin-nav-link" th:classappend="${activeTab == 'dashboard'} ? ' active'">
             <i class="bi bi-grid-1x2-fill"></i>
-            <span>Dashboard</span>
+            <span th:text="${#locale.language == 'mr' ? 'डॅशबोर्ड' : 'Dashboard'}">Dashboard</span>
         </a>
         <a th:href="@{/admin/products}" class="admin-nav-link" th:classappend="${activeTab == 'products'} ? ' active'">
             <i class="bi bi-box-seam-fill"></i>
-            <span>Products</span>
+            <span th:text="${#locale.language == 'mr' ? 'उत्पादने' : 'Products'}">Products</span>
         </a>
         <a th:href="@{/admin/categories}" class="admin-nav-link" th:classappend="${activeTab == 'categories'} ? ' active'">
             <i class="bi bi-tags-fill"></i>
-            <span>Categories</span>
+            <span th:text="${#locale.language == 'mr' ? 'कॅटेगरी' : 'Categories'}">Categories</span>
         </a>
         <a th:href="@{/admin/inventory}" class="admin-nav-link" th:classappend="${activeTab == 'inventory'} ? ' active'">
             <i class="bi bi-boxes"></i>
-            <span>Inventory</span>
+            <span th:text="${#locale.language == 'mr' ? 'साठा व्यवस्थापन' : 'Inventory'}">Inventory</span>
         </a>
         <a th:href="@{/admin/expiry-tracking}" class="admin-nav-link" th:classappend="${activeTab == 'expiry'} ? ' active'">
             <i class="bi bi-calendar-x-fill text-warning"></i>
-            <span>Expiry Tracking</span>
-            <span class="admin-nav-badge-warn">Alert</span>
+            <span th:text="${#locale.language == 'mr' ? 'मुदत समाप्ती ट्रॅकिंग' : 'Expiry Tracking'}">Expiry Tracking</span>
+            <span class="admin-nav-badge-warn" th:text="${#locale.language == 'mr' ? 'सूचना' : 'Alert'}">Alert</span>
         </a>
     </nav>
 
     <!-- Section: Sales & Customers -->
-    <div class="admin-nav-section">Sales &amp; Customers</div>
+    <div class="admin-nav-section" th:text="${#locale.language == 'mr' ? 'विक्री व शेतकरी' : 'Sales & Customers'}">Sales & Customers</div>
     <nav class="nav flex-column gap-1">
         <a th:href="@{/admin/customers}" class="admin-nav-link" th:classappend="${activeTab == 'customers'} ? ' active'">
             <i class="bi bi-people-fill"></i>
-            <span>Customers</span>
+            <span th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक' : 'Customers'}">Customers</span>
         </a>
         <a th:href="@{/admin/udhari}" class="admin-nav-link" th:classappend="${activeTab == 'udhari'} ? ' active'">
             <i class="bi bi-wallet2 text-warning"></i>
-            <span>उधारी खाते (Credit)</span>
+            <span th:text="${#locale.language == 'mr' ? 'उधारी खाते' : 'Credit Ledger'}">उधारी खाते</span>
         </a>
         <a th:href="@{/admin/payments}" class="admin-nav-link" th:classappend="${activeTab == 'payments'} ? ' active'">
             <i class="bi bi-credit-card-fill text-info"></i>
-            <span>Payments</span>
+            <span th:text="${#locale.language == 'mr' ? 'पेमेंट्स' : 'Payments'}">Payments</span>
         </a>
         <a th:href="@{/admin/offers}" class="admin-nav-link" th:classappend="${activeTab == 'offers'} ? ' active'">
             <i class="bi bi-percent text-danger"></i>
-            <span>Offers &amp; Coupons</span>
+            <span th:text="${#locale.language == 'mr' ? 'ऑफर व कुपन्स' : 'Offers & Coupons'}">Offers & Coupons</span>
         </a>
     </nav>
 
     <!-- Section: Analytics & Settings -->
-    <div class="admin-nav-section">Reports &amp; Config</div>
+    <div class="admin-nav-section" th:text="${#locale.language == 'mr' ? 'अहवाल व सेटिंग्ज' : 'Reports & Config'}">Reports & Config</div>
     <nav class="nav flex-column gap-1">
         <a th:href="@{/admin/reports}" class="admin-nav-link" th:classappend="${activeTab == 'reports'} ? ' active'">
             <i class="bi bi-bar-chart-line-fill text-primary"></i>
-            <span>Reports Center</span>
+            <span th:text="${#locale.language == 'mr' ? 'अहवाल केंद्र' : 'Reports Center'}">Reports Center</span>
         </a>
         <a th:href="@{/admin/backup}" class="admin-nav-link" th:classappend="${activeTab == 'backup'} ? ' active'">
             <i class="bi bi-database-check text-secondary"></i>
-            <span>Database Backup</span>
+            <span th:text="${#locale.language == 'mr' ? 'डेटाबेस बॅकअप' : 'Database Backup'}">Database Backup</span>
         </a>
         <a th:href="@{/admin/settings}" class="admin-nav-link" th:classappend="${activeTab == 'settings'} ? ' active'">
             <i class="bi bi-gear-wide-connected"></i>
-            <span>Shop Settings</span>
+            <span th:text="${#locale.language == 'mr' ? 'दुकान सेटिंग्ज' : 'Shop Settings'}">Shop Settings</span>
         </a>
     </nav>
 
         <a th:href="@{/farmer-switch}" class="admin-nav-link text-warning fw-semibold mb-2">
             <i class="bi bi-person-workspace text-warning"></i>
-            <span>🌾 Farmer Portal (शेतकरी)</span>
+            <span th:text="${#locale.language == 'mr' ? '🌾 शेतकरी पॅनेलवर जा' : '🌾 Farmer Portal'}">🌾 Farmer Portal</span>
         </a>
         <form th:action="@{/logout}" method="POST" class="m-0">
             <button type="submit" class="admin-logout-btn w-100">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Logout Portal</span>
+                <span th:text="${#locale.language == 'mr' ? 'लॉगआउट करा' : 'Logout Portal'}">Logout Portal</span>
             </button>
         </form>
     </div>

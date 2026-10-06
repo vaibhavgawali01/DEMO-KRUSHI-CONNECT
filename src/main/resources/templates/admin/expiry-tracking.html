@@ -15,17 +15,17 @@
             <div class="card border-0 shadow-sm rounded-3 mb-4">
                 <div class="card-body p-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
-                        <h4 class="fw-bold text-danger mb-0"><i class="bi bi-calendar-x me-2"></i>Product Expiry Monitoring</h4>
-                        <small class="text-muted">Track chemical and bio-product expiration dates to ensure fresh stock delivery</small>
+                        <h4 class="fw-bold text-danger mb-0"><i class="bi bi-calendar-x me-2"></i><span th:text="${#locale.language == 'mr' ? 'मुदत संपणारी उत्पादने ट्रॅकिंग' : 'Product Expiry Monitoring'}">Product Expiry Monitoring</span></h4>
+                        <small class="text-muted" th:text="${#locale.language == 'mr' ? 'कीटकनाशके व रासायनिक खतांच्या एक्सपायरी तारखांवर देखरेख' : 'Track chemical and bio-product expiration dates to ensure fresh stock delivery'}">Track chemical and bio-product expiration dates</small>
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
-                        <label class="small text-muted text-nowrap">Filter Window:</label>
+                        <label class="small text-muted text-nowrap" th:text="${#locale.language == 'mr' ? 'कालावधी निवडा:' : 'Filter Window:'}">Filter Window:</label>
                         <select class="form-select form-select-sm" style="width: auto;" onchange="window.location.href='/admin/expiry-tracking?days=' + this.value;">
-                            <option value="30" th:selected="${selectedDays == 30}">Expiring in Next 30 Days</option>
-                            <option value="60" th:selected="${selectedDays == 60}">Expiring in Next 60 Days</option>
-                            <option value="90" th:selected="${selectedDays == 90}">Expiring in Next 90 Days</option>
-                            <option value="180" th:selected="${selectedDays == 180}">Expiring in Next 180 Days</option>
+                            <option value="30" th:selected="${selectedDays == 30}" th:text="${#locale.language == 'mr' ? 'पुढील ३० दिवसांत संपणारी' : 'Expiring in Next 30 Days'}">Expiring in Next 30 Days</option>
+                            <option value="60" th:selected="${selectedDays == 60}" th:text="${#locale.language == 'mr' ? 'पुढील ६० दिवसांत संपणारी' : 'Expiring in Next 60 Days'}">Expiring in Next 60 Days</option>
+                            <option value="90" th:selected="${selectedDays == 90}" th:text="${#locale.language == 'mr' ? 'पुढील ९० दिवसांत संपणारी' : 'Expiring in Next 90 Days'}">Expiring in Next 90 Days</option>
+                            <option value="180" th:selected="${selectedDays == 180}" th:text="${#locale.language == 'mr' ? 'पुढील १८० दिवसांत संपणारी' : 'Expiring in Next 180 Days'}">Expiring in Next 180 Days</option>
                         </select>
                     </div>
                 </div>
@@ -34,19 +34,19 @@
             <!-- Expired Products Table -->
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4" th:if="${!expiredProducts.empty}">
                 <div class="card-header bg-danger text-white py-3">
-                    <h6 class="mb-0 fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i>Already Expired Products (<span th:text="${expiredProducts.size()}">0</span>)</h6>
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i><span th:text="${#locale.language == 'mr' ? 'मुदत संपलेली उत्पादने' : 'Already Expired Products'}">Already Expired Products</span> (<span th:text="${expiredProducts.size()}">0</span>)</h6>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-krushi mb-0">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Batch #</th>
-                                    <th>Stock</th>
-                                    <th>Expiry Date</th>
-                                    <th>Action</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'उत्पादन नाव' : 'Product'}">Product</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'कॅटेगरी' : 'Category'}">Category</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'बॅच क्र.' : 'Batch #'}">Batch #</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'शिल्लक साठा' : 'Stock'}">Stock</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'समाप्ती तारीख' : 'Expiry Date'}">Expiry Date</th>
+                                    <th th:text="${#locale.language == 'mr' ? 'कृती' : 'Action'}">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

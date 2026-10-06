@@ -16,9 +16,11 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
                 <div>
                     <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <span>👨‍🌾 Registered Farmer Directory</span>
+                        <span th:text="${#locale.language == 'mr' ? '👨‍🌾 नोंदणीकृत शेतकरी यादी' : '👨‍🌾 Registered Farmer Directory'}">👨‍🌾 Registered Farmer Directory</span>
                     </h1>
-                    <p class="text-muted small m-0 mt-1">Total: <strong th:text="${customerPage.totalElements}">3</strong> registered farmers in the network</p>
+                    <p class="text-muted small m-0 mt-1">
+                        <span th:text="${#locale.language == 'mr' ? 'एकूण नोंदणीकृत शेतकरी: ' : 'Total registered farmers: '}">Total: </span><strong th:text="${customerPage.totalElements}">3</strong>
+                    </p>
                 </div>
             </div>
 
@@ -38,12 +40,13 @@
                     <div class="col-md-6">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
-                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" placeholder="Search name, mobile, village..." style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
+                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" 
+                                   th:placeholder="${#locale.language == 'mr' ? 'नाव, मोबाईल किंवा गाव शोधा...' : 'Search name, mobile, village...'}" style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
                         </div>
                     </div>
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;">Search</button>
-                        <a th:href="@{/admin/customers}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;">Reset</a>
+                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;" th:text="${#locale.language == 'mr' ? 'शोधा' : 'Search'}">Search</button>
+                        <a th:href="@{/admin/customers}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;" th:text="${#locale.language == 'mr' ? 'रीसेट' : 'Reset'}">Reset</a>
                     </div>
                 </div>
             </form>
@@ -55,18 +58,18 @@
                         <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
                             <tr>
                                 <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">#</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Farmer Name</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Mobile Number</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Email</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Village & Location</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">District</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Status</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;">Actions</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'शेतकरी नाव' : 'Farmer Name'}">Farmer Name</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर' : 'Mobile Number'}">Mobile Number</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'ईमेल' : 'Email'}">Email</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'गाव व पत्ता' : 'Village & Location'}">Village & Location</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'जिल्हा' : 'District'}">District</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${customerPage.empty}">
-                                <td colspan="8" class="text-center py-5 text-muted">No customers found.</td>
+                                <td colspan="8" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणताही शेतकरी ग्राहक सापडला नाही.' : 'No customers found.'}">No customers found.</td>
                             </tr>
                             <tr th:each="c : ${customerPage.content}" style="border-bottom: 1px solid #f3f4f6;">
                                 <td style="padding: 12px 16px;" th:text="${c.id}">1</td>
