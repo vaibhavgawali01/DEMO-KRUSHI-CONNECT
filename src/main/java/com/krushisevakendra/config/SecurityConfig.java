@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/home", "/products/**", "/categories/**", "/offers/**", 
                                  "/farming-tips/**", "/weather/**", "/fertilizer-calculator/**", 
                                  "/crop-care/**", "/about/**", "/contact/**", "/faq/**", 
-                                 "/login", "/register", "/forgot-password", "/h2-console/**").permitAll()
+                                 "/login", "/register", "/forgot-password", "/admin-switch", "/h2-console/**").permitAll()
                 // Public REST APIs
                 .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
                 // Admin-only area

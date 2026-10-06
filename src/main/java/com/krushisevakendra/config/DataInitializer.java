@@ -91,6 +91,30 @@ public class DataInitializer implements CommandLineRunner {
             return userRepository.save(u);
         });
 
+        // Always guarantee ROLE_ADMIN and active status for admin
+        if (admin != null) {
+            boolean hasAdmin = admin.getRoles().stream().anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN);
+            if (!hasAdmin) {
+                admin.getRoles().add(adminRole);
+                admin.getRoles().add(customerRole);
+                admin.setPasswordHash(passwordEncoder.encode("admin123"));
+                admin.setStatus("ACTIVE");
+                userRepository.save(admin);
+                log.info("Guaranteed ROLE_ADMIN on admin user: {}", admin.getEmail());
+            }
+        }
+
+        userRepository.findByMobile("9876543210").ifPresent(u -> {
+            boolean hasAdmin = u.getRoles().stream().anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN);
+            if (!hasAdmin) {
+                u.getRoles().add(adminRole);
+                u.setPasswordHash(passwordEncoder.encode("admin123"));
+                u.setStatus("ACTIVE");
+                userRepository.save(u);
+                log.info("Guaranteed ROLE_ADMIN on 9876543210");
+            }
+        });
+
         User ramesh = userRepository.findByEmail("ramesh@patil.com").orElseGet(() -> {
             User u = new User();
             u.setName("Ramesh Patil");

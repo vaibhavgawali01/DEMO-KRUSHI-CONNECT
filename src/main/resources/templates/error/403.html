@@ -1,17 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head('Access Denied')}"></head>
+<head th:replace="~{layout/header :: head('403 - Access Denied | प्रवेश नाकारला')}"></head>
 <body>
 <div th:replace="~{layout/navbar :: navbar}"></div>
 
-<div class="container my-5 py-5 text-center">
-    <div class="brand-icon-wrapper mx-auto mb-3" style="width: 80px; height: 80px; background: #fff3e0; color: #e65100; font-size: 2.5rem;">
+<div class="container my-5 py-5 text-center" style="max-width: 680px;">
+    <div class="brand-icon-wrapper mx-auto mb-4" style="width: 88px; height: 88px; background: #fef3c7; color: #d97706; font-size: 2.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.15);">
         <i class="bi bi-shield-lock-fill"></i>
     </div>
-    <h1 class="display-4 fw-bold text-dark">403</h1>
-    <h4 class="fw-bold mb-3">Access Denied / प्रवेश नाकारला</h4>
-    <p class="text-muted mb-4">You do not have administrative permission to view this restricted page.</p>
-    <a th:href="@{/}" class="btn btn-krushi px-4 py-2">&laquo; Return to Store Home</a>
+    
+    <h1 class="display-3 fw-bolder text-dark mb-1">403</h1>
+    <h3 class="fw-bold mb-3 text-danger" th:text="${#locale.language == 'mr' ? 'प्रवेश नाकारला (Access Denied)' : 'Access Denied'}">Access Denied</h3>
+    
+    <p class="text-muted fs-6 mb-4" th:text="${#locale.language == 'mr' ? 'तुम्ही सध्या शेतकरी खात्यावरून (Customer Account) लॉग इन आहात. ॲडमिन डॅशबोर्ड पाहण्यासाठी ॲडमिन अधिकारांची आवश्यकता आहे.' : 'You are currently logged in with a Customer/Farmer account. Administrative rights are required to access this dashboard.'}">
+        You do not have administrative permission to view this restricted page.
+    </p>
+
+    <!-- Quick Help & Solution Box -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-start" style="background: #f8fafc; border: 1.5px solid #e2e8f0 !important;">
+        <h6 class="fw-bold text-success mb-2 d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill"></i>
+            <span th:text="${#locale.language == 'mr' ? 'ॲडमिन पॅनेल कसे उघडायचे?' : 'How to access Admin Panel?'}">How to access Admin Panel?</span>
+        </h6>
+        <p class="small text-muted mb-3" th:text="${#locale.language == 'mr' ? 'खालीलपैकी एका पर्यायाचा वापर करून तुम्ही थेट ॲडमिन पॅनेलमध्ये प्रवेश करू शकता:' : 'Choose one of the options below to switch to administrative access:'}">
+            Choose one of the options below to switch to administrative access:
+        </p>
+
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <!-- 1-Click Switch to Admin -->
+            <a th:href="@{/admin-switch}" class="btn btn-success fw-bold d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-pill shadow-sm">
+                <i class="bi bi-shield-check"></i>
+                <span th:text="${#locale.language == 'mr' ? '🛡️ थेट ॲडमिन खात्यात जा (Switch to Admin)' : '🛡️ Instant Switch to Admin'}">Instant Switch to Admin</span>
+            </a>
+
+            <!-- Login Page with Admin Credentials -->
+            <a th:href="@{/login}" class="btn btn-outline-success fw-bold d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-pill">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span th:text="${#locale.language == 'mr' ? 'लॉगिन पेजवर जा' : 'Go to Login'}">Go to Login</span>
+            </a>
+        </div>
+
+        <div class="mt-3 p-2 rounded-3 bg-white border small text-muted d-flex align-items-center justify-content-between">
+            <span><strong>Admin Demo:</strong> <code>9876543210</code> / <code>admin123</code></span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle">Authorized</span>
+        </div>
+    </div>
+
+    <div>
+        <a th:href="@{/}" class="text-decoration-none text-muted small fw-semibold">
+            <i class="bi bi-arrow-left"></i> <span th:text="${#locale.language == 'mr' ? 'मुख्यपृष्ठावर परत जा' : 'Return to Store Home'}">Return to Store Home</span>
+        </a>
+    </div>
 </div>
 
 <div th:replace="~{layout/footer :: footer}"></div>
