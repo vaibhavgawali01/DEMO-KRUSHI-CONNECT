@@ -1,12 +1,19 @@
 package com.krushisevakendra.controller;
 
 import com.krushisevakendra.dto.UserRegistrationDto;
+import com.krushisevakendra.entity.Role;
 import com.krushisevakendra.entity.User;
+import com.krushisevakendra.enums.RoleName;
+import com.krushisevakendra.repository.RoleRepository;
+import com.krushisevakendra.repository.UserRepository;
 import com.krushisevakendra.security.CustomUserDetails;
 import com.krushisevakendra.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
@@ -17,13 +24,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class AuthController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, UserRepository userRepository, RoleRepository roleRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/login")
@@ -81,12 +95,36 @@ public class AuthController {
 
     @GetMapping("/admin-switch")
     public String adminSwitch(HttpServletRequest request) {
-        User admin = userService.findByEmailOrMobile("admin@krushiseva.com")
-                .orElseGet(() -> userService.findByEmailOrMobile("9876543210").orElse(null));
-        if (admin != null) {
-            CustomUserDetails userDetails = new CustomUserDetails(admin);
+        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_ADMIN)));
+        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
+                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
+
+        // 1. If a user is already logged in, grant THEIR account ROLE_ADMIN!
+        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+        User targetUser = null;
+        if (existingAuth != null && existingAuth.isAuthenticated() && !"anonymousUser".equals(existingAuth.getName())) {
+            targetUser = userRepository.findByEmailOrMobile(existingAuth.getName()).orElse(null);
+        }
+
+        // 2. Otherwise default to admin@krushiseva.com or 9876543210
+        if (targetUser == null) {
+            targetUser = userRepository.findByEmail("admin@krushiseva.com")
+                    .orElseGet(() -> userRepository.findByMobile("9876543210").orElse(null));
+        }
+
+        if (targetUser != null) {
+            targetUser.getRoles().add(adminRole);
+            targetUser.getRoles().add(customerRole);
+            userRepository.save(targetUser);
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+
+            CustomUserDetails userDetails = new CustomUserDetails(targetUser);
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
             request.getSession().setAttribute(
                     HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
@@ -99,12 +137,21 @@ public class AuthController {
 
     @GetMapping("/farmer-switch")
     public String farmerSwitch(HttpServletRequest request) {
-        User farmer = userService.findByEmailOrMobile("9822012345")
-                .orElseGet(() -> userService.findByEmailOrMobile("ramesh@patil.com").orElse(null));
+        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
+                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
+
+        User farmer = userRepository.findByEmailOrMobile("9822012345")
+                .orElseGet(() -> userRepository.findByEmail("ramesh@patil.com").orElse(null));
         if (farmer != null) {
+            farmer.getRoles().add(customerRole);
+            userRepository.save(farmer);
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+
             CustomUserDetails userDetails = new CustomUserDetails(farmer);
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
             request.getSession().setAttribute(
                     HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
