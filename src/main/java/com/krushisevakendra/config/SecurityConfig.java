@@ -75,11 +75,21 @@ public class SecurityConfig {
                 // Public REST APIs
                 .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
                 // Admin-only area
-                .requestMatchers("/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
                 // Customer & Farmer authenticated area
                 .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**", 
                                  "/my-udhari/**", "/my-profile/**", "/invoice/**", "/payment-receipt/**").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_ADMIN")
                 .anyRequest().authenticated()
+            )
+            .exceptionHandling(exceptions -> exceptions
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    String uri = request.getRequestURI();
+                    if (uri.startsWith("/admin") || uri.startsWith("/api/admin")) {
+                        response.sendRedirect("/admin-switch");
+                    } else {
+                        response.sendRedirect("/login");
+                    }
+                })
             )
             .formLogin(form -> form
                 .loginPage("/login")

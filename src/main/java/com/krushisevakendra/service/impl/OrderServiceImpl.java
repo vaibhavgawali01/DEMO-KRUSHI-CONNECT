@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             ProductRepository productRepository,
-                            InventoryService inventoryService,
+                            @Lazy InventoryService inventoryService,
                             @Lazy UdhariService udhariService,
                             @Lazy PaymentService paymentService,
                             @Lazy NotificationService notificationService) {

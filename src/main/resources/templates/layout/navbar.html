@@ -98,6 +98,12 @@
                     </a>
                 </div>
 
+                <!-- Direct Admin Access Pill -->
+                <a th:href="@{/admin-switch}" class="btn btn-sm btn-outline-success rounded-pill px-2 py-1 fw-bold d-inline-flex align-items-center gap-1 shadow-sm text-decoration-none" style="font-size:0.78rem;" title="Admin Portal">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span th:text="${#locale.language == 'mr' ? 'ॲडमिन' : 'Admin'}">Admin</span>
+                </a>
+
                 <!-- Dark Mode Toggle -->
                 <button id="themeToggleBtn" class="nav-icon-btn" title="Toggle Dark Mode" type="button">
                     <i class="bi bi-moon-stars-fill" style="font-size:0.9rem;"></i>
@@ -119,12 +125,12 @@
                         <i class="bi bi-chevron-down text-muted" style="font-size:0.65rem;"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 p-1 mt-1" style="min-width:200px;">
-                        <li sec:authorize="hasAuthority('ROLE_ADMIN')">
-                            <a class="dropdown-item rounded-2 py-2 text-success fw-bold" th:href="@{/admin/dashboard}">
-                                <i class="bi bi-speedometer2 me-2"></i><span th:text="#{nav.admin_panel}">Admin Panel</span>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2 text-success fw-bold" th:href="@{/admin-switch}">
+                                <i class="bi bi-speedometer2 me-2"></i><span th:text="${#locale.language == 'mr' ? 'ॲडमिन पॅनेल' : 'Admin Panel'}">Admin Panel</span>
                             </a>
                         </li>
-                        <li sec:authorize="hasAuthority('ROLE_ADMIN')"><hr class="dropdown-divider my-1"></li>
+                        <li><hr class="dropdown-divider my-1"></li>
                         <li>
                             <a class="dropdown-item rounded-2 py-2 text-success fw-bold" th:href="@{/farmer/dashboard}">
                                 <i class="bi bi-grid-1x2-fill me-2"></i><span th:text="${#locale.language == 'mr' ? 'शेतकरी डॅशबोर्ड' : 'Farmer Dashboard'}">Farmer Dashboard</span>

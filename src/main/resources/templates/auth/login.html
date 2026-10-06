@@ -115,14 +115,14 @@
                         <span th:text="${#locale.language == 'mr' ? 'जलद टेस्ट लॉगिन (Auto-Fill)' : 'Quick Test Login (Auto-Fill)'}">Quick Test Login (Auto-Fill)</span>
                     </div>
                     <div class="quick-demo-chips">
-                        <button type="button" class="quick-demo-chip" onclick="fillDemo('9822012345', 'farmer123')">
+                        <a th:href="@{/farmer-switch}" class="quick-demo-chip text-decoration-none">
                             <span>🚜</span>
-                            <span th:text="${#locale.language == 'mr' ? 'शेतकरी टेस्ट' : 'Farmer Demo'}">Farmer Demo</span>
-                        </button>
-                        <button type="button" class="quick-demo-chip" onclick="fillDemo('9876543210', 'admin123')">
+                            <span th:text="${#locale.language == 'mr' ? 'शेतकरी लॉगिन (1-Click)' : 'Farmer Login (1-Click)'}">Farmer Login (1-Click)</span>
+                        </a>
+                        <a th:href="@{/admin-switch}" class="quick-demo-chip text-decoration-none" style="background:#e8f5e9; border-color:#2e7d32;">
                             <span>🛡️</span>
-                            <span th:text="${#locale.language == 'mr' ? 'ॲडमिन टेस्ट' : 'Admin Demo'}">Admin Demo</span>
-                        </button>
+                            <span th:text="${#locale.language == 'mr' ? 'ॲडमिन लॉगिन (1-Click)' : 'Admin Login (1-Click)'}">Admin Login (1-Click)</span>
+                        </a>
                     </div>
                 </div>
 

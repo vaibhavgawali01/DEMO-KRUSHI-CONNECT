@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="admin-sidebar(activeTab)" class="admin-sidebar-wrap mb-4">
@@ -82,8 +82,10 @@
         </a>
     </nav>
 
-    <!-- Logout Area -->
-    <div class="admin-sidebar-footer mt-4">
+        <a th:href="@{/farmer-switch}" class="admin-nav-link text-warning fw-semibold mb-2">
+            <i class="bi bi-person-workspace text-warning"></i>
+            <span>🌾 Farmer Portal (शेतकरी)</span>
+        </a>
         <form th:action="@{/logout}" method="POST" class="m-0">
             <button type="submit" class="admin-logout-btn w-100">
                 <i class="bi bi-box-arrow-right"></i>

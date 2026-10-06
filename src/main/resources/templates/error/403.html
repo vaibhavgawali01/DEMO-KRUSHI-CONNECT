@@ -33,10 +33,10 @@
                 <span th:text="${#locale.language == 'mr' ? '🛡️ थेट ॲडमिन खात्यात जा (Switch to Admin)' : '🛡️ Instant Switch to Admin'}">Instant Switch to Admin</span>
             </a>
 
-            <!-- Login Page with Admin Credentials -->
-            <a th:href="@{/login}" class="btn btn-outline-success fw-bold d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-pill">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span th:text="${#locale.language == 'mr' ? 'लॉगिन पेजवर जा' : 'Go to Login'}">Go to Login</span>
+            <!-- Logout & Login Fresh -->
+            <a th:href="@{/logout}" class="btn btn-outline-danger fw-bold d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-pill">
+                <i class="bi bi-box-arrow-right"></i>
+                <span th:text="${#locale.language == 'mr' ? 'लॉगआउट करा' : 'Logout & Re-login'}">Logout & Re-login</span>
             </a>
         </div>
 

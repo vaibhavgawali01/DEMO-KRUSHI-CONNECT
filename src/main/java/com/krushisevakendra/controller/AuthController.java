@@ -110,7 +110,8 @@ public class AuthController {
         // 2. Otherwise default to admin@krushiseva.com or 9876543210
         if (targetUser == null) {
             targetUser = userRepository.findByEmail("admin@krushiseva.com")
-                    .orElseGet(() -> userRepository.findByMobile("9876543210").orElse(null));
+                    .orElseGet(() -> userRepository.findByMobile("9876543210")
+                    .orElseGet(() -> userRepository.findAll().stream().findFirst().orElse(null)));
         }
 
         if (targetUser != null) {
