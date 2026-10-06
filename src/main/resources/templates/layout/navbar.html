@@ -125,6 +125,12 @@
                             </a>
                         </li>
                         <li sec:authorize="hasAuthority('ROLE_ADMIN')"><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2 text-success fw-bold" th:href="@{/farmer/dashboard}">
+                                <i class="bi bi-grid-1x2-fill me-2"></i><span th:text="${#locale.language == 'mr' ? 'शेतकरी डॅशबोर्ड' : 'Farmer Dashboard'}">Farmer Dashboard</span>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item rounded-2 py-2" th:href="@{/customer/orders}"><i class="bi bi-bag-check me-2 text-primary"></i><span th:text="${#locale.language == 'mr' ? 'माझ्या ऑर्डर्स' : 'My Orders'}">My Orders</span></a></li>
                         <li><a class="dropdown-item rounded-2 py-2" th:href="@{/customer/udhari}"><i class="bi bi-credit-card me-2 text-warning"></i><span th:text="#{nav.my_udhari}">My Udhari</span></a></li>
                         <li><a class="dropdown-item rounded-2 py-2" th:href="@{/customer/profile}"><i class="bi bi-person me-2"></i><span th:text="#{nav.profile}">Profile</span></a></li>
                         <li><hr class="dropdown-divider my-1"></li>

@@ -50,7 +50,7 @@ public class SecurityConfig {
             if (isAdmin) {
                 response.sendRedirect("/admin/dashboard");
             } else {
-                response.sendRedirect("/customer/dashboard");
+                response.sendRedirect("/farmer/dashboard");
             }
         };
     }
@@ -71,13 +71,13 @@ public class SecurityConfig {
                 .requestMatchers("/", "/home", "/products/**", "/categories/**", "/offers/**", 
                                  "/farming-tips/**", "/weather/**", "/fertilizer-calculator/**", 
                                  "/crop-care/**", "/about/**", "/contact/**", "/faq/**", 
-                                 "/login", "/register", "/forgot-password", "/admin-switch", "/h2-console/**").permitAll()
+                                 "/login", "/register", "/forgot-password", "/admin-switch", "/farmer-switch", "/h2-console/**").permitAll()
                 // Public REST APIs
                 .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
                 // Admin-only area
                 .requestMatchers("/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
                 // Customer & Farmer authenticated area
-                .requestMatchers("/customer/**", "/cart/**", "/checkout/**", "/orders/**", 
+                .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**", 
                                  "/my-udhari/**", "/my-profile/**", "/invoice/**", "/payment-receipt/**").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_ADMIN")
                 .anyRequest().authenticated()
             )

@@ -20,7 +20,7 @@ import java.util.Optional;
 import com.krushisevakendra.enums.OrderStatus;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping({"/customer", "/farmer"})
 public class CustomerController {
 
     private final UserService userService;
