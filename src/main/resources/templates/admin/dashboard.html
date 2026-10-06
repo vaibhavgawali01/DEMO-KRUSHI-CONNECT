@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout/header :: head('Admin Dashboard - Saptashrungi Agro')}"></head>
 <body style="background: #f1f5f9;">
@@ -325,7 +325,7 @@
                                     <tr th:each="u : ${overdueUdhariList}">
                                         <td class="ps-4">
                                             <div class="fw-bold text-dark" th:text="${u.user != null ? u.user.name : 'Farmer'}">Farmer Name</div>
-                                            <small class="text-muted" th:text="${u.user != null ? u.user.phone : ''}">Phone</small>
+                                            <small class="text-muted" th:text="${u.user != null ? u.user.mobile : ''}">Phone</small>
                                         </td>
                                         <td class="text-end fw-semibold text-muted" th:text="'₹' + ${u.totalAmount}">₹0</td>
                                         <td class="text-end fw-bold text-danger" th:text="'₹' + ${u.remainingAmount}">₹0</td>
