@@ -7,19 +7,20 @@
 <div class="container my-4">
     <!-- Header -->
     <div class="text-center mb-4">
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold"
+              th:text="${#locale.language == 'mr' ? 'हवामान अंदाज व कृषी सल्ला' : 'Agricultural Meteorology'}">
             <i class="bi bi-cloud-sun me-1"></i> Agricultural Meteorology
         </span>
         <h2 class="fw-bold text-success" th:text="#{advisory.weather.title}">Local Agri Weather Forecast</h2>
-        <p class="text-muted">Plan spraying, fertilizer broadcasting, and irrigation according to real-time micro-climate trends</p>
+        <p class="text-muted" th:text="${#locale.language == 'mr' ? 'हवामानाच्या अंदाजानुसार फवारणी, खत व्यवस्थापन आणि पाणी पाळीचे नियोजन करा' : 'Plan spraying, fertilizer broadcasting, and irrigation according to real-time micro-climate trends'}">Plan spraying, fertilizer broadcasting, and irrigation according to real-time micro-climate trends</p>
     </div>
 
     <!-- City Search Form -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
             <form th:action="@{/weather}" method="GET" class="d-flex gap-2">
-                <input type="text" name="city" class="form-control" placeholder="Enter City/District (e.g. Sangli, Kolhapur, Pune, Satara)..." th:value="${selectedCity}">
-                <button type="submit" class="btn btn-krushi px-4">Search</button>
+                <input type="text" name="city" class="form-control" th:placeholder="${#locale.language == 'mr' ? 'शहर / जिल्हा टाका (उदा. वैजापूर, छत्रपती संभाजीनगर, नाशिक, पुणे)...' : 'Enter City/District (e.g. Vaijapur, Chhatrapati Sambhajinagar, Pune)...'}" th:value="${selectedCity}">
+                <button type="submit" class="btn btn-krushi px-4" th:text="${#locale.language == 'mr' ? 'शोधा' : 'Search'}">Search</button>
             </form>
         </div>
     </div>
@@ -34,19 +35,19 @@
                             <h3 class="fw-bold mb-0 text-white"><i class="bi bi-geo-alt-fill text-warning me-2"></i><span th:text="${weather.city}">Sangli</span></h3>
                             <small class="text-white-50">Maharashtra, India</small>
                         </div>
-                        <span class="badge bg-light text-dark px-3 py-2 fw-bold">Live Forecast</span>
+                        <span class="badge bg-light text-dark px-3 py-2 fw-bold" th:text="${#locale.language == 'mr' ? 'थेट अंदाज' : 'Live Forecast'}">Live Forecast</span>
                     </div>
 
                     <div class="row align-items-center my-4">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                             <h1 class="display-3 fw-bold mb-0 text-white" th:text="${weather.temperature}">28°C</h1>
-                            <p class="lead text-white-50 mb-0" th:text="${weather.condition}">Partly Cloudy / अंशतः ढगाळ</p>
+                            <p class="lead text-white-50 mb-0" th:text="${#locale.language == 'mr' ? weather.conditionMr : weather.condition}">Partly Cloudy</p>
                         </div>
                         <div class="col-md-6">
                             <div class="bg-white bg-opacity-10 p-3 rounded-3">
                                 <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
                                     <span class="text-white-50" th:text="#{advisory.weather.rain}">Rain Probability:</span>
-                                    <strong class="text-white" th:text="${weather.rainChance}">30%</strong>
+                                    <strong class="text-white" th:text="${#locale.language == 'mr' ? weather.rainChanceMr : weather.rainChance}">30%</strong>
                                 </div>
                                 <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
                                     <span class="text-white-50" th:text="#{advisory.weather.humidity}">Humidity:</span>

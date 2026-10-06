@@ -9,25 +9,25 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>
             <h1 class="h3 fw-bold m-0" style="color: #1a5f3d;">
-                Hello, <span th:text="${user.name}">Raj Farmer</span> 🌾
+                <span th:text="${#locale.language == 'mr' ? 'नमस्ते, ' : 'Hello, '}">Hello, </span><span th:text="${user.name}">Raj Farmer</span> 🌾
             </h1>
-            <p class="text-muted small m-0 mt-1" th:text="${formattedDate != null ? formattedDate + ' | Dashboard Overview' : 'Monday, August 31, 2026 | Dashboard Overview'}">
+            <p class="text-muted small m-0 mt-1" th:text="${formattedDate != null ? formattedDate + ' | ' + (#locale.language == 'mr' ? 'शेतकरी डॅशबोर्ड' : 'Dashboard Overview') : (#locale.language == 'mr' ? 'शेतकरी डॅशबोर्ड' : 'Dashboard Overview')}">
                 Monday, August 31, 2026 | Dashboard Overview
             </p>
         </div>
         <div class="d-flex gap-2 align-items-center flex-wrap">
             <a th:href="@{/customer/notifications}" class="btn btn-light border d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 14px;">
                 <i class="ti ti-bell" style="font-size: 18px; color: #f59e0b;"></i>
-                <span th:text="(${unreadNotifsCount != null ? unreadNotifsCount : 3}) + ' Alerts'">3 Alerts</span>
+                <span th:text="(${unreadNotifsCount != null ? unreadNotifsCount : 3}) + ' ' + (${#locale.language == 'mr' ? 'सूचना' : 'Alerts'})">3 Alerts</span>
             </a>
             <a th:href="@{/customer/profile}" class="btn btn-light border d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 14px;">
                 <i class="ti ti-user" style="font-size: 18px; color: #16a34a;"></i>
-                <span>Profile</span>
+                <span th:text="${#locale.language == 'mr' ? 'माझे प्रोफाइल' : 'Profile'}">Profile</span>
             </a>
         </div>
     </div>
 
-    <!-- Prominent Dedicated Pending Udhari Banner Card (माझी बाकी उधारी रक्कम) -->
+    <!-- Prominent Dedicated Pending Udhari Banner Card -->
     <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" 
          th:style="${remainingUdhari > 0} ? 'background: linear-gradient(135deg, #fff1f2, #ffe4e6); border: 2px solid #fecdd3 !important;' : 'background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #bbf7d0 !important;'">
         <div class="card-body p-4">
@@ -37,10 +37,11 @@
                         <span class="badge px-3 py-1 rounded-pill fw-bold"
                               th:classappend="${remainingUdhari > 0} ? 'bg-danger text-white' : 'bg-success text-white'">
                             <i class="ti me-1" th:classappend="${remainingUdhari > 0} ? 'ti-alert-circle' : 'ti-circle-check'"></i>
-                            <span th:text="${remainingUdhari > 0} ? '🔴 उधारी बाकी / Outstanding Udhari' : '✅ उधारी निरंक / Nil Balance'">उधारी स्थिती</span>
+                            <span th:text="${remainingUdhari > 0} ? (${#locale.language == 'mr' ? '🔴 उधारी बाकी' : '🔴 Outstanding Credit'}) : (${#locale.language == 'mr' ? '✅ उधारी निरंक' : '✅ Nil Balance'})">उधारी स्थिती</span>
                         </span>
                         <span class="badge bg-white text-dark border px-2 py-1 small" th:if="${earliestDueDate != null and remainingUdhari > 0}">
-                            📅 देण्याची तारीख: <strong th:text="${#temporals.format(earliestDueDate, 'dd MMM yyyy')}">15 Sep 2026</strong>
+                            <span th:text="${#locale.language == 'mr' ? '📅 देण्याची तारीख: ' : '📅 Due Date: '}">📅 Due Date: </span>
+                            <strong th:text="${#temporals.format(earliestDueDate, 'dd MMM yyyy')}">15 Sep 2026</strong>
                         </span>
                     </div>
 
@@ -50,26 +51,31 @@
                             th:text="'₹' + ${#numbers.formatDecimal(remainingUdhari, 1, 'COMMA', 2, 'POINT')}">
                             ₹2,500.00
                         </h1>
-                        <span class="fs-6 fw-semibold text-muted">माझी एकूण बाकी रक्कम (Pending Balance)</span>
+                        <span class="fs-6 fw-semibold text-muted"
+                              th:text="${#locale.language == 'mr' ? 'माझी एकूण बाकी रक्कम' : 'My Total Pending Balance'}">My Total Pending Balance</span>
                     </div>
 
                     <!-- 3-Pill Breakdown -->
                     <div class="d-flex flex-wrap gap-2 mt-3" th:if="${remainingUdhari > 0}">
                         <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
-                            <span class="text-muted d-block" style="font-size: 11px;">एकूण उधारी (Total Credit):</span>
+                            <span class="text-muted d-block" style="font-size: 11px;"
+                                  th:text="${#locale.language == 'mr' ? 'एकूण उधारी:' : 'Total Credit:'}">Total Credit:</span>
                             <strong class="text-dark" th:text="'₹' + ${#numbers.formatDecimal(userTotalCredit, 1, 'COMMA', 2, 'POINT')}">₹5,000.00</strong>
                         </div>
                         <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
-                            <span class="text-muted d-block" style="font-size: 11px;">आतापर्यंत जमा (Paid):</span>
+                            <span class="text-muted d-block" style="font-size: 11px;"
+                                  th:text="${#locale.language == 'mr' ? 'आतापर्यंत जमा:' : 'Total Paid:'}">Total Paid:</span>
                             <strong class="text-success" th:text="'₹' + ${#numbers.formatDecimal(userTotalPaid, 1, 'COMMA', 2, 'POINT')}">₹2,500.00</strong>
                         </div>
                         <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
-                            <span class="text-muted d-block" style="font-size: 11px;">शिल्लक बाकी (Net Due):</span>
+                            <span class="text-muted d-block" style="font-size: 11px;"
+                                  th:text="${#locale.language == 'mr' ? 'शिल्लक बाकी:' : 'Net Due:'}">Net Due:</span>
                             <strong class="text-danger" th:text="'₹' + ${#numbers.formatDecimal(remainingUdhari, 1, 'COMMA', 2, 'POINT')}">₹2,500.00</strong>
                         </div>
                     </div>
 
-                    <p class="m-0 mt-2 text-success fw-semibold small" th:if="${remainingUdhari <= 0}">
+                    <p class="m-0 mt-2 text-success fw-semibold small" th:if="${remainingUdhari <= 0}"
+                       th:text="${#locale.language == 'mr' ? '🎉 अभिनंदन! आपल्या खात्यावर सध्या कोणतीही उधारी बाकी नाही.' : '🎉 Great! You have zero outstanding credit dues on your account.'}">
                         🎉 अभिनंदन! आपल्या खात्यावर सध्या कोणतीही उधारी बाकी नाही.
                     </p>
                 </div>
@@ -78,10 +84,10 @@
                     <div class="d-flex flex-column flex-sm-row gap-2 justify-content-lg-end">
                         <a th:href="@{/customer/pay}" class="btn btn-danger btn-lg px-4 py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
                            th:if="${remainingUdhari > 0}">
-                            <i class="ti ti-qrcode fs-4"></i> लगेच UPI ने भरा (Pay Now)
+                            <i class="ti ti-qrcode fs-4"></i> <span th:text="${#locale.language == 'mr' ? 'लगेच UPI ने भरा' : 'Pay Now via UPI'}">Pay Now via UPI</span>
                         </a>
                         <a th:href="@{/customer/udhari}" class="btn btn-light border btn-lg px-3 py-2 fw-semibold text-dark shadow-sm d-flex align-items-center justify-content-center gap-1">
-                            <i class="ti ti-file-text text-primary"></i> खातेवही तपशील
+                            <i class="ti ti-file-text text-primary"></i> <span th:text="${#locale.language == 'mr' ? 'खातेवही तपशील' : 'View Credit Ledger'}">खातेवही तपशील</span>
                         </a>
                     </div>
                 </div>
@@ -95,11 +101,13 @@
         <div class="col-sm-6 col-lg-3">
             <div class="modern-card p-3 h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #ea580c !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">बाकी उधारी (Pending Due)</p>
+                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;"
+                       th:text="${#locale.language == 'mr' ? 'बाकी उधारी' : 'Pending Due'}">Pending Due</p>
                     <i class="ti ti-alert-circle" style="font-size: 22px; color: #ea580c;"></i>
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #ea580c;" th:text="'₹' + ${#numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT')}">₹2,500</p>
-                <p class="m-0 mt-2 text-muted" style="font-size: 12px;" th:text="${earliestDueDate != null} ? ('देण्याची तारीख: ' + ${#temporals.format(earliestDueDate, 'dd MMM yyyy')}) : 'उधारी निरंक'">देण्याची तारीख: 15 Sep 2026</p>
+                <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
+                   th:text="${earliestDueDate != null} ? ((#locale.language == 'mr' ? 'देण्याची तारीख: ' : 'Due Date: ') + ${#temporals.format(earliestDueDate, 'dd MMM yyyy')}) : (${#locale.language == 'mr' ? 'उधारी निरंक' : 'Nil Balance'})">Due Date: 15 Sep 2026</p>
             </div>
         </div>
 
@@ -107,11 +115,13 @@
         <div class="col-sm-6 col-lg-3">
             <div class="modern-card p-3 h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #16a34a !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">उपलब्ध उधारी मर्यादा</p>
+                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;"
+                       th:text="${#locale.language == 'mr' ? 'उपलब्ध उधारी मर्यादा' : 'Available Credit Limit'}">Available Credit Limit</p>
                     <i class="ti ti-credit-card" style="font-size: 22px; color: #16a34a;"></i>
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #16a34a;" th:text="'₹' + ${#numbers.formatDecimal(availableCredit, 0, 'COMMA', 0, 'POINT')}">₹12,500</p>
-                <p class="m-0 mt-2 text-muted" style="font-size: 12px;" th:text="'एकूण मर्यादा: ₹' + ${#numbers.formatDecimal(creditLimit, 0, 'COMMA', 0, 'POINT')}">एकूण मर्यादा: ₹15,000</p>
+                <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
+                   th:text="(#locale.language == 'mr' ? 'एकूण मर्यादा: ₹' : 'Total Limit: ₹') + ${#numbers.formatDecimal(creditLimit, 0, 'COMMA', 0, 'POINT')}">Total Limit: ₹15,000</p>
             </div>
         </div>
 
@@ -119,11 +129,13 @@
         <div class="col-sm-6 col-lg-3">
             <div class="modern-card p-3 h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #0284c7 !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">एकूण खरेदी (Total Spent)</p>
+                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;"
+                       th:text="${#locale.language == 'mr' ? 'एकूण खरेदी' : 'Total Purchases'}">Total Purchases</p>
                     <i class="ti ti-shopping-cart" style="font-size: 22px; color: #0284c7;"></i>
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #0284c7;" th:text="'₹' + ${#numbers.formatDecimal(totalSpent, 0, 'COMMA', 0, 'POINT')}">₹34,200</p>
-                <p class="m-0 mt-2 text-muted" style="font-size: 12px;" th:text="'या महिन्यात: ₹' + ${#numbers.formatDecimal(thisMonthSpent, 0, 'COMMA', 0, 'POINT')}">या महिन्यात: ₹12,500</p>
+                <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
+                   th:text="(#locale.language == 'mr' ? 'या महिन्यात: ₹' : 'This Month: ₹') + ${#numbers.formatDecimal(thisMonthSpent, 0, 'COMMA', 0, 'POINT')}">This Month: ₹12,500</p>
             </div>
         </div>
 
@@ -131,11 +143,13 @@
         <div class="col-sm-6 col-lg-3">
             <div class="modern-card p-3 h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #8b5cf6 !important;">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">चालू ऑर्डर्स (Active Orders)</p>
+                    <p class="m-0 text-muted fw-semibold text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;"
+                       th:text="${#locale.language == 'mr' ? 'चालू ऑर्डर्स' : 'Active Orders'}">Active Orders</p>
                     <i class="ti ti-package" style="font-size: 22px; color: #8b5cf6;"></i>
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #8b5cf6;" th:text="${activeOrdersCount}">2</p>
-                <p class="m-0 mt-2 text-muted" style="font-size: 12px;">डिलिव्हरी प्रक्रिया चालू</p>
+                <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
+                   th:text="${#locale.language == 'mr' ? 'डिलिव्हरी प्रक्रिया चालू' : 'Delivery in progress'}">Delivery in progress</p>
             </div>
         </div>
     </div>
@@ -147,9 +161,10 @@
             <!-- Recent Orders Card -->
             <div class="modern-card p-4 mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 fw-bold text-dark m-0">Recent Orders</h2>
+                    <h2 class="h5 fw-bold text-dark m-0"
+                        th:text="${#locale.language == 'mr' ? 'अलीकडील ऑर्डर्स' : 'Recent Orders'}">Recent Orders</h2>
                     <a th:href="@{/customer/orders}" style="color: #0284c7; font-size: 13px; text-decoration: none; font-weight: 500;" class="d-flex align-items-center gap-1">
-                        View All <i class="ti ti-arrow-right"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'सर्व पाहा' : 'View All'}">View All</span> <i class="ti ti-arrow-right"></i>
                     </a>
                 </div>
 
@@ -164,14 +179,17 @@
                                     <i class="ti ti-leaf" style="font-size: 26px;"></i>
                                 </div>
                                 <div>
-                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;">NPK Fertilizer (50 kg)</p>
+                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;"
+                                       th:text="${#locale.language == 'mr' ? 'NPK रासायनिक खत (50 kg)' : 'NPK Fertilizer (50 kg)'}">NPK Fertilizer (50 kg)</p>
                                     <p class="m-0 text-muted" style="font-size: 13px;">Order: KSK-2026-00342 | 28 Aug 2026</p>
-                                    <span class="status-pill status-pill-green mt-1">Ready for Delivery</span>
+                                    <span class="status-pill status-pill-green mt-1"
+                                          th:text="${#locale.language == 'mr' ? 'डिलिव्हरीसाठी तयार' : 'Ready for Delivery'}">Ready for Delivery</span>
                                 </div>
                             </div>
                             <div class="text-end">
                                 <p class="m-0 fw-bold text-dark" style="font-size: 15px;">₹2,450</p>
-                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;">Track</a>
+                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;"
+                                   th:text="${#locale.language == 'mr' ? 'ट्रॅक करा' : 'Track'}">Track</a>
                             </div>
                         </div>
 
@@ -182,14 +200,17 @@
                                     <i class="ti ti-spray" style="font-size: 26px;"></i>
                                 </div>
                                 <div>
-                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;">Organic Pesticide (1 Liter)</p>
+                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;"
+                                       th:text="${#locale.language == 'mr' ? 'सेंद्रिय कीटकनाशक (1 लिटर)' : 'Organic Pesticide (1 Liter)'}">Organic Pesticide (1 Liter)</p>
                                     <p class="m-0 text-muted" style="font-size: 13px;">Order: KSK-2026-00341 | 25 Aug 2026</p>
-                                    <span class="status-pill status-pill-blue mt-1">Processing</span>
+                                    <span class="status-pill status-pill-blue mt-1"
+                                          th:text="${#locale.language == 'mr' ? 'प्रक्रिया सुरू' : 'Processing'}">Processing</span>
                                 </div>
                             </div>
                             <div class="text-end">
                                 <p class="m-0 fw-bold text-dark" style="font-size: 15px;">₹650</p>
-                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;">Track</a>
+                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;"
+                                   th:text="${#locale.language == 'mr' ? 'ट्रॅक करा' : 'Track'}">Track</a>
                             </div>
                         </div>
 
@@ -200,14 +221,17 @@
                                     <i class="ti ti-tool" style="font-size: 26px;"></i>
                                 </div>
                                 <div>
-                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;">Manual Farming Tool</p>
+                                    <p class="m-0 fw-bold text-dark" style="font-size: 14px;"
+                                       th:text="${#locale.language == 'mr' ? 'शेती अवजार' : 'Manual Farming Tool'}">Manual Farming Tool</p>
                                     <p class="m-0 text-muted" style="font-size: 13px;">Order: KSK-2026-00340 | 20 Aug 2026</p>
-                                    <span class="status-pill status-pill-purple mt-1">Delivered</span>
+                                    <span class="status-pill status-pill-purple mt-1"
+                                          th:text="${#locale.language == 'mr' ? 'डिलिव्हर झाले' : 'Delivered'}">Delivered</span>
                                 </div>
                             </div>
                             <div class="text-end">
                                 <p class="m-0 fw-bold text-dark" style="font-size: 15px;">₹1,200</p>
-                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;">Invoice</a>
+                                <a th:href="@{/customer/orders}" class="btn btn-sm btn-light border px-3 py-1 mt-2 text-decoration-none" style="font-size: 12px; color: #0284c7;"
+                                   th:text="${#locale.language == 'mr' ? 'बिल' : 'Invoice'}">Invoice</a>
                             </div>
                         </div>
                     </div>
@@ -220,19 +244,23 @@
                             </div>
                             <div>
                                 <p class="m-0 fw-bold text-dark" style="font-size: 14px;" th:text="'Order #' + ${order.orderNumber}">KSK-2026-00342</p>
-                                <p class="m-0 text-muted" style="font-size: 13px;" th:text="${#temporals.format(order.createdAt, 'dd MMM yyyy')} + ' | ' + ${order.orderItems.size()} + ' Items'">28 Aug 2026</p>
+                                <p class="m-0 text-muted" style="font-size: 13px;" th:text="${#temporals.format(order.createdAt, 'dd MMM yyyy')} + ' | ' + ${order.orderItems.size()} + ' ' + (${#locale.language == 'mr' ? 'वस्तू' : 'Items'})">28 Aug 2026</p>
                                 <span class="status-pill mt-1"
                                       th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'status-pill-green' : 
                                                      (${order.orderStatus.name() == 'PROCESSING'} ? 'status-pill-blue' : 
                                                      (${order.orderStatus.name() == 'CANCELLED'} ? 'status-pill-red' : 'status-pill-amber'))"
-                                      th:text="${order.orderStatus.displayNameEn}">Delivered</span>
+                                      th:text="${#locale.language == 'mr' ? (order.orderStatus.displayNameMr != null ? order.orderStatus.displayNameMr : order.orderStatus.displayNameEn) : order.orderStatus.displayNameEn}">Delivered</span>
                             </div>
                         </div>
                         <div class="text-end">
                             <p class="m-0 fw-bold text-dark" style="font-size: 15px;" th:text="'₹' + ${order.total}">₹2,450</p>
                             <div class="d-flex gap-1 justify-content-end mt-2">
-                                <a th:href="@{'/customer/orders/' + ${order.id}}" class="btn btn-sm btn-light border px-2 py-1 text-decoration-none" style="font-size: 12px; color: #0284c7;" title="Track">Track</a>
-                                <a th:href="@{'/customer/orders/' + ${order.id} + '/invoice'}" target="_blank" class="btn btn-sm btn-light border px-2 py-1 text-decoration-none" style="font-size: 12px; color: #16a34a;" title="Invoice">Invoice</a>
+                                <a th:href="@{'/customer/orders/' + ${order.id}}" class="btn btn-sm btn-light border px-2 py-1 text-decoration-none" style="font-size: 12px; color: #0284c7;"
+                                   th:title="${#locale.language == 'mr' ? 'ट्रॅक करा' : 'Track'}"
+                                   th:text="${#locale.language == 'mr' ? 'ट्रॅक करा' : 'Track'}">Track</a>
+                                <a th:href="@{'/customer/orders/' + ${order.id} + '/invoice'}" target="_blank" class="btn btn-sm btn-light border px-2 py-1 text-decoration-none" style="font-size: 12px; color: #16a34a;"
+                                   th:title="${#locale.language == 'mr' ? 'बिल' : 'Invoice'}"
+                                   th:text="${#locale.language == 'mr' ? 'बिल' : 'Invoice'}">Invoice</a>
                             </div>
                         </div>
                     </div>
@@ -242,16 +270,20 @@
             <!-- Active Offers Card -->
             <div class="modern-card p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 fw-bold text-dark m-0">Active Offers</h2>
-                    <a th:href="@{/offers}" style="color: #0284c7; font-size: 13px; text-decoration: none; font-weight: 500;">View All</a>
+                    <h2 class="h5 fw-bold text-dark m-0"
+                        th:text="${#locale.language == 'mr' ? 'सध्याच्या विशेष ऑफर्स' : 'Active Offers'}">Active Offers</h2>
+                    <a th:href="@{/offers}" style="color: #0284c7; font-size: 13px; text-decoration: none; font-weight: 500;"
+                       th:text="${#locale.language == 'mr' ? 'सर्व पाहा' : 'View All'}">View All</a>
                 </div>
 
                 <!-- Offer 1 (Gold/Amber) -->
                 <div class="offer-gold-card mb-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <p class="m-0 fw-bold" style="color: #78350f; font-size: 15px;">20% Discount on NPK Fertilizer</p>
-                            <p class="m-0 mt-1" style="font-size: 12px; color: #92400e;">Valid till September 31</p>
+                            <p class="m-0 fw-bold" style="color: #78350f; font-size: 15px;"
+                               th:text="${#locale.language == 'mr' ? 'NPK खतावर २०% विशेष सूट' : '20% Discount on NPK Fertilizer'}">20% Discount on NPK Fertilizer</p>
+                            <p class="m-0 mt-1" style="font-size: 12px; color: #92400e;"
+                               th:text="${#locale.language == 'mr' ? '३१ ऑक्टोबरपर्यंत वैध' : 'Valid till October 31'}">Valid till October 31</p>
                         </div>
                         <span class="badge shadow-sm" style="background-color: #f59e0b; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">KSK20</span>
                     </div>
@@ -261,10 +293,13 @@
                 <div class="offer-blue-card">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <p class="m-0 fw-bold" style="color: #0c4a6e; font-size: 15px;">FREE Delivery on All Orders</p>
-                            <p class="m-0 mt-1" style="font-size: 12px; color: #075985;">On Purchase Above ₹1000</p>
+                            <p class="m-0 fw-bold" style="color: #0c4a6e; font-size: 15px;"
+                               th:text="${#locale.language == 'mr' ? 'सर्व ऑर्डर्सवर मोफत शेतपोच डिलिव्हरी' : 'FREE Delivery on All Orders'}">FREE Delivery on All Orders</p>
+                            <p class="m-0 mt-1" style="font-size: 12px; color: #075985;"
+                               th:text="${#locale.language == 'mr' ? '₹१००० वरील खरेदीवर लागू' : 'On Purchase Above ₹1000'}">On Purchase Above ₹1000</p>
                         </div>
-                        <a th:href="@{/products}" class="btn btn-sm text-white px-3 py-1 shadow-sm" style="background-color: #0284c7; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none;">Shop Now</a>
+                        <a th:href="@{/products}" class="btn btn-sm text-white px-3 py-1 shadow-sm" style="background-color: #0284c7; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none;"
+                           th:text="${#locale.language == 'mr' ? 'खरेदी करा' : 'Shop Now'}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -274,30 +309,31 @@
         <div class="col-lg-4">
             <!-- Quick Actions Card (2x2 Grid) -->
             <div class="modern-card p-3 mb-3">
-                <h3 class="fw-bold text-dark mb-3" style="font-size: 14px;">Quick Actions</h3>
+                <h3 class="fw-bold text-dark mb-3" style="font-size: 14px;"
+                    th:text="${#locale.language == 'mr' ? 'त्वरित कृती' : 'Quick Actions'}">Quick Actions</h3>
                 <div class="row g-2">
                     <div class="col-6">
                         <a th:href="@{/products}" class="quick-action-btn" style="background: #f0f8e8; border-color: #d1fae5; color: #16a34a;">
                             <i class="ti ti-shopping-cart" style="font-size: 22px;"></i>
-                            <span>Shopping</span>
+                            <span th:text="${#locale.language == 'mr' ? 'खरेदी' : 'Shopping'}">Shopping</span>
                         </a>
                     </div>
                     <div class="col-6">
                         <a th:href="@{/customer/orders}" class="quick-action-btn" style="background: #f3f4f6; border-color: #e5e7eb; color: #374151;">
                             <i class="ti ti-receipt" style="font-size: 22px;"></i>
-                            <span>Invoice</span>
+                            <span th:text="${#locale.language == 'mr' ? 'बिले' : 'Invoices'}">Invoices</span>
                         </a>
                     </div>
                     <div class="col-6">
                         <a th:href="@{/customer/notifications}" class="quick-action-btn" style="background: #fef3c7; border-color: #fde68a; color: #b45309;">
                             <i class="ti ti-alert-circle" style="font-size: 22px;"></i>
-                            <span>Alerts</span>
+                            <span th:text="${#locale.language == 'mr' ? 'सूचना' : 'Alerts'}">Alerts</span>
                         </a>
                     </div>
                     <div class="col-6">
                         <a th:href="@{/contact}" class="quick-action-btn" style="background: #f3e8ff; border-color: #e9d5ff; color: #7c3aed;">
                             <i class="ti ti-phone" style="font-size: 22px;"></i>
-                            <span>Contact</span>
+                            <span th:text="${#locale.language == 'mr' ? 'संपर्क' : 'Contact'}">Contact</span>
                         </a>
                     </div>
                 </div>
@@ -308,11 +344,14 @@
                 <div class="d-flex align-items-start gap-3">
                     <i class="ti ti-alert-triangle" style="font-size: 26px; color: #dc2626; flex-shrink: 0;"></i>
                     <div>
-                        <p class="m-0 fw-bold" style="color: #7f1d1d; font-size: 14px;">Payment Due Soon</p>
-                        <p class="m-0 mt-1" style="font-size: 12px; color: #991b1b;" th:text="'₹' + (${remainingUdhari != null ? #numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT') : '6,500'}) + ' payment due by September 15'">
-                            ₹6,500 payment due by September 15
+                        <p class="m-0 fw-bold" style="color: #7f1d1d; font-size: 14px;"
+                           th:text="${#locale.language == 'mr' ? 'उधारी देय आठवण' : 'Payment Due Soon'}">Payment Due Soon</p>
+                        <p class="m-0 mt-1" style="font-size: 12px; color: #991b1b;"
+                           th:text="(#locale.language == 'mr' ? 'शिल्लक रक्कम: ₹' : 'Amount Due: ₹') + (${remainingUdhari != null ? #numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'})">
+                            Amount Due: ₹6,500
                         </p>
-                        <a th:href="@{/customer/pay}" class="btn btn-sm text-white px-3 py-1 mt-2 fw-semibold shadow-sm text-decoration-none d-inline-block" style="background: #dc2626; border: none; border-radius: 6px; font-size: 12px;">
+                        <a th:href="@{/customer/pay}" class="btn btn-sm text-white px-3 py-1 mt-2 fw-semibold shadow-sm text-decoration-none d-inline-block" style="background: #dc2626; border: none; border-radius: 6px; font-size: 12px;"
+                           th:text="${#locale.language == 'mr' ? 'लगेच भरा' : 'Pay Now'}">
                             Pay Now
                         </a>
                     </div>
@@ -321,13 +360,16 @@
 
             <!-- Today's Farming Tip Card -->
             <div class="modern-card p-3">
-                <h3 class="fw-bold text-dark mb-2" style="font-size: 14px;">Today's Tip</h3>
+                <h3 class="fw-bold text-dark mb-2" style="font-size: 14px;"
+                    th:text="${#locale.language == 'mr' ? 'आजचा कृषी सल्ला' : 'Daily Farming Tip'}">Today's Tip</h3>
                 <div class="p-3 rounded-3" style="background: #f0fdf4; border-left: 3px solid #16a34a;">
-                    <p class="m-0" style="font-size: 13px; color: #166534; line-height: 1.5;">
-                        For autumn farming, keep soil moist at 2 inches depth. Regular watering improves crop yield significantly.
+                    <p class="m-0" style="font-size: 13px; color: #166534; line-height: 1.5;"
+                       th:text="${#locale.language == 'mr' ? 'हंगामी पिकांसाठी जमिनीतील ओलावा २ इंच खोलीवर तपासा. नियमित व संतुलित पाणी व्यवस्थापनामुळे उत्पादनात भरीव वाढ होते.' : 'Keep soil moist at 2 inches depth. Regular and balanced watering improves crop yield significantly.'}">
+                        Keep soil moist at 2 inches depth. Regular watering improves crop yield significantly.
                     </p>
                 </div>
-                <a th:href="@{/farming-tips}" class="d-inline-block mt-3 fw-semibold text-decoration-none" style="color: #0284c7; font-size: 12px;">
+                <a th:href="@{/farming-tips}" class="d-inline-block mt-3 fw-semibold text-decoration-none" style="color: #0284c7; font-size: 12px;"
+                   th:text="${#locale.language == 'mr' ? 'अधिक सल्ले →' : 'More Tips →'}">
                     More Tips →
                 </a>
             </div>

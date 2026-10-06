@@ -6,9 +6,12 @@
 
 <div class="container my-5">
     <div class="text-center mb-5">
-        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">Always at your service</span>
-        <h2 class="fw-bold text-success">Contact Saptashrungi Agro Services</h2>
-        <p class="text-muted">Visit our counter or contact our agronomists directly for orders and crop inquiries</p>
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2"
+              th:text="${#locale.language == 'mr' ? 'नेहमी आपल्या सेवेत तत्पर' : 'Always at your service'}">Always at your service</span>
+        <h2 class="fw-bold text-success"
+            th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेसशी संपर्क साधा' : 'Contact Saptashrungi Agro Services'}">Contact Saptashrungi Agro Services</h2>
+        <p class="text-muted"
+           th:text="${#locale.language == 'mr' ? 'ऑर्डर किंवा पीक मार्गदर्शनासाठी थेट दुकानात या किंवा आमच्या कृषी तज्ञांशी संपर्क साधा' : 'Visit our counter or contact our agronomists directly for orders and crop inquiries'}">Visit our counter or contact our agronomists directly for orders and crop inquiries</p>
     </div>
 
     <div class="row g-4 mb-5">
@@ -16,20 +19,20 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-3 mb-4">
                 <div class="card-body p-4">
-                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shop text-success me-2"></i>Store Information</h5>
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shop text-success me-2"></i><span th:text="${#locale.language == 'mr' ? 'दुकान माहिती' : 'Store Information'}">Store Information</span></h5>
                     
                     <div class="d-flex align-items-start gap-3 mb-3">
                         <div class="bg-success text-white rounded p-2"><i class="bi bi-geo-alt-fill"></i></div>
                         <div>
-                            <strong class="d-block">Shop Address / पत्ता</strong>
-                            <span class="small text-muted" th:text="${shopAddress}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                            <strong class="d-block" th:text="${#locale.language == 'mr' ? 'दुकानाचा पत्ता' : 'Shop Address'}">Shop Address</strong>
+                            <span class="small text-muted" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - 423703' : 'Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703'}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
                         </div>
                     </div>
 
                     <div class="d-flex align-items-start gap-3 mb-3">
                         <div class="bg-success text-white rounded p-2"><i class="bi bi-telephone-fill"></i></div>
                         <div>
-                            <strong class="d-block">Phone & Mobile / संपर्क</strong>
+                            <strong class="d-block" th:text="${#locale.language == 'mr' ? 'फोन व मोबाईल' : 'Phone & Mobile'}">Phone & Mobile</strong>
                             <span class="small text-muted" th:text="${shopMobile}">+91 8600813827</span>
                         </div>
                     </div>
@@ -37,15 +40,15 @@
                     <div class="d-flex align-items-start gap-3 mb-3">
                         <div class="bg-success text-white rounded p-2"><i class="bi bi-clock-fill"></i></div>
                         <div>
-                            <strong class="d-block">Working Hours / वेळ</strong>
-                            <span class="small text-muted" th:text="${shopHours}">Mon - Sat: 8:00 AM - 8:30 PM | Sun: 9:00 AM - 2:00 PM</span>
+                            <strong class="d-block" th:text="${#locale.language == 'mr' ? 'कामाची वेळ' : 'Working Hours'}">Working Hours</strong>
+                            <span class="small text-muted" th:text="${#locale.language == 'mr' ? 'सोम - शनि: सकाळी 8:00 - रात्री 8:30 | रवि: सकाळी 9:00 - दुपारी 2:00' : 'Mon - Sat: 8:00 AM - 8:30 PM | Sun: 9:00 AM - 2:00 PM'}">Mon - Sat: 8:00 AM - 8:30 PM | Sun: 9:00 AM - 2:00 PM</span>
                         </div>
                     </div>
 
                     <div class="d-flex align-items-start gap-3">
                         <div class="bg-success text-white rounded p-2"><i class="bi bi-receipt"></i></div>
                         <div>
-                            <strong class="d-block">GSTIN Registration</strong>
+                            <strong class="d-block" th:text="${#locale.language == 'mr' ? 'जीएसटी नोंदणी (GSTIN)' : 'GSTIN Registration'}">GSTIN Registration</strong>
                             <span class="small text-muted" th:text="${shopGstin}">27AAAAA0000A1Z5</span>
                         </div>
                     </div>
@@ -55,13 +58,13 @@
                     <!-- Direct Action Buttons -->
                     <div class="d-grid gap-2">
                         <a th:href="@{'https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services'}" target="_blank" class="btn btn-success d-flex align-items-center justify-content-center gap-2">
-                            <i class="bi bi-whatsapp"></i> Chat on WhatsApp (8600813827)
+                            <i class="bi bi-whatsapp"></i> <span th:text="${#locale.language == 'mr' ? 'WhatsApp वर संपर्क करा (8600813827)' : 'Chat on WhatsApp (8600813827)'}">Chat on WhatsApp</span>
                         </a>
                         <a th:href="@{'tel:+918600813827'}" class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2">
-                            <i class="bi bi-telephone-outbound"></i> Direct Call Shop (+91 8600813827)
+                            <i class="bi bi-telephone-outbound"></i> <span th:text="${#locale.language == 'mr' ? 'थेट दुकानाला कॉल करा (+91 8600813827)' : 'Direct Call Shop (+91 8600813827)'}">Direct Call Shop</span>
                         </a>
                         <a th:href="${shopMapUrl != null ? shopMapUrl : 'https://maps.app.goo.gl/S34rKk9DwEntCGid6'}" target="_blank" class="btn btn-light border d-flex align-items-center justify-content-center gap-2">
-                            <i class="bi bi-map"></i> Open in Google Maps
+                            <i class="bi bi-map"></i> <span th:text="${#locale.language == 'mr' ? 'Google Maps वर उघडा' : 'Open in Google Maps'}">Open in Google Maps</span>
                         </a>
                     </div>
                 </div>

@@ -6,9 +6,12 @@
 
 <div class="container my-5">
     <div class="text-center mb-5">
-        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">Help & Assistance</span>
-        <h2 class="fw-bold text-success">Frequently Asked Questions (FAQ)</h2>
-        <p class="text-muted">Answers to common questions regarding ordering, Udhari facility, GST billing, and farming advisory</p>
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2"
+              th:text="${#locale.language == 'mr' ? 'मदत आणि माहिती' : 'Help & Assistance'}">Help & Assistance</span>
+        <h2 class="fw-bold text-success"
+            th:text="${#locale.language == 'mr' ? 'वारंवार विचारले जाणारे प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}">Frequently Asked Questions (FAQ)</h2>
+        <p class="text-muted"
+           th:text="${#locale.language == 'mr' ? 'ऑर्डर, उधारी सुविधा, जीएसटी बिलिंग आणि कृषी मार्गदर्शनाविषयीची माहिती' : 'Answers to common questions regarding ordering, Udhari facility, GST billing, and farming advisory'}">Answers to common questions regarding ordering, Udhari facility, GST billing, and farming advisory</p>
     </div>
 
     <div class="row justify-content-center mb-5">
@@ -18,11 +21,13 @@
                 <div class="accordion-item border-0 border-bottom">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                            <i class="bi bi-question-circle me-2"></i> How can I place an order for seeds and fertilizers?
+                            <i class="bi bi-question-circle me-2"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'बियाणे आणि खतांसाठी ऑर्डर कशी करावी?' : 'How can I place an order for seeds and fertilizers?'}">How can I place an order for seeds and fertilizers?</span>
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#krushiFaqAccordion">
-                        <div class="accordion-body text-secondary">
+                        <div class="accordion-body text-secondary"
+                             th:text="${#locale.language == 'mr' ? 'तुम्ही आमचा ऑनलाइन कॅटलॉग पाहून हवी ती उत्पादने कार्टमध्ये जोडू शकता आणि चेकआऊट करू शकता. तुम्ही दुकानातून स्वतः पिकअप किंवा डिलिव्हरी पर्याय निवडू शकता, तसेच रोख, UPI किंवा उधारीने पैसे भरू शकता.' : 'You can browse our online catalog, add your required products to the shopping cart, and proceed to checkout. You can select either Counter Pickup or Field Delivery, and pay via Cash, UPI QR code, or Udhari.'}">
                             You can browse our online catalog, add your required products to the shopping cart, and proceed to checkout. You can select either Counter Pickup or Field Delivery, and pay via Cash, UPI QR code, or Udhari.
                         </div>
                     </div>
@@ -32,11 +37,13 @@
                 <div class="accordion-item border-0 border-bottom">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                            <i class="bi bi-credit-card me-2"></i> How does the Udhari (Credit) facility work?
+                            <i class="bi bi-credit-card me-2"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'उधारी (क्रेडिट) सुविधा कशी कार्य करते?' : 'How does the Udhari (Credit) facility work?'}">How does the Udhari (Credit) facility work?</span>
                         </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
-                        <div class="accordion-body text-secondary">
+                        <div class="accordion-body text-secondary"
+                             th:text="${#locale.language == 'mr' ? 'नोंदणीकृत आणि विश्वासू स्थानिक शेतकरी चेकआऊट करताना उधारी पर्याय निवडू शकतात. ही रक्कम थेट तुमच्या डिजिटल उधारी खात्यात नोंदवली जाते. तुम्ही तुमचे शिल्लक कधीही ऑनलाइन UPI किंवा रोख रकमेद्वारे फेडू शकता.' : 'Verified local farmers with an active customer account can choose Udhari at checkout. The bill amount is automatically logged to your personal credit ledger with a 30-day payment term. You can view your balance and pay online via UPI or cash anytime.'}">
                             Verified local farmers with an active customer account can choose Udhari at checkout. The bill amount is automatically logged to your personal credit ledger with a 30-day payment term. You can view your balance and pay online via UPI or cash anytime.
                         </div>
                     </div>
@@ -46,12 +53,14 @@
                 <div class="accordion-item border-0 border-bottom">
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                            <i class="bi bi-receipt me-2"></i> How can I download my GST tax invoice?
+                            <i class="bi bi-receipt me-2"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'जीएसटी कर बिल (Tax Invoice) कसे डाऊनलोड करावे?' : 'How can I download my GST tax invoice?'}">How can I download my GST tax invoice?</span>
                         </button>
                     </h2>
                     <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
-                        <div class="accordion-body text-secondary">
-                            Log in to your Customer Dashboard, go to <strong>My Orders</strong>, click on your order, and select <strong>Download / Print GST Invoice</strong>. The system generates a compliant invoice with HSN and tax breakdown.
+                        <div class="accordion-body text-secondary"
+                             th:text="${#locale.language == 'mr' ? 'तुमच्या शेतकरी डॅशबोर्डमध्ये लॉगिन करा, माझ्या ऑर्डर्स विभागावर जा, आपल्या ऑर्डरवर क्लिक करा आणि जीएसटी बिल डाऊनलोड किंवा प्रिंट करा निवडा. सर्व HSN कोड व कर तपशीलांसह अधिकृत बिल प्राप्त होईल.' : 'Log in to your Customer Dashboard, go to My Orders, click on your order, and select Download / Print GST Invoice. The system generates a compliant invoice with HSN and tax breakdown.'}">
+                            Log in to your Customer Dashboard, go to My Orders, click on your order, and select Download / Print GST Invoice. The system generates a compliant invoice with HSN and tax breakdown.
                         </div>
                     </div>
                 </div>
@@ -60,11 +69,13 @@
                 <div class="accordion-item border-0 border-bottom">
                     <h2 class="accordion-header" id="headingFour">
                         <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
-                            <i class="bi bi-calculator me-2"></i> How accurate is the Fertilizer Calculator?
+                            <i class="bi bi-calculator me-2"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'खत कॅल्क्युलेटर किती अचूक आहे?' : 'How accurate is the Fertilizer Calculator?'}">How accurate is the Fertilizer Calculator?</span>
                         </button>
                     </h2>
                     <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
-                        <div class="accordion-body text-secondary">
+                        <div class="accordion-body text-secondary"
+                             th:text="${#locale.language == 'mr' ? 'हे कॅल्क्युलेटर महात्मा फुले कृषी विद्यापीठ (राहुरी) आणि ICAR यांच्या प्रमाणित शिफारशींवर आधारित एकर आणि पिकाच्या प्रकारानुसार खतांचे अचूक प्रमाण सांगते.' : 'The calculator uses standard state agricultural university (MPKV Rahuri / ICAR) fertilizer recommendations based on acreage and soil type. For micro-soil deficiencies, farmers are encouraged to also review their soil health cards.'}">
                             The calculator uses standard state agricultural university (MPKV Rahuri / ICAR) fertilizer recommendations based on acreage and soil type. For micro-soil deficiencies, farmers are encouraged to also review their soil health cards.
                         </div>
                     </div>
@@ -74,11 +85,13 @@
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="headingFive">
                         <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
-                            <i class="bi bi-clock me-2"></i> What are the shop working hours?
+                            <i class="bi bi-clock me-2"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'दुकानाची वेळ काय आहे?' : 'What are the shop working hours?'}">What are the shop working hours?</span>
                         </button>
                     </h2>
                     <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#krushiFaqAccordion">
-                        <div class="accordion-body text-secondary">
+                        <div class="accordion-body text-secondary"
+                             th:text="${#locale.language == 'mr' ? 'आमचे दुकान सोमवार ते शनिवार सकाळी 8:00 ते रात्री 8:30 पर्यंत आणि रविवारी सकाळी 9:00 ते दुपारी 2:00 पर्यंत उघडे असते. ऑनलाइन ऑर्डर २४ तास करता येतात.' : 'Our physical retail counter is open Monday through Saturday from 8:00 AM to 8:30 PM, and on Sundays from 9:00 AM to 2:00 PM. Online orders and inquiries can be submitted 24/7.'}">
                             Our physical retail counter is open Monday through Saturday from 8:00 AM to 8:30 PM, and on Sundays from 9:00 AM to 2:00 PM. Online orders and inquiries can be submitted 24/7.
                         </div>
                     </div>

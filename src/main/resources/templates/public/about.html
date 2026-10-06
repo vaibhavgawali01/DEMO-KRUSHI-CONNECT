@@ -8,10 +8,12 @@
 <section style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 50%, #0d3b0d 100%); min-height: 320px; display:flex; align-items:center; position:relative; overflow:hidden;">
     <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:url('/images/hero_farm_bg.png') center/cover no-repeat; opacity:0.18;"></div>
     <div class="container text-center py-5" style="position:relative;z-index:2;">
-        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;">🌾 आमच्याबद्दल / About Us</span>
-        <h1 class="display-5 fw-bold text-white mb-3">सप्तशृंगी ॲग्रो सर्व्हिसेस</h1>
-        <p class="lead mb-0" style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto;">
-            शेतकऱ्यांसाठी विश्वासाचे अधिकृत कृषी सेवा केंद्र — Mirakhnagar, Vaijapur
+        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;"
+              th:text="${#locale.language == 'mr' ? '🌾 आमच्याबद्दल' : '🌾 About Us'}">🌾 About Us</span>
+        <h1 class="display-5 fw-bold text-white mb-3" th:text="#{app.name}">Saptashrungi Agro Services</h1>
+        <p class="lead mb-0" style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto;"
+           th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांसाठी विश्वासाचे अधिकृत कृषी सेवा केंद्र — मिरखनगर, वैजापूर' : 'Trusted Authorized Agro Services Center for Farmers — Mirakhnagar, Vaijapur'}">
+            Trusted Authorized Agro Services Center for Farmers — Mirakhnagar, Vaijapur
         </p>
     </div>
 </section>
@@ -20,21 +22,39 @@
 <section class="container my-5">
     <div class="row align-items-center g-5">
         <div class="col-lg-6">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">
-                🌱 आमची कहाणी / Our Story
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
+                  th:text="${#locale.language == 'mr' ? '🌱 आमची कहाणी' : '🌱 Our Story'}">
+                🌱 Our Story
             </span>
-            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;">
+            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;" th:if="${#locale.language == 'mr'}">
                 शेतकऱ्यांच्या विश्वासाचे केंद्र —<br>
                 <span style="color:#1b5e20;">एक दशकाहून अधिक काळ</span>
             </h2>
-            <p class="text-muted mb-3" style="line-height:1.8;">
-                <strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे Mirakhnagar, Vaijapur येथे स्थापित एक अधिकृत कृषी सेवा केंद्र आहे. 
-                शेतकऱ्यांना उच्च दर्जाचे बियाणे, खते, कीटकनाशके आणि आधुनिक शेती साहित्य रास्त किंमतीत उपलब्ध करून देणे हेच आमचे ध्येय आहे.
-            </p>
-            <p class="text-muted mb-4" style="line-height:1.8;">
-                आम्ही <strong>Mahyco, Syngenta, IFFCO, Bayer CropScience, Jain Irrigation</strong> यांसारख्या देशातील आघाडीच्या कंपन्यांचे अधिकृत वितरक आहोत. 
-                प्रत्येक उत्पादन <strong>100% प्रमाणित आणि खात्रीशीर</strong> आहे.
-            </p>
+            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;" th:if="${#locale.language != 'mr'}">
+                Farmers' Trusted Partner —<br>
+                <span style="color:#1b5e20;">For Over a Decade</span>
+            </h2>
+
+            <div th:if="${#locale.language == 'mr'}">
+                <p class="text-muted mb-3" style="line-height:1.8;">
+                    <strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे मिरखनगर, वैजापूर येथे स्थापित एक अधिकृत कृषी सेवा केंद्र आहे. 
+                    शेतकऱ्यांना उच्च दर्जाचे बियाणे, खते, कीटकनाशके आणि आधुनिक शेती साहित्य रास्त दरात उपलब्ध करून देणे हेच आमचे ध्येय आहे.
+                </p>
+                <p class="text-muted mb-4" style="line-height:1.8;">
+                    आम्ही <strong>Mahyco, Syngenta, IFFCO, Bayer CropScience, Jain Irrigation</strong> यांसारख्या देशातील आघाडीच्या कंपन्यांचे अधिकृत वितरक आहोत. 
+                    प्रत्येक उत्पादन <strong>१००% प्रमाणित आणि खात्रीशीर</strong> आहे.
+                </p>
+            </div>
+            <div th:if="${#locale.language != 'mr'}">
+                <p class="text-muted mb-3" style="line-height:1.8;">
+                    <strong>Saptashrungi Agro Services</strong> is an authorized agricultural input and advisory center in Mirakhnagar, Vaijapur. 
+                    Our dedication is to provide local farmers with superior quality seeds, fertilizers, pesticides, and modern equipment at fair and transparent prices.
+                </p>
+                <p class="text-muted mb-4" style="line-height:1.8;">
+                    We are authorized distributors for India's leading manufacturers including <strong>Mahyco, Syngenta, IFFCO, Bayer CropScience, and Jain Irrigation</strong>. 
+                    Every single product is <strong>100% genuine and batch-certified</strong>.
+                </p>
+            </div>
 
             <!-- Key Points -->
             <div class="d-flex flex-column gap-3">
@@ -43,8 +63,8 @@
                         <i class="bi bi-patch-check-fill text-success fs-5"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-1">100% प्रमाणित उत्पादने</h6>
-                        <p class="text-muted small mb-0">सरकारमान्य आणि कंपनी-प्रमाणित बियाणे, खते व कीटकनाशके — बनावट उत्पादनांना थारा नाही.</p>
+                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? '१००% प्रमाणित उत्पादने' : '100% Certified Genuine Products'}">100% Certified Genuine Products</h6>
+                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'शासनमान्य आणि कंपनी-प्रमाणित बियाणे, खते व कीटकनाशके — बनावट उत्पादनांना थारा नाही.' : 'Government-approved and company-tested seeds, fertilizers, and crop protection with zero counterfeit risk.'}">Government-approved and company-tested seeds, fertilizers, and crop protection with zero counterfeit risk.</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-start gap-3">
@@ -52,8 +72,8 @@
                         <i class="bi bi-people-fill fs-5" style="color:#f97316;"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-1">तज्ञ मार्गदर्शन (Expert Advice)</h6>
-                        <p class="text-muted small mb-0">कोणते बियाणे, किती खत, कोणते कीटकनाशक — प्रत्येक शेतकऱ्याला वैयक्तिक मार्गदर्शन.</p>
+                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'तज्ज्ञ कृषी मार्गदर्शन' : 'Expert Agronomist Guidance'}">Expert Agronomist Guidance</h6>
+                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'योग्य बियाणे, खताची अचूक मात्रा आणि फवारणी नियोजन — प्रत्येक शेतकऱ्याला मोफत मार्गदर्शन.' : 'Personalized consultation on seed varieties, fertilizer dosages, and pest spraying schedules.'}">Personalized consultation on seed varieties, fertilizer dosages, and pest spraying schedules.</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-start gap-3">
@@ -61,8 +81,8 @@
                         <i class="bi bi-credit-card-2-front-fill fs-5" style="color:#0288d1;"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-1">उधारी सुविधा (Credit / Udhari)</h6>
-                        <p class="text-muted small mb-0">विश्वासू शेतकऱ्यांना उधारीवर माल — शेती हंगामानंतर सोयीने परतफेड.</p>
+                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'सुलभ उधारी सुविधा' : 'Hassle-Free Credit (Udhari)'}">Hassle-Free Credit (Udhari)</h6>
+                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'विश्वासू शेतकऱ्यांना सुलभ उधारी — हंगामानंतर सोयीने परतफेडीची सोय.' : 'Reliable seasonal credit facility for verified local farmers with convenient harvest repayment.'}">Reliable seasonal credit facility for verified local farmers with convenient harvest repayment.</p>
                     </div>
                 </div>
             </div>
@@ -81,8 +101,8 @@
                         <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Logo"
                              style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
                         <div>
-                            <div class="fw-bold text-success" style="font-size:0.85rem;">सप्तशृंगी ॲग्रो सर्व्हिसेस</div>
-                            <div class="text-muted" style="font-size:0.75rem;">📍 Mirakhnagar, Vaijapur</div>
+                            <div class="fw-bold text-success" style="font-size:0.85rem;" th:text="#{app.name}">Saptashrungi Agro Services</div>
+                            <div class="text-muted" style="font-size:0.75rem;" th:text="${#locale.language == 'mr' ? '📍 मिरखनगर, वैजापूर' : '📍 Mirakhnagar, Vaijapur'}">📍 Mirakhnagar, Vaijapur</div>
                         </div>
                     </div>
                 </div>
@@ -97,19 +117,19 @@
         <div class="row g-4 text-center text-white">
             <div class="col-6 col-md-3">
                 <div class="display-5 fw-bold mb-1" style="color:#86efac;">10+</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">वर्षांचा अनुभव<br><small>Years Experience</small></div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'वर्षांचा अनुभव' : 'Years Experience'}">Years Experience</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="display-5 fw-bold mb-1" style="color:#fbbf24;">5,000+</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">शेतकरी ग्राहक<br><small>Farmers Served</small></div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक' : 'Farmers Served'}">Farmers Served</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="display-5 fw-bold mb-1" style="color:#86efac;">500+</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">प्रमाणित उत्पादने<br><small>Certified Products</small></div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'प्रमाणित उत्पादने' : 'Certified Products'}">Certified Products</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="display-5 fw-bold mb-1" style="color:#fbbf24;">50+</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;">ब्रँड्स उपलब्ध<br><small>Top Brands</small></div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'नामांकित ब्रँड्स' : 'Top Agri Brands'}">Top Agri Brands</div>
             </div>
         </div>
     </div>
@@ -118,57 +138,58 @@
 <!-- ===== SERVICES ===== -->
 <section class="container my-5">
     <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">🛒 आमच्या सेवा</span>
-        <h2 class="fw-bold text-success">आम्ही काय देतो?</h2>
-        <p class="text-muted">शेतीसाठी लागणारी प्रत्येक गोष्ट एकाच ठिकाणी</p>
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
+              th:text="${#locale.language == 'mr' ? '🛒 आमच्या सेवा' : '🛒 Our Services'}">🛒 Our Services</span>
+        <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'आम्ही काय देतो?' : 'What We Offer'}">What We Offer</h2>
+        <p class="text-muted" th:text="${#locale.language == 'mr' ? 'शेतीसाठी लागणारी प्रत्येक गोष्ट एकाच ठिकाणी' : 'Everything you need for prosperous farming in one place'}">Everything you need for farming in one place</p>
     </div>
     <div class="row g-4">
         <!-- Service 1 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">🌱</div>
-                <h5 class="fw-bold text-success mb-2">प्रमाणित बियाणे</h5>
-                <p class="text-muted small mb-0">Mahyco, Mahabeej, Monsanto यांचे संकरित व प्रमाणित बियाणे — कापूस, सोयाबीन, मका, ज्वारी, भाजीपाला सर्व उपलब्ध.</p>
+                <h5 class="fw-bold text-success mb-2" th:text="${#locale.language == 'mr' ? 'प्रमाणित बियाणे' : 'Certified Seeds'}">Certified Seeds</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Mahyco, Mahabeej, Monsanto यांचे संकरित व प्रमाणित बियाणे — कापूस, सोयाबीन, मका, ज्वारी, भाजीपाला सर्व उपलब्ध.' : 'Hybrid & certified seeds from Mahyco, Mahabeej, Monsanto — cotton, soybean, maize, sorghum, and vegetables.'}">Hybrid & certified seeds from Mahyco, Mahabeej, Monsanto.</p>
             </div>
         </div>
         <!-- Service 2 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#fff7ed;border:1px solid #fed7aa;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(249,115,22,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">🌿</div>
-                <h5 class="fw-bold mb-2" style="color:#c2410c;">रासायनिक व सेंद्रिय खते</h5>
-                <p class="text-muted small mb-0">IFFCO युरिया, Mahadhan NPK, Coromandel, नीम केक, व्हर्मीकंपोस्ट — सर्व प्रकारची खते रास्त दरात.</p>
+                <h5 class="fw-bold mb-2" style="color:#c2410c;" th:text="${#locale.language == 'mr' ? 'रासायनिक व सेंद्रिय खते' : 'Chemical & Organic Fertilizers'}">Chemical & Organic Fertilizers</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'IFFCO युरिया, Mahadhan NPK, Coromandel, नीम केक, व्हर्मीकंपोस्ट — सर्व प्रकारची खते रास्त दरात.' : 'IFFCO Urea, Mahadhan NPK, Coromandel, Neem Cake, Vermicompost — all fertilizers at fair rates.'}">IFFCO Urea, Mahadhan NPK, Coromandel, Neem Cake, Vermicompost.</p>
             </div>
         </div>
         <!-- Service 3 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#f0f9ff;border:1px solid #bae6fd;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(2,132,199,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">💧</div>
-                <h5 class="fw-bold mb-2" style="color:#0369a1;">ठिबक सिंचन साहित्य</h5>
-                <p class="text-muted small mb-0">Jain Irrigation, Netafim यांचे ठिबक पाईप, ड्रीपर, फिल्टर, फिटिंग्ज — शेतीचा पाणी खर्च 50% कमी करा.</p>
+                <h5 class="fw-bold mb-2" style="color:#0369a1;" th:text="${#locale.language == 'mr' ? 'ठिबक सिंचन साहित्य' : 'Drip Irrigation Equipment'}">Drip Irrigation Equipment</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Jain Irrigation, Netafim यांचे ठिबक पाईप, ड्रीपर, फिल्टर, फिटिंग्ज — शेतीचा पाणी खर्च 50% कमी करा.' : 'Drip pipes, drippers, filters, and fittings from Jain Irrigation and Netafim — save up to 50% water.'}">Drip pipes, drippers, filters, and fittings from Jain Irrigation and Netafim.</p>
             </div>
         </div>
         <!-- Service 4 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#fdf4ff;border:1px solid #e9d5ff;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(124,58,237,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">🐛</div>
-                <h5 class="fw-bold mb-2" style="color:#6d28d9;">कीटकनाशके व बुरशीनाशके</h5>
-                <p class="text-muted small mb-0">Syngenta, Bayer, Tata Rallis, UPL यांची अत्याधुनिक कीटकनाशके — पिकाला 100% संरक्षण.</p>
+                <h5 class="fw-bold mb-2" style="color:#6d28d9;" th:text="${#locale.language == 'mr' ? 'कीटकनाशके व बुरशीनाशके' : 'Pesticides & Fungicides'}">Pesticides & Fungicides</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Syngenta, Bayer, Tata Rallis, UPL यांची अत्याधुनिक कीटकनाशके — पिकाला 100% संरक्षण.' : 'Advanced crop protection formulas from Syngenta, Bayer, Tata Rallis, and UPL — complete crop safety.'}">Advanced crop protection formulas from Syngenta, Bayer, Tata Rallis, and UPL.</p>
             </div>
         </div>
         <!-- Service 5 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#fefce8;border:1px solid #fef08a;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(234,179,8,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">🔧</div>
-                <h5 class="fw-bold mb-2" style="color:#a16207;">शेती अवजारे व फवारणी पंप</h5>
-                <p class="text-muted small mb-0">Battery sprayers, hand pumps, power weeders, pruning shears — आधुनिक शेतीसाठी दर्जेदार उपकरणे.</p>
+                <h5 class="fw-bold mb-2" style="color:#a16207;" th:text="${#locale.language == 'mr' ? 'शेती अवजारे व फवारणी पंप' : 'Farm Tools & Sprayers'}">Farm Tools & Sprayers</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Battery sprayers, hand pumps, power weeders, pruning shears — आधुनिक शेतीसाठी दर्जेदार उपकरणे.' : 'Battery sprayers, hand pumps, power weeders, and pruning shears — reliable tools for modern farms.'}">Battery sprayers, hand pumps, power weeders, and pruning shears.</p>
             </div>
         </div>
         <!-- Service 6 -->
         <div class="col-md-4 col-sm-6">
             <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                 <div style="font-size:2.8rem;margin-bottom:1rem;">💰</div>
-                <h5 class="fw-bold text-success mb-2">उधारी सुविधा (Udhari)</h5>
-                <p class="text-muted small mb-0">विश्वासू शेतकऱ्यांना क्रेडिट सुविधा — हंगामानंतर सोयीने परतफेड. Digital udhari record ठेवले जाते.</p>
+                <h5 class="fw-bold text-success mb-2" th:text="${#locale.language == 'mr' ? 'उधारी सुविधा' : 'Credit Facility (Udhari)'}">Credit Facility (Udhari)</h5>
+                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'विश्वासू शेतकऱ्यांना क्रेडिट सुविधा — हंगामानंतर सोयीने परतफेड. Digital udhari record ठेवले जाते.' : 'Convenient credit facility for trusted farmers — pay after harvest with digital ledgers.'}">Convenient credit facility for trusted farmers with digital tracking.</p>
             </div>
         </div>
     </div>
@@ -178,8 +199,9 @@
 <section style="background:linear-gradient(135deg,#f0fdf4,#e8f5e9); padding:4rem 0;">
     <div class="container">
         <div class="text-center mb-5">
-            <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">⭐ आम्हीच का?</span>
-            <h2 class="fw-bold text-success">सप्तशृंगी का निवडावे?</h2>
+            <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
+                  th:text="${#locale.language == 'mr' ? '⭐ आम्हीच का?' : '⭐ Why Choose Us?'}">⭐ Why Choose Us?</span>
+            <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी का निवडावे?' : 'Why Choose Saptashrungi?'}">Why Choose Saptashrungi?</h2>
         </div>
         <div class="row g-4 align-items-center">
             <div class="col-lg-6">
@@ -187,29 +209,29 @@
                     <div class="d-flex align-items-start gap-3">
                         <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</span>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1">नामांकित कंपन्यांचे थेट वितरक</h6>
-                            <p class="text-muted small mb-0">Mahyco, Syngenta, IFFCO, Bayer, Jain Irrigation यांचे अधिकृत वितरक — बनावट माल मिळण्याची शून्य शक्यता.</p>
+                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'नामांकित कंपन्यांचे थेट वितरक' : 'Direct Authorized Distributor'}">Direct Authorized Distributor</h6>
+                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Mahyco, Syngenta, IFFCO, Bayer, Jain Irrigation यांचे अधिकृत वितरक — बनावट माल मिळण्याची शून्य शक्यता.' : 'Authorized partner of Mahyco, Syngenta, IFFCO, Bayer, and Jain Irrigation — zero counterfeit risk.'}">Authorized partner of Mahyco, Syngenta, IFFCO, Bayer, and Jain Irrigation.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3">
                         <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</span>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1">तज्ञ कृषी सल्लागार</h6>
-                            <p class="text-muted small mb-0">आमचे प्रशिक्षित कर्मचारी तुमच्या पिकांसाठी योग्य उत्पादन निवडण्यात मदत करतात — मोफत सल्ला.</p>
+                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'तज्ञ कृषी सल्लागार' : 'Expert Agronomy Advisory'}">Expert Agronomy Advisory</h6>
+                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'आमचे प्रशिक्षित कर्मचारी तुमच्या पिकांसाठी योग्य उत्पादन निवडण्यात मदत करतात — मोफत सल्ला.' : 'Our trained agri experts help you pick the right inputs tailored to your soil and crops.'}">Our agri experts help pick the right inputs tailored to your soil and crops.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3">
                         <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</span>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1">रास्त किंमत — कोणतीही लपलेली किंमत नाही</h6>
-                            <p class="text-muted small mb-0">MRP पेक्षा जास्त किंमत आकारली जात नाही. शेतकऱ्यांसाठी विशेष सवलत योजना.</p>
+                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'रास्त किंमत — कोणतीही लपलेली किंमत नाही' : 'Transparent & Fair Pricing'}">Transparent & Fair Pricing</h6>
+                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'MRP पेक्षा जास्त किंमत आकारली जात नाही. शेतकऱ्यांसाठी विशेष सवलत योजना.' : 'Always sold at fair rates at or below MRP with genuine farmer seasonal discounts.'}">Always sold at fair rates at or below MRP with genuine farmer discounts.</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3">
                         <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</span>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1">Expiry Date Track — नो एक्सपायरी माल</h6>
-                            <p class="text-muted small mb-0">प्रत्येक product ची expiry date digitally track केली जाते — expired माल विकण्याची शून्य शक्यता.</p>
+                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'डिजिटल एक्सपायरी ट्रॅकिंग — हमखास ताजा माल' : 'Digital Expiry Tracking — Fresh Stock Only'}">Digital Expiry Tracking — Fresh Stock Only</h6>
+                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'प्रत्येक product ची expiry date digitally track केली जाते — expired माल विकण्याची शून्य शक्यता.' : 'Every batch expiry date is tracked digitally — guaranteed fresh, active inputs with zero expired stock.'}">Every batch expiry date is tracked digitally — guaranteed fresh, active inputs.</p>
                         </div>
                     </div>
                 </div>
@@ -218,30 +240,30 @@
                 <!-- Fun Fact Card -->
                 <div class="p-4 rounded-4 text-white text-center" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);box-shadow:0 16px 40px rgba(27,94,32,0.3);">
                     <div style="font-size:3.5rem;margin-bottom:1rem;">🏆</div>
-                    <h4 class="fw-bold mb-3">आमचे खास वैशिष्ट्य</h4>
+                    <h4 class="fw-bold mb-3" th:text="${#locale.language == 'mr' ? 'आमचे खास वैशिष्ट्य' : 'Our Key Highlights'}">Our Key Highlights</h4>
                     <div class="row g-3 mt-2">
                         <div class="col-6">
                             <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
                                 <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">🌾</div>
-                                <div style="font-size:0.82rem;">Kharif + Rabi<br>दोन्ही हंगामात उपलब्ध</div>
+                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'खरीप + रब्बी<br>दोन्ही हंगामात उपलब्ध' : 'Kharif + Rabi<br>All Seasons Ready'}">Kharif + Rabi<br>All Seasons Ready</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
                                 <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">📱</div>
-                                <div style="font-size:0.82rem;">WhatsApp वर<br>तात्काळ उत्तर</div>
+                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'WhatsApp वर<br>तात्काळ उत्तर' : 'WhatsApp Support<br>Instant Reply'}">WhatsApp Support<br>Instant Reply</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
                                 <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">💳</div>
-                                <div style="font-size:0.82rem;">UPI / Cash /<br>Udhari सुविधा</div>
+                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'UPI / रोख /<br>उधारी सुविधा' : 'UPI / Cash /<br>Credit Facility'}">UPI / Cash /<br>Credit Facility</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
                                 <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">🧾</div>
-                                <div style="font-size:0.82rem;">GST Bill<br>उपलब्ध</div>
+                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'पक्के GST बिल<br>उपलब्ध' : 'Official GST Bill<br>Provided'}">Official GST Bill<br>Provided</div>
                             </div>
                         </div>
                     </div>
@@ -254,24 +276,23 @@
 <!-- ===== CONTACT & MAP ===== -->
 <section class="container my-5">
     <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">📍 आमचा पत्ता</span>
-        <h2 class="fw-bold text-success">आम्हाला भेटा / Find Us</h2>
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
+              th:text="${#locale.language == 'mr' ? '📍 आमचा पत्ता' : '📍 Our Location'}">📍 Our Location</span>
+        <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'आम्हाला भेटा' : 'Visit Our Store'}">Visit Our Store</h2>
     </div>
     <div class="row g-4">
         <!-- Contact Info -->
         <div class="col-lg-5">
             <div class="p-4 rounded-4 h-100" style="background:#f8fffe;border:1px solid #d1fae5;">
-                <h5 class="fw-bold text-success mb-4">📞 संपर्क माहिती</h5>
+                <h5 class="fw-bold text-success mb-4" th:text="${#locale.language == 'mr' ? '📞 संपर्क माहिती' : '📞 Contact Details'}">📞 Contact Details</h5>
 
                 <div class="d-flex align-items-start gap-3 mb-4">
                     <div style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <i class="bi bi-geo-alt-fill text-success fs-5"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark mb-1">दुकानाचा पत्ता</div>
-                        <div class="text-muted small">सप्तशृंगी ॲग्रो सर्व्हिसेस<br>
-                        Mirakhnagar, Vaijapur,<br>
-                        Chhatrapati Sambhajinagar, Maharashtra - 423703</div>
+                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'दुकानाचा पत्ता' : 'Store Address'}">Store Address</div>
+                        <div class="text-muted small" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - 423703' : 'Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703'}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</div>
                     </div>
                 </div>
 
@@ -280,7 +301,7 @@
                         <i class="bi bi-telephone-fill text-success fs-5"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark mb-1">फोन नंबर</div>
+                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'फोन नंबर' : 'Phone Number'}">Phone Number</div>
                         <a href="tel:+918600813827" class="text-success fw-bold text-decoration-none" style="font-size:1.1rem;">+91 8600813827</a>
                     </div>
                 </div>
@@ -291,7 +312,8 @@
                     </div>
                     <div>
                         <div class="fw-bold text-dark mb-1">WhatsApp</div>
-                        <a href="https://wa.me/918600813827" target="_blank" class="text-success fw-bold text-decoration-none">+91 8600813827 वर WhatsApp करा</a>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-success fw-bold text-decoration-none"
+                           th:text="${#locale.language == 'mr' ? '+91 8600813827 वर WhatsApp करा' : 'Chat on WhatsApp: +91 8600813827'}">+91 8600813827 वर WhatsApp करा</a>
                     </div>
                 </div>
 
@@ -300,10 +322,14 @@
                         <i class="bi bi-clock-fill fs-5" style="color:#d97706;"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark mb-1">दुकान वेळ</div>
-                        <div class="text-muted small">
+                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'दुकान वेळ' : 'Store Hours'}">Store Hours</div>
+                        <div class="text-muted small" th:if="${#locale.language == 'mr'}">
                             सोमवार - शनिवार: <strong class="text-dark">सकाळी 8:00 — संध्याकाळी 8:00</strong><br>
                             रविवार: <strong class="text-dark">सकाळी 9:00 — दुपारी 2:00</strong>
+                        </div>
+                        <div class="text-muted small" th:unless="${#locale.language == 'mr'}">
+                            Monday - Saturday: <strong class="text-dark">8:00 AM — 8:00 PM</strong><br>
+                            Sunday: <strong class="text-dark">9:00 AM — 2:00 PM</strong>
                         </div>
                     </div>
                 </div>
@@ -311,11 +337,11 @@
                 <!-- CTA Buttons -->
                 <div class="d-flex gap-2 flex-wrap mt-4">
                     <a href="tel:+918600813827" class="btn btn-success px-4 fw-bold d-flex align-items-center gap-2">
-                        <i class="bi bi-telephone-fill"></i> Call Now
+                        <i class="bi bi-telephone-fill"></i> <span th:text="${#locale.language == 'mr' ? 'कॉल करा' : 'Call Now'}">Call Now</span>
                     </a>
                     <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
                        class="btn btn-outline-success px-4 fw-bold d-flex align-items-center gap-2">
-                        <i class="bi bi-map-fill"></i> Get Directions
+                        <i class="bi bi-map-fill"></i> <span th:text="${#locale.language == 'mr' ? 'मार्गदर्शन मिळवा' : 'Get Directions'}">Get Directions</span>
                     </a>
                 </div>
             </div>
@@ -335,7 +361,7 @@
             <div class="mt-3 text-center">
                 <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
                    class="btn btn-success px-5 py-2 fw-bold shadow">
-                    <i class="bi bi-google me-2"></i> Google Maps वर उघडा
+                    <i class="bi bi-google me-2"></i> <span th:text="${#locale.language == 'mr' ? 'Google Maps वर उघडा' : 'Open in Google Maps'}">Open in Google Maps</span>
                 </a>
             </div>
         </div>
@@ -346,17 +372,18 @@
 <section style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:4rem 0; text-align:center;">
     <div class="container">
         <div style="font-size:3rem;margin-bottom:1rem;">🌾</div>
-        <h2 class="fw-bold text-white mb-3">आमचे ध्येय</h2>
+        <h2 class="fw-bold text-white mb-3" th:text="${#locale.language == 'mr' ? 'आमचे ध्येय' : 'Our Mission'}">Our Mission</h2>
         <p style="color:rgba(255,255,255,0.85); font-size:1.15rem; max-width:700px; margin:0 auto 2rem; line-height:1.8;">
-            <em>"प्रत्येक शेतकऱ्याला दर्जेदार आणि प्रमाणित कृषी निविष्ठा रास्त किंमतीत उपलब्ध करून देणे
-            आणि आधुनिक तंत्रज्ञानाद्वारे त्यांचे उत्पन्न वाढवण्यास मदत करणे."</em>
+            <em th:text="${#locale.language == 'mr' ? 'प्रत्येक शेतकऱ्याला दर्जेदार आणि प्रमाणित कृषी निविष्ठा रास्त किंमतीत उपलब्ध करून देणे आणि आधुनिक तंत्रज्ञानाद्वारे त्यांचे उत्पन्न वाढवण्यास मदत करणे.' : 'To provide every farmer with genuine, certified agri-inputs at fair prices and enhance crop yields through modern agricultural guidance.'}">"To provide every farmer with genuine, certified agri-inputs at fair prices."</em>
         </p>
         <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a th:href="@{/products}" class="btn px-5 py-2 fw-bold rounded-pill" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;">
-                🛒 Products पाहा
+            <a th:href="@{/products}" class="btn px-5 py-2 fw-bold rounded-pill" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;"
+               th:text="${#locale.language == 'mr' ? '🛒 उत्पादने पाहा' : '🛒 Browse Products'}">
+                🛒 Browse Products
             </a>
-            <a href="tel:+918600813827" class="btn btn-outline-light px-5 py-2 fw-bold rounded-pill">
-                📞 आत्ता Call करा
+            <a href="tel:+918600813827" class="btn btn-outline-light px-5 py-2 fw-bold rounded-pill"
+               th:text="${#locale.language == 'mr' ? '📞 आत्ता संपर्क करा' : '📞 Call Us Now'}">
+                📞 Call Us Now
             </a>
         </div>
     </div>

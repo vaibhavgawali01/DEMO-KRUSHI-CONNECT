@@ -18,7 +18,7 @@
         <div class="col-lg-3">
             <div class="card border-0 shadow-sm rounded-3">
                 <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 fw-bold"><i class="bi bi-funnel me-2"></i>Filter Products</h6>
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-funnel me-2"></i><span th:text="${#locale.language == 'mr' ? 'फिल्टर' : 'Filter Products'}">Filter Products</span></h6>
                     <a th:href="@{/products}" class="text-white-50 text-decoration-none small" th:text="#{product.filter.reset}">Reset</a>
                 </div>
                 <div class="card-body p-3">
@@ -32,7 +32,7 @@
                             <div class="d-flex flex-column gap-1">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="categoryId" id="cat_all" value="" th:checked="${selectedCategory == null}">
-                                    <label class="form-check-label small" for="cat_all">All Categories</label>
+                                    <label class="form-check-label small" for="cat_all" th:text="${#locale.language == 'mr' ? 'सर्व वर्ग' : 'All Categories'}">All Categories</label>
                                 </div>
                                 <div class="form-check" th:each="cat : ${categories}">
                                     <input class="form-check-input" type="radio" name="categoryId" th:id="${'cat_' + cat.id}" th:value="${cat.id}" th:checked="${selectedCategory == cat.id}">
@@ -45,7 +45,7 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold text-success small text-uppercase" th:text="#{product.filter.brand}">Company / Brand</label>
                             <select name="company" class="form-select form-select-sm">
-                                <option value="" th:selected="${selectedCompany == null or selectedCompany == ''}">All Brands</option>
+                                <option value="" th:selected="${selectedCompany == null or selectedCompany == ''}" th:text="${#locale.language == 'mr' ? 'सर्व ब्रँड्स' : 'All Brands'}">All Brands</option>
                                 <option th:each="b : ${brands}" th:value="${b}" th:text="${b}" th:selected="${selectedCompany == b}">Brand Name</option>
                             </select>
                         </div>
@@ -101,10 +101,10 @@
             <!-- Empty State -->
             <div th:if="${productPage.empty}" class="card border-0 shadow-sm p-5 text-center">
                 <i class="bi bi-emoji-neutral text-muted" style="font-size: 3.5rem;"></i>
-                <h5 class="fw-bold mt-3">No Agricultural Products Found</h5>
-                <p class="text-muted small">Try clearing your filters or search keywords.</p>
+                <h5 class="fw-bold mt-3" th:text="${#locale.language == 'mr' ? 'कोणतीही कृषी उत्पादने आढळली नाहीत' : 'No Agricultural Products Found'}">No Agricultural Products Found</h5>
+                <p class="text-muted small" th:text="${#locale.language == 'mr' ? 'कृपया आपले फिल्टर किंवा शोध शब्द तपासा.' : 'Try clearing your filters or search keywords.'}">Try clearing your filters or search keywords.</p>
                 <div>
-                    <a th:href="@{/products}" class="btn btn-krushi btn-sm">Clear All Filters</a>
+                    <a th:href="@{/products}" class="btn btn-krushi btn-sm" th:text="${#locale.language == 'mr' ? 'सर्व फिल्टर काढा' : 'Clear All Filters'}">Clear All Filters</a>
                 </div>
             </div>
 
@@ -117,7 +117,7 @@
                             <span th:if="${product.stockQuantity <= product.minimumStock and product.stockQuantity > 0}" class="badge bg-warning text-dark badge-stock" th:text="#{product.low_stock}">Low Stock</span>
                             <span th:if="${product.stockQuantity == 0}" class="badge bg-danger badge-stock" th:text="#{product.out_of_stock}">Out of Stock</span>
                             
-                            <span class="badge-category" th:text="${product.category.name}">Category</span>
+                            <span class="badge-category" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Category</span>
                             <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='https://placehold.co/300x200/e8f5e9/2e7d32?text=Krushi+Product'">
                         </div>
 
@@ -142,7 +142,7 @@
                             <div class="d-flex gap-2 mt-3">
                                 <a th:href="@{'/products/' + ${product.id}}"
                                    class="btn btn-krushi btn-sm w-100 d-flex align-items-center justify-content-center gap-1">
-                                    <i class="bi bi-eye"></i> View Details
+                                    <i class="bi bi-eye"></i> <span th:text="#{product.btn.details}">View Details</span>
                                 </a>
                             </div>
                         </div>

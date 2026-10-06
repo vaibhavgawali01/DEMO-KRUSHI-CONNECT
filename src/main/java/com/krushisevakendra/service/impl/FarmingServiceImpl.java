@@ -155,10 +155,12 @@ public class FarmingServiceImpl implements FarmingService {
         Map<String, Object> weather = new LinkedHashMap<>();
         weather.put("city", city);
         weather.put("temperature", "28°C");
-        weather.put("condition", "Partly Cloudy / अंशतः ढगाळ");
+        weather.put("condition", "Partly Cloudy");
+        weather.put("conditionMr", "अंशतः ढगाळ");
         weather.put("humidity", "74%");
         weather.put("windSpeed", "14 km/h");
         weather.put("rainChance", "30% (Light showers expected in evening)");
+        weather.put("rainChanceMr", "३०% (संध्याकाळी हलक्या सरींचा अंदाज)");
         weather.put("forecastDays", Arrays.asList(
                 Map.of("day", "Today", "dayMr", "आज", "temp", "28°C", "icon", "bi-cloud-sun", "rain", "30%"),
                 Map.of("day", "Tomorrow", "dayMr", "उद्या", "temp", "29°C", "icon", "bi-cloud-rain", "rain", "65%"),
@@ -175,28 +177,32 @@ public class FarmingServiceImpl implements FarmingService {
     public List<Map<String, Object>> getCropCareTips() {
         return List.of(
                 Map.of(
-                        "crop", "Sugarcane (ऊस)",
+                        "crop", "Sugarcane",
+                        "cropMr", "ऊस",
                         "title", "Earthing-up & Micronutrient Drenching",
                         "titleMr", "मोठी बांधणी व सूक्ष्मअन्नद्रव्ये व्यवस्थापन",
                         "description", "Perform earthing up between 120-130 days to prevent lodging. Apply Ferrous + Zinc sulphate along with FYM around root zones.",
                         "descriptionMr", "ऊस लोळू नये म्हणून १२० ते १३० दिवसांत मोठी बांधणी करा. मुळांजवळ शेणखतासोबत फेरस व झिंक सल्फेट द्यावे."
                 ),
                 Map.of(
-                        "crop", "Cotton (कापूस)",
+                        "crop", "Cotton",
+                        "cropMr", "कापूस",
                         "title", "Pink Bollworm Pheromone Traps",
                         "titleMr", "गुलाबी बोंडअळी कामगंध सापळे",
                         "description", "Install 5-8 pheromone traps per acre at 45 days after sowing to monitor and disrupt male moth population.",
                         "descriptionMr", "कापूस पेरणीनंतर ४५ दिवसांनी एकरी ५ ते ८ कामगंध सापळे लावावेत जेणेकरून बोंडअळीचा प्रादुर्भाव वेळीच रोखता येईल."
                 ),
                 Map.of(
-                        "crop", "Soybean (सोयाबीन)",
+                        "crop", "Soybean",
+                        "cropMr", "सोयाबीन",
                         "title", "Girdle Beetle & Semilooper Management",
                         "titleMr", "चक्रीभुंगा आणि उंटअळी नियंत्रण",
                         "description", "Spray Ampligo @ 80 ml/acre or Coragen @ 60 ml/acre when early girdle beetle ring-cuts appear on stems.",
                         "descriptionMr", "चक्रीभुंग्याचे कट दिसताच अँप्लिगो ८० मिली किंवा कोराजन ६० मिली प्रति एकर १५० लिटर पाण्यातून फवारणी करावी."
                 ),
                 Map.of(
-                        "crop", "Grapes & Pomegranate (द्राक्ष आणि डाळिंब)",
+                        "crop", "Grapes & Pomegranate",
+                        "cropMr", "द्राक्ष आणि डाळिंब",
                         "title", "Canopy Management & Drip Fertigation",
                         "titleMr", "कॅनोपी व्यवस्थापन व ठिबक फर्टीगेशन",
                         "description", "Maintain leaf area index and deliver 00:52:34 with Magnesium through drip system during flowering to maximize fruit set.",
@@ -209,25 +215,40 @@ public class FarmingServiceImpl implements FarmingService {
     public List<Map<String, Object>> getPestManagementTips() {
         return List.of(
                 Map.of(
-                        "pestName", "Fall Armyworm / लष्करी अळी (Spodoptera)",
+                        "pestName", "Fall Armyworm (Spodoptera)",
+                        "pestNameMr", "लष्करी अळी (Spodoptera)",
                         "affectedCrops", "Maize, Sugarcane, Sorghum",
+                        "affectedCropsMr", "मका, ऊस, ज्वारी",
                         "symptoms", "Pin-holes on whorl leaves, extensive ragged feeding with sawdust-like frass.",
+                        "symptomsMr", "पानांवर बारीक छिद्रे, पानांचे नुकसान आणि लाकडाच्या भुशासारखी विष्ठा.",
                         "chemicalControl", "Spray Emamectin Benzoate 5% SG @ 0.5g/L or Ampligo @ 0.5ml/L targeting leaf whorls.",
-                        "organicControl", "Apply Neem oil (10,000 ppm) @ 2ml/L + Metarhizium anisopliae bio-insecticide."
+                        "chemicalControlMr", "इमामेक्टिन बेंझोएट ५% एसजी ०.५ ग्रॅम/लिटर किंवा अँप्लिगो ०.५ मिली/लिटर फवारावे.",
+                        "organicControl", "Apply Neem oil (10,000 ppm) @ 2ml/L + Metarhizium anisopliae bio-insecticide.",
+                        "organicControlMr", "निमतेल (१०,००० ppm) २ मिली/लिटर + मेटारायझियम ॲनिसोप्ली जैविक कीटकनाशक."
                 ),
                 Map.of(
-                        "pestName", "Thrips & Sucking Pests / थ्रिप्स व तुडतुडे",
+                        "pestName", "Thrips & Sucking Pests",
+                        "pestNameMr", "थ्रिप्स व रसशोषक किडी",
                         "affectedCrops", "Cotton, Onion, Chilli, Grapes",
+                        "affectedCropsMr", "कापूस, कांदा, मिरची, द्राक्षे",
                         "symptoms", "Curling of leaves, silver patches on leaf undersides, stunted shoot growth.",
+                        "symptomsMr", "पाने आकसणे व चुरमुरणे, पानांखाली चंदेरी चट्टे, शेंड्याची वाढ खुंटणे.",
                         "chemicalControl", "Spray Dimethoate 30% EC (Rogor) @ 1.5ml/L or Acetamiprid 20% SP @ 0.5g/L.",
-                        "organicControl", "Install Blue and Yellow sticky traps @ 20/acre + spray Dashparni Ark @ 5ml/L."
+                        "chemicalControlMr", "डायमेथोएट ३०% ईसी (रोगोर) १.५ मिली/लिटर किंवा ॲसिटामिप्रिड २०% एसपी ०.५ ग्रॅम/लिटर फवारावे.",
+                        "organicControl", "Install Blue and Yellow sticky traps @ 20/acre + spray Dashparni Ark @ 5ml/L.",
+                        "organicControlMr", "निळे व पिवळे चिकट सापळे एकरी २० लावावेत + दशपर्णी अर्क ५ मिली/लिटर फवारावे."
                 ),
                 Map.of(
-                        "pestName", "Downy Mildew & Fungal Blight / करपा व भुरी रोग",
+                        "pestName", "Downy Mildew & Fungal Blight",
+                        "pestNameMr", "करपा, भुरी व डाऊनी मिल्ड्यू",
                         "affectedCrops", "Grapes, Tomato, Soybean, Pomegranate",
+                        "affectedCropsMr", "द्राक्षे, टोमॅटो, सोयाबीन, डाळिंब",
                         "symptoms", "Yellowish-brown angular spots on foliage, white fungal growth under leaf surface.",
+                        "symptomsMr", "पानांवर पिवळसर-तपकिरी चट्टे, पानांच्या खालच्या बाजूला बुरशीची पांढरी वाढ.",
                         "chemicalControl", "Spray Metalaxyl + Mancozeb @ 2.5g/L or Azoxystrobin @ 1ml/L.",
-                        "organicControl", "Trichoderma viride bio-fungicide @ 5g/L preventive spray."
+                        "chemicalControlMr", "मेटालॅक्सिल + मॅन्कोझेब २.५ ग्रॅम/लिटर किंवा ॲझोक्सीस्ट्रोबिन १ मिली/लिटर फवारावे.",
+                        "organicControl", "Trichoderma viride bio-fungicide @ 5g/L preventive spray.",
+                        "organicControlMr", "ट्रायकोडर्मा व्हिरिडी जैविक बुरशीनाशक ५ ग्रॅम/लिटर प्रतिबंधात्मक फवारावे."
                 )
         );
     }

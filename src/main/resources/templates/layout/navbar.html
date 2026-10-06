@@ -38,7 +38,7 @@
                     </a>
                     <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
                         <li><a class="dropdown-item rounded-2 py-2" th:href="@{/weather}"><i class="bi bi-cloud-rain me-2 text-primary"></i><span th:text="#{nav.weather}">Weather Forecast</span></a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" th:href="@{/farming-tips}"><i class="bi bi-journal-text me-2 text-warning"></i><span>Crop Care &amp; Pest Advice</span></a></li>
+                        <li><a class="dropdown-item rounded-2 py-2" th:href="@{/farming-tips}"><i class="bi bi-journal-text me-2 text-warning"></i><span th:text="${#locale.language == 'mr' ? 'पीक संरक्षण व कीड सल्ला' : 'Crop Care &amp; Pest Advice'}">Crop Care &amp; Pest Advice</span></a></li>
                     </ul>
                 </li>
 
@@ -66,13 +66,27 @@
             <div class="d-flex align-items-center gap-2">
                 <!-- Language Switcher -->
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-light border rounded-pill d-flex align-items-center gap-1 px-2" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-sm btn-light border rounded-pill d-flex align-items-center gap-1 px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-translate text-success"></i>
-                        <span class="d-none d-sm-inline" th:text="${#locale.language == 'mr' ? 'मराठी' : 'EN'}" style="font-size:0.8rem;">EN</span>
+                        <span class="d-none d-sm-inline fw-semibold" th:text="${#locale.language == 'mr' ? 'मराठी' : 'English'}" style="font-size:0.8rem;">English</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 p-1 mt-1">
-                        <li><a class="dropdown-item rounded-2 py-2" th:href="@{/(lang='mr')}">🌾 मराठी (Marathi)</a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" th:href="@{/(lang='en')}">🌍 English</a></li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2 d-flex align-items-center justify-content-between"
+                               href="javascript:void(0);" onclick="setAppLanguage('mr')"
+                               th:classappend="${#locale.language == 'mr'} ? 'active fw-bold' : ''">
+                                <span>🌾 मराठी</span>
+                                <i class="bi bi-check2 text-success" th:if="${#locale.language == 'mr'}"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2 d-flex align-items-center justify-content-between"
+                               href="javascript:void(0);" onclick="setAppLanguage('en')"
+                               th:classappend="${#locale.language != 'mr'} ? 'active fw-bold' : ''">
+                                <span>🌍 English</span>
+                                <i class="bi bi-check2 text-success" th:if="${#locale.language != 'mr'}"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -126,7 +140,7 @@
                         <span th:text="#{nav.login}">Login</span>
                     </a>
                     <a th:href="@{/register}" class="btn-nav-register d-none d-sm-inline-flex">
-                        <span>Join Us</span>
+                        <span th:text="${#locale.language == 'mr' ? 'नोंदणी करा' : 'Join Us'}">Join Us</span>
                         <i class="bi bi-arrow-up-right"></i>
                     </a>
                 </div>
@@ -134,5 +148,16 @@
         </div>
     </div>
 </nav>
+<script>
+function setAppLanguage(lang) {
+    try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    } catch(e) {
+        window.location.href = '/?lang=' + encodeURIComponent(lang);
+    }
+}
+</script>
 </body>
 </html>

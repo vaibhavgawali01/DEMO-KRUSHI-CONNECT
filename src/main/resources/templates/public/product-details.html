@@ -10,8 +10,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/}" class="text-success text-decoration-none" th:text="#{nav.home}">Home</a></li>
             <li class="breadcrumb-item"><a th:href="@{/products}" class="text-success text-decoration-none" th:text="#{nav.products}">Products</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/products(categoryId=${product.category.id})}" class="text-success text-decoration-none" th:text="${product.category.name}">Category</a></li>
-            <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}">Product</li>
+            <li class="breadcrumb-item"><a th:href="@{/products(categoryId=${product.category.id})}" class="text-success text-decoration-none" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Category</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${#locale.language == 'mr' and product.nameMr != null ? product.nameMr : product.name}">Product</li>
         </ol>
     </nav>
 
@@ -30,10 +30,10 @@
                 <div class="col-lg-7">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 mb-2 fw-semibold" th:text="${product.category.name}">Category</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 mb-2 fw-semibold" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Category</span>
                             <h3 class="fw-bold mb-1 text-dark" th:text="${#locale.language == 'mr' and product.nameMr != null ? product.nameMr : product.name}">Product Name</h3>
                             <div class="text-muted mb-2">
-                                <span class="fw-semibold">Company:</span> <span class="text-success fw-bold" th:text="${product.company}">Company Name</span>
+                                <span class="fw-semibold" th:text="${#locale.language == 'mr' ? 'कंपनी:' : 'Company:'}">Company:</span> <span class="text-success fw-bold" th:text="${product.company}">Company Name</span>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                             <i class="bi bi-star-half"></i>
                         </div>
                         <span class="fw-bold text-dark" th:text="${product.rating}">4.8</span>
-                        <span class="text-muted small" th:text="'(' + ${product.reviewCount} + ' Verified Farmer Reviews)'">(12)</span>
+                        <span class="text-muted small" th:text="'(' + ${product.reviewCount} + ' ' + (${#locale.language == 'mr' ? 'शेतकऱ्यांचे अभिप्राय' : 'Verified Farmer Reviews'}) + ')'">(12)</span>
                     </div>
 
                     <hr class="my-2">
@@ -57,7 +57,7 @@
                     <div class="d-flex align-items-baseline gap-3 my-3">
                         <span class="display-6 fw-bold text-success" th:text="'₹' + ${product.effectivePrice}">₹820.00</span>
                         <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="text-muted fs-5 text-decoration-line-through" th:text="'MRP: ₹' + ${product.price}">MRP: ₹864.00</span>
-                        <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="badge bg-danger rounded-pill px-2 py-1">Save ₹<span th:text="${product.price - product.discountPrice}">44</span></span>
+                        <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="badge bg-danger rounded-pill px-2 py-1"><span th:text="${#locale.language == 'mr' ? 'बचत ₹' : 'Save ₹'}">Save ₹</span><span th:text="${product.price - product.discountPrice}">44</span></span>
                     </div>
                     <div class="small text-muted mb-3">
                         <i class="bi bi-info-circle text-success me-1"></i> <span th:text="#{product.gst_included}">Inclusive of all taxes</span> (<span th:text="'GST: ' + ${product.gstRate} + '%'">GST 5%</span>)
@@ -66,21 +66,21 @@
                     <!-- Stock & Batch Specs -->
                     <div class="row g-2 mb-4 small bg-light p-3 rounded">
                         <div class="col-sm-6">
-                            <span class="text-muted">Stock Status:</span>
-                            <span th:if="${product.stockQuantity > product.minimumStock}" class="badge bg-success ms-1"><i class="bi bi-check-circle me-1"></i>In Stock (<span th:text="${product.stockQuantity}">65</span> Available)</span>
-                            <span th:if="${product.stockQuantity <= product.minimumStock and product.stockQuantity > 0}" class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle me-1"></i>Only <span th:text="${product.stockQuantity}">3</span> Left</span>
-                            <span th:if="${product.stockQuantity == 0}" class="badge bg-danger ms-1"><i class="bi bi-x-circle me-1"></i>Out of Stock</span>
+                            <span class="text-muted" th:text="${#locale.language == 'mr' ? 'साठा स्थिती:' : 'Stock Status:'}">Stock Status:</span>
+                            <span th:if="${product.stockQuantity > product.minimumStock}" class="badge bg-success ms-1"><i class="bi bi-check-circle me-1"></i><span th:text="${#locale.language == 'mr' ? 'उपलब्ध आहे (' + product.stockQuantity + ' शिल्लक)' : 'In Stock (' + product.stockQuantity + ' Available)'}">In Stock</span></span>
+                            <span th:if="${product.stockQuantity <= product.minimumStock and product.stockQuantity > 0}" class="badge bg-warning text-dark ms-1"><i class="bi bi-exclamation-triangle me-1"></i><span th:text="${#locale.language == 'mr' ? 'केवळ ' + product.stockQuantity + ' शिल्लक' : 'Only ' + product.stockQuantity + ' Left'}">Low Stock</span></span>
+                            <span th:if="${product.stockQuantity == 0}" class="badge bg-danger ms-1"><i class="bi bi-x-circle me-1"></i><span th:text="#{product.out_of_stock}">Out of Stock</span></span>
                         </div>
                         <div class="col-sm-6">
-                            <span class="text-muted">SKU / Code:</span>
+                            <span class="text-muted" th:text="${#locale.language == 'mr' ? 'उत्पादन कोड:' : 'SKU Code:'}">SKU Code:</span>
                             <strong class="text-dark ms-1" th:text="${product.sku}">SKU-01</strong>
                         </div>
                         <div class="col-sm-6" th:if="${product.batchNumber != null}">
-                            <span class="text-muted">Batch Number:</span>
+                            <span class="text-muted" th:text="${#locale.language == 'mr' ? 'बॅच क्रमांक:' : 'Batch Number:'}">Batch Number:</span>
                             <strong class="text-dark ms-1" th:text="${product.batchNumber}">BCH-2026</strong>
                         </div>
                         <div class="col-sm-6" th:if="${product.expiryDate != null}">
-                            <span class="text-muted">Expiry Date:</span>
+                            <span class="text-muted" th:text="${#locale.language == 'mr' ? 'मुदत संपण्याची तारीख:' : 'Expiry Date:'}">Expiry Date:</span>
                             <strong class="text-dark ms-1" th:text="${product.expiryDate}">2027-04-30</strong>
                         </div>
                     </div>
@@ -89,12 +89,12 @@
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <a href="tel:+918600813827"
                            class="btn btn-krushi px-4 fw-bold d-flex align-items-center gap-2">
-                            <i class="bi bi-telephone-fill"></i> Order by Phone: 8600813827
+                            <i class="bi bi-telephone-fill"></i> <span th:text="${#locale.language == 'mr' ? 'फोनवर ऑर्डर करा: 8600813827' : 'Order by Phone: 8600813827'}">Order by Phone: 8600813827</span>
                         </a>
                         <a th:href="@{'https://wa.me/918600813827?text=Hello Krushi Seva Kendra, I am interested in: ' + ${product.name}}"
                            target="_blank"
                            class="btn btn-outline-success d-flex align-items-center gap-2">
-                            <i class="bi bi-whatsapp"></i> WhatsApp Order
+                            <i class="bi bi-whatsapp"></i> <span th:text="${#locale.language == 'mr' ? 'व्हॉट्सॲपवर ऑर्डर करा' : 'WhatsApp Order'}">WhatsApp Order</span>
                         </a>
                     </div>
                 </div>
@@ -171,14 +171,16 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold">Your Review / अनुभव</label>
-                                    <textarea name="review" class="form-control form-control-sm" rows="3" placeholder="Share crop yield, germination or efficacy results..." required></textarea>
+                                    <label class="form-label small fw-bold" th:text="${#locale.language == 'mr' ? 'तुमचा अनुभव' : 'Your Review'}">Your Review</label>
+                                    <textarea name="review" class="form-control form-control-sm" rows="3"
+                                              th:placeholder="${#locale.language == 'mr' ? 'पिकावरील परिणाम, उगवण किंवा अनुभव नोंदवा...' : 'Share crop yield, germination or efficacy results...'}" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-krushi btn-sm w-100 fw-bold">Submit Review</button>
+                                <button type="submit" class="btn btn-krushi btn-sm w-100 fw-bold"
+                                        th:text="${#locale.language == 'mr' ? 'अभिप्राय नोंदवा' : 'Submit Review'}">Submit Review</button>
                             </form>
                             <div th:if="${!isLoggedIn}" class="text-center py-3">
-                                <p class="small text-muted mb-2">Please login to write a verified review.</p>
-                                <a th:href="@{/login}" class="btn btn-krushi-outline btn-sm">Login to Review</a>
+                                <p class="small text-muted mb-2" th:text="${#locale.language == 'mr' ? 'अभिप्राय नोंदवण्यासाठी कृपया लॉगिन करा.' : 'Please login to write a verified review.'}">Please login to write a verified review.</p>
+                                <a th:href="@{/login}" class="btn btn-krushi-outline btn-sm" th:text="${#locale.language == 'mr' ? 'लॉगिन करा' : 'Login to Review'}">Login to Review</a>
                             </div>
                         </div>
                     </div>
