@@ -24,7 +24,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver("krushi_lang");
-        resolver.setDefaultLocale(new Locale("mr")); // Default to Marathi / English toggleable
+        resolver.setDefaultLocale(new Locale("mr")); // Default to Marathi
+        resolver.setCookiePath("/");
         resolver.setCookieMaxAge(Duration.ofDays(30));
         return resolver;
     }
