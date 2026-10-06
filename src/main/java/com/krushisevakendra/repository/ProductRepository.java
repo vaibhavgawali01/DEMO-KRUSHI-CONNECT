@@ -27,22 +27,22 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findByCategoryIdAndStatus(Long categoryId, String status);
 
     @Query("SELECT p FROM Product p WHERE p.status = 'ACTIVE' AND (" +
-           "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.nameMr) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.company) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.category.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "p.sku LIKE CONCAT('%', :keyword, '%') OR " +
-           "p.barcode LIKE CONCAT('%', :keyword, '%'))")
+           "LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%')) OR " +
+           "LOWER(p.nameMr) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%')) OR " +
+           "LOWER(p.company) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%')) OR " +
+           "LOWER(p.category.name) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%')) OR " +
+           "p.sku LIKE CONCAT('%', CAST(:keyword AS String), '%') OR " +
+           "p.barcode LIKE CONCAT('%', CAST(:keyword AS String), '%'))")
     Page<Product> searchProducts(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE " +
            "(:categoryId IS NULL OR p.category.id = :categoryId) AND " +
-           "(:company IS NULL OR LOWER(p.company) = LOWER(:company)) AND " +
+           "(:company IS NULL OR LOWER(p.company) = LOWER(CAST(:company AS String))) AND " +
            "(:minPrice IS NULL OR p.price >= :minPrice) AND " +
            "(:maxPrice IS NULL OR p.price <= :maxPrice) AND " +
            "(:inStockOnly = false OR p.stockQuantity > 0) AND " +
            "(:status IS NULL OR p.status = :status) AND " +
-           "(:keyword IS NULL OR (LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(p.company) LIKE LOWER(CONCAT('%', :keyword, '%'))))")
+           "(:keyword IS NULL OR (LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%')) OR LOWER(p.company) LIKE LOWER(CONCAT('%', CAST(:keyword AS String), '%'))))")
     Page<Product> filterProducts(
             @Param("categoryId") Long categoryId,
             @Param("company") String company,
