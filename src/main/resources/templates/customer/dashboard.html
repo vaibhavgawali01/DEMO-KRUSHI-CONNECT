@@ -18,7 +18,7 @@
         <div class="d-flex gap-2 align-items-center flex-wrap">
             <a th:href="@{/customer/notifications}" class="btn btn-light border d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 14px;">
                 <i class="ti ti-bell" style="font-size: 18px; color: #f59e0b;"></i>
-                <span th:text="(${unreadNotifsCount != null ? unreadNotifsCount : 3}) + ' ' + (${#locale.language == 'mr' ? 'सूचना' : 'Alerts'})">3 Alerts</span>
+                <span th:text="${(unreadNotifsCount != null ? unreadNotifsCount : 0) + ' ' + (#locale.language == 'mr' ? 'सूचना' : 'Alerts')}">3 Alerts</span>
             </a>
             <a th:href="@{/customer/profile}" class="btn btn-light border d-flex align-items-center gap-2 px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 14px;">
                 <i class="ti ti-user" style="font-size: 18px; color: #16a34a;"></i>
@@ -107,7 +107,7 @@
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #ea580c;" th:text="'₹' + ${#numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT')}">₹2,500</p>
                 <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
-                   th:text="${earliestDueDate != null} ? ((#locale.language == 'mr' ? 'देण्याची तारीख: ' : 'Due Date: ') + ${#temporals.format(earliestDueDate, 'dd MMM yyyy')}) : (${#locale.language == 'mr' ? 'उधारी निरंक' : 'Nil Balance'})">Due Date: 15 Sep 2026</p>
+                   th:text="${earliestDueDate != null ? ((#locale.language == 'mr' ? 'देण्याची तारीख: ' : 'Due Date: ') + #temporals.format(earliestDueDate, 'dd MMM yyyy')) : (#locale.language == 'mr' ? 'उधारी निरंक' : 'Nil Balance')}">Due Date: 15 Sep 2026</p>
             </div>
         </div>
 
@@ -121,7 +121,7 @@
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #16a34a;" th:text="'₹' + ${#numbers.formatDecimal(availableCredit, 0, 'COMMA', 0, 'POINT')}">₹12,500</p>
                 <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
-                   th:text="(#locale.language == 'mr' ? 'एकूण मर्यादा: ₹' : 'Total Limit: ₹') + ${#numbers.formatDecimal(creditLimit, 0, 'COMMA', 0, 'POINT')}">Total Limit: ₹15,000</p>
+                   th:text="${(#locale.language == 'mr' ? 'एकूण मर्यादा: ₹' : 'Total Limit: ₹') + (creditLimit != null ? #numbers.formatDecimal(creditLimit, 0, 'COMMA', 0, 'POINT') : '15,000')}">Total Limit: ₹15,000</p>
             </div>
         </div>
 
@@ -135,7 +135,7 @@
                 </div>
                 <p class="h3 fw-bold m-0" style="color: #0284c7;" th:text="'₹' + ${#numbers.formatDecimal(totalSpent, 0, 'COMMA', 0, 'POINT')}">₹34,200</p>
                 <p class="m-0 mt-2 text-muted" style="font-size: 12px;"
-                   th:text="(#locale.language == 'mr' ? 'या महिन्यात: ₹' : 'This Month: ₹') + ${#numbers.formatDecimal(thisMonthSpent, 0, 'COMMA', 0, 'POINT')}">This Month: ₹12,500</p>
+                   th:text="${(#locale.language == 'mr' ? 'या महिन्यात: ₹' : 'This Month: ₹') + (thisMonthSpent != null ? #numbers.formatDecimal(thisMonthSpent, 0, 'COMMA', 0, 'POINT') : '0')}">This Month: ₹12,500</p>
             </div>
         </div>
 
@@ -347,7 +347,7 @@
                         <p class="m-0 fw-bold" style="color: #7f1d1d; font-size: 14px;"
                            th:text="${#locale.language == 'mr' ? 'उधारी देय आठवण' : 'Payment Due Soon'}">Payment Due Soon</p>
                         <p class="m-0 mt-1" style="font-size: 12px; color: #991b1b;"
-                           th:text="(#locale.language == 'mr' ? 'शिल्लक रक्कम: ₹' : 'Amount Due: ₹') + (${remainingUdhari != null ? #numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'})">
+                           th:text="${(#locale.language == 'mr' ? 'शिल्लक रक्कम: ₹' : 'Amount Due: ₹') + (remainingUdhari != null ? #numbers.formatDecimal(remainingUdhari, 0, 'COMMA', 0, 'POINT') : '0')}">
                             Amount Due: ₹6,500
                         </p>
                         <a th:href="@{/customer/pay}" class="btn btn-sm text-white px-3 py-1 mt-2 fw-semibold shadow-sm text-decoration-none d-inline-block" style="background: #dc2626; border: none; border-radius: 6px; font-size: 12px;"

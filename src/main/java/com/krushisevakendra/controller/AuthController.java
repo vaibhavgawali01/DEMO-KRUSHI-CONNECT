@@ -47,6 +47,19 @@ public class AuthController {
             @RequestParam(required = false) String registered,
             Model model) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (logout == null && auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            boolean isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(auth.getName());
+            if (auth.getPrincipal() instanceof CustomUserDetails cud && cud.getUser() != null) {
+                isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(cud.getUser().getEmail());
+            }
+            if (isMasterAdmin) {
+                return "redirect:/admin/dashboard";
+            } else {
+                return "redirect:/farmer/dashboard";
+            }
+        }
+
         if (error != null) {
             model.addAttribute("errorMessage", "Invalid mobile/email or password / चुकीचा मोबाईल/ईमेल किंवा पासवर्ड");
         }
@@ -61,6 +74,10 @@ public class AuthController {
 
     @GetMapping("/register")
     public String registerForm(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            return "redirect:/farmer/dashboard";
+        }
         model.addAttribute("registrationDto", new UserRegistrationDto());
         return "auth/register";
     }
@@ -100,6 +117,6 @@ public class AuthController {
 
     @GetMapping("/farmer-switch")
     public String farmerSwitch() {
-        return "redirect:/login";
+        return "redirect:/farmer/dashboard";
     }
 }
