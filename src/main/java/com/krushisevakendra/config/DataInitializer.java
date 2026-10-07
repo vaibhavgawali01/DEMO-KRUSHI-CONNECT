@@ -94,7 +94,6 @@ public class DataInitializer implements CommandLineRunner {
         admin.setStatus("ACTIVE");
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
-        adminRoles.add(customerRole);
         admin.setRoles(adminRoles);
         userRepository.save(admin);
         log.info("Guaranteed master admin configured: admin@krushiseva.com / admin123");
@@ -136,12 +135,14 @@ public class DataInitializer implements CommandLineRunner {
         for (User u : userRepository.findAll()) {
             if (!"admin@krushiseva.com".equalsIgnoreCase(u.getEmail())) {
                 boolean hadAdmin = u.getRoles().removeIf(r -> r.getName() == RoleName.ROLE_ADMIN);
-                if (u.getRoles().isEmpty()) {
+                boolean addedCustomer = false;
+                if (u.getRoles().stream().noneMatch(r -> r.getName() == RoleName.ROLE_CUSTOMER)) {
                     u.getRoles().add(customerRole);
+                    addedCustomer = true;
                 }
-                if (hadAdmin) {
+                if (hadAdmin || addedCustomer) {
                     userRepository.save(u);
-                    log.info("Revoked ROLE_ADMIN from non-admin user: {}", u.getEmail());
+                    log.info("Ensured customer role for non-admin user: {}", u.getEmail());
                 }
             }
         }

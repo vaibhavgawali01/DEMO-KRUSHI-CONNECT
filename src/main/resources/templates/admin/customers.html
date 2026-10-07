@@ -83,8 +83,8 @@
                                 </td>
                                 <td style="padding: 12px 16px;"><code class="text-dark fw-semibold" th:text="${c.mobile}">9822012345</code></td>
                                 <td style="padding: 12px 16px;" class="small text-muted" th:text="${c.email}">email@example.com</td>
-                                <td style="padding: 12px 16px;" class="small" th:text="${c.village + ' (' + (c.taluka != null ? c.taluka : '') + ')'}">Kasbe Digraj (Miraj)</td>
-                                <td style="padding: 12px 16px;" class="small" th:text="${c.district}">Sangli</td>
+                                <td style="padding: 12px 16px;" class="small" th:text="${(c.village != null ? c.village : '-') + (c.taluka != null and !c.taluka.isEmpty() ? ' (' + c.taluka + ')' : '')}">Kasbe Digraj (Miraj)</td>
+                                <td style="padding: 12px 16px;" class="small" th:text="${c.district != null ? c.district : '-'}">Sangli</td>
                                 <td style="padding: 12px 16px; text-align: center;">
                                     <span class="status-pill" th:classappend="${c.status == 'ACTIVE'} ? 'status-pill-green' : 'status-pill-red'" th:text="${c.status}">ACTIVE</span>
                                 </td>

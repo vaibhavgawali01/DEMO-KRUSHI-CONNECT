@@ -25,15 +25,23 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByMobile(String mobile);
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = 'ROLE_CUSTOMER'")
+    @Query("SELECT DISTINCT u FROM User u WHERE (u.email IS NULL OR LOWER(u.email) <> 'admin@krushiseva.com') AND (u.mobile IS NULL OR u.mobile <> '9876543210') ORDER BY u.id DESC")
     List<User> findAllCustomers();
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = 'ROLE_CUSTOMER' AND " +
-           "(LOWER(u.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "u.mobile LIKE CONCAT('%', :query, '%') OR " +
-           "LOWER(u.village) LIKE LOWER(CONCAT('%', :query, '%')))")
+    @Query(value = "SELECT DISTINCT u FROM User u WHERE (u.email IS NULL OR LOWER(u.email) <> 'admin@krushiseva.com') AND (u.mobile IS NULL OR u.mobile <> '9876543210') AND " +
+           "(:query IS NULL OR :query = '' OR " +
+           "LOWER(u.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "(u.email IS NOT NULL AND LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%'))) OR " +
+           "(u.mobile IS NOT NULL AND u.mobile LIKE CONCAT('%', :query, '%')) OR " +
+           "(u.village IS NOT NULL AND LOWER(u.village) LIKE LOWER(CONCAT('%', :query, '%')))) ORDER BY u.id DESC",
+           countQuery = "SELECT COUNT(DISTINCT u) FROM User u WHERE (u.email IS NULL OR LOWER(u.email) <> 'admin@krushiseva.com') AND (u.mobile IS NULL OR u.mobile <> '9876543210') AND " +
+           "(:query IS NULL OR :query = '' OR " +
+           "LOWER(u.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "(u.email IS NOT NULL AND LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%'))) OR " +
+           "(u.mobile IS NOT NULL AND u.mobile LIKE CONCAT('%', :query, '%')) OR " +
+           "(u.village IS NOT NULL AND LOWER(u.village) LIKE LOWER(CONCAT('%', :query, '%'))))")
     Page<User> searchCustomers(@Param("query") String query, Pageable pageable);
 
-    @Query("SELECT COUNT(u) FROM User u JOIN u.roles r WHERE r.name = 'ROLE_CUSTOMER'")
+    @Query("SELECT COUNT(DISTINCT u) FROM User u WHERE (u.email IS NULL OR LOWER(u.email) <> 'admin@krushiseva.com') AND (u.mobile IS NULL OR u.mobile <> '9876543210')")
     long countCustomers();
 }
