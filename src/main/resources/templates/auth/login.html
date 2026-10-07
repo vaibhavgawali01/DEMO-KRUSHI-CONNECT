@@ -108,24 +108,6 @@
                     <p class="auth-main-subtext" th:text="${#locale.language == 'mr' ? 'आपल्या शेतकरी किंवा ॲडमिन खात्यात सुरक्षित प्रवेश करा' : 'Secure access to your farmer or admin account'}">Secure access to your farmer or admin account</p>
                 </div>
 
-                <!-- Fast Demo Login Autofill Bar -->
-                <div class="quick-demo-container">
-                    <div class="quick-demo-title">
-                        <i class="bi bi-lightning-charge-fill"></i>
-                        <span th:text="${#locale.language == 'mr' ? 'जलद टेस्ट लॉगिन (Auto-Fill)' : 'Quick Test Login (Auto-Fill)'}">Quick Test Login (Auto-Fill)</span>
-                    </div>
-                    <div class="quick-demo-chips">
-                        <a th:href="@{/farmer-switch}" class="quick-demo-chip text-decoration-none">
-                            <span>🚜</span>
-                            <span th:text="${#locale.language == 'mr' ? 'शेतकरी लॉगिन (1-Click)' : 'Farmer Login (1-Click)'}">Farmer Login (1-Click)</span>
-                        </a>
-                        <a th:href="@{/admin-switch}" class="quick-demo-chip text-decoration-none" style="background:#e8f5e9; border-color:#2e7d32;">
-                            <span>🛡️</span>
-                            <span th:text="${#locale.language == 'mr' ? 'ॲडमिन लॉगिन (1-Click)' : 'Admin Login (1-Click)'}">Admin Login (1-Click)</span>
-                        </a>
-                    </div>
-                </div>
-
                 <!-- Error Alert -->
                 <div th:if="${param.error}" class="alert alert-danger border-0 d-flex align-items-center gap-2 mb-3 py-2 px-3 rounded-3 small">
                     <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
