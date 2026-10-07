@@ -63,7 +63,7 @@ public class User {
     }
 
     public boolean isAdmin() {
-        return roles.stream().anyMatch(r -> r.getName().name().equals("ROLE_ADMIN"));
+        return "admin@krushiseva.com".equalsIgnoreCase(email) && roles.stream().anyMatch(r -> r.getName().name().equals("ROLE_ADMIN"));
     }
 
     public Long getId() {

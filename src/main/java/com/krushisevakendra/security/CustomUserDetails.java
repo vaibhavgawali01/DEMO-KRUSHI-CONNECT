@@ -6,7 +6,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
+import com.krushisevakendra.enums.RoleName;
+import com.krushisevakendra.entity.Role;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -42,9 +46,24 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toSet());
+        Set<SimpleGrantedAuthority> auths = new HashSet<>();
+        boolean isMasterAdmin = user.getEmail() != null && "admin@krushiseva.com".equalsIgnoreCase(user.getEmail().trim());
+
+        if (user.getRoles() != null) {
+            for (Role role : user.getRoles()) {
+                if (role.getName() == RoleName.ROLE_ADMIN) {
+                    if (isMasterAdmin) {
+                        auths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                    }
+                } else {
+                    auths.add(new SimpleGrantedAuthority(role.getName().name()));
+                }
+            }
+        }
+        if (auths.isEmpty() || !isMasterAdmin) {
+            auths.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+        }
+        return auths;
     }
 
     @Override

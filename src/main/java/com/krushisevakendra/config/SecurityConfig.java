@@ -45,11 +45,24 @@ public class SecurityConfig {
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
-            boolean isAdmin = authentication.getAuthorities().stream()
+            boolean isAdminRole = authentication.getAuthorities().stream()
                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-            if (isAdmin) {
+
+            boolean isMasterAdmin = false;
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof com.krushisevakendra.security.CustomUserDetails cud) {
+                if (cud.getUser() != null && cud.getUser().getEmail() != null) {
+                    isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(cud.getUser().getEmail().trim());
+                }
+            } else if ("admin@krushiseva.com".equalsIgnoreCase(authentication.getName())) {
+                isMasterAdmin = true;
+            }
+
+            // 1. ONLY admin@krushiseva.com opens the admin dashboard:
+            if (isAdminRole && isMasterAdmin) {
                 response.sendRedirect("/admin/dashboard");
             } else {
+                // 2. ANY other user ALWAYS opens farmer dashboard:
                 response.sendRedirect("/farmer/dashboard");
             }
         };
@@ -74,7 +87,7 @@ public class SecurityConfig {
                                  "/login", "/register", "/forgot-password", "/admin-switch", "/farmer-switch", "/h2-console/**").permitAll()
                 // Public REST APIs
                 .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
-                // Admin-only area
+                // Admin-only area (Strictly only ROLE_ADMIN)
                 .requestMatchers("/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
                 // Customer & Farmer authenticated area
                 .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**", 
@@ -83,7 +96,13 @@ public class SecurityConfig {
             )
             .exceptionHandling(exceptions -> exceptions
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.sendRedirect("/login");
+                    org.springframework.security.core.Authentication auth = 
+                        org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+                    if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+                        response.sendRedirect("/farmer/dashboard");
+                    } else {
+                        response.sendRedirect("/login");
+                    }
                 })
             )
             .formLogin(form -> form

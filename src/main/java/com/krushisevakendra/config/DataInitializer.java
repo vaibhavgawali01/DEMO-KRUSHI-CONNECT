@@ -72,6 +72,7 @@ public class DataInitializer implements CommandLineRunner {
                 .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
 
         // 2. Initialize Users (Admin & Sample Farmers)
+        // STRICT RULE 1: ONLY admin@krushiseva.com gets ROLE_ADMIN and password admin123!
         User admin = userRepository.findByEmail("admin@krushiseva.com").orElseGet(() -> {
             User u = new User();
             u.setName("Dattatray Kulkarni (Admin)");
@@ -84,36 +85,19 @@ public class DataInitializer implements CommandLineRunner {
             u.setPasswordHash(passwordEncoder.encode("admin123"));
             u.setStatus("ACTIVE");
             u.setCreatedAt(LocalDateTime.now());
-            Set<Role> roles = new HashSet<>();
-            roles.add(adminRole);
-            roles.add(customerRole);
-            u.setRoles(roles);
-            return userRepository.save(u);
+            return u;
         });
 
-        // Always guarantee ROLE_ADMIN and active status for admin
-        if (admin != null) {
-            boolean hasAdmin = admin.getRoles().stream().anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN);
-            if (!hasAdmin) {
-                admin.getRoles().add(adminRole);
-                admin.getRoles().add(customerRole);
-                admin.setPasswordHash(passwordEncoder.encode("admin123"));
-                admin.setStatus("ACTIVE");
-                userRepository.save(admin);
-                log.info("Guaranteed ROLE_ADMIN on admin user: {}", admin.getEmail());
-            }
-        }
-
-        userRepository.findByMobile("9876543210").ifPresent(u -> {
-            boolean hasAdmin = u.getRoles().stream().anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN);
-            if (!hasAdmin) {
-                u.getRoles().add(adminRole);
-                u.setPasswordHash(passwordEncoder.encode("admin123"));
-                u.setStatus("ACTIVE");
-                userRepository.save(u);
-                log.info("Guaranteed ROLE_ADMIN on 9876543210");
-            }
-        });
+        // Always guarantee email, active status, password admin123, and ROLE_ADMIN
+        admin.setEmail("admin@krushiseva.com");
+        admin.setPasswordHash(passwordEncoder.encode("admin123"));
+        admin.setStatus("ACTIVE");
+        Set<Role> adminRoles = new HashSet<>();
+        adminRoles.add(adminRole);
+        adminRoles.add(customerRole);
+        admin.setRoles(adminRoles);
+        userRepository.save(admin);
+        log.info("Guaranteed master admin configured: admin@krushiseva.com / admin123");
 
         User ramesh = userRepository.findByEmail("ramesh@patil.com").orElseGet(() -> {
             User u = new User();
@@ -146,6 +130,21 @@ public class DataInitializer implements CommandLineRunner {
             u.setRoles(Collections.singleton(customerRole));
             return userRepository.save(u);
         });
+
+        // STRICT RULE 2: Strip ROLE_ADMIN from EVERY other user in the database!
+        // No other email/mobile can EVER have admin access!
+        for (User u : userRepository.findAll()) {
+            if (!"admin@krushiseva.com".equalsIgnoreCase(u.getEmail())) {
+                boolean hadAdmin = u.getRoles().removeIf(r -> r.getName() == RoleName.ROLE_ADMIN);
+                if (u.getRoles().isEmpty()) {
+                    u.getRoles().add(customerRole);
+                }
+                if (hadAdmin) {
+                    userRepository.save(u);
+                    log.info("Revoked ROLE_ADMIN from non-admin user: {}", u.getEmail());
+                }
+            }
+        }
 
         // 3. Initialize Categories
         if (categoryRepository.count() == 0) {
