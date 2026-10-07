@@ -83,12 +83,7 @@ public class SecurityConfig {
             )
             .exceptionHandling(exceptions -> exceptions
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    String uri = request.getRequestURI();
-                    if (uri.startsWith("/admin") || uri.startsWith("/api/admin")) {
-                        response.sendRedirect("/admin-switch");
-                    } else {
-                        response.sendRedirect("/login");
-                    }
+                    response.sendRedirect("/login");
                 })
             )
             .formLogin(form -> form

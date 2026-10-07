@@ -94,72 +94,12 @@ public class AuthController {
     }
 
     @GetMapping("/admin-switch")
-    public String adminSwitch(HttpServletRequest request) {
-        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_ADMIN)));
-        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
-                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
-
-        // 1. If a user is already logged in, grant THEIR account ROLE_ADMIN!
-        Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
-        User targetUser = null;
-        if (existingAuth != null && existingAuth.isAuthenticated() && !"anonymousUser".equals(existingAuth.getName())) {
-            targetUser = userRepository.findByEmailOrMobile(existingAuth.getName()).orElse(null);
-        }
-
-        // 2. Otherwise default to admin@krushiseva.com or 9876543210
-        if (targetUser == null) {
-            targetUser = userRepository.findByEmail("admin@krushiseva.com")
-                    .orElseGet(() -> userRepository.findByMobile("9876543210")
-                    .orElseGet(() -> userRepository.findAll().stream().findFirst().orElse(null)));
-        }
-
-        if (targetUser != null) {
-            targetUser.getRoles().add(adminRole);
-            targetUser.getRoles().add(customerRole);
-            userRepository.save(targetUser);
-
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-
-            CustomUserDetails userDetails = new CustomUserDetails(targetUser);
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            request.getSession().setAttribute(
-                    HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                    SecurityContextHolder.getContext()
-            );
-            return "redirect:/admin/dashboard";
-        }
+    public String adminSwitch() {
         return "redirect:/login";
     }
 
     @GetMapping("/farmer-switch")
-    public String farmerSwitch(HttpServletRequest request) {
-        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
-                .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
-
-        User farmer = userRepository.findByEmailOrMobile("9822012345")
-                .orElseGet(() -> userRepository.findByEmail("ramesh@patil.com").orElse(null));
-        if (farmer != null) {
-            farmer.getRoles().add(customerRole);
-            userRepository.save(farmer);
-
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-
-            CustomUserDetails userDetails = new CustomUserDetails(farmer);
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            request.getSession().setAttribute(
-                    HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                    SecurityContextHolder.getContext()
-            );
-            return "redirect:/farmer/dashboard";
-        }
+    public String farmerSwitch() {
         return "redirect:/login";
     }
 }

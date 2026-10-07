@@ -46,13 +46,6 @@
         </a>
     </nav>
 
-    <div class="sidebar-heading mt-3">Portal Switch</div>
-    <nav class="nav flex-column">
-        <a class="sidebar-link text-success fw-bold" th:href="@{/admin-switch}">
-            <i class="bi bi-shield-check text-success"></i><span th:text="${#locale.language == 'mr' ? '🛡️ ॲडमिन पॅनेल उघडा' : '🛡️ Open Admin Panel'}">Open Admin Panel</span>
-        </a>
-    </nav>
-
     <div class="p-3 mt-3 border-top">
         <form th:action="@{/logout}" method="POST" class="m-0">
             <button type="submit" class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
