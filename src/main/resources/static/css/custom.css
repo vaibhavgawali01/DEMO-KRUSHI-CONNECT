@@ -298,7 +298,7 @@ body {
 .auth-input-wrap:focus-within .auth-icon { color: var(--accent-green); }
 
 /* Footer */
-.footer-krushi { background: linear-gradient(160deg, #0a1f0a 0%, #122212 40%, #0d1a0d 100%); color: #b8dbb8; margin-top: auto; padding: 4rem 0 0; position: relative; overflow: hidden; }
+.footer-krushi { background: linear-gradient(160deg, #0a1f0a 0%, #122212 40%, #0d1a0d 100%); color: #b8dbb8; margin-top: auto; padding: 2rem 0 0; position: relative; overflow: hidden; }
 .footer-krushi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad-green); }
 .footer-krushi h5 { color: #ffffff; font-weight: 700; margin-bottom: 1.3rem; font-size: 1rem; }
 .footer-krushi a { color: #a5d6a7; text-decoration: none; transition: var(--transition); font-size: 0.875rem; }
@@ -315,7 +315,7 @@ body {
 .footer-newsletter-input:focus { outline: none; border-color: var(--leaf-green); }
 .footer-newsletter-btn { background: var(--grad-green); color: white; border: none; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.55rem 1.1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
 .footer-newsletter-btn:hover { box-shadow: var(--shadow-glow); }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); margin-top: 3rem; padding: 1.25rem 0; font-size: 0.82rem; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); margin-top: 1.5rem; padding: 1rem 0; font-size: 0.82rem; }
 
 /* Misc */
 .weather-widget { background: linear-gradient(135deg, #1565c0, #0288d1); color: white; border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
