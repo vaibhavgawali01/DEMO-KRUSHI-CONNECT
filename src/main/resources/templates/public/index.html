@@ -382,6 +382,69 @@
     </div>
 </section>
 
+<!-- ===== ⭐ FEATURED PRODUCTS (MODERN UI MATCHING SCREENSHOT) ===== -->
+<section class="container featured-section my-5" th:if="${featuredProducts != null and !featuredProducts.empty}">
+    <div class="featured-header">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge px-3 py-1 rounded-pill fw-bold text-success" style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.75rem;"
+                      th:text="${#locale.language == 'mr' ? '⭐ मुख्य उत्पादने' : '⭐ Top Picks'}">
+                    ⭐ Top Picks
+                </span>
+            </div>
+            <h2 class="featured-title mb-1" th:text="${#locale.language == 'mr' ? 'वैशिष्ट्यपूर्ण उत्पादने (Featured products)' : 'Featured products'}">Featured products</h2>
+            <p class="featured-subtitle" th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांची पहिली पसंती — १००% प्रमाणित आणि खात्रीशीर कृषी उत्पादने' : 'Handpicked high-yield seeds and premium fertilizers for your farm'}">Handpicked high-yield seeds and premium fertilizers for your farm</p>
+        </div>
+        <div>
+            <a th:href="@{/products}" class="featured-view-all">
+                <span th:text="${#locale.language == 'mr' ? 'सर्व उत्पादने पहा' : 'View all'}">View all</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="product, iterStat : ${featuredProducts}" th:if="${iterStat.index < 6}">
+            <div class="product-featured-card">
+                <div class="product-featured-img-wrap">
+                    <span th:if="${product.discountPrice != null and product.discountPrice < product.price}" class="product-featured-discount-badge">
+                        <span th:text="${#numbers.formatDecimal((product.price - product.discountPrice) / product.price * 100, 0, 0)} + '% OFF'">10% OFF</span>
+                    </span>
+                    <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                </div>
+                <div class="product-featured-content">
+                    <div class="product-featured-company" th:text="${product.company != null ? product.company : 'MAHABEEJ'}">MAHABEEJ</div>
+                    <div class="product-featured-title">
+                        <a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Wheat Seeds (Lok-1)</a>
+                    </div>
+                    <div class="product-featured-price-row">
+                        <span class="product-featured-price" th:text="'₹' + ${#numbers.formatDecimal(product.effectivePrice, 1, 'COMMA', 0, 'POINT')}">₹1,350</span>
+                        <span class="product-featured-strike" th:if="${product.discountPrice != null and product.discountPrice < product.price}" th:text="'₹' + ${#numbers.formatDecimal(product.price, 1, 'COMMA', 0, 'POINT')}">₹1,450</span>
+                        <span class="product-featured-unit" th:if="${product.name.contains('40') or product.name.contains('Lok-1')}">/ 40 kg bag</span>
+                        <span class="product-featured-unit" th:if="${product.name.contains('30') or product.name.contains('JS-335')}">/ 30 kg bag</span>
+                        <span class="product-featured-unit" th:if="${product.name.contains('50') or product.name.contains('19:19:19')}">/ 50 kg bag</span>
+                        <span class="product-featured-unit" th:if="${product.name.contains('45')}">/ 45 kg bag</span>
+                        <span class="product-featured-unit" th:if="${product.name.contains('Litre') or product.name.contains('16 Litre')}">/ unit</span>
+                        <span class="product-featured-unit" th:if="${!product.name.contains('40') and !product.name.contains('Lok-1') and !product.name.contains('30') and !product.name.contains('JS-335') and !product.name.contains('50') and !product.name.contains('19:19:19') and !product.name.contains('45') and !product.name.contains('Litre')}">/ pack</span>
+                    </div>
+                    <div class="product-featured-meta">
+                        <div class="product-featured-stock">
+                            <span class="stock-dot"></span>
+                            <span th:text="${product.stockQuantity > 0 ? (#locale.language == 'mr' ? 'उपलब्ध (In stock)' : 'In stock') : (#locale.language == 'mr' ? 'संपले' : 'Out of stock')}">In stock</span>
+                            <span>&middot;</span>
+                            <span>★</span>
+                            <span th:text="${product.rating != null ? product.rating : '4.5'}">4.5</span>
+                        </div>
+                        <a th:href="@{'/products/' + ${product.id}}" class="product-featured-btn" title="View Details">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Active Offers Banner v2 -->
 <section th:if="${offers != null and !offers.isEmpty()}" class="container my-5">
     <div class="offers-banner-v2 p-4 p-md-5">

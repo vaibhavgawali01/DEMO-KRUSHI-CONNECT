@@ -311,6 +311,129 @@ public class DataInitializer implements CommandLineRunner {
 
             log.info("Krushi Seva Kendra seed data initialized successfully!");
         }
+
+        // Always synchronize and ensure key products have proper images, prices and ratings
+        syncKeyProducts();
+    }
+
+    private void syncKeyProducts() {
+        Category catSeeds = categoryRepository.findByName("Seeds").orElse(null);
+        Category catFert = categoryRepository.findByName("Fertilizers").orElse(null);
+
+        // 1. Wheat Seeds (Lok-1) - MAHABEEJ
+        Product wheat = productRepository.findBySku("MBJ-WHT-LOK1").orElseGet(() -> {
+            return productRepository.findAll().stream()
+                    .filter(p -> p.getName() != null && p.getName().toLowerCase().contains("wheat"))
+                    .findFirst()
+                    .orElseGet(Product::new);
+        });
+        if (wheat.getId() == null) {
+            wheat.setCategory(catSeeds);
+            wheat.setSku("MBJ-WHT-LOK1");
+            wheat.setBarcode("890123456721");
+            wheat.setStatus("ACTIVE");
+            wheat.setCreatedAt(LocalDateTime.now());
+            wheat.setMinimumStock(10);
+            wheat.setStockQuantity(60);
+            wheat.setBatchNumber("BCH-2026-WHT1");
+            wheat.setExpiryDate(LocalDate.now().plusMonths(12));
+        }
+        wheat.setName("Wheat Seeds (Lok-1)");
+        wheat.setNameMr("लोकवन-१ प्रमाणित गहू बियाणे (४० किलो)");
+        wheat.setCompany("MAHABEEJ");
+        wheat.setPrice(new BigDecimal("1450.00"));
+        wheat.setDiscountPrice(new BigDecimal("1350.00"));
+        wheat.setImage("wheat_seeds.jpg");
+        wheat.setRating(BigDecimal.valueOf(4.95));
+        wheat.setReviewCount(48);
+        wheat.setDescription("Certified Lok-1 variety wheat seeds with high germination and resistance to rust disease.");
+        wheat.setUsageInstructions("Sowing rate: 40 kg per acre. Optimal sowing during October-November.");
+        productRepository.save(wheat);
+
+        // 2. Soybean Seeds (JS-335) - MAHABEEJ
+        Product soy = productRepository.findBySku("MBJ-SOY-335").orElseGet(() -> {
+            return productRepository.findAll().stream()
+                    .filter(p -> p.getName() != null && p.getName().toLowerCase().contains("soybean"))
+                    .findFirst()
+                    .orElseGet(Product::new);
+        });
+        if (soy.getId() == null) {
+            soy.setCategory(catSeeds);
+            soy.setSku("MBJ-SOY-335");
+            soy.setBarcode("890123456702");
+            soy.setStatus("ACTIVE");
+            soy.setCreatedAt(LocalDateTime.now());
+            soy.setMinimumStock(8);
+            soy.setStockQuantity(40);
+            soy.setBatchNumber("BCH-2026-SOY2");
+            soy.setExpiryDate(LocalDate.now().plusMonths(8));
+        }
+        soy.setName("Soybean Seeds (JS-335)");
+        soy.setNameMr("जेएस-३३५ प्रमाणित सोयाबीन बियाणे (३० किलो)");
+        soy.setCompany("MAHABEEJ");
+        soy.setPrice(new BigDecimal("3200.00"));
+        soy.setDiscountPrice(new BigDecimal("2950.00"));
+        soy.setImage("soybean_seeds.jpg");
+        soy.setRating(BigDecimal.valueOf(4.92));
+        soy.setReviewCount(36);
+        productRepository.save(soy);
+
+        // 3. NPK 19:19:19 - IFFCO
+        Product npk = productRepository.findBySku("IFF-NPK-191919").orElseGet(() -> {
+            return productRepository.findAll().stream()
+                    .filter(p -> p.getName() != null && p.getName().contains("19:19:19"))
+                    .findFirst()
+                    .orElseGet(Product::new);
+        });
+        if (npk.getId() == null) {
+            npk.setCategory(catFert);
+            npk.setSku("IFF-NPK-191919");
+            npk.setBarcode("890123456722");
+            npk.setStatus("ACTIVE");
+            npk.setCreatedAt(LocalDateTime.now());
+            npk.setMinimumStock(15);
+            npk.setStockQuantity(85);
+            npk.setBatchNumber("BCH-2026-NPK19");
+            npk.setExpiryDate(LocalDate.now().plusYears(3));
+        }
+        npk.setName("NPK 19:19:19");
+        npk.setNameMr("इफको १९:१९:१९ १००% विद्राव्य खत (५० किलो)");
+        npk.setCompany("IFFCO");
+        npk.setPrice(new BigDecimal("2350.00"));
+        npk.setDiscountPrice(new BigDecimal("1890.00"));
+        npk.setGstRate(new BigDecimal("5.00"));
+        npk.setImage("npk_191919.jpg");
+        npk.setRating(BigDecimal.valueOf(4.90));
+        npk.setReviewCount(42);
+        npk.setDescription("100% water-soluble balanced NPK 19:19:19 complex fertilizer suitable for drip fertigation and foliar spray.");
+        npk.setUsageInstructions("Drip irrigation: 3 to 5 kg per acre per application. Foliar spray: 5 to 7 g per liter.");
+        productRepository.save(npk);
+
+        // 4. Update existing products with authentic photos
+        productRepository.findBySku("MAH-COT-01").ifPresent(p -> {
+            p.setImage("cotton_seeds.jpg");
+            p.setCompany("MAHYCO");
+            p.setRating(BigDecimal.valueOf(4.85));
+            productRepository.save(p);
+        });
+        productRepository.findBySku("IFF-UREA-45").ifPresent(p -> {
+            p.setImage("urea_bag.jpg");
+            p.setCompany("IFFCO");
+            p.setRating(BigDecimal.valueOf(4.80));
+            productRepository.save(p);
+        });
+        productRepository.findBySku("MAH-NPK-24").ifPresent(p -> {
+            p.setImage("fertilizer_npk.jpg");
+            p.setRating(BigDecimal.valueOf(4.70));
+            productRepository.save(p);
+        });
+        productRepository.findBySku("FAL-SPY-16L").ifPresent(p -> {
+            p.setImage("battery_sprayer.jpg");
+            p.setRating(BigDecimal.valueOf(4.75));
+            productRepository.save(p);
+        });
+
+        log.info("Featured key products synchronized with authentic images and specifications!");
     }
 
     private Product createProduct(Category category, String name, String nameMr, String company,

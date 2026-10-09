@@ -118,7 +118,7 @@
                             <span th:if="${product.stockQuantity == 0}" class="badge bg-danger badge-stock" th:text="#{product.out_of_stock}">Out of Stock</span>
                             
                             <span class="badge-category" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Category</span>
-                            <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='https://placehold.co/300x200/e8f5e9/2e7d32?text=Krushi+Product'">
+                            <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
                         </div>
 
                         <div class="product-body">
