@@ -403,25 +403,6 @@
         </div>
     </div>
 
-    <!-- Fast Order & More Information Strip (Matches User Screenshot) -->
-    <div class="featured-order-strip d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-        <div class="d-flex flex-wrap align-items-center gap-2">
-            <a href="tel:+918600813827" class="btn-order-phone">
-                <i class="bi bi-telephone-fill me-2"></i>
-                <span th:text="${#locale.language == 'mr' ? 'फोनवर ऑर्डर करा: 8600813827' : 'Order by Phone: 8600813827'}">Order by Phone: 8600813827</span>
-            </a>
-            <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20कृषी%20उत्पादनांविषयी%20अधिक%20माहिती%20हवी%20आहे." 
-               target="_blank" rel="noopener noreferrer" class="btn-order-whatsapp">
-                <i class="bi bi-whatsapp me-2"></i>
-                <span th:text="${#locale.language == 'mr' ? 'व्हॉट्सॲप ऑर्डर' : 'WhatsApp Order'}">WhatsApp Order</span>
-            </a>
-        </div>
-        <div class="text-muted small d-none d-md-flex align-items-center gap-1">
-            <i class="bi bi-shield-check text-success fs-6"></i>
-            <span th:text="${#locale.language == 'mr' ? 'थेट दुकानातून घरपोच / त्वरित खात्रीशीर डिलिव्हरी' : 'Direct store pickup & instant verified delivery'}">Direct store pickup & instant verified delivery</span>
-        </div>
-    </div>
-
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div class="col" th:each="product, iterStat : ${featuredProducts}" th:if="${iterStat.index < 6}">
             <div class="product-featured-card">
