@@ -85,16 +85,18 @@
                         </div>
                     </div>
 
-                    <!-- Order by Phone / WhatsApp -->
+                    <!-- More Information: Call / WhatsApp -->
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <a href="tel:+918600813827"
                            class="btn btn-krushi px-4 fw-bold d-flex align-items-center gap-2">
-                            <i class="bi bi-telephone-fill"></i> <span th:text="${#locale.language == 'mr' ? 'फोनवर ऑर्डर करा: 8600813827' : 'Order by Phone: 8600813827'}">Order by Phone: 8600813827</span>
+                            <i class="bi bi-telephone-fill"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'अधिक माहितीसाठी फोन करा: 8600813827' : 'Call for More Info: 8600813827'}">Call for More Info: 8600813827</span>
                         </a>
-                        <a th:href="@{'https://wa.me/918600813827?text=Hello Krushi Seva Kendra, I am interested in: ' + ${product.name}}"
+                        <a th:href="@{'https://wa.me/918600813827?text=नमस्कार%20Krushi%20Seva%20Kendra,%20मला%20' + ${#uris.escapePathSegment(product.name)} + '%20बद्दल%20अधिक%20माहिती%20हवी%20आहे.'}"
                            target="_blank"
                            class="btn btn-outline-success d-flex align-items-center gap-2">
-                            <i class="bi bi-whatsapp"></i> <span th:text="${#locale.language == 'mr' ? 'व्हॉट्सॲपवर ऑर्डर करा' : 'WhatsApp Order'}">WhatsApp Order</span>
+                            <i class="bi bi-whatsapp"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'WhatsApp वर अधिक माहिती मिळवा' : 'Get More Info on WhatsApp'}">Get More Info on WhatsApp</span>
                         </a>
                     </div>
                 </div>
