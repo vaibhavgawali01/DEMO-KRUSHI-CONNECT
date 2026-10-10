@@ -19,7 +19,7 @@
                         <span th:text="${#locale.language == 'mr' ? '👨‍🌾 नोंदणीकृत शेतकरी यादी' : '👨‍🌾 Registered Farmer Directory'}">👨‍🌾 Registered Farmer Directory</span>
                     </h1>
                     <p class="text-muted small m-0 mt-1">
-                        <span th:text="${#locale.language == 'mr' ? 'एकूण नोंदणीकृत शेतकरी: ' : 'Total registered farmers: '}">Total: </span><strong th:text="${customerPage.totalElements}">3</strong>
+                        <span th:text="${#locale.language == 'mr' ? 'एकूण नोंदणीकृत शेतकरी: ' : 'Total registered farmers: '}">Total: </span><strong th:text="${totalCustomers}">3</strong>
                     </p>
                 </div>
             </div>
@@ -33,6 +33,51 @@
                 <i class="ti ti-alert-circle me-1"></i> <span th:text="${errorMessage}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="modern-card p-3 h-100">
+                        <div class="small text-muted text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत ग्राहक' : 'Registered Customers'}">Registered Customers</div>
+                        <div class="h3 fw-bold text-success my-1" th:text="${totalCustomers}">0</div>
+                        <small class="text-muted" th:text="${#locale.language == 'mr' ? 'ग्राहक यादीत नोंदणीची तारीख उपलब्ध' : 'Registration date is shown in the customer directory'}">Registration date is shown in the customer directory</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="modern-card p-3 h-100">
+                        <div class="small text-muted text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'नोंदवलेले ग्राहक लॉगिन' : 'Recorded Customer Logins'}">Recorded Customer Logins</div>
+                        <div class="h3 fw-bold text-primary my-1" th:text="${totalCustomerLogins}">0</div>
+                        <small class="text-muted" th:text="${#locale.language == 'mr' ? 'या सुविधा सुरू झाल्यापासूनची यशस्वी लॉगिन नोंद' : 'Successful logins recorded since tracking was enabled'}">Successful logins recorded since tracking was enabled</small>
+                    </div>
+                </div>
+            </div>
+
+            <details class="modern-card overflow-hidden mb-4">
+                <summary class="p-3 fw-bold" style="cursor: pointer;"
+                         th:text="${#locale.language == 'mr' ? 'अलीकडील ग्राहक लॉगिन इतिहास (' + totalCustomerLogins + ')' : 'Recent Customer Login History (' + totalCustomerLogins + ')'}">
+                    Recent Customer Login History
+                </summary>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0" style="font-size: 13px;">
+                        <thead class="table-light">
+                            <tr>
+                                <th th:text="${#locale.language == 'mr' ? 'ग्राहक' : 'Customer'}">Customer</th>
+                                <th th:text="${#locale.language == 'mr' ? 'मोबाईल' : 'Mobile'}">Mobile</th>
+                                <th th:text="${#locale.language == 'mr' ? 'लॉगिन तारीख व वेळ' : 'Login Date & Time'}">Login Date & Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(customerLoginHistory)}">
+                                <td colspan="3" class="text-center text-muted py-3" th:text="${#locale.language == 'mr' ? 'अजून ग्राहक लॉगिन नोंद उपलब्ध नाही.' : 'No customer login history recorded yet.'}">No customer login history recorded yet.</td>
+                            </tr>
+                            <tr th:each="login : ${customerLoginHistory}">
+                                <td th:text="${login.user.name}">Customer</td>
+                                <td th:text="${login.user.mobile}">Mobile</td>
+                                <td th:text="${#temporals.format(login.loggedInAt, 'dd MMM yyyy, hh:mm a')}">10 Oct 2026, 10:30 AM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
 
             <!-- Filter Card -->
             <form th:action="@{/admin/customers}" method="GET" class="modern-card p-3 mb-4">
@@ -63,13 +108,15 @@
                                 <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'ईमेल' : 'Email'}">Email</th>
                                 <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'गाव व पत्ता' : 'Village & Location'}">Village & Location</th>
                                 <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'जिल्हा' : 'District'}">District</th>
+                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'नोंदणी तारीख' : 'Registered On'}">Registered On</th>
+                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'तपशील' : 'Details'}">Details</th>
                                 <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
                                 <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${customerPage.empty}">
-                                <td colspan="8" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणताही शेतकरी ग्राहक सापडला नाही.' : 'No customers found.'}">No customers found.</td>
+                                <td colspan="10" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणताही शेतकरी ग्राहक सापडला नाही.' : 'No customers found.'}">No customers found.</td>
                             </tr>
                             <tr th:each="c : ${customerPage.content}" style="border-bottom: 1px solid #f3f4f6;">
                                 <td style="padding: 12px 16px;" th:text="${c.id}">1</td>
@@ -78,13 +125,23 @@
                                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 34px; height: 34px; background: #e0f2fe; color: #0284c7; font-weight: 600; font-size: 13px;">
                                             <i class="ti ti-user"></i>
                                         </div>
-                                        <strong class="text-dark" th:text="${c.name}">Ramesh Patil</strong>
+                                        <a class="fw-semibold text-dark text-decoration-none"
+                                           th:href="@{/admin/customers/{id}(id=${c.id})}"
+                                           th:text="${c.name}">Ramesh Patil</a>
                                     </div>
                                 </td>
                                 <td style="padding: 12px 16px;"><code class="text-dark fw-semibold" th:text="${c.mobile}">9822012345</code></td>
                                 <td style="padding: 12px 16px;" class="small text-muted" th:text="${c.email}">email@example.com</td>
                                 <td style="padding: 12px 16px;" class="small" th:text="${(c.village != null ? c.village : '-') + (c.taluka != null and !c.taluka.isEmpty() ? ' (' + c.taluka + ')' : '')}">Kasbe Digraj (Miraj)</td>
                                 <td style="padding: 12px 16px;" class="small" th:text="${c.district != null ? c.district : '-'}">Sangli</td>
+                                <td style="padding: 12px 16px;" class="small" th:text="${c.createdAt != null ? #temporals.format(c.createdAt, 'dd MMM yyyy') : '-'}">10 Oct 2026</td>
+                                <td style="padding: 12px 16px; text-align: center;">
+                                    <a class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1"
+                                       th:href="@{/admin/customers/{id}(id=${c.id})}">
+                                        <i class="ti ti-user-circle"></i>
+                                        <span th:text="${#locale.language == 'mr' ? 'तपशील व उधारी' : 'Details & Credit'}">Details & Credit</span>
+                                    </a>
+                                </td>
                                 <td style="padding: 12px 16px; text-align: center;">
                                     <span class="status-pill" th:classappend="${c.status == 'ACTIVE'} ? 'status-pill-green' : 'status-pill-red'" th:text="${c.status}">ACTIVE</span>
                                 </td>

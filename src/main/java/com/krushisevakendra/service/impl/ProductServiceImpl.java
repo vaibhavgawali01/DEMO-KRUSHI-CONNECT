@@ -10,16 +10,23 @@ import com.krushisevakendra.repository.ProductRepository;
 import com.krushisevakendra.service.InventoryService;
 import com.krushisevakendra.service.ProductService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,13 +35,17 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final InventoryService inventoryService;
+    private final Path uploadDirectory;
 
     public ProductServiceImpl(ProductRepository productRepository, 
                               CategoryRepository categoryRepository,
-                              @Lazy InventoryService inventoryService) {
+                              @Lazy InventoryService inventoryService,
+                              @Value("${app.upload.dir:uploads}") String uploadDirectory) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.inventoryService = inventoryService;
+        this.uploadDirectory = Paths.get(uploadDirectory).toAbsolutePath().normalize()
+                .resolve("products");
     }
 
     @Override
@@ -213,7 +224,9 @@ public class ProductServiceImpl implements ProductService {
         product.setGstRate(dto.getGstRate() != null ? dto.getGstRate() : BigDecimal.ZERO);
         product.setDescription(dto.getDescription());
         product.setUsageInstructions(dto.getUsageInstructions());
-        if (dto.getExistingImage() != null && !dto.getExistingImage().isBlank()) {
+        if (dto.getImageFile() != null && !dto.getImageFile().isEmpty()) {
+            product.setImage(storeProductImage(dto.getImageFile()));
+        } else if (dto.getExistingImage() != null && !dto.getExistingImage().isBlank()) {
             product.setImage(dto.getExistingImage());
         } else if (product.getImage() == null) {
             product.setImage("product_default.jpg");
@@ -225,5 +238,36 @@ public class ProductServiceImpl implements ProductService {
         if (dto.getStatus() != null) {
             product.setStatus(dto.getStatus());
         }
+    }
+
+    private String storeProductImage(MultipartFile imageFile) {
+        String originalFilename = imageFile.getOriginalFilename();
+        String extension = originalFilename == null || !originalFilename.contains(".")
+                ? ""
+                : originalFilename.substring(originalFilename.lastIndexOf('.') + 1).toLowerCase();
+        String contentType = imageFile.getContentType();
+        boolean supportedImage = switch (extension) {
+            case "jpg", "jpeg" -> "image/jpeg".equals(contentType);
+            case "png" -> "image/png".equals(contentType);
+            case "gif" -> "image/gif".equals(contentType);
+            case "webp" -> "image/webp".equals(contentType);
+            default -> false;
+        };
+        if (!supportedImage) {
+            throw new IllegalArgumentException("Choose a valid JPG, PNG, GIF, or WebP image.");
+        }
+
+        String storedFilename = UUID.randomUUID() + "." + extension;
+        try {
+            Files.createDirectories(uploadDirectory);
+            Path destination = uploadDirectory.resolve(storedFilename).normalize();
+            if (!destination.getParent().equals(uploadDirectory)) {
+                throw new IllegalArgumentException("Invalid image filename.");
+            }
+            imageFile.transferTo(destination);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Could not save the product image.", exception);
+        }
+        return "/uploads/products/" + storedFilename;
     }
 }

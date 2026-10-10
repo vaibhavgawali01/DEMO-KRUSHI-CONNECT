@@ -74,7 +74,6 @@ public class CustomerController {
         List<Order> allUserOrders = orderService.getUserOrdersList(user.getId());
         BigDecimal totalSpent = BigDecimal.ZERO;
         BigDecimal thisMonthSpent = BigDecimal.ZERO;
-        long activeOrdersCount = 0;
         java.time.LocalDate now = java.time.LocalDate.now();
 
         for (Order o : allUserOrders) {
@@ -83,9 +82,6 @@ public class CustomerController {
                 if (o.getCreatedAt() != null && o.getCreatedAt().getMonth() == now.getMonth() && o.getCreatedAt().getYear() == now.getYear()) {
                     thisMonthSpent = thisMonthSpent.add(o.getTotal());
                 }
-            }
-            if (o.getOrderStatus() == OrderStatus.PENDING || o.getOrderStatus() == OrderStatus.PROCESSING || o.getOrderStatus() == OrderStatus.CONFIRMED || o.getOrderStatus() == OrderStatus.READY) {
-                activeOrdersCount++;
             }
         }
 
@@ -120,7 +116,6 @@ public class CustomerController {
         model.addAttribute("availableCredit", availableCredit);
         model.addAttribute("totalSpent", totalSpent);
         model.addAttribute("thisMonthSpent", thisMonthSpent);
-        model.addAttribute("activeOrdersCount", activeOrdersCount);
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("udhariRecords", userUdhariList);
         model.addAttribute("unreadNotifsCount", unreadNotifs);

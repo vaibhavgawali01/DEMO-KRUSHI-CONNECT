@@ -1,5 +1,8 @@
 package com.krushisevakendra.config;
 
+import com.krushisevakendra.entity.CustomerLoginHistory;
+import com.krushisevakendra.repository.CustomerLoginHistoryRepository;
+import com.krushisevakendra.security.CustomUserDetails;
 import com.krushisevakendra.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final CustomerLoginHistoryRepository customerLoginHistoryRepository;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService,
+                          CustomerLoginHistoryRepository customerLoginHistoryRepository) {
         this.userDetailsService = userDetailsService;
+        this.customerLoginHistoryRepository = customerLoginHistoryRepository;
     }
 
     @Bean
@@ -45,24 +53,20 @@ public class SecurityConfig {
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof CustomUserDetails userDetails
+                    && authentication.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_CUSTOMER"))) {
+                customerLoginHistoryRepository.save(
+                        new CustomerLoginHistory(userDetails.getUser(), LocalDateTime.now()));
+            }
+
             boolean isAdminRole = authentication.getAuthorities().stream()
                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
-            boolean isMasterAdmin = false;
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof com.krushisevakendra.security.CustomUserDetails cud) {
-                if (cud.getUser() != null && cud.getUser().getEmail() != null) {
-                    isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(cud.getUser().getEmail().trim());
-                }
-            } else if ("admin@krushiseva.com".equalsIgnoreCase(authentication.getName())) {
-                isMasterAdmin = true;
-            }
-
-            // 1. ONLY admin@krushiseva.com opens the admin dashboard:
-            if (isAdminRole && isMasterAdmin) {
+            if (isAdminRole) {
                 response.sendRedirect("/admin/dashboard");
             } else {
-                // 2. ANY other user ALWAYS opens farmer dashboard:
                 response.sendRedirect("/farmer/dashboard");
             }
         };
@@ -90,8 +94,8 @@ public class SecurityConfig {
                 // Admin-only area (Strictly only ROLE_ADMIN)
                 .requestMatchers("/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
                 // Customer & Farmer authenticated area
-                .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**", 
-                                 "/my-udhari/**", "/my-profile/**", "/invoice/**", "/payment-receipt/**").hasAnyAuthority("ROLE_CUSTOMER", "ROLE_ADMIN")
+                .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**",
+                                 "/my-udhari/**", "/my-profile/**", "/invoice/**", "/payment-receipt/**").hasAuthority("ROLE_CUSTOMER")
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exceptions -> exceptions
@@ -99,7 +103,9 @@ public class SecurityConfig {
                     org.springframework.security.core.Authentication auth = 
                         org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
                     if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
-                        response.sendRedirect("/farmer/dashboard");
+                        boolean isAdmin = auth.getAuthorities().stream()
+                                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+                        response.sendRedirect(isAdmin ? "/admin/dashboard" : "/farmer/dashboard");
                     } else {
                         response.sendRedirect("/login");
                     }

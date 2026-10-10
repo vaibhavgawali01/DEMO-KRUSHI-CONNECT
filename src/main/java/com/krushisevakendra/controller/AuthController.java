@@ -6,7 +6,6 @@ import com.krushisevakendra.entity.User;
 import com.krushisevakendra.enums.RoleName;
 import com.krushisevakendra.repository.RoleRepository;
 import com.krushisevakendra.repository.UserRepository;
-import com.krushisevakendra.security.CustomUserDetails;
 import com.krushisevakendra.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -49,15 +48,10 @@ public class AuthController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (logout == null && auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
-            boolean isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(auth.getName());
-            if (auth.getPrincipal() instanceof CustomUserDetails cud && cud.getUser() != null) {
-                isMasterAdmin = "admin@krushiseva.com".equalsIgnoreCase(cud.getUser().getEmail());
-            }
-            if (isMasterAdmin) {
-                return "redirect:/admin/dashboard";
-            } else {
-                return "redirect:/farmer/dashboard";
-            }
+            return auth.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))
+                    ? "redirect:/admin/dashboard"
+                    : "redirect:/farmer/dashboard";
         }
 
         if (error != null) {
@@ -76,7 +70,10 @@ public class AuthController {
     public String registerForm(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
-            return "redirect:/farmer/dashboard";
+            return auth.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))
+                    ? "redirect:/admin/dashboard"
+                    : "redirect:/farmer/dashboard";
         }
         model.addAttribute("registrationDto", new UserRegistrationDto());
         return "auth/register";

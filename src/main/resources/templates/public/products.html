@@ -118,7 +118,7 @@
                             <span th:if="${product.stockQuantity == 0}" class="badge bg-danger badge-stock" th:text="#{product.out_of_stock}">Out of Stock</span>
                             
                             <span class="badge-category" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Category</span>
-                            <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                            <img th:src="${product.image != null and #strings.startsWith(product.image, '/uploads/') ? product.image : '/images/' + product.image}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
                         </div>
 
                         <div class="product-body">

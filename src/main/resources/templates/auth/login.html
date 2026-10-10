@@ -1,281 +1,99 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout/header :: head('Login | सप्तशृंगी ॲग्रो सर्व्हिसेस')}"></head>
-<body>
+<body class="auth-login-page">
+<main class="login-shell">
+    <div class="login-topbar">
+        <a th:href="@{/}" class="login-back-link">
+            <i class="bi bi-arrow-left"></i>
+            <span th:text="${#locale.language == 'mr' ? 'दुकानाकडे परत' : 'Back to shop'}">Back to shop</span>
+        </a>
 
-<div class="auth-root-wrapper">
-
-    <!-- ==========================================
-         LEFT HERO BRANDING PANEL
-         ========================================== -->
-    <div class="auth-left-hero">
-        <div class="auth-hero-pattern"></div>
-        
-        <div class="auth-hero-content">
-            <!-- Official Verification Badge -->
-            <div class="auth-brand-badge">
-                <i class="bi bi-patch-check-fill text-warning"></i>
-                <span th:text="${#locale.language == 'mr' ? 'शासनमान्य अधिकृत कृषी सेवा केंद्र' : 'Government Authorized Agro Center'}">Government Authorized Agro Center</span>
-            </div>
-
-            <!-- Brand Header -->
-            <div class="auth-hero-logo-box">
-                <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Logo" class="auth-hero-logo">
-                <div>
-                    <h1 class="auth-hero-title" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">Saptashrungi Agro Services</h1>
-                    <p class="auth-hero-subtitle" th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांची समृद्धी, आमची बांधिलकी' : 'Empowering Farmers with Quality Inputs'}">Empowering Farmers with Quality Inputs</p>
-                </div>
-            </div>
-
-            <!-- Feature Badges -->
-            <div class="auth-features-list">
-                <div class="auth-feature-card">
-                    <div class="auth-feature-icon">🌾</div>
-                    <div class="auth-feature-text">
-                        <h6 th:text="${#locale.language == 'mr' ? '१००% अस्सल खते व बियाणे' : '100% Certified Seeds & Fertilizers'}">100% Certified Seeds & Fertilizers</h6>
-                        <p th:text="${#locale.language == 'mr' ? 'सर्व नामांकित ब्रँड्सची खात्रीशीर उत्पादने' : 'Top verified agricultural brands'}">Top verified agricultural brands</p>
-                    </div>
-                </div>
-
-                <div class="auth-feature-card">
-                    <div class="auth-feature-icon">🚜</div>
-                    <div class="auth-feature-text">
-                        <h6 th:text="${#locale.language == 'mr' ? '१०,०००+ शेतकरी बांधवांचा विश्वास' : '10,000+ Trusted Farmers'}">10,000+ Trusted Farmers</h6>
-                        <p th:text="${#locale.language == 'mr' ? 'सांगली, कोल्हापूर व सातारा परिसरातील अग्रगण्य केंद्र' : 'Leading agri hub in Western Maharashtra'}">Leading agri hub in Western Maharashtra</p>
-                    </div>
-                </div>
-
-                <div class="auth-feature-card">
-                    <div class="auth-feature-icon">⚡</div>
-                    <div class="auth-feature-text">
-                        <h6 th:text="${#locale.language == 'mr' ? 'डिजिटल पासबुक व उधारी ट्रॅकिंग' : 'Digital Khata & Ledger Tracking'}">Digital Khata & Ledger Tracking</h6>
-                        <p th:text="${#locale.language == 'mr' ? 'प्रत्येक खरेदीचे पारदर्शक बिल व त्वरित एसएमएस' : 'Instant digital invoices & SMS alerts'}">Instant digital invoices & SMS alerts</p>
-                    </div>
-                </div>
-
-                <div class="auth-feature-card">
-                    <div class="auth-feature-icon">👨‍🌾</div>
-                    <div class="auth-feature-text">
-                        <h6 th:text="${#locale.language == 'mr' ? 'मोफत कृषी तज्ज्ञ मार्गदर्शन' : 'Free Expert Agronomy Advice'}">Free Expert Agronomy Advice</h6>
-                        <p th:text="${#locale.language == 'mr' ? 'पिकांचे रोग नियंत्रण, खत व्यवस्थापन व फवारणी सल्ला' : 'Pest control & crop management advisory'}">Pest control & crop management advisory</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Footer Testimonial -->
-        <div class="auth-hero-testimonial">
-            <p th:text="${#locale.language == 'mr' ? '“माझ्या द्राक्ष आणि ऊस बागेसाठी दर्जेदार खते आणि योग्य फवारणी सल्ला नेहमी सप्तशृंगी ॲग्रोकडूनच मिळतो.”' : '“Always receive top-quality agro chemicals and genuine farming advice from Saptashrungi Agro Services.”'}">“Always receive top-quality agro chemicals and genuine farming advice.”</p>
-            <div class="author" th:text="${#locale.language == 'mr' ? '— रमेश पाटील (प्रगतिशील शेतकरी, सांगली)' : '— Ramesh Patil (Progressive Farmer, Sangli)'}">— Ramesh Patil (Progressive Farmer)</div>
+        <div class="login-language-switch" role="group" aria-label="Choose language">
+            <button type="button" onclick="changeLanguage(event, 'en')"
+                    th:classappend="${#locale.language != 'mr'} ? ' active' : ''">EN</button>
+            <button type="button" onclick="changeLanguage(event, 'mr')"
+                    th:classappend="${#locale.language == 'mr'} ? ' active' : ''">मराठी</button>
         </div>
     </div>
 
-    <!-- ==========================================
-         RIGHT LOGIN FORM PANEL
-         ========================================== -->
-    <div class="auth-right-section">
-        <div class="auth-card-container">
-            <div class="auth-card">
+    <section class="login-card" aria-labelledby="loginTitle">
+        <div class="login-brand">
+            <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Krushi Seva Kendra logo">
+            <div>
+                <div class="login-brand-name">Krushi Seva Kendra</div>
+                <div class="login-brand-subtitle">Saptashrungi Agro Services</div>
+            </div>
+        </div>
 
-                <!-- Top Bar: Home Link + Language Switcher -->
-                <div class="auth-card-topbar">
-                    <a th:href="@{/}" class="auth-back-link">
-                        <i class="bi bi-arrow-left"></i>
-                        <span th:text="${#locale.language == 'mr' ? 'मुख्यपृष्ठ' : 'Back to Home'}">Back to Home</span>
-                    </a>
+        <header class="login-heading">
+            <h1 id="loginTitle" th:text="${#locale.language == 'mr' ? 'पुन्हा स्वागत आहे' : 'Welcome back'}">Welcome back</h1>
+            <p th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर किंवा ईमेल वापरून लॉगिन करा.' : 'Sign in with your mobile number or email.'}">Sign in with your mobile number or email.</p>
+        </header>
 
-                    <!-- Segmented Language Toggle Pill -->
-                    <div class="auth-lang-pill">
-                        <button type="button" onclick="changeLanguage(event, 'mr')"
-                                class="auth-lang-btn"
-                                th:classappend="${#locale.language == 'mr'} ? 'active' : ''">
-                            🌾 मराठी
-                        </button>
-                        <button type="button" onclick="changeLanguage(event, 'en')"
-                                class="auth-lang-btn"
-                                th:classappend="${#locale.language != 'mr'} ? 'active' : ''">
-                            🌍 English
-                        </button>
-                    </div>
-                </div>
+        <div th:if="${param.error}" class="alert alert-danger py-2 small" role="alert">
+            <span th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर, ईमेल किंवा पासवर्ड चुकीचा आहे. पुन्हा प्रयत्न करा.' : 'Invalid mobile/email or password. Please try again.'}">Invalid login</span>
+        </div>
+        <div th:if="${successMessage}" class="alert alert-success py-2 small" role="status">
+            <span th:text="${successMessage}">Success</span>
+        </div>
 
-                <!-- Header Title -->
-                <div class="auth-header-wrapper">
-                    <div class="auth-icon-badge">
-                        <i class="bi bi-shield-lock-fill"></i>
-                    </div>
-                    <h2 class="auth-main-title" th:text="${#locale.language == 'mr' ? 'खाते लॉगिन' : 'Account Login'}">Account Login</h2>
-                    <p class="auth-main-subtext" th:text="${#locale.language == 'mr' ? 'आपल्या शेतकरी किंवा ॲडमिन खात्यात सुरक्षित प्रवेश करा' : 'Secure access to your farmer or admin account'}">Secure access to your farmer or admin account</p>
-                </div>
+        <form th:action="@{/login}" method="POST" id="loginForm">
+            <div class="login-field">
+                <label for="loginUsername" th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर किंवा ईमेल' : 'Mobile number or email'}">Mobile number or email</label>
+                <input type="text" name="username" id="loginUsername"
+                       th:placeholder="${#locale.language == 'mr' ? 'मोबाईल नंबर किंवा ईमेल' : 'Mobile number or email'}"
+                       required autofocus autocomplete="username">
+            </div>
 
-                <!-- Error Alert -->
-                <div th:if="${param.error}" class="alert alert-danger border-0 d-flex align-items-center gap-2 mb-3 py-2 px-3 rounded-3 small">
-                    <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
-                    <span th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर, ईमेल किंवा पासवर्ड चुकीचा आहे. कृपया पुन्हा प्रयत्न करा.' : 'Invalid mobile/email or password. Please try again.'}">Invalid email or password.</span>
-                </div>
-
-                <!-- Success Alert -->
-                <div th:if="${param.logout}" class="alert alert-success border-0 d-flex align-items-center gap-2 mb-3 py-2 px-3 rounded-3 small">
-                    <i class="bi bi-check-circle-fill flex-shrink-0"></i>
-                    <span th:text="${#locale.language == 'mr' ? 'तुम्ही यशस्वीरीत्या लॉगआउट झाला आहात.' : 'You have been logged out successfully.'}">Logged out successfully.</span>
-                </div>
-
-                <!-- Quick Demo Login Selection Cards -->
-                <div class="p-3 mb-3 rounded-3" style="background:#f8fafc; border:1px solid #e2e8f0;">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="small fw-bold text-muted" th:text="${#locale.language == 'mr' ? '⚡ त्वरित चाचणी लॉगिन (Quick Access)' : '⚡ Quick Test Logins'}">⚡ त्वरित चाचणी लॉगिन</span>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <button type="button" class="btn btn-sm btn-outline-danger w-100 text-start p-2 rounded-3 shadow-none d-flex flex-column"
-                                    onclick="fillDemo('admin@krushiseva.com', 'admin123')"
-                                    title="Click to fill Admin credentials">
-                                <span class="fw-bold d-flex align-items-center gap-1" style="font-size:12px;">
-                                    <i class="bi bi-shield-lock-fill text-danger"></i> ॲडमिन पोर्टल
-                                </span>
-                                <span class="text-muted text-truncate" style="font-size:10px;">admin@krushiseva.com</span>
-                                <span class="badge bg-danger-subtle text-danger p-0 mt-1" style="font-size:9px;">फक्त ॲडमिन पॅनेल</span>
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button type="button" class="btn btn-sm btn-outline-success w-100 text-start p-2 rounded-3 shadow-none d-flex flex-column"
-                                    onclick="fillDemo('ramesh@patil.com', 'farmer123')"
-                                    title="Click to fill Farmer credentials">
-                                <span class="fw-bold d-flex align-items-center gap-1" style="font-size:12px;">
-                                    <i class="bi bi-person-fill text-success"></i> शेतकरी पोर्टल
-                                </span>
-                                <span class="text-muted text-truncate" style="font-size:10px;">ramesh@patil.com</span>
-                                <span class="badge bg-success-subtle text-success p-0 mt-1" style="font-size:9px;">शेतकरी डॅशबोर्ड</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Login Form -->
-                <form th:action="@{/login}" method="POST" id="loginForm">
-                    <!-- Username Input -->
-                    <div class="auth-input-group">
-                        <label class="auth-field-label" for="loginUsername"
-                               th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर किंवा ईमेल' : 'Mobile Number or Email'}">
-                            Mobile Number or Email
-                        </label>
-                        <div class="auth-field-box">
-                            <i class="bi bi-person-fill auth-leading-icon"></i>
-                            <input type="text" name="username" id="loginUsername"
-                                   class="auth-field-input"
-                                   th:placeholder="${#locale.language == 'mr' ? 'उदा. ९८२२०१२३४५ किंवा admin@krushiseva.com' : 'e.g. 9822012345 or admin@krushiseva.com'}"
-                                   required autofocus autocomplete="username">
-                        </div>
-                    </div>
-
-                    <!-- Password Input -->
-                    <div class="auth-input-group">
-                        <label class="auth-field-label" for="loginPassword"
-                               th:text="${#locale.language == 'mr' ? 'पासवर्ड' : 'Password'}">
-                            Password
-                        </label>
-                        <div class="auth-field-box">
-                            <i class="bi bi-lock-fill auth-leading-icon"></i>
-                            <input type="password" name="password" id="loginPassword"
-                                   class="auth-field-input pe-5"
-                                   placeholder="••••••••" required autocomplete="current-password">
-                            <button type="button" class="auth-trailing-btn" onclick="togglePass()" aria-label="Toggle password visibility">
-                                <i class="bi bi-eye" id="eyeIcon"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Options: Remember Me & Forgot Password -->
-                    <div class="auth-options-row">
-                        <label class="auth-checkbox-label" for="rememberMeCheck">
-                            <input type="checkbox" name="remember-me" id="rememberMeCheck">
-                            <span th:text="${#locale.language == 'mr' ? 'लक्षात ठेवा' : 'Remember Me'}">Remember Me</span>
-                        </label>
-
-                        <a th:href="@{/forgot-password}" class="auth-forgot-link"
-                           th:text="${#locale.language == 'mr' ? 'पासवर्ड विसरलात?' : 'Forgot Password?'}">
-                            Forgot Password?
-                        </a>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="auth-submit-btn" id="submitBtn">
-                        <span th:text="${#locale.language == 'mr' ? 'लॉगिन करा' : 'Sign In'}">Sign In</span>
-                        <i class="bi bi-arrow-right"></i>
+            <div class="login-field">
+                <label for="loginPassword" th:text="${#locale.language == 'mr' ? 'पासवर्ड' : 'Password'}">Password</label>
+                <div class="login-password-wrap">
+                    <input type="password" name="password" id="loginPassword"
+                           placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="login-password-toggle" onclick="togglePass()"
+                            th:attr="aria-label=${#locale.language == 'mr' ? 'पासवर्ड दाखवा किंवा लपवा' : 'Show or hide password'}">
+                        <i class="bi bi-eye" id="eyeIcon"></i>
                     </button>
-                </form>
-
-                <!-- Footer & Registration Link -->
-                <div class="auth-card-footer">
-                    <p class="auth-register-text">
-                        <span th:text="${#locale.language == 'mr' ? 'नवीन शेतकरी खाते हवे आहे का?' : 'Need a new farmer account?'}">Need a new farmer account?</span>
-                        <a th:href="@{/register}" class="auth-register-link ms-1"
-                           th:text="${#locale.language == 'mr' ? 'येथे मोफत नोंदणी करा' : 'Register Here Free'}">Register Here Free</a>
-                    </p>
-
-                    <div class="auth-security-badge">
-                        <i class="bi bi-shield-check text-success"></i>
-                        <span th:text="${#locale.language == 'mr' ? '२५६-बिट एसएसएल सुरक्षित प्रणाली • शासनमान्य' : '256-Bit SSL Encryption • Gov Certified'}">256-Bit SSL Encryption</span>
-                    </div>
                 </div>
-
             </div>
-        </div>
-    </div>
 
-</div>
+            <div class="login-options">
+                <label class="login-remember" for="rememberMeCheck">
+                    <input type="checkbox" name="remember-me" id="rememberMeCheck">
+                    <span th:text="${#locale.language == 'mr' ? 'लक्षात ठेवा' : 'Remember me'}">Remember me</span>
+                </label>
+                <a th:href="@{/forgot-password}" th:text="${#locale.language == 'mr' ? 'पासवर्ड विसरलात?' : 'Forgot password?'}">Forgot password?</a>
+            </div>
 
-<!-- Scripts -->
+            <button type="submit" class="login-submit">
+                <span th:text="${#locale.language == 'mr' ? 'लॉगिन करा' : 'Log in'}">Log in</span>
+            </button>
+        </form>
+
+        <footer class="login-footer">
+            <span th:text="${#locale.language == 'mr' ? 'नवीन शेतकरी?' : 'New farmer?'}">New farmer?</span>
+            <a th:href="@{/register}" th:text="${#locale.language == 'mr' ? 'नोंदणी करा' : 'Register'}">Register</a>
+        </footer>
+    </section>
+</main>
+
 <script>
 function changeLanguage(event, lang) {
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
+    event.preventDefault();
     document.cookie = "krushi_lang=" + encodeURIComponent(lang) + ";path=/;max-age=2592000;SameSite=Lax";
-    try {
-        const u = new URL(window.location.href);
-        u.searchParams.set('lang', lang);
-        window.location.href = u.toString();
-    } catch(e) {
-        window.location.href = window.location.pathname + "?lang=" + encodeURIComponent(lang);
-    }
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
 }
 
 function togglePass() {
-    var p = document.getElementById('loginPassword');
-    var i = document.getElementById('eyeIcon');
-    if (p.type === 'password') {
-        p.type = 'text';
-        i.className = 'bi bi-eye-slash text-success';
-    } else {
-        p.type = 'password';
-        i.className = 'bi bi-eye';
-    }
-}
-
-function fillDemo(username, password) {
-    const uInput = document.getElementById('loginUsername');
-    const pInput = document.getElementById('loginPassword');
-    if (uInput && pInput) {
-        uInput.value = username;
-        pInput.value = password;
-        
-        // Add subtle highlight effect
-        uInput.style.borderColor = '#059669';
-        pInput.style.borderColor = '#059669';
-        uInput.style.background = '#f0fdf4';
-        pInput.style.background = '#f0fdf4';
-        
-        setTimeout(() => {
-            uInput.style.background = '';
-            pInput.style.background = '';
-            uInput.style.borderColor = '';
-            pInput.style.borderColor = '';
-        }, 1200);
-    }
+    const password = document.getElementById('loginPassword');
+    const icon = document.getElementById('eyeIcon');
+    const isHidden = password.type === 'password';
+    password.type = isHidden ? 'text' : 'password';
+    icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
 }
 </script>
-
 </body>
 </html>

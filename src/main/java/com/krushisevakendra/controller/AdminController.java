@@ -42,6 +42,7 @@ public class AdminController {
     private final BackupService backupService;
     private final OfferRepository offerRepository;
     private final FeedbackRepository feedbackRepository;
+    private final CustomerLoginHistoryRepository customerLoginHistoryRepository;
 
     @Value("${app.shop.name}") private String shopName;
     @Value("${app.shop.gstin}") private String shopGstin;
@@ -64,7 +65,8 @@ public class AdminController {
                            NotificationService notificationService,
                            BackupService backupService,
                            OfferRepository offerRepository,
-                           FeedbackRepository feedbackRepository) {
+                           FeedbackRepository feedbackRepository,
+                           CustomerLoginHistoryRepository customerLoginHistoryRepository) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.orderService = orderService;
@@ -77,6 +79,7 @@ public class AdminController {
         this.backupService = backupService;
         this.offerRepository = offerRepository;
         this.feedbackRepository = feedbackRepository;
+        this.customerLoginHistoryRepository = customerLoginHistoryRepository;
     }
 
     // 1. Admin Dashboard
@@ -144,7 +147,14 @@ public class AdminController {
             return "admin/product-form";
         }
 
-        productService.saveProduct(productDto);
+        try {
+            productService.saveProduct(productDto);
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("errorMessage", exception.getMessage());
+            model.addAttribute("categories", categoryService.getAllActiveCategories());
+            model.addAttribute("isEdit", false);
+            return "admin/product-form";
+        }
         redirectAttributes.addFlashAttribute("successMessage", "Product added successfully / उत्पादन जोडले गेले!");
         return "redirect:/admin/products";
     }
@@ -194,7 +204,14 @@ public class AdminController {
             return "admin/product-form";
         }
 
-        productService.updateProduct(id, productDto);
+        try {
+            productService.updateProduct(id, productDto);
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("errorMessage", exception.getMessage());
+            model.addAttribute("categories", categoryService.getAllActiveCategories());
+            model.addAttribute("isEdit", true);
+            return "admin/product-form";
+        }
         redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully / उत्पादन अद्ययावत केले!");
         return "redirect:/admin/products";
     }
@@ -300,7 +317,46 @@ public class AdminController {
         model.addAttribute("customerPage", userService.searchCustomers(query, PageRequest.of(page, size)));
         model.addAttribute("query", query);
         model.addAttribute("customerEditDto", new CustomerUpdateDto());
+        model.addAttribute("totalCustomers", userService.getCustomerCount());
+        model.addAttribute("customerLoginHistory", customerLoginHistoryRepository.findTop100ByOrderByLoggedInAtDesc());
+        model.addAttribute("totalCustomerLogins", customerLoginHistoryRepository.count());
         return "admin/customers";
+    }
+
+    @GetMapping("/customers/{id}")
+    public String customerDetails(@PathVariable Long id, Model model) {
+        User customer = userService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
+        List<Udhari> creditRecords = udhariService.getUserUdhariList(id);
+        BigDecimal totalCredit = BigDecimal.ZERO;
+        BigDecimal totalPaid = BigDecimal.ZERO;
+        BigDecimal totalRemaining = BigDecimal.ZERO;
+        for (Udhari record : creditRecords) {
+            if (record.getTotalAmount() != null) totalCredit = totalCredit.add(record.getTotalAmount());
+            if (record.getPaidAmount() != null) totalPaid = totalPaid.add(record.getPaidAmount());
+            if (record.getRemainingAmount() != null) totalRemaining = totalRemaining.add(record.getRemainingAmount());
+        }
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("creditRecords", creditRecords);
+        model.addAttribute("totalCredit", totalCredit);
+        model.addAttribute("totalPaid", totalPaid);
+        model.addAttribute("totalRemaining", totalRemaining);
+        model.addAttribute("customerLoginHistory",
+                customerLoginHistoryRepository.findTop50ByUserIdOrderByLoggedInAtDesc(id));
+        model.addAttribute("totalCustomerLogins", customerLoginHistoryRepository.countByUserId(id));
+        CustomerUpdateDto customerEditDto = new CustomerUpdateDto();
+        customerEditDto.setId(customer.getId());
+        customerEditDto.setName(customer.getName());
+        customerEditDto.setMobile(customer.getMobile());
+        customerEditDto.setEmail(customer.getEmail());
+        customerEditDto.setVillage(customer.getVillage());
+        customerEditDto.setTaluka(customer.getTaluka());
+        customerEditDto.setDistrict(customer.getDistrict());
+        customerEditDto.setAddress(customer.getAddress());
+        customerEditDto.setStatus(customer.getStatus());
+        model.addAttribute("customerEditDto", customerEditDto);
+        return "admin/customer-details";
     }
 
     @PostMapping("/customers/edit")
@@ -329,12 +385,12 @@ public class AdminController {
         customerDto.setId(id);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid customer details provided");
-            return "redirect:/admin/customers";
+            return "redirect:/admin/customers/" + id;
         }
 
         userService.updateCustomerByAdmin(customerDto);
         redirectAttributes.addFlashAttribute("successMessage", "Customer profile updated successfully!");
-        return "redirect:/admin/customers";
+        return "redirect:/admin/customers/" + id;
     }
 
     // 6. Orders Management

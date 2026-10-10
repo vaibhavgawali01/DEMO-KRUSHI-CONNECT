@@ -411,7 +411,7 @@
                         <span th:text="${#numbers.formatDecimal((product.price - product.discountPrice) / product.price * 100, 0, 0)} + '% OFF'">7% OFF</span>
                     </span>
                     <span class="product-featured-cat-badge" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Seeds</span>
-                    <img th:src="@{'/images/' + ${product.image}}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                    <img th:src="${product.image != null and #strings.startsWith(product.image, '/uploads/') ? product.image : '/images/' + product.image}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
                 </div>
                 <div class="product-featured-content">
                     <div class="product-featured-company" th:text="${product.company != null ? product.company : 'MAHABEEJ'}">MAHABEEJ</div>

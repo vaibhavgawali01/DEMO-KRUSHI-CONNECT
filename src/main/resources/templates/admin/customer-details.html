@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: head('Customer Details')}"></head>
+<body class="page-bg-light">
+<div th:replace="~{layout/navbar :: navbar}"></div>
+
+<div class="container-fluid px-lg-4 my-4">
+    <div class="row g-4">
+        <div class="col-lg-2 d-none d-lg-block">
+            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('customers')}"></div>
+        </div>
+
+        <main class="col-lg-10">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                <div>
+                    <a th:href="@{/admin/customers}" class="small text-decoration-none">
+                        <i class="ti ti-arrow-left"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'ग्राहक यादीकडे परत' : 'Back to customers'}">Back to customers</span>
+                    </a>
+                    <h1 class="h3 fw-bold text-dark mt-2 mb-1" th:text="${customer.name}">Customer name</h1>
+                    <div class="text-muted small">
+                        <span th:text="${customer.mobile}">Mobile</span>
+                        <span class="mx-1">·</span>
+                        <span th:text="${customer.email}">Email</span>
+                    </div>
+                </div>
+                <a class="btn btn-outline-primary" th:href="@{/admin/udhari(query=${customer.mobile})}">
+                    <i class="ti ti-credit-card me-1"></i>
+                    <span th:text="${#locale.language == 'mr' ? 'उधारी व्यवस्थापित करा' : 'Manage credit'}">Manage credit</span>
+                </a>
+            </div>
+
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <section class="modern-card p-4 mb-4">
+                <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                    <div>
+                        <h2 class="h5 fw-bold mb-3" th:text="${#locale.language == 'mr' ? 'ग्राहकाची संपूर्ण माहिती' : 'Customer profile'}">Customer profile</h2>
+                        <div class="row g-3">
+                            <div class="col-sm-6 col-xl-4">
+                                <small class="text-muted d-block" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत तारीख' : 'Registered on'}">Registered on</small>
+                                <strong th:text="${customer.createdAt != null ? #temporals.format(customer.createdAt, 'dd MMM yyyy, hh:mm a') : '-'}">10 Oct 2026</strong>
+                            </div>
+                            <div class="col-sm-6 col-xl-4">
+                                <small class="text-muted d-block" th:text="${#locale.language == 'mr' ? 'गाव / तालुका' : 'Village / Taluka'}">Village / Taluka</small>
+                                <strong th:text="${(customer.village != null ? customer.village : '-') + ' / ' + (customer.taluka != null ? customer.taluka : '-')}">Village / Taluka</strong>
+                            </div>
+                            <div class="col-sm-6 col-xl-4">
+                                <small class="text-muted d-block" th:text="${#locale.language == 'mr' ? 'जिल्हा' : 'District'}">District</small>
+                                <strong th:text="${customer.district != null ? customer.district : '-'}">District</strong>
+                            </div>
+                            <div class="col-12">
+                                <small class="text-muted d-block" th:text="${#locale.language == 'mr' ? 'पत्ता' : 'Address'}">Address</small>
+                                <strong th:text="${customer.address != null and !customer.address.isBlank() ? customer.address : '-'}">Address</strong>
+                            </div>
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block" th:text="${#locale.language == 'mr' ? 'खाते स्थिती' : 'Account status'}">Account status</small>
+                                <span class="status-pill" th:classappend="${customer.status == 'ACTIVE'} ? 'status-pill-green' : 'status-pill-red'" th:text="${customer.status}">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-light border" type="button" data-bs-toggle="collapse" data-bs-target="#editCustomerForm">
+                        <i class="ti ti-edit me-1"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'माहिती बदला' : 'Edit profile'}">Edit profile</span>
+                    </button>
+                </div>
+
+                <div class="collapse mt-4" id="editCustomerForm">
+                    <form th:action="@{/admin/customers/{id}/edit(id=${customer.id})}" th:object="${customerEditDto}" method="post" class="border-top pt-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="customerName" th:text="${#locale.language == 'mr' ? 'पूर्ण नाव' : 'Full name'}">Full name</label>
+                                <input class="form-control" id="customerName" th:field="*{name}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="customerMobile" th:text="${#locale.language == 'mr' ? 'मोबाईल' : 'Mobile'}">Mobile</label>
+                                <input class="form-control" id="customerMobile" th:field="*{mobile}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="customerEmail" th:text="${#locale.language == 'mr' ? 'ईमेल' : 'Email'}">Email</label>
+                                <input class="form-control" id="customerEmail" type="email" th:field="*{email}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="customerVillage" th:text="${#locale.language == 'mr' ? 'गाव' : 'Village'}">Village</label>
+                                <input class="form-control" id="customerVillage" th:field="*{village}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="customerTaluka" th:text="${#locale.language == 'mr' ? 'तालुका' : 'Taluka'}">Taluka</label>
+                                <input class="form-control" id="customerTaluka" th:field="*{taluka}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="customerDistrict" th:text="${#locale.language == 'mr' ? 'जिल्हा' : 'District'}">District</label>
+                                <input class="form-control" id="customerDistrict" th:field="*{district}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="customerStatus" th:text="${#locale.language == 'mr' ? 'खाते स्थिती' : 'Account status'}">Account status</label>
+                                <select class="form-select" id="customerStatus" th:field="*{status}">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="customerAddress" th:text="${#locale.language == 'mr' ? 'पत्ता' : 'Address'}">Address</label>
+                                <textarea class="form-control" id="customerAddress" rows="2" th:field="*{address}"></textarea>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-success" type="submit" th:text="${#locale.language == 'mr' ? 'माहिती जतन करा' : 'Save profile'}">Save profile</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100">
+                        <small class="text-muted text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'एकूण उधारी' : 'Total credit'}">Total credit</small>
+                        <div class="h4 fw-bold text-dark mt-2 mb-0" th:text="'₹' + ${#numbers.formatDecimal(totalCredit, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100">
+                        <small class="text-muted text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'एकूण जमा' : 'Total paid'}">Total paid</small>
+                        <div class="h4 fw-bold text-success mt-2 mb-0" th:text="'₹' + ${#numbers.formatDecimal(totalPaid, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="modern-card p-3 h-100">
+                        <small class="text-muted text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'बाकी रक्कम' : 'Outstanding'}">Outstanding</small>
+                        <div class="h4 fw-bold text-danger mt-2 mb-0" th:text="'₹' + ${#numbers.formatDecimal(totalRemaining, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="modern-card overflow-hidden mb-4">
+                <div class="p-3 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <h2 class="h5 fw-bold mb-0" th:text="${#locale.language == 'mr' ? 'उधारी खाते व देय तारखा' : 'Credit ledger & due dates'}">Credit ledger & due dates</h2>
+                    <a class="btn btn-sm btn-success" th:href="@{/admin/udhari(query=${customer.mobile})}">
+                        <i class="ti ti-credit-card me-1"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'उधारी नोंदवा / जमा घ्या' : 'Add credit / record payment'}">Add credit / record payment</span>
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th th:text="${#locale.language == 'mr' ? 'नोंद तारीख' : 'Recorded'}">Recorded</th>
+                                <th th:text="${#locale.language == 'mr' ? 'तपशील' : 'Description'}">Description</th>
+                                <th class="text-end" th:text="${#locale.language == 'mr' ? 'एकूण' : 'Total'}">Total</th>
+                                <th class="text-end" th:text="${#locale.language == 'mr' ? 'जमा' : 'Paid'}">Paid</th>
+                                <th class="text-end" th:text="${#locale.language == 'mr' ? 'बाकी' : 'Remaining'}">Remaining</th>
+                                <th th:text="${#locale.language == 'mr' ? 'देय तारीख' : 'Due date'}">Due date</th>
+                                <th th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(creditRecords)}">
+                                <td colspan="7" class="text-center text-muted py-4" th:text="${#locale.language == 'mr' ? 'या ग्राहकाची उधारी नोंद उपलब्ध नाही.' : 'No credit records for this customer yet.'}">No credit records for this customer yet.</td>
+                            </tr>
+                            <tr th:each="record : ${creditRecords}">
+                                <td th:text="${record.createdAt != null ? #temporals.format(record.createdAt, 'dd MMM yyyy') : '-'}">10 Oct 2026</td>
+                                <td>
+                                    <span th:if="${record.notes != null and !record.notes.isBlank()}" th:text="${record.notes}">Notes</span>
+                                    <span th:if="${record.notes == null or record.notes.isBlank()}" th:text="${record.order != null ? 'Order ' + record.order.orderNumber : '-'}">-</span>
+                                </td>
+                                <td class="text-end" th:text="'₹' + ${#numbers.formatDecimal(record.totalAmount, 1, 'COMMA', 2, 'POINT')}">₹0.00</td>
+                                <td class="text-end text-success" th:text="'₹' + ${#numbers.formatDecimal(record.paidAmount, 1, 'COMMA', 2, 'POINT')}">₹0.00</td>
+                                <td class="text-end fw-bold text-danger" th:text="'₹' + ${#numbers.formatDecimal(record.remainingAmount, 1, 'COMMA', 2, 'POINT')}">₹0.00</td>
+                                <td>
+                                    <span th:text="${record.dueDate != null ? #temporals.format(record.dueDate, 'dd MMM yyyy') : '-'}">10 Oct 2026</span>
+                                    <span th:if="${record.isOverdue()}" class="badge bg-danger ms-1" th:text="${#locale.language == 'mr' ? 'मुदत संपली' : 'Overdue'}">Overdue</span>
+                                </td>
+                                <td th:text="${record.status}">ACTIVE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <details class="modern-card overflow-hidden mb-4">
+                <summary class="p-3 fw-bold" style="cursor: pointer;"
+                         th:text="${#locale.language == 'mr' ? 'लॉगिन इतिहास (' + totalCustomerLogins + ')' : 'Login history (' + totalCustomerLogins + ')'}">Login history</summary>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th th:text="${#locale.language == 'mr' ? 'क्रमांक' : 'No.'}">No.</th>
+                                <th th:text="${#locale.language == 'mr' ? 'तारीख व वेळ' : 'Date & time'}">Date & time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(customerLoginHistory)}">
+                                <td colspan="2" class="text-center text-muted py-3" th:text="${#locale.language == 'mr' ? 'लॉगिन इतिहास उपलब्ध नाही.' : 'No login history recorded yet.'}">No login history recorded yet.</td>
+                            </tr>
+                            <tr th:each="login, iter : ${customerLoginHistory}">
+                                <td th:text="${iter.count}">1</td>
+                                <td th:text="${#temporals.format(login.loggedInAt, 'dd MMM yyyy, hh:mm a')}">10 Oct 2026, 10:30 AM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

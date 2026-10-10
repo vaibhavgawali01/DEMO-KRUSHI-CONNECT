@@ -942,6 +942,16 @@ body {
     border-color: #cbd5e1;
 }
 
+.admin-kpi-card-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.admin-kpi-card-link:focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 3px;
+}
+
 .admin-kpi-icon-wrap {
     width: 48px;
     height: 48px;

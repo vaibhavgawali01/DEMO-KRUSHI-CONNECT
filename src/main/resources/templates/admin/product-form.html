@@ -27,8 +27,12 @@
             </div>
 
             <div class="modern-card p-4">
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 <form th:action="${isEdit} ? @{'/admin/products/' + ${productDto.id} + '/edit'} : @{/admin/products/add}" 
-                      th:object="${productDto}" method="POST">
+                      th:object="${productDto}" method="POST" enctype="multipart/form-data">
                     
                     <div class="row g-3">
                         <!-- Category -->
@@ -131,10 +135,22 @@
                             <input type="date" th:field="*{expiryDate}" class="form-control form-control-sm">
                         </div>
 
-                        <!-- Image File Name -->
+                        <!-- Product Image Upload -->
                         <div class="col-md-12">
-                            <label class="form-label small fw-bold text-dark">Product Image Name (Place in /images folder)</label>
-                            <input type="text" th:field="*{existingImage}" class="form-control form-control-sm" placeholder="e.g. cotton_seeds.jpg, fertilizer_npk.jpg, battery_sprayer.jpg">
+                            <label for="productImageFile" class="form-label small fw-bold text-dark">Product Image</label>
+                            <input type="hidden" th:field="*{existingImage}">
+                            <input type="file" th:field="*{imageFile}" id="productImageFile"
+                                   class="form-control form-control-sm" accept="image/jpeg,image/png,image/gif,image/webp">
+                            <div class="form-text">Choose an image from your device (JPG, PNG, GIF or WebP, up to 10 MB).</div>
+                            <div class="mt-3 d-flex align-items-center gap-3" id="productImagePreviewContainer"
+                                 th:style="${productDto.existingImage != null and !productDto.existingImage.isBlank()} ? 'display: flex;' : 'display: none;'">
+                                <img id="productImagePreview"
+                                     th:src="${productDto.existingImage != null and #strings.startsWith(productDto.existingImage, '/uploads/') ? productDto.existingImage : '/images/' + productDto.existingImage}"
+                                     alt="Selected product preview"
+                                     style="width: 88px; height: 88px; object-fit: contain; border: 1px solid #dee2e6; border-radius: 10px; padding: 5px;">
+                                <span class="small text-muted" id="productImageFileName"
+                                      th:text="${productDto.existingImage}">Current product image</span>
+                            </div>
                         </div>
 
                         <!-- Description -->
@@ -163,5 +179,22 @@
 </div>
 
 <div th:replace="~{layout/footer :: footer}"></div>
+<script>
+    const productImageInput = document.getElementById('productImageFile');
+    const productImagePreview = document.getElementById('productImagePreview');
+    const productImagePreviewContainer = document.getElementById('productImagePreviewContainer');
+    const productImageFileName = document.getElementById('productImageFileName');
+    let productImagePreviewUrl;
+
+    productImageInput.addEventListener('change', () => {
+        const file = productImageInput.files[0];
+        if (!file) return;
+        if (productImagePreviewUrl) URL.revokeObjectURL(productImagePreviewUrl);
+        productImagePreviewUrl = URL.createObjectURL(file);
+        productImagePreview.src = productImagePreviewUrl;
+        productImageFileName.textContent = file.name;
+        productImagePreviewContainer.style.display = 'flex';
+    });
+</script>
 </body>
 </html>
