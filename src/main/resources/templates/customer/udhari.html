@@ -59,7 +59,10 @@
                         </div>
                         <div class="col-md-5 text-md-end mt-3 mt-md-0">
                             <button type="button" class="btn btn-danger btn-lg px-4 fw-bold shadow-sm"
-                                    th:onclick="'openUpiModal(' + ${remainingBalance} + ', \'Udhari Settlement\', \'' + ${shopUpiId} + '\')'"
+                                    th:data-amount="${remainingBalance}"
+                                    th:data-upi="${shopUpiId}"
+                                    data-label="Udhari Settlement"
+                                    onclick="openUpiModal(parseFloat(this.dataset.amount), this.dataset.label, this.dataset.upi)"
                                     th:disabled="${remainingBalance <= 0}">
                                 <i class="bi bi-qr-code-scan me-2"></i> <span th:text="#{udhari.btn.pay_now}">Pay Online / UPI QR</span>
                             </button>
