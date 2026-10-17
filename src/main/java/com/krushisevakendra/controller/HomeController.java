@@ -12,6 +12,7 @@ import com.krushisevakendra.security.SecurityUtil;
 import com.krushisevakendra.service.CategoryService;
 import com.krushisevakendra.service.FarmingService;
 import com.krushisevakendra.service.ProductService;
+import com.krushisevakendra.util.PageRequests;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -96,7 +97,7 @@ public class HomeController {
 
         Page<Product> productPage = productService.searchAndFilter(
                 categoryId, company, minPrice, maxPrice, inStockOnly, keyword,
-                PageRequest.of(page, size, sorting)
+                PageRequests.bounded(page, size, sorting)
         );
 
         model.addAttribute("productPage", productPage);
@@ -115,7 +116,7 @@ public class HomeController {
 
     @GetMapping("/products/{id}")
     public String productDetails(@PathVariable Long id, Model model) {
-        Product product = productService.getProductById(id)
+        Product product = productService.getActiveProductById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 
         List<Feedback> reviews = feedbackRepository.findByProductIdAndStatusOrderByCreatedAtDesc(id, "APPROVED");
@@ -135,21 +136,23 @@ public class HomeController {
             @RequestParam String review) {
 
         Optional<User> currentUser = securityUtil.getCurrentUser();
-        if (currentUser.isPresent()) {
-            Product product = productService.getProductById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        if (currentUser.isEmpty()) {
+            return "redirect:/login";
+        }
+        if (rating == null || rating < 1 || rating > 5 || review == null || review.isBlank() || review.length() > 2000) {
+            return "redirect:/products/" + id + "?reviewError=true";
+        }
 
-            Feedback fb = new Feedback(currentUser.get(), product, rating, review);
-            feedbackRepository.save(fb);
+        Product product = productService.getActiveProductById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        feedbackRepository.save(new Feedback(currentUser.get(), product, rating, review.trim()));
 
-            // Update product rating average
-            Double avg = feedbackRepository.calculateAverageRatingForProduct(id);
-            long count = feedbackRepository.countApprovedByProductId(id);
-            if (avg != null) {
-                product.setRating(java.math.BigDecimal.valueOf(avg).setScale(1, java.math.RoundingMode.HALF_UP));
-                product.setReviewCount((int) count);
-                productService.saveProduct(null); // triggers repository save logic or direct save
-            }
+        Double avg = feedbackRepository.calculateAverageRatingForProduct(id);
+        long count = feedbackRepository.countApprovedByProductId(id);
+        if (avg != null) {
+            productService.updateRating(id,
+                    java.math.BigDecimal.valueOf(avg).setScale(1, java.math.RoundingMode.HALF_UP),
+                    Math.toIntExact(count));
         }
         return "redirect:/products/" + id + "?reviewed=true";
     }

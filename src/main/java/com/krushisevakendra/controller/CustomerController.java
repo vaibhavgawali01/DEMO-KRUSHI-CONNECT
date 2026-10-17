@@ -7,6 +7,7 @@ import com.krushisevakendra.exception.ResourceNotFoundException;
 import com.krushisevakendra.repository.OfferRepository;
 import com.krushisevakendra.security.SecurityUtil;
 import com.krushisevakendra.service.*;
+import com.krushisevakendra.util.PageRequests;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -133,7 +134,7 @@ public class CustomerController {
             @RequestParam(defaultValue = "10") int size,
             Model model) {
         User user = getAuthenticatedCustomer();
-        model.addAttribute("orderPage", orderService.getUserOrders(user.getId(), PageRequest.of(page, size)));
+        model.addAttribute("orderPage", orderService.getUserOrders(user.getId(), PageRequests.bounded(page, size)));
         return "customer/order-history";
     }
 
@@ -209,7 +210,7 @@ public class CustomerController {
             @RequestParam(defaultValue = "10") int size,
             Model model) {
         User user = getAuthenticatedCustomer();
-        model.addAttribute("paymentPage", paymentService.getUserPayments(user.getId(), PageRequest.of(page, size)));
+        model.addAttribute("paymentPage", paymentService.getUserPayments(user.getId(), PageRequests.bounded(page, size)));
         return "customer/payment-history";
     }
 
@@ -244,13 +245,14 @@ public class CustomerController {
             @RequestParam(defaultValue = "15") int size,
             Model model) {
         User user = getAuthenticatedCustomer();
-        model.addAttribute("notificationPage", notificationService.getUserNotificationsPaged(user.getId(), PageRequest.of(page, size)));
+        model.addAttribute("notificationPage", notificationService.getUserNotificationsPaged(user.getId(), PageRequests.bounded(page, size)));
         return "customer/notifications";
     }
 
     @PostMapping("/notifications/{id}/read")
     public String markNotificationRead(@PathVariable Long id) {
-        notificationService.markAsRead(id);
+        User user = getAuthenticatedCustomer();
+        notificationService.markAsRead(id, user.getId());
         return "redirect:/customer/notifications";
     }
 

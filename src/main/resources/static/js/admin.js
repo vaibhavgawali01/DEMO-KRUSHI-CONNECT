@@ -3,75 +3,10 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Dashboard Charts (if elements present)
-    initSalesChart();
-    initPaymentMethodChart();
-
-    // 2. Barcode Hardware Scanner Integration
-    initBarcodeScanner();
+    if (document.querySelector('.admin-sidebar-wrap')) {
+        initBarcodeScanner();
+    }
 });
-
-function initSalesChart() {
-    const ctx = document.getElementById('salesTrendChart');
-    if (!ctx) return;
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Today'],
-            datasets: [{
-                label: 'Sales Revenue (₹)',
-                data: [12500, 18200, 24600, 19400, 31000, 28500, 38900],
-                borderColor: '#2e7d32',
-                backgroundColor: 'rgba(46, 125, 50, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.35,
-                pointBackgroundColor: '#1b5e20',
-                pointRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) { return '₹' + value.toLocaleString(); }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function initPaymentMethodChart() {
-    const ctx = document.getElementById('paymentMethodChart');
-    if (!ctx) return;
-
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Cash', 'UPI / QR', 'Udhari (Credit)', 'Bank Transfer'],
-            datasets: [{
-                data: [45, 30, 20, 5],
-                backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0'],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'bottom' }
-            }
-        }
-    });
-}
 
 function initBarcodeScanner() {
     let barcodeBuffer = '';
@@ -159,4 +94,20 @@ window.openReminderModal = function(userId, udhariId, customerName, mobile, amou
 
     const modal = new bootstrap.Modal(modalEl);
     modal.show();
+};
+
+// Helper to open Add Credit Customer Modal
+window.openCreateUdhariModal = function() {
+    const modalEl = document.getElementById('createUdhariModal');
+    if (!modalEl) return;
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+            return;
+        }
+    } catch(e) {}
+    modalEl.classList.add('show');
+    modalEl.style.display = 'block';
+    document.body.classList.add('modal-open');
 };

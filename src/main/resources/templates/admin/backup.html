@@ -11,9 +11,13 @@
         </div>
 
         <div class="col-lg-10">
-            <!-- Flash Message -->
+            <!-- Flash Messages -->
             <div th:if="${successMessage}" class="alert alert-success border-0 alert-dismissible fade show small mb-3">
                 <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-warning border-0 alert-dismissible fade show small mb-3">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> <span th:text="${errorMessage}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
@@ -22,13 +26,8 @@
                 <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
                         <h4 class="fw-bold text-success mb-1"><i class="bi bi-database-down me-2"></i><span th:text="${#locale.language == 'mr' ? 'डेटाबेस बॅकअप व सुरक्षा' : 'Database Backup & Disaster Recovery'}">Database Backup & Disaster Recovery</span></h4>
-                        <p class="text-muted small m-0" th:text="${#locale.language == 'mr' ? 'दुकानाच्या डेटाबेसची सुरक्षित SQL फाईल तयार करा व डाउनलोड करा' : 'Generate secure encrypted SQL database snapshots for offsite archival'}">Generate secure encrypted SQL database snapshots</p>
+                        <p class="text-muted small m-0" th:text="${#locale.language == 'mr' ? 'बॅकअप सेवा कॉन्फिगर केलेली नाही. कृपया बाह्य डेटाबेस बॅकअप तपासा.' : 'Database backups are unavailable until a verified dump provider is configured.'}">Database backups are unavailable until a verified dump provider is configured.</p>
                     </div>
-                    <form th:action="@{/admin/backup/trigger}" method="POST" class="m-0">
-                        <button type="submit" class="btn btn-krushi px-4 py-2 fw-bold d-flex align-items-center gap-2">
-                            <i class="bi bi-cloud-arrow-down-fill"></i> <span th:text="${#locale.language == 'mr' ? 'आताच डेटाबेस बॅकअप घ्या' : 'Trigger Instant Database Backup'}">Trigger Instant Database Backup</span>
-                        </button>
-                    </form>
                 </div>
             </div>
 
@@ -52,18 +51,16 @@
                             </thead>
                             <tbody>
                                 <tr th:if="${backupLogs.empty}">
-                                    <td colspan="6" class="text-center py-5 text-muted">No database backups generated yet. Click 'Trigger Instant Database Backup' above.</td>
+                                    <td colspan="6" class="text-center py-5 text-muted">No backup history is available. Backup export is not configured.</td>
                                 </tr>
                                 <tr th:each="b : ${backupLogs}">
                                     <td th:text="${b.id}">1</td>
                                     <td><code class="text-dark fw-bold" th:text="${b.fileName}">krushiseva_backup.sql</code></td>
                                     <td class="small" th:text="${b.fileSize}">1.45 MB</td>
-                                    <td><span class="badge bg-success" th:text="${b.status}">COMPLETED</span></td>
+                                    <td><span class="badge bg-warning text-dark">UNVERIFIED</span></td>
                                     <td class="small" th:text="${#temporals.format(b.backupDate, 'dd MMM yyyy, hh:mm a')}">Date</td>
                                     <td class="text-end">
-                                        <a th:href="@{'/admin/backup/download/' + ${b.fileName}}" class="btn btn-sm btn-outline-success py-1 px-3">
-                                            <i class="bi bi-download me-1"></i> Download SQL
-                                        </a>
+                                        <span class="small text-muted">Historical record only; no verified backup file</span>
                                     </td>
                                 </tr>
                             </tbody>

@@ -31,7 +31,7 @@
         </div>
 
         <!-- Mobile Toggle -->
-        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -73,11 +73,13 @@
                 <form th:action="@{/products}" method="GET" class="d-flex">
                     <div class="position-relative">
                         <i class="bi bi-search navbar-search-icon"></i>
-                        <input type="text" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               aria-controls="searchDropdownResults" aria-expanded="false"
+                               th:attr="aria-label=${#locale.language == 'mr' ? 'उत्पादने शोधा' : 'Search products'}"
                                th:placeholder="#{product.search_placeholder}" autocomplete="off">
                     </div>
                 </form>
-                <div id="searchDropdownResults" class="position-absolute w-100 bg-white border rounded-3 shadow mt-1" style="z-index:1050; max-height:320px; overflow-y:auto; display:none;"></div>
+                <div id="searchDropdownResults" class="position-absolute w-100 bg-white border rounded-3 shadow mt-1" role="region" aria-live="polite" aria-busy="false" th:attr="aria-label=${#locale.language == 'mr' ? 'उत्पादन शोध सूचना' : 'Product search suggestions'}, data-loading-text=${#locale.language == 'mr' ? 'उत्पादने शोधत आहे...' : 'Searching products...'}" style="z-index:1050; max-height:320px; overflow-y:auto; display:none;"></div>
             </div>
 
             <!-- Right Controls -->
@@ -102,12 +104,6 @@
                 <button id="themeToggleBtn" class="nav-icon-btn" title="Toggle Dark Mode" type="button">
                     <i class="bi bi-moon-stars-fill" style="font-size:0.9rem;"></i>
                 </button>
-
-                <!-- Notification Bell (admin only) -->
-                <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="nav-icon-btn" style="cursor:pointer;" data-bs-toggle="tooltip" title="Alerts">
-                    <i class="bi bi-bell" style="font-size:0.9rem;"></i>
-                    <span class="notif-dot"></span>
-                </div>
 
                 <!-- User Auth Area -->
                 <div sec:authorize="isAuthenticated()" class="dropdown">

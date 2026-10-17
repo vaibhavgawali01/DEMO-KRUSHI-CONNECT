@@ -127,35 +127,6 @@
     });
   }
 
-  /* ── Dark Mode Toggle ────────────────────────────────────────── */
-  function initDarkMode() {
-    var btn = document.getElementById('themeToggleBtn');
-    if (!btn) return;
-    var savedTheme = localStorage.getItem('krushi-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateToggleIcon(btn, savedTheme);
-
-    btn.addEventListener('click', function () {
-      var current = document.documentElement.getAttribute('data-theme');
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('krushi-theme', next);
-      updateToggleIcon(btn, next);
-    });
-  }
-
-  function updateToggleIcon(btn, theme) {
-    var icon = btn.querySelector('i');
-    if (!icon) return;
-    if (theme === 'dark') {
-      icon.className = 'bi bi-sun-fill';
-      btn.title = 'Switch to Light Mode';
-    } else {
-      icon.className = 'bi bi-moon-stars-fill';
-      btn.title = 'Switch to Dark Mode';
-    }
-  }
-
   /* ── Hero Video Fallback ─────────────────────────────────────── */
   function initHeroVideo() {
     var vid = document.querySelector('.hero-farm-video');
@@ -175,62 +146,6 @@
         if (imgBg) imgBg.style.display = 'block';
       }
     }, 3000);
-  }
-
-  /* ── Newsletter Form ─────────────────────────────────────────── */
-  function initNewsletter() {
-    var form = document.getElementById('newsletterForm');
-    if (!form) return;
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var inp = form.querySelector('input');
-      if (inp && inp.value.trim()) {
-        inp.value = '';
-        var btn = form.querySelector('button');
-        if (btn) {
-          var orig = btn.innerHTML;
-          btn.innerHTML = '<i class="bi bi-check-lg"></i> ✓';
-          btn.style.background = '#16a34a';
-          setTimeout(function () { btn.innerHTML = orig; btn.style.background = ''; }, 2500);
-        }
-      }
-    });
-  }
-
-  /* ── Live Search ─────────────────────────────────────────────── */
-  function initLiveSearch() {
-    var input = document.getElementById('globalSearchInput');
-    var results = document.getElementById('searchDropdownResults');
-    if (!input || !results) return;
-
-    var debounceTimer;
-    input.addEventListener('input', function () {
-      clearTimeout(debounceTimer);
-      var query = input.value.trim();
-      if (query.length < 2) { results.style.display = 'none'; return; }
-      debounceTimer = setTimeout(function () {
-        fetch('/api/products/search?keyword=' + encodeURIComponent(query))
-          .then(function (r) { return r.json(); })
-          .then(function (data) {
-            if (!data || !data.length) { results.style.display = 'none'; return; }
-            var html = data.slice(0, 8).map(function (p) {
-              return '<a href="/products/' + p.id + '" class="d-flex align-items-center gap-2 px-3 py-2 text-decoration-none text-dark border-bottom" style="font-size:0.85rem;">' +
-                '<i class="bi bi-box-seam text-success"></i>' +
-                '<span>' + p.name + '</span>' +
-                '<span class="ms-auto text-success fw-bold">₹' + p.price + '</span>' +
-                '</a>';
-            }).join('');
-            results.innerHTML = html;
-            results.style.display = 'block';
-          }).catch(function () { results.style.display = 'none'; });
-      }, 320);
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!input.contains(e.target) && !results.contains(e.target)) {
-        results.style.display = 'none';
-      }
-    });
   }
 
   /* ── Tooltip Bootstrap Init ──────────────────────────────────── */
@@ -256,6 +171,7 @@
 
   /* ── Page Load Animation for Cards ──────────────────────────── */
   function initCardAnimations() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var cards = document.querySelectorAll('.product-card, .kpi-card, .category-pill-card, .dash-card');
     cards.forEach(function (card, i) {
       if (!card.closest('.reveal')) {
@@ -277,10 +193,7 @@
     initKPICountUp();
     initRipple();
     initWishlist();
-    initDarkMode();
     initHeroVideo();
-    initNewsletter();
-    initLiveSearch();
     initTooltips();
     initDropdownAnimations();
     initCardAnimations();

@@ -74,6 +74,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<Product> getActiveProductById(Long id) {
+        return productRepository.findByIdAndStatus(id, "ACTIVE");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Product> getProductByBarcode(String barcode) {
         return productRepository.findByBarcode(barcode);
     }
@@ -147,6 +153,15 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return updated;
+    }
+
+    @Override
+    public Product updateRating(Long id, BigDecimal rating, int reviewCount) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        product.setRating(rating);
+        product.setReviewCount(reviewCount);
+        return productRepository.save(product);
     }
 
     @Override

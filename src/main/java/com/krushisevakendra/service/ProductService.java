@@ -13,6 +13,7 @@ public interface ProductService {
     List<Product> getFeaturedProducts();
     List<Product> getProductsByCategory(Long categoryId);
     Optional<Product> getProductById(Long id);
+    Optional<Product> getActiveProductById(Long id);
     Optional<Product> getProductByBarcode(String barcode);
     Optional<Product> getProductBySku(String sku);
     Page<Product> searchAndFilter(Long categoryId, String company, Double minPrice, Double maxPrice, boolean inStockOnly, String keyword, Pageable pageable);
@@ -20,6 +21,7 @@ public interface ProductService {
     List<Product> getAllProducts();
     Product saveProduct(ProductDto dto);
     Product updateProduct(Long id, ProductDto dto);
+    Product updateRating(Long id, java.math.BigDecimal rating, int reviewCount);
     void deleteProduct(Long id);
     List<Product> getLowStockProducts();
     List<Product> getExpiredProducts();

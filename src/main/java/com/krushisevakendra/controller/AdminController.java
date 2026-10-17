@@ -6,6 +6,7 @@ import com.krushisevakendra.enums.*;
 import com.krushisevakendra.exception.ResourceNotFoundException;
 import com.krushisevakendra.repository.*;
 import com.krushisevakendra.service.*;
+import com.krushisevakendra.util.PageRequests;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -117,7 +118,7 @@ public class AdminController {
             @RequestParam(defaultValue = "15") int size,
             Model model) {
 
-        model.addAttribute("productPage", productService.filterAdminProducts(categoryId, status, stockStatus, keyword, PageRequest.of(page, size, Sort.by("id").descending())));
+        model.addAttribute("productPage", productService.filterAdminProducts(categoryId, status, stockStatus, keyword, PageRequests.bounded(page, size, Sort.by("id").descending())));
         model.addAttribute("categories", categoryService.getAllActiveCategories());
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("status", status);
@@ -293,7 +294,7 @@ public class AdminController {
             Model model) {
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("lowStockProducts", productService.getLowStockProducts());
-        model.addAttribute("transactionsPage", inventoryService.getTransactionHistory(PageRequest.of(page, size)));
+        model.addAttribute("transactionsPage", inventoryService.getTransactionHistory(PageRequests.bounded(page, size)));
         return "admin/inventory";
     }
 
@@ -314,7 +315,7 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
             Model model) {
-        model.addAttribute("customerPage", userService.searchCustomers(query, PageRequest.of(page, size)));
+        model.addAttribute("customerPage", userService.searchCustomers(query, PageRequests.bounded(page, size)));
         model.addAttribute("query", query);
         model.addAttribute("customerEditDto", new CustomerUpdateDto());
         model.addAttribute("totalCustomers", userService.getCustomerCount());
@@ -401,9 +402,9 @@ public class AdminController {
             @RequestParam(defaultValue = "15") int size,
             Model model) {
         if (query != null && !query.isBlank()) {
-            model.addAttribute("orderPage", orderService.searchOrders(query, PageRequest.of(page, size, Sort.by("id").descending())));
+            model.addAttribute("orderPage", orderService.searchOrders(query, PageRequests.bounded(page, size, Sort.by("id").descending())));
         } else {
-            model.addAttribute("orderPage", orderService.getAllOrdersPaged(PageRequest.of(page, size, Sort.by("id").descending())));
+            model.addAttribute("orderPage", orderService.getAllOrdersPaged(PageRequests.bounded(page, size, Sort.by("id").descending())));
         }
         model.addAttribute("query", query);
         return "admin/orders";
@@ -446,7 +447,7 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
             Model model) {
-        model.addAttribute("udhariPage", udhariService.searchUdhari(query, PageRequest.of(page, size, Sort.by("id").descending())));
+        model.addAttribute("udhariPage", udhariService.searchUdhari(query, PageRequests.bounded(page, size, Sort.by("id").descending())));
         model.addAttribute("totalRemaining", udhariService.getTotalRemainingUdhari());
         model.addAttribute("totalIssued", udhariService.getTotalUdhariIssued());
         model.addAttribute("totalCollected", udhariService.getTotalUdhariCollected());
@@ -614,8 +615,12 @@ public class AdminController {
             return "redirect:/admin/udhari";
         }
 
-        paymentService.recordPayment(null, null, null, null, null, null, null); // mapped via udhariService
-        udhariService.recordUdhariPayment(paymentDto);
+        try {
+            udhariService.recordUdhariPayment(paymentDto);
+        } catch (IllegalArgumentException exception) {
+            redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+            return "redirect:/admin/udhari";
+        }
         redirectAttributes.addFlashAttribute("successMessage", "Udhari payment of ₹" + paymentDto.getAmount() + " recorded successfully!");
         return "redirect:/admin/udhari";
     }
@@ -644,8 +649,12 @@ public class AdminController {
         dto.setType(type);
         dto.setMessage(message);
 
-        notificationService.sendReminder(dto);
-        redirectAttributes.addFlashAttribute("successMessage", "Reminder sent successfully via " + type.name() + "!");
+        try {
+            notificationService.sendReminder(dto);
+            redirectAttributes.addFlashAttribute("successMessage", "Reminder recorded successfully.");
+        } catch (UnsupportedOperationException exception) {
+            redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+        }
         return "redirect:/admin/udhari";
     }
 
@@ -656,7 +665,7 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
             Model model) {
-        model.addAttribute("paymentPage", paymentService.searchPayments(query, PageRequest.of(page, size, Sort.by("id").descending())));
+        model.addAttribute("paymentPage", paymentService.searchPayments(query, PageRequests.bounded(page, size, Sort.by("id").descending())));
         model.addAttribute("query", query);
         model.addAttribute("paymentMethods", paymentService.getPaymentTotalsByMethod());
         return "admin/payments";
@@ -734,8 +743,12 @@ public class AdminController {
 
     @PostMapping("/backup/trigger")
     public String triggerBackup(RedirectAttributes redirectAttributes) {
-        BackupLog log = backupService.triggerDatabaseBackup();
-        redirectAttributes.addFlashAttribute("successMessage", "Database backup generated successfully: " + log.getFileName());
+        try {
+            BackupLog log = backupService.triggerDatabaseBackup();
+            redirectAttributes.addFlashAttribute("successMessage", "Database backup generated successfully: " + log.getFileName());
+        } catch (UnsupportedOperationException exception) {
+            redirectAttributes.addFlashAttribute("errorMessage", exception.getMessage());
+        }
         return "redirect:/admin/backup";
     }
 

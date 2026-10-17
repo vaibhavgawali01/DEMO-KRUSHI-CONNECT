@@ -48,19 +48,11 @@ public class NotificationServiceImpl implements NotificationService {
         NotificationType type = reminderDto.getType() != null ? reminderDto.getType() : NotificationType.WHATSAPP;
         String message = reminderDto.getMessage();
 
-        // Pluggable channel dispatch abstraction
-        switch (type) {
-            case SMS -> log.info("[SMS GATEWAY] Sending SMS to {}: {}", user.getMobile(), message);
-            case WHATSAPP -> log.info("[WHATSAPP API] Dispatching WhatsApp message to {}: {}", user.getMobile(), message);
-            case EMAIL -> log.info("[EMAIL SERVICE] Dispatching Email to {}: {}", user.getEmail(), message);
-            case IN_APP -> log.info("[IN-APP ALERT] Creating in-app notification for User: {}", user.getName());
+        if (type != NotificationType.IN_APP) {
+            throw new UnsupportedOperationException("External reminder delivery is not configured. No message was sent.");
         }
 
-        // Save in-app record for customer dashboard
-        String title = type == NotificationType.WHATSAPP ? "WhatsApp Payment Reminder" :
-                       type == NotificationType.SMS ? "SMS Payment Reminder" : "Payment Due Reminder";
-
-        createNotification(user, title, message, type);
+        createNotification(user, "Payment Due Reminder", message, NotificationType.IN_APP);
         return true;
     }
 
@@ -83,11 +75,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void markAsRead(Long notificationId) {
-        notificationRepository.findById(notificationId).ifPresent(n -> {
-            n.setIsRead(true);
-            notificationRepository.save(n);
-        });
+    public void markAsRead(Long notificationId, Long userId) {
+        Notification notification = notificationRepository.findByIdAndUserId(notificationId, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Notification not found."));
+        notification.setIsRead(true);
+        notificationRepository.save(notification);
     }
 
     @Override

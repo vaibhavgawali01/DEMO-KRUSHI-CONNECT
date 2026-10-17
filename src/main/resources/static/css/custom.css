@@ -2827,3 +2827,15 @@ body {
 .navbar-toggler:focus {
     box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.5) !important;
 }
+
+/* Modal & Backdrop Styling */
+.modal {
+    z-index: 1060 !important;
+}
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+.modal.show {
+    display: block !important;
+}
+

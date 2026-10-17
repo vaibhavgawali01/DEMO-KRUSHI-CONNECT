@@ -16,6 +16,8 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
+    boolean existsByOrderIdAndUdhariIsNull(Long orderId);
+
     List<Payment> findByUserIdOrderByPaymentDateDesc(Long userId);
 
     Page<Payment> findByUserIdOrderByPaymentDateDesc(Long userId, Pageable pageable);

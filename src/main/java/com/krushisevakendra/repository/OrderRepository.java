@@ -1,10 +1,12 @@
 package com.krushisevakendra.repository;
 
 import com.krushisevakendra.entity.Order;
+import jakarta.persistence.LockModeType;
 import com.krushisevakendra.enums.OrderStatus;
 import com.krushisevakendra.enums.PaymentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,10 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT o FROM Order o WHERE o.id = :id")
+    Optional<Order> findByIdForUpdate(@Param("id") Long id);
 
     Optional<Order> findByOrderNumber(String orderNumber);
 

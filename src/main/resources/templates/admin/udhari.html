@@ -7,7 +7,7 @@
 <div class="container-fluid px-lg-4 my-4">
     <div class="row g-4">
         <!-- Sidebar -->
-        <div class="col-lg-2 d-none d-lg-block">
+        <div class="col-lg-2">
             <div th:replace="~{layout/sidebar-admin :: admin-sidebar('udhari')}"></div>
         </div>
 
@@ -21,7 +21,7 @@
                     <p class="text-muted small m-0 mt-1" th:text="${#locale.language == 'mr' ? 'उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख' : 'Customer credit records, items taken, total amount, payments, balance, and due dates'}">उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख</p>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success px-4 py-2 fw-bold shadow d-flex align-items-center gap-2" style="background-color: #16a34a; border: none; font-size: 14px; border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#createUdhariModal">
+                    <button type="button" id="btnAddCreditCustomer" class="btn btn-success px-4 py-2 fw-bold shadow d-flex align-items-center gap-2" style="background-color: #16a34a; border: none; font-size: 14px; border-radius: 8px; cursor: pointer;" onclick="openCreateUdhariModal()" data-bs-toggle="modal" data-bs-target="#createUdhariModal">
                         <i class="ti ti-user-plus fs-5"></i> <span th:text="${#locale.language == 'mr' ? '+ नवीन उधार नेणारा ग्राहक जोडा' : '+ Add Credit Customer'}">+ Add Credit Customer</span>
                     </button>
                 </div>
@@ -150,21 +150,40 @@
                                     <div class="d-inline-flex gap-1">
                                         <!-- Edit Udhari Record Button -->
                                         <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1 text-primary shadow-sm" style="font-size: 11px;" title="उधारी माहिती बदला (Edit Record)"
-                                                th:onclick="'openUdhariEditModal(' + ${u.id} + ', \'' + ${#strings.escapeJavaScript(u.user.name)} + '\', \'' + ${#strings.escapeJavaScript(u.user.mobile)} + '\', ' + ${u.totalAmount} + ', ' + ${u.paidAmount} + ', ' + ${u.remainingAmount} + ', \'' + ${u.dueDate} + '\', \'' + ${u.status.name()} + '\', \'' + ${#strings.escapeJavaScript(u.notes != null ? u.notes : '')} + '\')'">
+                                                th:data-id="${u.id}"
+                                                th:data-name="${u.user != null ? u.user.name : ''}"
+                                                th:data-mobile="${u.user != null ? u.user.mobile : ''}"
+                                                th:data-total="${u.totalAmount}"
+                                                th:data-paid="${u.paidAmount}"
+                                                th:data-remaining="${u.remainingAmount}"
+                                                th:data-due="${u.dueDate}"
+                                                th:data-status="${u.status != null ? u.status.name() : 'ACTIVE'}"
+                                                th:data-notes="${u.notes != null ? u.notes : ''}"
+                                                onclick="handleUdhariEdit(this)">
                                             <i class="ti ti-edit"></i> बदला
                                         </button>
 
                                         <!-- Record Payment Button -->
                                         <button type="button" class="btn btn-sm btn-success d-flex align-items-center gap-1 px-2 py-1 text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 11px;" title="रक्कम जमा करा (Collect Payment)"
                                                 th:disabled="${u.remainingAmount <= 0}"
-                                                th:onclick="'openUdhariPayModal(' + ${u.id} + ', \'' + ${u.user.name} + '\', ' + ${u.remainingAmount} + ')'">
+                                                th:data-id="${u.id}"
+                                                th:data-name="${u.user != null ? u.user.name : ''}"
+                                                th:data-remaining="${u.remainingAmount}"
+                                                onclick="handleUdhariPay(this)">
                                             <i class="ti ti-cash"></i> जमा
                                         </button>
 
                                         <!-- Send Reminder Button -->
                                         <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1" style="font-size: 11px; color: #0284c7;" title="मेसेज पाठवा (Send Reminder)"
                                                 th:disabled="${u.remainingAmount <= 0}"
-                                                th:onclick="'openReminderModal(' + ${u.user.id} + ', ' + ${u.id} + ', \'' + ${u.user.name} + '\', \'' + ${u.user.mobile} + '\', ' + ${u.remainingAmount} + ', \'' + ${u.dueDate} + '\', ' + ${u.isOverdue()} + ')'">
+                                                th:data-userid="${u.user != null ? u.user.id : ''}"
+                                                th:data-id="${u.id}"
+                                                th:data-name="${u.user != null ? u.user.name : ''}"
+                                                th:data-mobile="${u.user != null ? u.user.mobile : ''}"
+                                                th:data-remaining="${u.remainingAmount}"
+                                                th:data-due="${u.dueDate}"
+                                                th:data-overdue="${u.isOverdue()}"
+                                                onclick="handleUdhariReminder(this)">
                                             <i class="ti ti-bell"></i> Remind
                                         </button>
                                     </div>
@@ -339,13 +358,13 @@
                         <!-- Paid Amount -->
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-dark">Paid Amount / जमा रक्कम (₹) *</label>
-                            <input type="number" step="0.01" min="0" id="editUdhariPaidAmount" th:field="*{paidAmount}" class="form-control form-control-sm" oninput="calculateUdhariRemaining()" required>
+                            <input type="number" step="0.01" min="0" id="editUdhariPaidAmount" th:field="*{paidAmount}" class="form-control form-control-sm" readonly required>
                         </div>
 
                         <!-- Remaining Due / Pending -->
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-danger">Pending Amount / बाकी रक्कम (₹) *</label>
-                            <input type="number" step="0.01" min="0" id="editUdhariRemainingAmount" th:field="*{remainingAmount}" class="form-control form-control-sm border-danger text-danger fw-bold" required>
+                            <input type="number" step="0.01" min="0" id="editUdhariRemainingAmount" th:field="*{remainingAmount}" class="form-control form-control-sm border-danger text-danger fw-bold" readonly required>
                         </div>
 
                         <!-- Due Date / Payment Promise Date -->
@@ -354,14 +373,9 @@
                             <input type="date" id="editUdhariDueDate" th:field="*{dueDate}" class="form-control form-control-sm" required>
                         </div>
 
-                        <!-- Status -->
+                        <!-- Status is derived from the balance and due date. -->
                         <div class="col-12">
-                            <label class="form-label small fw-bold text-dark">Udhari Status / स्थिती</label>
-                            <select id="editUdhariStatus" th:field="*{status}" class="form-select form-select-sm">
-                                <option value="ACTIVE">ACTIVE (सक्रिय / चालू)</option>
-                                <option value="OVERDUE">OVERDUE (थकबाकी / मुदत संपलेली)</option>
-                                <option value="PAID_IN_FULL">PAID_IN_FULL (पूर्ण भरणा झालेला)</option>
-                            </select>
+                            <label class="form-label small fw-bold text-dark">Status is calculated from the balance and due date.</label>
                         </div>
 
                         <!-- Notes -->
@@ -499,6 +513,80 @@ function toggleCustomerType() {
     }
 }
 
+function showModalSafe(modalId) {
+    var modalEl = document.getElementById(modalId);
+    if (!modalEl) {
+        console.error('Modal element not found: ' + modalId);
+        return;
+    }
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+            return;
+        }
+    } catch (e) {
+        console.warn('Bootstrap modal init error, using fallback:', e);
+    }
+    // Fallback if Bootstrap JS is blocked or unavailable
+    modalEl.classList.add('show');
+    modalEl.style.display = 'block';
+    modalEl.removeAttribute('aria-hidden');
+    modalEl.setAttribute('aria-modal', 'true');
+    document.body.classList.add('modal-open');
+    if (!document.getElementById('manualModalBackdrop')) {
+        var bd = document.createElement('div');
+        bd.id = 'manualModalBackdrop';
+        bd.className = 'modal-backdrop fade show';
+        document.body.appendChild(bd);
+    }
+}
+
+function hideModalSafe(modalEl) {
+    if (!modalEl) return;
+    try {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            var inst = bootstrap.Modal.getInstance(modalEl);
+            if (inst) inst.hide();
+        }
+    } catch (e) {
+        console.warn('Bootstrap modal hide error:', e);
+    }
+    modalEl.classList.remove('show');
+    modalEl.style.display = 'none';
+    modalEl.setAttribute('aria-hidden', 'true');
+    modalEl.removeAttribute('aria-modal');
+    document.body.classList.remove('modal-open');
+    var bd = document.getElementById('manualModalBackdrop');
+    if (bd) bd.remove();
+    document.querySelectorAll('.modal-backdrop').forEach(function(b) { b.remove(); });
+}
+
+// Global click listener for closing modals
+document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-bs-dismiss="modal"]') || e.target.classList.contains('btn-close')) {
+        var modal = e.target.closest('.modal');
+        if (modal) {
+            hideModalSafe(modal);
+        }
+    } else if (e.target.classList.contains('modal') && e.target.classList.contains('show')) {
+        hideModalSafe(e.target);
+    }
+});
+
+// Open Add Credit Customer modal
+function openCreateUdhariModal() {
+    var d = new Date();
+    d.setDate(d.getDate() + 30);
+    var dateStr = d.toISOString().split('T')[0];
+    var dueInput = document.getElementById('newUdhariDueDate');
+    if (dueInput && !dueInput.value) {
+        dueInput.value = dateStr;
+    }
+    showModalSafe('createUdhariModal');
+}
+window.openCreateUdhariModal = openCreateUdhariModal;
+
 document.addEventListener('DOMContentLoaded', function() {
     var d = new Date();
     d.setDate(d.getDate() + 30);
@@ -506,6 +594,14 @@ document.addEventListener('DOMContentLoaded', function() {
     var dueInput = document.getElementById('newUdhariDueDate');
     if (dueInput && !dueInput.value) {
         dueInput.value = dateStr;
+    }
+
+    var addBtn = document.getElementById('btnAddCreditCustomer');
+    if (addBtn) {
+        addBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openCreateUdhariModal();
+        });
     }
 });
 
@@ -517,6 +613,19 @@ function calcNewUdhariRemaining() {
     document.getElementById('newUdhariRemaining').value = remaining.toFixed(2);
 }
 
+function handleUdhariEdit(btn) {
+    var id = btn.getAttribute('data-id');
+    var name = btn.getAttribute('data-name');
+    var mobile = btn.getAttribute('data-mobile');
+    var total = btn.getAttribute('data-total');
+    var paid = btn.getAttribute('data-paid');
+    var remaining = btn.getAttribute('data-remaining');
+    var due = btn.getAttribute('data-due');
+    var status = btn.getAttribute('data-status');
+    var notes = btn.getAttribute('data-notes');
+    openUdhariEditModal(id, name, mobile, total, paid, remaining, due, status, notes);
+}
+
 function openUdhariEditModal(id, customerName, mobile, totalAmount, paidAmount, remainingAmount, dueDate, status, notes) {
     document.getElementById('editUdhariId').value = id;
     document.getElementById('editUdhariCustomerName').innerText = customerName;
@@ -524,31 +633,31 @@ function openUdhariEditModal(id, customerName, mobile, totalAmount, paidAmount, 
     document.getElementById('editUdhariTotalAmount').value = totalAmount;
     document.getElementById('editUdhariPaidAmount').value = paidAmount;
     document.getElementById('editUdhariRemainingAmount').value = remainingAmount;
+    document.getElementById('editUdhariTotalAmount').min = paidAmount;
     document.getElementById('editUdhariDueDate').value = dueDate;
-    document.getElementById('editUdhariStatus').value = status || 'ACTIVE';
     document.getElementById('editUdhariNotes').value = notes || '';
 
-    var modal = new bootstrap.Modal(document.getElementById('editUdhariRecordModal'));
-    modal.show();
+    showModalSafe('editUdhariRecordModal');
 }
 
 function calculateUdhariRemaining() {
     var total = parseFloat(document.getElementById('editUdhariTotalAmount').value) || 0;
     var paid = parseFloat(document.getElementById('editUdhariPaidAmount').value) || 0;
-    var remaining = total - paid;
-    if (remaining < 0) remaining = 0;
-    document.getElementById('editUdhariRemainingAmount').value = remaining.toFixed(2);
-    
-    if (remaining === 0) {
-        document.getElementById('editUdhariStatus').value = 'PAID_IN_FULL';
-    } else {
-        var dueDateVal = document.getElementById('editUdhariDueDate').value;
-        if (dueDateVal && new Date(dueDateVal) < new Date()) {
-            document.getElementById('editUdhariStatus').value = 'OVERDUE';
-        } else {
-            document.getElementById('editUdhariStatus').value = 'ACTIVE';
-        }
+    var totalInput = document.getElementById('editUdhariTotalAmount');
+    totalInput.min = paid;
+    if (total < paid) {
+        total = paid;
+        totalInput.value = total.toFixed(2);
     }
+    var remaining = total - paid;
+    document.getElementById('editUdhariRemainingAmount').value = remaining.toFixed(2);
+}
+
+function handleUdhariPay(btn) {
+    var id = btn.getAttribute('data-id');
+    var name = btn.getAttribute('data-name');
+    var remaining = btn.getAttribute('data-remaining');
+    openUdhariPayModal(id, name, remaining);
 }
 
 function openUdhariPayModal(udhariId, customerName, remainingAmount) {
@@ -556,8 +665,18 @@ function openUdhariPayModal(udhariId, customerName, remainingAmount) {
     document.getElementById('udhariPayCustomerName').innerText = customerName;
     document.getElementById('udhariPayRemaining').innerText = '₹' + remainingAmount;
     document.getElementById('udhariPayAmountInput').value = remainingAmount;
-    var modal = new bootstrap.Modal(document.getElementById('recordUdhariPaymentModal'));
-    modal.show();
+    showModalSafe('recordUdhariPaymentModal');
+}
+
+function handleUdhariReminder(btn) {
+    var userId = btn.getAttribute('data-userid');
+    var id = btn.getAttribute('data-id');
+    var name = btn.getAttribute('data-name');
+    var mobile = btn.getAttribute('data-mobile');
+    var remaining = btn.getAttribute('data-remaining');
+    var due = btn.getAttribute('data-due');
+    var isOverdue = btn.getAttribute('data-overdue') === 'true';
+    openReminderModal(userId, id, name, mobile, remaining, due, isOverdue);
 }
 
 function openReminderModal(userId, udhariId, customerName, mobile, remainingAmount, dueDate, isOverdue) {
@@ -572,8 +691,7 @@ function openReminderModal(userId, udhariId, customerName, mobile, remainingAmou
     }
     document.getElementById('reminderMessageText').value = msg;
     
-    var modal = new bootstrap.Modal(document.getElementById('sendReminderModal'));
-    modal.show();
+    showModalSafe('sendReminderModal');
 }
 </script>
 

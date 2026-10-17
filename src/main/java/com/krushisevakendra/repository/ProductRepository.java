@@ -1,6 +1,8 @@
 package com.krushisevakendra.repository;
 
 import com.krushisevakendra.entity.Product;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,9 +18,15 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT p FROM Product p WHERE p.id = :id")
+    Optional<Product> findByIdForUpdate(@Param("id") Long id);
+
     Optional<Product> findByBarcode(String barcode);
 
     Optional<Product> findBySku(String sku);
+
+    Optional<Product> findByIdAndStatus(Long id, String status);
 
     List<Product> findByStatus(String status);
 

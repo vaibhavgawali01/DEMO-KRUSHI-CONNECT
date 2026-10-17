@@ -55,6 +55,8 @@
                         <div class="col-md-4">
                             <div class="p-3 bg-light rounded border">
                                 <small class="text-muted text-uppercase d-block" style="font-size: 0.75rem;">Delivery Location</small>
+                                <span class="small text-dark d-block mt-1" th:text="${order.deliveryName != null ? order.deliveryName : order.user.name}">Ramesh Patil</span>
+                                <span class="small text-muted d-block" th:text="${order.deliveryMobile != null ? order.deliveryMobile : order.user.mobile}">9822012345</span>
                                 <span class="small text-dark d-block mt-1" th:text="${order.deliveryAddress}">Kasbe Digraj, Sangli</span>
                             </div>
                         </div>

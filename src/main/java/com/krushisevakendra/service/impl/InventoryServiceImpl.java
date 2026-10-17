@@ -37,7 +37,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Product adjustStock(Long productId, Integer quantity, InventoryTransactionType type, String reason) {
-        Product product = productRepository.findById(productId)
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("Stock adjustment quantity must be greater than zero.");
+        }
+        if (type == null) {
+            throw new IllegalArgumentException("Stock transaction type is required.");
+        }
+        Product product = productRepository.findByIdForUpdate(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
         int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;

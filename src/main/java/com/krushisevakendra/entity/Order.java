@@ -52,6 +52,24 @@ public class Order {
     @Column(name = "delivery_address", nullable = false, columnDefinition = "TEXT")
     private String deliveryAddress;
 
+    @Column(name = "delivery_name", length = 100)
+    private String deliveryName;
+
+    @Column(name = "delivery_mobile", length = 15)
+    private String deliveryMobile;
+
+    @Column(name = "delivery_village", length = 100)
+    private String deliveryVillage;
+
+    @Column(name = "delivery_taluka", length = 100)
+    private String deliveryTaluka;
+
+    @Column(name = "delivery_district", length = 100)
+    private String deliveryDistrict;
+
+    @Column(name = "payment_reference", length = 100)
+    private String paymentReference;
+
     @Column(columnDefinition = "TEXT")
     private String notes;
 
@@ -163,6 +181,54 @@ public class Order {
 
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getDeliveryName() {
+        return deliveryName;
+    }
+
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
+
+    public String getDeliveryMobile() {
+        return deliveryMobile;
+    }
+
+    public void setDeliveryMobile(String deliveryMobile) {
+        this.deliveryMobile = deliveryMobile;
+    }
+
+    public String getDeliveryVillage() {
+        return deliveryVillage;
+    }
+
+    public void setDeliveryVillage(String deliveryVillage) {
+        this.deliveryVillage = deliveryVillage;
+    }
+
+    public String getDeliveryTaluka() {
+        return deliveryTaluka;
+    }
+
+    public void setDeliveryTaluka(String deliveryTaluka) {
+        this.deliveryTaluka = deliveryTaluka;
+    }
+
+    public String getDeliveryDistrict() {
+        return deliveryDistrict;
+    }
+
+    public void setDeliveryDistrict(String deliveryDistrict) {
+        this.deliveryDistrict = deliveryDistrict;
+    }
+
+    public String getPaymentReference() {
+        return paymentReference;
+    }
+
+    public void setPaymentReference(String paymentReference) {
+        this.paymentReference = paymentReference;
     }
 
     public String getNotes() {

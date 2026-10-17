@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
@@ -25,11 +26,16 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
     private final CustomerLoginHistoryRepository customerLoginHistoryRepository;
+    private final String rememberMeKey;
 
     public SecurityConfig(CustomUserDetailsService userDetailsService,
-                          CustomerLoginHistoryRepository customerLoginHistoryRepository) {
+                          CustomerLoginHistoryRepository customerLoginHistoryRepository,
+                          @org.springframework.beans.factory.annotation.Value("${app.security.remember-me-key:}") String configuredRememberMeKey) {
         this.userDetailsService = userDetailsService;
         this.customerLoginHistoryRepository = customerLoginHistoryRepository;
+        this.rememberMeKey = configuredRememberMeKey == null || configuredRememberMeKey.isBlank()
+                ? UUID.randomUUID().toString()
+                : configuredRememberMeKey;
     }
 
     @Bean
@@ -76,10 +82,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**", "/api/**")
+                .ignoringRequestMatchers("/h2-console/**")
             )
             .headers(headers -> headers
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable) // Needed for H2 console
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
             )
             .authorizeHttpRequests(auth -> auth
                 // Static resources
@@ -90,6 +96,7 @@ public class SecurityConfig {
                                  "/crop-care/**", "/about/**", "/contact/**", "/faq/**", 
                                  "/login", "/register", "/forgot-password", "/admin-switch", "/farmer-switch", "/h2-console/**").permitAll()
                 // Public REST APIs
+                .requestMatchers("/api/products/barcode/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
                 // Admin-only area (Strictly only ROLE_ADMIN)
                 .requestMatchers("/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
@@ -129,7 +136,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .rememberMe(remember -> remember
-                .key("krushiSevaSecretRememberMeKey2026")
+                .key(rememberMeKey)
                 .tokenValiditySeconds(86400 * 14) // 14 days
                 .userDetailsService(userDetailsService)
             );

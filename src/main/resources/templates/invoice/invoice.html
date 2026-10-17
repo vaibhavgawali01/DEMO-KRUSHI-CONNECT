@@ -53,8 +53,9 @@
         <div class="col-6">
             <h6 class="fw-bold text-success mb-1">BILL TO / CUSTOMER:</h6>
             <div class="fw-bold text-dark" th:text="${order.user.name}">Ramesh Patil</div>
+            <div class="small text-muted"><strong>Deliver To:</strong> <span th:text="${order.deliveryName != null ? order.deliveryName : order.user.name}">Ramesh Patil</span></div>
             <div class="small text-muted" th:text="${order.deliveryAddress}">Kasbe Digraj, Sangli</div>
-            <div class="small text-muted"><strong>Mobile:</strong> <span th:text="${order.user.mobile}">9822012345</span></div>
+            <div class="small text-muted"><strong>Delivery Mobile:</strong> <span th:text="${order.deliveryMobile != null ? order.deliveryMobile : order.user.mobile}">9822012345</span></div>
             <div class="small text-muted"><strong>Village/Dist:</strong> <span th:text="${order.user.village + ', ' + order.user.district}">Sangli</span></div>
         </div>
         <div class="col-6 text-end">

@@ -54,15 +54,20 @@ public class Offer {
     }
 
     public BigDecimal calculateDiscount(BigDecimal cartSubtotal) {
-        if (!isValid()) return BigDecimal.ZERO;
+        if (!isValid() || cartSubtotal == null || cartSubtotal.compareTo(BigDecimal.ZERO) <= 0
+                || discountValue == null || discountValue.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
         if (minOrderAmount != null && cartSubtotal.compareTo(minOrderAmount) < 0) {
             return BigDecimal.ZERO;
         }
         if ("PERCENTAGE".equalsIgnoreCase(discountType)) {
-            return cartSubtotal.multiply(discountValue).divide(BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP);
-        } else {
+            return cartSubtotal.multiply(discountValue).divide(BigDecimal.valueOf(100), 2, java.math.RoundingMode.HALF_UP)
+                    .min(cartSubtotal);
+        } else if ("FIXED".equalsIgnoreCase(discountType)) {
             return discountValue.min(cartSubtotal);
         }
+        return BigDecimal.ZERO;
     }
 
     public Long getId() {

@@ -6,6 +6,7 @@ import com.krushisevakendra.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,8 @@ public class DataInitializer implements CommandLineRunner {
     private final OfferRepository offerRepository;
     private final FeedbackRepository feedbackRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String bootstrapAdminPassword;
+    private final boolean bootstrapDemoData;
 
     public DataInitializer(RoleRepository roleRepository,
                            UserRepository userRepository,
@@ -45,7 +48,9 @@ public class DataInitializer implements CommandLineRunner {
                            NotificationRepository notificationRepository,
                            OfferRepository offerRepository,
                            FeedbackRepository feedbackRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           @Value("${app.bootstrap.admin-password:}") String bootstrapAdminPassword,
+                           @Value("${app.bootstrap.demo-data:false}") boolean bootstrapDemoData) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
@@ -57,6 +62,8 @@ public class DataInitializer implements CommandLineRunner {
         this.offerRepository = offerRepository;
         this.feedbackRepository = feedbackRepository;
         this.passwordEncoder = passwordEncoder;
+        this.bootstrapAdminPassword = bootstrapAdminPassword;
+        this.bootstrapDemoData = bootstrapDemoData;
     }
 
     @Override
@@ -72,31 +79,55 @@ public class DataInitializer implements CommandLineRunner {
                 .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
 
         // 2. Initialize Users (Admin & Sample Farmers)
-        // STRICT RULE 1: ONLY admin@krushiseva.com gets ROLE_ADMIN and password admin123!
+        // STRICT RULE: Only admin@krushiseva.com receives ROLE_ADMIN, with guaranteed password admin123
+        String adminPass = (bootstrapAdminPassword != null && !bootstrapAdminPassword.isBlank())
+                ? bootstrapAdminPassword
+                : "admin123";
+
         User admin = userRepository.findByEmail("admin@krushiseva.com").orElseGet(() -> {
             User u = new User();
             u.setName("Dattatray Kulkarni (Admin)");
-            u.setMobile("9876543210");
+            u.setMobile("8600813827");
             u.setEmail("admin@krushiseva.com");
-            u.setAddress("Shop No. 12, APMC Market Yard, Sangli");
-            u.setVillage("Sangli");
-            u.setTaluka("Miraj");
-            u.setDistrict("Sangli");
-            u.setPasswordHash(passwordEncoder.encode("admin123"));
+            u.setAddress("Shop No. 12, APMC Market Yard, Vaijapur");
+            u.setVillage("Vaijapur");
+            u.setTaluka("Vaijapur");
+            u.setDistrict("Chhatrapati Sambhajinagar");
             u.setStatus("ACTIVE");
             u.setCreatedAt(LocalDateTime.now());
             return u;
         });
 
-        // Always guarantee email, active status, password admin123, and ROLE_ADMIN
-        admin.setEmail("admin@krushiseva.com");
-        admin.setPasswordHash(passwordEncoder.encode("admin123"));
+        // Always guarantee master admin password and ACTIVE status
+        admin.setPasswordHash(passwordEncoder.encode(adminPass));
         admin.setStatus("ACTIVE");
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
         admin.setRoles(adminRoles);
         userRepository.save(admin);
-        log.info("Guaranteed master admin configured: admin@krushiseva.com / admin123");
+        log.info("Master administrator role and credentials (admin@krushiseva.com) guaranteed active.");
+
+        // STRICT RULE: Strip ROLE_ADMIN from EVERY other user in the database!
+        // No other email/mobile can EVER have admin access!
+        for (User u : userRepository.findAll()) {
+            if (!"admin@krushiseva.com".equalsIgnoreCase(u.getEmail())) {
+                boolean hadAdmin = u.getRoles().removeIf(r -> r.getName() == RoleName.ROLE_ADMIN);
+                boolean addedCustomer = false;
+                if (u.getRoles().stream().noneMatch(r -> r.getName() == RoleName.ROLE_CUSTOMER)) {
+                    u.getRoles().add(customerRole);
+                    addedCustomer = true;
+                }
+                if (hadAdmin || addedCustomer) {
+                    userRepository.save(u);
+                    log.info("Ensured customer role for non-admin user: {}", u.getEmail());
+                }
+            }
+        }
+
+        if (!bootstrapDemoData) {
+            log.info("Demo farmers, catalog, and sample transactions are not initialized.");
+            return;
+        }
 
         User ramesh = userRepository.findByEmail("ramesh@patil.com").orElseGet(() -> {
             User u = new User();
@@ -129,23 +160,6 @@ public class DataInitializer implements CommandLineRunner {
             u.setRoles(Collections.singleton(customerRole));
             return userRepository.save(u);
         });
-
-        // STRICT RULE 2: Strip ROLE_ADMIN from EVERY other user in the database!
-        // No other email/mobile can EVER have admin access!
-        for (User u : userRepository.findAll()) {
-            if (!"admin@krushiseva.com".equalsIgnoreCase(u.getEmail())) {
-                boolean hadAdmin = u.getRoles().removeIf(r -> r.getName() == RoleName.ROLE_ADMIN);
-                boolean addedCustomer = false;
-                if (u.getRoles().stream().noneMatch(r -> r.getName() == RoleName.ROLE_CUSTOMER)) {
-                    u.getRoles().add(customerRole);
-                    addedCustomer = true;
-                }
-                if (hadAdmin || addedCustomer) {
-                    userRepository.save(u);
-                    log.info("Ensured customer role for non-admin user: {}", u.getEmail());
-                }
-            }
-        }
 
         // 3. Initialize Categories
         if (categoryRepository.count() == 0) {

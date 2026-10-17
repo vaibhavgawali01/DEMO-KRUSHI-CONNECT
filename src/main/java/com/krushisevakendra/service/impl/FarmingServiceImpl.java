@@ -11,10 +11,20 @@ import java.util.*;
 @Service
 public class FarmingServiceImpl implements FarmingService {
 
+    private static final double MIN_FARM_AREA_ACRES = 0.25;
+    private static final double MAX_FARM_AREA_ACRES = 100.0;
+
     @Override
     public FertilizerCalcDto calculateFertilizer(String crop, Double acres, String soilType, String stage) {
-        if (acres == null || acres <= 0) acres = 1.0;
+        if (acres == null || !Double.isFinite(acres)
+                || acres < MIN_FARM_AREA_ACRES || acres > MAX_FARM_AREA_ACRES) {
+            throw new IllegalArgumentException("Farm area must be between 0.25 and 100 acres.");
+        }
         if (crop == null || crop.isBlank()) crop = "sugarcane";
+        if (stage != null && !stage.isBlank() && !"Full Season".equalsIgnoreCase(stage.trim())) {
+            throw new IllegalArgumentException("Only full-season fertilizer estimates are currently available.");
+        }
+        stage = "Full Season";
 
         FertilizerCalcDto dto = new FertilizerCalcDto();
         dto.setCrop(crop);

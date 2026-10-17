@@ -2,6 +2,7 @@ package com.krushisevakendra.controller;
 
 import com.krushisevakendra.dto.ApiResponse;
 import com.krushisevakendra.dto.FertilizerCalcDto;
+import com.krushisevakendra.dto.PublicProductDto;
 import com.krushisevakendra.dto.ReminderDto;
 import com.krushisevakendra.entity.Category;
 import com.krushisevakendra.entity.Product;
@@ -12,6 +13,7 @@ import com.krushisevakendra.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,13 +39,17 @@ public class ApiController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<ApiResponse<List<Product>>> getAllProducts() {
-        return ResponseEntity.ok(ApiResponse.ok("Products fetched", productService.getAllActiveProducts()));
+    public ResponseEntity<ApiResponse<List<PublicProductDto>>> getAllProducts() {
+        List<PublicProductDto> products = productService.getAllActiveProducts().stream()
+                .map(PublicProductDto::from)
+                .toList();
+        return ResponseEntity.ok(ApiResponse.ok("Products fetched", products));
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ApiResponse<Product>> getProductById(@PathVariable Long id) {
-        return productService.getProductById(id)
+    public ResponseEntity<ApiResponse<PublicProductDto>> getProductById(@PathVariable Long id) {
+        return productService.getActiveProductById(id)
+                .map(PublicProductDto::from)
                 .map(p -> ResponseEntity.ok(ApiResponse.ok("Product found", p)))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -56,9 +62,12 @@ public class ApiController {
     }
 
     @GetMapping("/products/search")
-    public ResponseEntity<ApiResponse<List<Product>>> searchProducts(@RequestParam String q) {
+    public ResponseEntity<ApiResponse<List<PublicProductDto>>> searchProducts(@RequestParam String q) {
         Page<Product> page = productService.searchAndFilter(null, null, null, null, false, q, PageRequest.of(0, 8));
-        return ResponseEntity.ok(ApiResponse.ok("Search results", page.getContent()));
+        List<PublicProductDto> products = page.getContent().stream()
+                .map(PublicProductDto::from)
+                .toList();
+        return ResponseEntity.ok(ApiResponse.ok("Search results", products));
     }
 
     @GetMapping("/categories")
@@ -82,11 +91,12 @@ public class ApiController {
 
     @PostMapping("/admin/reminders/send")
     public ResponseEntity<ApiResponse<String>> sendReminder(@RequestBody ReminderDto reminderDto) {
-        boolean sent = notificationService.sendReminder(reminderDto);
-        if (sent) {
-            return ResponseEntity.ok(ApiResponse.ok("Reminder dispatched successfully"));
-        } else {
-            return ResponseEntity.badRequest().body(ApiResponse.error("Failed to send reminder"));
+        try {
+            notificationService.sendReminder(reminderDto);
+            return ResponseEntity.ok(ApiResponse.ok("Reminder recorded successfully."));
+        } catch (UnsupportedOperationException exception) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(exception.getMessage()));
         }
     }
 }

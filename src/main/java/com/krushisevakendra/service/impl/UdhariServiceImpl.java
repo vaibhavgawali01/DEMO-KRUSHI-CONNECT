@@ -48,6 +48,9 @@ public class UdhariServiceImpl implements UdhariService {
 
     @Override
     public Udhari createUdhariRecord(User user, Order order, BigDecimal totalAmount, LocalDate dueDate) {
+        if (totalAmount == null || totalAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Credit amount must be greater than zero.");
+        }
         Udhari udhari = new Udhari(user, order, totalAmount, dueDate != null ? dueDate : LocalDate.now().plusDays(30));
         udhari.setCreatedAt(LocalDateTime.now());
         udhari.setUpdatedAt(LocalDateTime.now());
@@ -56,44 +59,31 @@ public class UdhariServiceImpl implements UdhariService {
 
     @Override
     public Udhari updateUdhariRecord(UdhariEditDto dto) {
-        Udhari udhari = udhariRepository.findById(dto.getId())
+        Udhari udhari = udhariRepository.findByIdForUpdate(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Udhari record not found with id: " + dto.getId()));
 
-        if (dto.getTotalAmount() != null) {
-            udhari.setTotalAmount(dto.getTotalAmount());
+        BigDecimal totalAmount = dto.getTotalAmount() != null ? dto.getTotalAmount() : udhari.getTotalAmount();
+        BigDecimal paidAmount = dto.getPaidAmount() != null ? dto.getPaidAmount() : udhari.getPaidAmount();
+        if (totalAmount == null || totalAmount.compareTo(BigDecimal.ZERO) <= 0
+                || paidAmount == null || paidAmount.compareTo(BigDecimal.ZERO) < 0
+                || paidAmount.compareTo(totalAmount) > 0) {
+            throw new IllegalArgumentException("Credit total and paid amounts are inconsistent.");
         }
-
-        if (dto.getPaidAmount() != null) {
-            udhari.setPaidAmount(dto.getPaidAmount());
+        if (dto.getPaidAmount() != null && dto.getPaidAmount().compareTo(udhari.getPaidAmount()) != 0) {
+            throw new IllegalArgumentException("Use the payment workflow to change the amount paid.");
         }
-
-        if (dto.getRemainingAmount() != null) {
-            udhari.setRemainingAmount(dto.getRemainingAmount());
-        } else if (dto.getTotalAmount() != null && dto.getPaidAmount() != null) {
-            BigDecimal rem = dto.getTotalAmount().subtract(dto.getPaidAmount());
-            udhari.setRemainingAmount(rem.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : rem);
-        }
+        udhari.setTotalAmount(totalAmount);
+        udhari.setPaidAmount(paidAmount);
+        udhari.setRemainingAmount(totalAmount.subtract(paidAmount));
 
         if (dto.getDueDate() != null) {
             udhari.setDueDate(dto.getDueDate());
         }
 
-        if (dto.getStatus() != null) {
-            udhari.setStatus(dto.getStatus());
-        } else {
-            udhari.updateStatusBasedOnBalanceAndDate();
-        }
+        udhari.updateStatusBasedOnBalanceAndDate();
 
         if (dto.getNotes() != null) {
             udhari.setNotes(dto.getNotes());
-        }
-
-        if (udhari.getRemainingAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            udhari.setStatus(UdhariStatus.PAID_IN_FULL);
-            if (udhari.getOrder() != null) {
-                udhari.getOrder().setPaymentStatus(PaymentStatus.PAID);
-                orderRepository.save(udhari.getOrder());
-            }
         }
 
         udhari.setUpdatedAt(LocalDateTime.now());
@@ -102,18 +92,24 @@ public class UdhariServiceImpl implements UdhariService {
 
     @Override
     public Payment recordUdhariPayment(UdhariPaymentDto dto) {
-        Udhari udhari = udhariRepository.findById(dto.getUdhariId())
+        Udhari udhari = udhariRepository.findByIdForUpdate(dto.getUdhariId())
                 .orElseThrow(() -> new ResourceNotFoundException("Udhari account not found with id: " + dto.getUdhariId()));
 
         BigDecimal paymentAmt = dto.getAmount();
-        if (paymentAmt.compareTo(BigDecimal.ZERO) <= 0) {
+        if (paymentAmt == null || paymentAmt.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Payment amount must be greater than zero");
+        }
+        if (dto.getPaymentMethod() == null) {
+            throw new IllegalArgumentException("Select a valid payment method.");
+        }
+        if (paymentAmt.compareTo(udhari.getRemainingAmount()) > 0) {
+            throw new IllegalArgumentException("Payment exceeds the remaining credit balance.");
         }
 
         BigDecimal newPaid = udhari.getPaidAmount().add(paymentAmt);
         BigDecimal newRemaining = udhari.getTotalAmount().subtract(newPaid);
 
-        if (newRemaining.compareTo(BigDecimal.ZERO) <= 0) {
+        if (newRemaining.compareTo(BigDecimal.ZERO) == 0) {
             udhari.setPaidAmount(udhari.getTotalAmount());
             udhari.setRemainingAmount(BigDecimal.ZERO);
             udhari.setStatus(UdhariStatus.PAID_IN_FULL);

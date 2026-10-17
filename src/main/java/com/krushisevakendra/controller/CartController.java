@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.beans.factory.annotation.Value;
+import com.krushisevakendra.exception.InsufficientStockException;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -33,6 +35,9 @@ public class CartController {
     private final OrderService orderService;
     private final OfferRepository offerRepository;
     private final SecurityUtil securityUtil;
+
+    @Value("${app.shop.upi-id}")
+    private String shopUpiId;
 
     public CartController(ProductService productService,
                           OrderService orderService,
@@ -71,24 +76,44 @@ public class CartController {
         Product product = productService.getProductById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
 
-        if (product.getStockQuantity() < quantity) {
+        if (quantity == null || quantity <= 0) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Quantity must be greater than zero.");
+            return "redirect:" + safeReturnUrl(returnUrl, "/products/" + productId);
+        }
+        if (!"ACTIVE".equalsIgnoreCase(product.getStatus())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "This product is no longer available.");
+            return "redirect:" + safeReturnUrl(returnUrl, "/products");
+        }
+        if (product.getStockQuantity() == null || product.getStockQuantity() < quantity) {
             redirectAttributes.addFlashAttribute("errorMessage", "Insufficient stock available for " + product.getName());
-            return "redirect:" + (returnUrl != null ? returnUrl : "/products/" + productId);
+            return "redirect:" + safeReturnUrl(returnUrl, "/products/" + productId);
         }
 
         CartDto cart = getOrCreateCart(session);
         cart.addItem(new CartItemDto(product, quantity));
 
         redirectAttributes.addFlashAttribute("successMessage", product.getName() + " added to your cart / कार्टमध्ये जोडले!");
-        return "redirect:" + (returnUrl != null ? returnUrl : "/cart");
+        return "redirect:" + safeReturnUrl(returnUrl, "/cart");
+    }
+
+    private String safeReturnUrl(String returnUrl, String fallback) {
+        return returnUrl != null && returnUrl.startsWith("/products")
+                && !returnUrl.startsWith("//") && !returnUrl.contains("\\")
+                ? returnUrl
+                : fallback;
     }
 
     @PostMapping("/update")
     public String updateQuantity(
             @RequestParam Long productId,
             @RequestParam Integer quantity,
-            HttpSession session) {
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
 
+        if (quantity == null || quantity <= 0) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Quantity must be greater than zero.");
+            return "redirect:/cart";
+        }
         CartDto cart = getOrCreateCart(session);
         cart.updateQuantity(productId, quantity);
         return "redirect:/cart";
@@ -119,6 +144,8 @@ public class CartController {
             return "redirect:/cart";
         }
 
+        cart.setCouponCode(null);
+        cart.setDiscountAmount(BigDecimal.ZERO);
         Optional<Offer> offerOpt = offerRepository.findByCouponCodeAndActiveTrue(couponCode.trim().toUpperCase());
         if (offerOpt.isPresent() && offerOpt.get().isValid()) {
             Offer offer = offerOpt.get();
@@ -157,6 +184,7 @@ public class CartController {
         }
 
         model.addAttribute("cart", cart);
+        model.addAttribute("shopUpiId", shopUpiId);
         model.addAttribute("checkoutDto", checkoutDto);
         return "customer/checkout";
     }
@@ -176,6 +204,7 @@ public class CartController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("cart", cart);
+            model.addAttribute("shopUpiId", shopUpiId);
             return "customer/checkout";
         }
 
@@ -186,9 +215,11 @@ public class CartController {
             cart.clear(); // Clear cart after successful checkout
             redirectAttributes.addFlashAttribute("orderSuccess", true);
             return "redirect:/customer/orders/" + order.getId() + "?success=true";
-        } catch (Exception e) {
+        } catch (InsufficientStockException | IllegalArgumentException e) {
             model.addAttribute("cart", cart);
-            model.addAttribute("errorMessage", "Error processing order: " + e.getMessage());
+            model.addAttribute("checkoutDto", checkoutDto);
+            model.addAttribute("shopUpiId", shopUpiId);
+            model.addAttribute("errorMessage", e.getMessage());
             return "customer/checkout";
         }
     }

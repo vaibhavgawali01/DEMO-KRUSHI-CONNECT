@@ -21,25 +21,25 @@
         <div class="hero-pill-badge">
             <span class="hero-pill-dot"></span>
             <span th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">Saptashrungi Agro Services</span>
-            <span class="hero-pill-tag" th:text="${#locale.language == 'mr' ? '🌾 १००% अस्सल उत्पादने' : '🌾 100% Certified Genuine Products'}">🌾 100% Certified Genuine Products</span>
+            <span class="hero-pill-tag" th:text="${#locale.language == 'mr' ? 'बियाणे, खते व शेती साहित्य' : 'Seeds, fertilizers &amp; farm supplies'}">Seeds, fertilizers &amp; farm supplies</span>
         </div>
 
         <!-- Master Headline -->
         <h1 th:if="${#locale.language == 'mr'}">
-            आपल्या शेतीसाठी दर्जेदार उत्पादने<br class="d-none d-md-block">
-            आणि <span class="hero-gradient-text">योग्य मार्गदर्शन</span> 🌿
+            शेतीसाठी उत्पादने<br class="d-none d-md-block">
+            आणि <span class="hero-gradient-text">उपयुक्त माहिती</span>
         </h1>
         <h1 th:if="${#locale.language != 'mr'}">
-            Quality Agricultural Products<br class="d-none d-md-block">
-            for <span class="hero-gradient-text">Better Farming</span> 🌿
+            Agricultural Products<br class="d-none d-md-block">
+            and <span class="hero-gradient-text">Farming Information</span>
         </h1>
 
         <!-- Subtitle -->
         <p th:if="${#locale.language == 'mr'}">
-            प्रमाणित संकरित बियाणे, दर्जेदार खते, पीक संरक्षण औषधे आणि सिंचन साहित्य — वैजापूर तालुक्यातील शेतकऱ्यांच्या भरघोस उत्पादनासाठी खात्रीशीर कृषी सेवा केंद्र.
+            बियाणे, खते, पीक संरक्षण औषधे आणि सिंचन साहित्य यांची माहिती व खरेदीसाठी मिरखनगर, वैजापूर येथील कृषी सेवा केंद्र.
         </p>
         <p th:if="${#locale.language != 'mr'}">
-            Certified hybrid seeds, high-grade fertilizers, crop protection, and irrigation equipment — the trusted agro services center for farmers in Vaijapur.
+            Browse seeds, fertilizers, crop protection products, and irrigation supplies from our agricultural store in Mirakhnagar, Vaijapur.
         </p>
 
         <!-- Action Buttons -->
@@ -63,11 +63,11 @@
         <div class="hero-trust-strip">
             <div class="hero-trust-item">
                 <i class="bi bi-patch-check-fill"></i>
-                <span th:text="${#locale.language == 'mr' ? '१००% प्रमाणित अस्सल ब्रँड्स' : '100% Certified Genuine Brands'}">100% Certified Genuine Brands</span>
+                <span th:text="${#locale.language == 'mr' ? 'बियाणे, खते व पीक संरक्षण साहित्य' : 'Seeds, fertilizers &amp; crop protection'}">Seeds, fertilizers &amp; crop protection</span>
             </div>
             <div class="hero-trust-item">
                 <i class="bi bi-people-fill"></i>
-                <span th:text="${#locale.language == 'mr' ? '५,०००+ समाधानी शेतकरी' : '5,000+ Farmers Served'}">5,000+ Farmers Served</span>
+                <span th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर' : 'Mirakhnagar, Vaijapur'}">Mirakhnagar, Vaijapur</span>
             </div>
             <div class="hero-trust-item">
                 <i class="bi bi-credit-card-2-front-fill"></i>
@@ -151,8 +151,8 @@
             Why Choose Saptashrungi Agro?
         </h2>
         <p class="text-muted small" style="max-width:500px;margin:0 auto;"
-           th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांचा विश्वास — एक दशकाहून अधिक काळ' : 'Farmers Trust for Over a Decade'}">
-            Farmers Trust for Over a Decade
+           th:text="${#locale.language == 'mr' ? 'दुकानाची माहिती आणि उपलब्ध सुविधा' : 'Store information and available services'}">
+           Store information and available services
         </p>
     </div>
 
@@ -165,8 +165,8 @@
                     <span style="font-size:1.35rem;">✅</span>
                 </div>
                 <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'अस्सल उत्पादने' : 'Genuine Products'}">Genuine Products</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? '१००% शासन-प्रमाणित उत्पादने — बनावट माल मिळण्याची शून्य शक्यता. प्रत्येक बॅच तपासलेली.' : '100% government-certified products — zero counterfeit risk. Every batch verified.'}">
-                    100% government-certified products — zero counterfeit risk. Every batch verified.
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'उत्पादनाची कंपनी, बॅच आणि वापरासंबंधी माहिती पॅकेजिंगवर तपासा.' : 'Check the product packaging for manufacturer, batch, and usage information.'}">
+                    Check the product packaging for manufacturer, batch, and usage information.
                 </p>
             </div>
         </div>
@@ -178,21 +178,21 @@
                     <span style="font-size:1.35rem;">🌱</span>
                 </div>
                 <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'दर्जेदार बियाणे' : 'Quality Seeds'}">Quality Seeds</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'माहिको, महाबीज, मोन्सॅन्टो यांची प्रमाणित संकरित बियाणे — उच्च उगवण क्षमता आणि भरघोस उत्पादन.' : 'Certified hybrid seeds from Mahyco, Mahabeej, Monsanto — high germination rate and superior yield.'}">
-                    Certified hybrid seeds from Mahyco, Mahabeej, Monsanto — high germination rate and superior yield.
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'वेगवेगळ्या पिकांसाठी उपलब्ध बियाण्यांची माहिती उत्पादन यादीत पाहा.' : 'Browse the product list for seed options for different crops.'}">
+                    Browse the product list for seed options for different crops.
                 </p>
             </div>
         </div>
 
-        <!-- 3. Trusted Fertilizers -->
+        <!-- 3. Fertilizers -->
         <div class="col-md-4 col-sm-6">
             <div class="why-card">
                 <div class="why-icon-wrap" style="background:#fffbeb;">
                     <span style="font-size:1.35rem;">🧪</span>
                 </div>
-                <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'विश्वसनीय खते' : 'Trusted Fertilizers'}">Trusted Fertilizers</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'इफ्को, महाधन, कोरोमंडेल यांची दर्जेदार खते — रास्त दरात, एमआरपी पेक्षा जास्त नाही.' : 'Quality fertilizers from IFFCO, Mahadhan, Coromandel — fair prices strictly at or below MRP.'}">
-                    Quality fertilizers from IFFCO, Mahadhan, Coromandel — fair prices strictly at or below MRP.
+                <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'खते' : 'Fertilizers'}">Fertilizers</h5>
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'उपलब्ध खतांचे प्रकार, किंमत आणि तपशील उत्पादन यादीत पाहा.' : 'See available fertilizer types, prices, and details in the product list.'}">
+                    See available fertilizer types, prices, and details in the product list.
                 </p>
             </div>
         </div>
@@ -204,8 +204,8 @@
                     <span style="font-size:1.35rem;">🛡️</span>
                 </div>
                 <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'पीक संरक्षण' : 'Crop Protection'}">Crop Protection</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'सिंजेन्टा, बायर, यूपीएल यांची आधुनिक कीटकनाशके — बोंडअळी, मावा, करपा रोगांपासून पिकाचे संपूर्ण संरक्षण.' : 'Advanced crop protection from Syngenta, Bayer, UPL — comprehensive protection against pests and blights.'}">
-                    Advanced crop protection from Syngenta, Bayer, UPL — comprehensive protection against pests and blights.
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'कीटकनाशके आणि बुरशीनाशकांची उपलब्धता व वापराची माहिती उत्पादनानुसार पाहा.' : 'Browse available insecticides and fungicides, along with product-specific usage information.'}">
+                    Browse available insecticides and fungicides, along with product-specific usage information.
                 </p>
             </div>
         </div>
@@ -217,8 +217,8 @@
                     <span style="font-size:1.35rem;">👨‍🌾</span>
                 </div>
                 <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'शेतकरी मार्गदर्शन' : 'Farmer Guidance'}">Farmer Guidance</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'प्रत्येक शेतकऱ्याला वैयक्तिक कृषी सल्ला — योग्य बियाणे, खताचे प्रमाण, फवारणी वेळापत्रक — मोफत मार्गदर्शन.' : 'Personalized agronomy advice for every farmer — right seed selection, fertilizer dosage, spraying schedule.'}">
-                    Personalized agronomy advice for every farmer — right seed selection, fertilizer dosage, spraying schedule.
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'वेबसाइटवरील पीक माहिती व खत कॅल्क्युलेटरचा उपयोग करा; उत्पादनाचे लेबलही वाचा.' : 'Use the crop information and fertilizer calculator on this site, and follow product labels.'}">
+                    Use the crop information and fertilizer calculator on this site, and follow product labels.
                 </p>
             </div>
         </div>
@@ -230,8 +230,8 @@
                     <span style="font-size:1.35rem;">🤝</span>
                 </div>
                 <h5 class="why-title" th:text="${#locale.language == 'mr' ? 'स्थानिक आधार व उधारी' : 'Local Support &amp; Udhari'}">Local Support &amp; Udhari</h5>
-                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर मधील तुमचे हक्काचे केंद्र — सुलभ उधारी सुविधा, UPI/रोख, पक्के जीएसटी बिल.' : 'Your trusted local center in Mirakhnagar, Vaijapur — easy credit (udhari), UPI/Cash, GST invoice.'}">
-                    Your trusted local center in Mirakhnagar, Vaijapur — easy credit (udhari), UPI/Cash, GST invoice.
+                <p class="why-desc" th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर येथील दुकान. उपलब्ध पेमेंट पद्धती आणि उधारीची माहिती दुकानाशी संपर्क करून घ्या.' : 'Store located in Mirakhnagar, Vaijapur. Contact the store for payment and credit facility details.'}">
+                    Store located in Mirakhnagar, Vaijapur. Contact the store for payment and credit facility details.
                 </p>
             </div>
         </div>
@@ -280,8 +280,8 @@
                         </div>
                         <div>
                             <span class="badge px-3 py-1 rounded-pill fw-bold text-success" style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.75rem;"
-                                  th:text="${#locale.language == 'mr' ? '🌿 अधिकृत कृषी सेवा केंद्र' : '🌿 Official Agro Store'}">
-                                🌿 Official Agro Store
+                                  th:text="${#locale.language == 'mr' ? '🌿 कृषी सेवा केंद्र' : '🌿 Agricultural Store'}">
+                                🌿 Agricultural Store
                             </span>
                             <h2 class="flagship-title-gradient mb-0 mt-1"
                                 th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">
@@ -292,21 +292,21 @@
 
                     <!-- Description -->
                     <p class="text-secondary mb-3" style="line-height: 1.65; font-size: 0.95rem;" th:if="${#locale.language == 'mr'}">
-                        आपल्या विश्वासाचे अधिकृत कृषी सेवा केंद्र! सर्व नामांकित कंपन्यांचे प्रमाणित संकरित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, कीटकनाशके, फवारणी यंत्रे व ठिबक सिंचन साहित्य थेट शेतकरी दरात उपलब्ध.
+                        बियाणे, रासायनिक व सेंद्रिय खते, कीटकनाशके, फवारणी यंत्रे आणि ठिबक सिंचन साहित्याची माहिती व उपलब्धता येथे पाहा.
                     </p>
                     <p class="text-secondary mb-3" style="line-height: 1.65; font-size: 0.95rem;" th:if="${#locale.language != 'mr'}">
-                        Your trusted authorized agro services center! Certified hybrid seeds, high-grade chemical &amp; organic fertilizers, crop protection, spray pumps, and drip irrigation equipment available at fair prices.
+                        Browse information about seeds, chemical and organic fertilizers, crop protection, sprayers, and drip irrigation supplies.
                     </p>
 
                     <!-- Feature Badges Strip -->
                     <div class="d-flex flex-wrap gap-2 mb-4">
                         <span class="flagship-feature-pill">
                             <i class="bi bi-patch-check text-success"></i>
-                            <span th:text="${#locale.language == 'mr' ? '१००% अस्सल बियाणे' : '100% Certified Seeds'}">100% Certified Seeds</span>
+                            <span th:text="${#locale.language == 'mr' ? 'बियाण्यांची माहिती' : 'Seed information'}">Seed information</span>
                         </span>
                         <span class="flagship-feature-pill">
                             <i class="bi bi-tag text-primary"></i>
-                            <span th:text="${#locale.language == 'mr' ? 'रास्त APMC दर' : 'Fair APMC Rates'}">Fair APMC Rates</span>
+                            <span th:text="${#locale.language == 'mr' ? 'किंमत व कर तपशील' : 'Price and tax details'}">Price and tax details</span>
                         </span>
                         <span class="flagship-feature-pill">
                             <i class="bi bi-credit-card-2-front text-warning"></i>
@@ -393,7 +393,7 @@
                 </span>
             </div>
             <h2 class="featured-title mb-1" th:text="${#locale.language == 'mr' ? 'वैशिष्ट्यपूर्ण उत्पादने (Featured products)' : 'Featured products'}">Featured products</h2>
-            <p class="featured-subtitle" th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांची पहिली पसंती — १००% प्रमाणित आणि खात्रीशीर कृषी उत्पादने' : 'Handpicked high-yield seeds and premium fertilizers for your farm'}">Handpicked high-yield seeds and premium fertilizers for your farm</p>
+            <p class="featured-subtitle" th:text="${#locale.language == 'mr' ? 'उत्पादनांचे तपशील आणि सध्याचे दर पाहा.' : 'Browse product details and current prices.'}">Browse product details and current prices.</p>
         </div>
         <div>
             <a th:href="@{/products}" class="featured-view-all">
@@ -411,7 +411,7 @@
                         <span th:text="${#numbers.formatDecimal((product.price - product.discountPrice) / product.price * 100, 0, 0)} + '% OFF'">7% OFF</span>
                     </span>
                     <span class="product-featured-cat-badge" th:text="${#locale.language == 'mr' and product.category.nameMr != null ? product.category.nameMr : product.category.name}">Seeds</span>
-                    <img th:src="${product.image != null and #strings.startsWith(product.image, '/uploads/') ? product.image : '/images/' + product.image}" th:alt="${product.name}" onerror="this.src='/images/saptashrungi_shop.jpg'">
+                    <img th:src="${product.image != null and #strings.startsWith(product.image, '/uploads/') ? product.image : '/images/' + product.image}" th:alt="${product.name}" loading="lazy" decoding="async" onerror="this.src='/images/saptashrungi_shop.jpg'">
                 </div>
                 <div class="product-featured-content">
                     <div class="product-featured-company" th:text="${product.company != null ? product.company : 'MAHABEEJ'}">MAHABEEJ</div>
@@ -520,89 +520,89 @@
     </div>
 </section>
 
-<!-- Why Farmers Trust Us Section v2 -->
+<!-- Store information and services -->
 <section class="container my-5 py-3">
     <div class="text-center mb-5">
         <span class="badge px-3 py-1 rounded-pill fw-semibold mb-2 d-inline-block text-success"
               style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.78rem;"
-              th:text="${#locale.language == 'mr' ? '⭐ शेतकऱ्यांचा विश्वास' : '⭐ Why Farmers Trust Us'}">
-            ⭐ Why Farmers Trust Us
+              th:text="${#locale.language == 'mr' ? '⭐ दुकानाची माहिती' : '⭐ Store information'}">
+            ⭐ Store information
         </span>
         <h2 class="fw-bold text-success mb-2" style="font-size: 1.85rem;"
-            th:text="${#locale.language == 'mr' ? 'शेतकरी सप्तशृंगी ॲग्रोवर का विश्वास ठेवतात?' : 'Why Farmers Trust Saptashrungi Agro Services'}">
-            Why Farmers Trust Saptashrungi Agro Services
+            th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">
+            Saptashrungi Agro Services
         </h2>
         <p class="text-muted small mx-auto" style="max-width: 580px;"
-           th:text="${#locale.language == 'mr' ? 'पारदर्शकता, शासकीय प्रमाणित गुणवत्ता, रास्त भाव आणि तत्पर शेतकरी सेवेची दशकाहून अधिक काळाची खात्री.' : 'Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.'}">
-            Dedicated to empowering local agriculture with transparency, fair rates, and reliable support.
+           th:text="${#locale.language == 'mr' ? 'उत्पादनांची माहिती, दुकानाची संपर्क माहिती आणि उपलब्ध ऑनलाइन सुविधा.' : 'Product information, store contact details, and available online services.'}">
+            Product information, store contact details, and available online services.
         </p>
     </div>
 
     <div class="row g-4">
-        <!-- 1. 100% Certified Genuine -->
+        <!-- 1. Product information -->
         <div class="col-md-3 col-sm-6">
             <div class="trust-card-v2">
                 <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                     <i class="bi bi-shield-check"></i>
                 </div>
                 <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
-                    th:text="${#locale.language == 'mr' ? '१००% प्रमाणित अस्सल उत्पादने' : '100% Certified Genuine'}">
-                    100% Certified Genuine
+                    th:text="${#locale.language == 'mr' ? 'उत्पादन तपशील' : 'Product details'}">
+                    Product details
                 </h5>
                 <p class="small text-muted mb-0"
-                   th:text="${#locale.language == 'mr' ? 'सर्व बियाणे व औषधे शासकीय मानकांनुसार तपासलेली आणि अधिकृत कंपनी सीलबंद पॅकिंगमध्ये.' : 'All seed lots and chemicals are batch-tested and government certified.'}">
-                    All seed lots and chemicals are batch-tested and government certified.
+                   th:text="${#locale.language == 'mr' ? 'उत्पादनाचे नाव, किंमत आणि उपलब्ध तपशील उत्पादन पानावर पाहा.' : 'View product names, prices, and available details on each product page.'}">
+                    View product names, prices, and available details on each product page.
                 </p>
             </div>
         </div>
 
-        <!-- 2. Fair APMC Rates -->
+        <!-- 2. Price information -->
         <div class="col-md-3 col-sm-6">
             <div class="trust-card-v2">
                 <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
                     <i class="bi bi-tag-fill"></i>
                 </div>
                 <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
-                    th:text="${#locale.language == 'mr' ? 'रास्त व पारदर्शक APMC भाव' : 'Fair &amp; Transparent Rates'}">
-                    Fair &amp; Transparent Rates
+                    th:text="${#locale.language == 'mr' ? 'किंमत व कर तपशील' : 'Prices and taxes'}">
+                    Prices and taxes
                 </h5>
                 <p class="small text-muted mb-0"
-                   th:text="${#locale.language == 'mr' ? 'कोणतेही छुपे शुल्क नाही. बाजारभावाप्रमाणे रास्त दर आणि सोबत पक्के संगणकीकृत जीएसटी बिल.' : 'Transparent wholesale and retail pricing with standard GST invoices.'}">
-                    Transparent wholesale and retail pricing with standard GST invoices.
+                   th:text="${#locale.language == 'mr' ? 'उत्पादन पानावर दर्शवलेली किंमत आणि ऑर्डरवेळी लागू होणारे कर तपासा.' : 'Review listed product prices and any applicable taxes during checkout.'}">
+                    Review listed product prices and any applicable taxes during checkout.
                 </p>
             </div>
         </div>
 
-        <!-- 3. Udhari Facility -->
+        <!-- 3. Credit ledger -->
         <div class="col-md-3 col-sm-6">
             <div class="trust-card-v2">
                 <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
                     <i class="bi bi-credit-card-2-front-fill"></i>
                 </div>
                 <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
-                    th:text="${#locale.language == 'mr' ? 'सुलभ उधारी खाते सुविधा' : 'Hassle-Free Credit Facility'}">
-                    Hassle-Free Credit Facility
+                    th:text="${#locale.language == 'mr' ? 'उधारी खाते' : 'Credit ledger'}">
+                    Credit ledger
                 </h5>
                 <p class="small text-muted mb-0"
-                   th:text="${#locale.language == 'mr' ? 'नोंदणीकृत शेतकऱ्यांसाठी हंगामनिहाय सोयीस्कर उधारी लेजर आणि ऑनलाइन हिशोब तपासण्याची सुविधा.' : 'Flexible harvest-to-harvest credit ledger facility for verified farmers.'}">
-                    Flexible harvest-to-harvest credit ledger facility for verified farmers.
+                   th:text="${#locale.language == 'mr' ? 'नोंदणीकृत ग्राहकांना त्यांच्या डॅशबोर्डवर उधारीची नोंद पाहता येते.' : 'Registered customers can view their credit ledger in the dashboard.'}">
+                    Registered customers can view their credit ledger in the dashboard.
                 </p>
             </div>
         </div>
 
-        <!-- 4. Agronomist Support -->
+        <!-- 4. Farming information -->
         <div class="col-md-3 col-sm-6">
             <div class="trust-card-v2">
                 <div class="trust-icon-box-v2" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">
                     <i class="bi bi-chat-heart-fill"></i>
                 </div>
                 <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem;"
-                    th:text="${#locale.language == 'mr' ? 'मोफत तज्ज्ञ कृषी सल्ला' : 'Free Agronomist Support'}">
-                    Free Agronomist Support
+                    th:text="${#locale.language == 'mr' ? 'शेतीविषयक माहिती' : 'Farming information'}">
+                    Farming information
                 </h5>
                 <p class="small text-muted mb-0"
-                   th:text="${#locale.language == 'mr' ? 'पिकावरील रोग व कीड निदान, फवारणीचे वेळापत्रक आणि खतांच्या योग्य प्रमाणाचे मोफत मार्गदर्शन.' : 'Free dosage advice, crop advisory, and disease diagnosis anytime.'}">
-                    Free dosage advice, crop advisory, and disease diagnosis anytime.
+                   th:text="${#locale.language == 'mr' ? 'पीकविषयक माहिती, हवामान पान आणि खत कॅल्क्युलेटर वेबसाइटवर उपलब्ध आहेत.' : 'Crop information, a weather page, and a fertilizer calculator are available on this site.'}">
+                    Crop information, a weather page, and a fertilizer calculator are available on this site.
                 </p>
             </div>
         </div>

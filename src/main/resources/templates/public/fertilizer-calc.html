@@ -11,7 +11,11 @@
             <i class="bi bi-cpu me-1"></i> <span th:text="${#locale.language == 'mr' ? 'स्मार्ट कृषी सल्ला इंजिन' : 'Smart Agri Advisory Engine'}">Smart Agri Advisory Engine</span>
         </span>
         <h2 class="fw-bold text-success" th:text="#{advisory.calc.title}">Smart Fertilizer Requirement Calculator</h2>
-        <p class="text-muted" th:text="${#locale.language == 'mr' ? 'आपल्या पिकासाठी आणि जमिनीच्या क्षेत्रफळानुसार रासायनिक व सेंद्रिय खतांचे अचूक प्रमाण काढा' : 'Calculate exact NPK dosages and commercial bag requirements tailored to your crop and land acreage'}">Calculate exact NPK dosages and commercial bag requirements tailored to your crop and land acreage</p>
+        <p class="text-muted" th:text="${#locale.language == 'mr' ? 'पीक, क्षेत्रफळ आणि जमिनीच्या प्रकारावर आधारित खतांचे अंदाजे प्रमाण' : 'Indicative fertilizer estimates based on crop, farm area, and soil type'}">Indicative fertilizer estimates based on crop, farm area, and soil type</p>
+        <div class="alert alert-warning text-start small" role="note"
+             th:text="${#locale.language == 'mr' ? 'ही सामान्य अंदाजाधारित माहिती आहे; माती परीक्षण किंवा कृषी तज्ज्ञांच्या सल्ल्याचा पर्याय नाही. उत्पादनाचे लेबल व स्थानिक कृषी सल्ला पाळा.' : 'These are general estimates, not a soil-test-based recommendation. Follow product labels and local agricultural advice.'}">
+            These are general estimates, not a soil-test-based recommendation. Follow product labels and local agricultural advice.
+        </div>
     </div>
 
     <div class="row g-4 mb-5">
@@ -38,7 +42,7 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-success text-uppercase" th:text="#{advisory.calc.area}">Farm Area (Acres)</label>
                             <div class="input-group">
-                                <input type="number" step="0.25" min="0.25" max="100" name="acres" id="calcArea" class="form-control" th:value="${calc.farmAreaAcres}">
+                                <input type="number" step="0.25" min="0.25" max="100" name="acres" id="calcArea" class="form-control" th:value="${calc.farmAreaAcres}" required>
                                 <span class="input-group-text" th:text="${#locale.language == 'mr' ? 'एकर' : 'Acres'}">Acres</span>
                             </div>
                         </div>
@@ -56,8 +60,8 @@
                             <label class="form-label fw-bold small text-success text-uppercase" th:text="${#locale.language == 'mr' ? 'वाढीचा टप्पा' : 'Growth Stage'}">Growth Stage</label>
                             <select name="stage" id="calcStage" class="form-select">
                                 <option value="Full Season" th:selected="${calc.cropStage == 'Full Season'}" th:text="${#locale.language == 'mr' ? 'संपूर्ण हंगामाचे पोषण नियोजन' : 'Complete Season Nutrition Plan'}">Complete Season Nutrition Plan</option>
-                                <option value="Basal Stage" th:selected="${calc.cropStage == 'Basal Stage'}" th:text="${#locale.language == 'mr' ? 'फक्त पायाभूत / पेरणी वेळचा डोस' : 'Basal / Planting Application Only'}">Basal / Planting Application Only</option>
                             </select>
+                            <div class="form-text" th:text="${#locale.language == 'mr' ? 'सध्या फक्त संपूर्ण हंगामाचा अंदाज उपलब्ध आहे; टप्प्यानुसार शिफारस उपलब्ध नाही.' : 'Only full-season estimates are currently available; stage-specific recommendations are not supported.'}">Only full-season estimates are currently available; stage-specific recommendations are not supported.</div>
                         </div>
 
                         <button type="submit" class="btn btn-krushi w-100 fw-bold py-2">
