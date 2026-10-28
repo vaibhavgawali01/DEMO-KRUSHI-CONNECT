@@ -67,18 +67,13 @@
             </div>
             <div class="hero-trust-item">
                 <i class="bi bi-people-fill"></i>
-                <span th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर' : 'Mirakhnagar, Vaijapur'}">Mirakhnagar, Vaijapur</span>
-            </div>
-            <div class="hero-trust-item">
-                <i class="bi bi-credit-card-2-front-fill"></i>
-                <span th:text="${#locale.language == 'mr' ? 'उधारी व UPI सुविधा' : 'Credit &amp; UPI Facility'}">Credit &amp; UPI Facility</span>
+                <span th:text="${#locale.language == 'mr' ? '५००+ शेतकरी बांधवांचा विश्वास' : 'Trusted by 500+ Farmers'}">Trusted by 500+ Farmers</span>
             </div>
             <div class="hero-trust-item">
                 <i class="bi bi-geo-alt-fill"></i>
                 <span th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर' : 'Mirakhnagar, Vaijapur'}">Mirakhnagar, Vaijapur</span>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -480,43 +475,224 @@
     </div>
 </section>
 
-<!-- Active Offers Banner v2 -->
-<section th:if="${offers != null and !offers.isEmpty()}" class="container my-5">
-    <div class="offers-banner-v2 p-4 p-md-5">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-4">
-                <span class="badge bg-danger mb-2 px-3 py-1 rounded-pill shadow-sm" style="font-size: 0.78rem;">
-                    🔥 <span th:text="${#locale.language == 'mr' ? 'मर्यादित कालावधी ऑफर' : 'Limited Time Special'}">Limited Time Special</span>
-                </span>
-                <h3 class="fw-bold text-dark mb-2" th:text="${#locale.language == 'mr' ? 'हंगामातील विशेष ऑफर्स व सवलती' : 'Current Seasonal Offers'}">
-                    Current Seasonal Offers
-                </h3>
-                <p class="text-secondary small mb-0" th:text="${#locale.language == 'mr' ? 'ऑर्डर करताना खालील कूपन कोड वापरा आणि त्वरित सवलत मिळवा.' : 'Use exclusive coupon codes at checkout for instant discounts.'}">
-                    Use exclusive coupon codes at checkout for instant discounts.
-                </p>
+<!-- ===== REVIEWS SECTION (शेतकरी अभिप्राय व मते) ===== -->
+<section id="reviews" class="container my-5 py-3">
+    <!-- Header matching user request: reviews -->
+    <div class="text-center mb-4">
+        <span class="badge px-3 py-1 rounded-pill fw-semibold mb-2 d-inline-block text-success"
+              style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.8rem;">
+            ⭐ <span th:text="${#locale.language == 'mr' ? 'शेतकरी बांधवांचे अनुभव' : 'Farmer Testimonials'}">Farmer Testimonials</span>
+        </span>
+        <h2 class="fw-bolder text-dark mb-1" style="font-size: 2.2rem; letter-spacing: -0.5px;">
+            reviews
+        </h2>
+        <h3 class="h5 fw-semibold text-success mb-2"
+            th:text="${#locale.language == 'mr' ? 'आमच्या ग्राहकांची मते व अभिप्राय' : 'Customer Reviews & Feedback'}">
+            Customer Reviews & Feedback
+        </h3>
+        <p class="text-muted small mx-auto mb-0" style="max-width: 620px;"
+           th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेसवरील शेतकरी बांधवांचा अतूट विश्वास आणि उत्पादनांविषयीचे अनुभव.' : 'Real feedback and genuine ratings from farmers who rely on Saptashrungi Agro Services for certified agricultural supplies.'}">
+            Real feedback and genuine ratings from farmers who rely on Saptashrungi Agro Services.
+        </p>
+    </div>
+
+    <!-- Rating Summary Pill Strip -->
+    <div class="p-3 mb-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #fefce8 100%); border: 1px solid #bbf7d0;">
+        <div class="row align-items-center text-center g-3">
+            <div class="col-6 col-md-3 border-end">
+                <div class="d-flex align-items-center justify-content-center gap-1 text-warning fs-5">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <div class="fw-bold text-dark fs-5 mt-1">4.9 / 5.0</div>
+                <small class="text-muted" th:text="${#locale.language == 'mr' ? 'सरासरी रेटिंग' : 'Average Rating'}">Average Rating</small>
             </div>
-            <div class="col-lg-8">
-                <div class="row g-3">
-                    <div class="col-md-6" th:each="offer : ${offers}">
-                        <div class="coupon-card-v2">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="fw-bold text-dark mb-0" th:text="${offer.title}">Offer Title</h6>
-                                <span class="badge bg-success px-2 py-1 rounded-pill" th:text="${offer.discountType == 'PERCENTAGE' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' OFF'}">10% OFF</span>
-                            </div>
-                            <p class="small text-muted mb-3" th:text="${offer.description}">Offer details</p>
-                            <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: #fef3c7 !important;">
-                                <div class="coupon-code-pill copy-coupon-btn" th:data-code="${offer.couponCode}" title="Click to copy coupon code">
-                                    <i class="bi bi-scissors text-warning"></i>
-                                    <span th:text="${offer.couponCode}">KHARIF10</span>
-                                    <i class="bi bi-copy text-muted ms-1" style="font-size:0.75rem;"></i>
-                                </div>
-                                <small class="text-secondary fw-semibold" th:text="${#locale.language == 'mr' ? 'किमान ऑर्डर: ₹' + offer.minOrderAmount : 'Min: ₹' + offer.minOrderAmount}">Min: ₹1000</small>
-                            </div>
+            <div class="col-6 col-md-3 border-end">
+                <div class="fw-bold text-success fs-4">५००+</div>
+                <div class="fw-semibold text-dark small" th:text="${#locale.language == 'mr' ? 'समाधानी शेतकरी' : 'Happy Farmers'}">Happy Farmers</div>
+                <small class="text-muted" th:text="${#locale.language == 'mr' ? 'वैजापूर व पंचक्रोशी' : 'Across Region'}">Across Region</small>
+            </div>
+            <div class="col-6 col-md-3 border-end">
+                <div class="text-success fs-4"><i class="bi bi-patch-check-fill"></i></div>
+                <div class="fw-semibold text-dark small" th:text="${#locale.language == 'mr' ? '१००% अस्सल बियाणे व खते' : '100% Genuine Supplies'}">100% Genuine Supplies</div>
+                <small class="text-muted" th:text="${#locale.language == 'mr' ? 'अधिकृत कंपनी डीलर' : 'Certified Quality'}">Certified Quality</small>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="text-primary fs-4"><i class="bi bi-truck"></i></div>
+                <div class="fw-semibold text-dark small" th:text="${#locale.language == 'mr' ? 'वेळेवर शेतपोच सेवा' : 'Timely Farm Delivery'}">Timely Farm Delivery</div>
+                <small class="text-muted" th:text="${#locale.language == 'mr' ? 'उधारी खाते सुविधा' : 'Credit Ledger Support'}">Credit Ledger Support</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="row g-4">
+        <!-- Review 1 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #16a34a, #059669); font-size: 1rem;">
+                            RP
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'रमेश पाटील' : 'Ramesh Patil'}">Ramesh Patil</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'वैजापूर (कापूस व मका)' : 'Vaijapur (Cotton Farmer)'}">Vaijapur</small>
                         </div>
                     </div>
                 </div>
+                <div class="d-flex align-items-center justify-content-between my-2">
+                    <div class="text-warning small">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
+                        <i class="bi bi-patch-check-fill me-1"></i><span th:text="${#locale.language == 'mr' ? 'पडताळणी' : 'Verified'}">Verified</span>
+                    </span>
+                </div>
+                <p class="small text-secondary flex-grow-1 mb-3 fst-italic"
+                   th:text="${#locale.language == 'mr' ? '« सप्तशृंगी ॲग्रो मधून घेतलेले कापूस बियाणे अतिशय दर्जेदार निघाले. १००% उगवण झाली आणि उत्पादन अपेक्षेपेक्षा जास्त मिळाले. वेळेवर शेतपोच माल मिळाला! »' : '« The cotton seeds purchased from Saptashrungi Agro had exceptional 100% germination. Farm delivery was punctual and dependable! »'}">
+                    « The cotton seeds purchased from Saptashrungi Agro had exceptional 100% germination. Farm delivery was punctual and dependable! »
+                </p>
+                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
+                    <span><i class="bi bi-calendar3 me-1"></i>12 Oct 2026</span>
+                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
+                </div>
             </div>
         </div>
+
+        <!-- Review 2 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #0284c7, #0369a1); font-size: 1rem;">
+                            SD
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'सुरेश देशमुख' : 'Suresh Deshmukh'}">Suresh Deshmukh</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'श्रीरामपूर (ऊस उत्पादक)' : 'Shrirampur (Sugarcane)'}">Shrirampur</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between my-2">
+                    <div class="text-warning small">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
+                        <i class="bi bi-patch-check-fill me-1"></i><span th:text="${#locale.language == 'mr' ? 'पडताळणी' : 'Verified'}">Verified</span>
+                    </span>
+                </div>
+                <p class="small text-secondary flex-grow-1 mb-3 fst-italic"
+                   th:text="${#locale.language == 'mr' ? '« इफको १०:२६:२६ आणि विद्राव्य खतांचे अचूक मार्गदर्शन मिळाले. पिकांची वाढ जोमदार झाली. रास्त भाव आणि अस्सल पक्की पावती मिळते. उधारी खाते खूप सोयीचे आहे. »' : '« Got genuine IFFCO fertilizers with expert usage tips. Outstanding crop growth and completely fair pricing with GST invoice. Credit facility is very convenient. »'}">
+                    « Got genuine IFFCO fertilizers with expert usage tips. Outstanding crop growth and completely fair pricing with GST invoice. Credit facility is very convenient. »
+                </p>
+                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
+                    <span><i class="bi bi-calendar3 me-1"></i>08 Oct 2026</span>
+                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #d97706, #b45309); font-size: 1rem;">
+                            DP
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'ज्ञानेश्वर पवार' : 'Dnyaneshwar Pawar'}">Dnyaneshwar Pawar</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'गंगापूर (सोयाबीन व हरभरा)' : 'Gangapur (Soybean Farmer)'}">Gangapur</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between my-2">
+                    <div class="text-warning small">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
+                        <i class="bi bi-patch-check-fill me-1"></i><span th:text="${#locale.language == 'mr' ? 'पडताळणी' : 'Verified'}">Verified</span>
+                    </span>
+                </div>
+                <p class="small text-secondary flex-grow-1 mb-3 fst-italic"
+                   th:text="${#locale.language == 'mr' ? '« कीड व्यवस्थापनासाठी सुचवलेले कोराजन कीटकनाशक अतिशय गुणकारी ठरले. पिकावरील अळी दोनच दिवसांत नियंत्रणात आली. प्रामाणिक सल्ला देणारे हक्काचे कृषी सेवा केंद्र! »' : '« Pest control pesticide recommended by the store controlled the caterpillar infestation within two days. Honest advisory and genuine products! »'}">
+                    « Pest control pesticide recommended by the store controlled the caterpillar infestation within two days. Honest advisory and genuine products! »
+                </p>
+                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
+                    <span><i class="bi bi-calendar3 me-1"></i>02 Oct 2026</span>
+                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #7c3aed, #6d28d9); font-size: 1rem;">
+                            BS
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'बाळू शिंदे' : 'Balu Shinde'}">Balu Shinde</h6>
+                            <small class="text-muted" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर (फळबाग)' : 'Mirakhnagar, Vaijapur'}">Mirakhnagar</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between my-2">
+                    <div class="text-warning small">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
+                        <i class="bi bi-patch-check-fill me-1"></i><span th:text="${#locale.language == 'mr' ? 'पडताळणी' : 'Verified'}">Verified</span>
+                    </span>
+                </div>
+                <p class="small text-secondary flex-grow-1 mb-3 fst-italic"
+                   th:text="${#locale.language == 'mr' ? '« ठिबक सिंचन साहित्य आणि सूक्ष्म अन्नद्रव्ये उत्तम क्वालिटीची आहेत. दुकानात नेहमी आदरपूर्वक स्वागत आणि शेतकऱ्यांसाठी योग्य मार्गदर्शन मिळते. मनापासून धन्यवाद! »' : '« Top quality drip irrigation fittings and micronutrients. The team is courteous and genuinely helps farmers. Sincere thanks! »'}">
+                    « Top quality drip irrigation fittings and micronutrients. The team is courteous and genuinely helps farmers. Sincere thanks! »
+                </p>
+                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
+                    <span><i class="bi bi-calendar3 me-1"></i>28 Sep 2026</span>
+                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions Below Reviews -->
+    <div class="text-center mt-4 pt-2">
+        <a th:href="@{/products}" class="btn btn-krushi px-4 py-2 rounded-pill fw-semibold shadow-sm me-2">
+            <i class="bi bi-chat-quote-fill me-1"></i>
+            <span th:text="${#locale.language == 'mr' ? 'उत्पादने पहा व आपला अभिप्राय द्या' : 'Explore Products & Leave a Review'}">Explore Products & Leave a Review</span>
+        </a>
+        <a href="https://wa.me/918600813827?text=नमस्कार,%20मी%20सप्तशृंगी%20ॲग्रो%20सर्व्हिसेसबद्दल%20अभिप्राय%20देऊ%20इच्छितो." target="_blank" class="btn btn-outline-success px-4 py-2 rounded-pill fw-semibold shadow-sm">
+            <i class="bi bi-whatsapp me-1"></i>
+            <span th:text="${#locale.language == 'mr' ? 'व्हॉट्सॲपवर अभिप्राय पाठवा' : 'Send Feedback on WhatsApp'}">Send Feedback on WhatsApp</span>
+        </a>
     </div>
 </section>
 

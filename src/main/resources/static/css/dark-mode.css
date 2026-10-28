@@ -113,3 +113,22 @@
   background-color: #27342b;
   color: #81c784;
 }
+
+
+/* ===================================================================
+   Reviews Section Dark Mode Styling
+=================================================================== */
+[data-theme="dark"] #reviews .card {
+    background-color: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+[data-theme="dark"] #reviews .p-3.mb-4.rounded-4 {
+    background: linear-gradient(135deg, rgba(6, 78, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+    border-color: #047857 !important;
+}
+[data-theme="dark"] #reviews .text-dark {
+    color: #f1f5f9 !important;
+}
+[data-theme="dark"] #reviews .text-secondary {
+    color: #cbd5e1 !important;
+}

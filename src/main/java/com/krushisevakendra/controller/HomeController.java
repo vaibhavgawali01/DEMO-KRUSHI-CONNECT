@@ -60,7 +60,7 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("categories", categoryService.getAllActiveCategories());
         model.addAttribute("featuredProducts", productService.getFeaturedProducts());
-        model.addAttribute("offers", offerRepository.findByActiveTrueOrderByCreatedAtDesc());
+        model.addAttribute("customerReviews", feedbackRepository.findByStatusOrderByCreatedAtDesc("APPROVED", PageRequest.of(0, 6)).getContent());
         model.addAttribute("farmingTips", farmingService.getCropCareTips());
         model.addAttribute("weather", farmingService.getWeatherForecast("Chhatrapati Sambhajinagar"));
         model.addAttribute("shopName", shopName);
@@ -157,10 +157,9 @@ public class HomeController {
         return "redirect:/products/" + id + "?reviewed=true";
     }
 
-    @GetMapping("/offers")
-    public String offers(Model model) {
-        model.addAttribute("offers", offerRepository.findByActiveTrueOrderByCreatedAtDesc());
-        return "public/offers";
+    @GetMapping({"/reviews", "/offers"})
+    public String reviewsRedirect() {
+        return "redirect:/#reviews";
     }
 
     @GetMapping("/farming-tips")

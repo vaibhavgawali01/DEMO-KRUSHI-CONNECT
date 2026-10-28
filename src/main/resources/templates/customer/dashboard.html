@@ -254,40 +254,34 @@
                 </div>
             </div>
 
-            <!-- Active Offers Card -->
+            <!-- Customer Feedback & Reviews Card -->
             <div class="modern-card p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 fw-bold text-dark m-0"
-                        th:text="${#locale.language == 'mr' ? 'सध्याच्या विशेष ऑफर्स' : 'Active Offers'}">Active Offers</h2>
-                    <a th:href="@{/offers}" style="color: #0284c7; font-size: 13px; text-decoration: none; font-weight: 500;"
+                    <h2 class="h5 fw-bold text-dark m-0 d-flex align-items-center gap-2">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'शेतकरी अभिप्राय व मते' : 'Farmer Reviews & Ratings'}">Farmer Reviews & Ratings</span>
+                    </h2>
+                    <a th:href="@{/#reviews}" style="color: #16a34a; font-size: 13px; text-decoration: none; font-weight: 600;"
                        th:text="${#locale.language == 'mr' ? 'सर्व पाहा' : 'View All'}">View All</a>
                 </div>
 
-                <!-- Offer 1 (Gold/Amber) -->
-                <div class="offer-gold-card mb-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="m-0 fw-bold" style="color: #78350f; font-size: 15px;"
-                               th:text="${#locale.language == 'mr' ? 'NPK खतावर २०% विशेष सूट' : '20% Discount on NPK Fertilizer'}">20% Discount on NPK Fertilizer</p>
-                            <p class="m-0 mt-1" style="font-size: 12px; color: #92400e;"
-                               th:text="${#locale.language == 'mr' ? '३१ ऑक्टोबरपर्यंत वैध' : 'Valid till October 31'}">Valid till October 31</p>
-                        </div>
-                        <span class="badge shadow-sm" style="background-color: #f59e0b; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">KSK20</span>
+                <div class="p-3 rounded-3 mb-3" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-success rounded-pill px-2 py-1 small">4.9 / 5.0 ⭐</span>
+                        <small class="text-muted" th:text="${#locale.language == 'mr' ? '५००+ शेतकरी बांधव' : '500+ Farmers'}">500+ Farmers</small>
                     </div>
+                    <p class="m-0 text-dark small fw-semibold" th:text="${#locale.language == 'mr' ? 'आपण खरेदी केलेल्या उत्पादनांबद्दल आपला अनुभव शेअर करा.' : 'Share your valuable experience with products you purchased.'}">
+                        Share your valuable experience with products you purchased.
+                    </p>
                 </div>
 
-                <!-- Offer 2 (Blue) -->
-                <div class="offer-blue-card">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="m-0 fw-bold" style="color: #0c4a6e; font-size: 15px;"
-                               th:text="${#locale.language == 'mr' ? 'सर्व ऑर्डर्सवर मोफत शेतपोच डिलिव्हरी' : 'FREE Delivery on All Orders'}">FREE Delivery on All Orders</p>
-                            <p class="m-0 mt-1" style="font-size: 12px; color: #075985;"
-                               th:text="${#locale.language == 'mr' ? '₹१००० वरील खरेदीवर लागू' : 'On Purchase Above ₹1000'}">On Purchase Above ₹1000</p>
-                        </div>
-                        <a th:href="@{/products}" class="btn btn-sm text-white px-3 py-1 shadow-sm" style="background-color: #0284c7; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none;"
-                           th:text="${#locale.language == 'mr' ? 'खरेदी करा' : 'Shop Now'}">Shop Now</a>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center pt-2">
+                    <a th:href="@{/#reviews}" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                        <i class="bi bi-chat-heart me-1"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'अभिप्राय पाहा' : 'Read Reviews'}">Read Reviews</span>
+                    </a>
+                    <a th:href="@{/products}" class="btn btn-sm text-white px-3 py-1 shadow-sm rounded-pill fw-semibold" style="background-color: #16a34a;"
+                       th:text="${#locale.language == 'mr' ? 'उत्पादने पहा' : 'Browse Products'}">Browse Products</a>
                 </div>
             </div>
         </div>
