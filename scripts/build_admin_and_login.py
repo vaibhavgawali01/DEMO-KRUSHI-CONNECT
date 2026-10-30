@@ -73,14 +73,7 @@ def render_admin_sidebar(active_tab="dashboard"):
             <i class="bi bi-wallet2 text-warning"></i>
             <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
         </a>
-        <a href="admin-udhari.html" class="admin-nav-link {'active' if active_tab == 'payments' else ''}">
-            <i class="bi bi-credit-card-fill text-info"></i>
-            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
-        </a>
-        <a href="offers.html" class="admin-nav-link {'active' if active_tab == 'offers' else ''}">
-            <i class="bi bi-percent text-danger"></i>
-            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
-        </a>
+
     </nav>
 
     <!-- Section: Analytics & Settings -->
@@ -502,55 +495,21 @@ def build_admin_dashboard():
                                 <span class="lang-mr">सर्व पाहा &rarr;</span><span class="lang-en">View All &rarr;</span>
                             </a>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light text-muted small">
-                                    <tr>
-                                        <th class="ps-4">Order ID</th>
-                                        <th>Customer Name</th>
-                                        <th class="text-end">Amount</th>
-                                        <th class="text-center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="ps-4">
-                                            <span class="fw-bold text-success">KSK-2026-00001</span>
-                                        </td>
-                                        <td>
-                                            <div class="fw-semibold text-dark">Ramesh Patil</div>
-                                        </td>
-                                        <td class="text-end fw-bold text-dark">₹4499.00</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1">Delivered</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4">
-                                            <span class="fw-bold text-success">KSK-2026-00002</span>
-                                        </td>
-                                        <td>
-                                            <div class="fw-semibold text-dark">Suresh Deshmukh</div>
-                                        </td>
-                                        <td class="text-end fw-bold text-dark">₹2850.00</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">Processing</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4">
-                                            <span class="fw-bold text-success">KSK-2026-00003</span>
-                                        </td>
-                                        <td>
-                                            <div class="fw-semibold text-dark">Dnyaneshwar Pawar</div>
-                                        </td>
-                                        <td class="text-end fw-bold text-dark">₹1350.00</td>
-                                        <td class="text-center">
-                                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1">Delivered</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <!-- Empty Orders State (User Request: admin pannel madhil resent order empty kr) -->
+                        <div class="card-body p-4 text-center py-5">
+                            <div class="mb-3">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 72px; height: 72px; background: #f0fdf4; border: 2px dashed #86efac;">
+                                    <i class="bi bi-inbox text-success fs-1"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">
+                                <span class="lang-mr">सध्या कोणतीही चालू ऑर्डर नाही</span>
+                                <span class="lang-en">No Recent Orders Available</span>
+                            </h6>
+                            <p class="text-muted small mb-0" style="max-width: 360px; margin: 0 auto; line-height: 1.5;">
+                                <span class="lang-mr">शेतकऱ्यांनी नवीन उत्पादनांची ऑर्डर दिल्यावर त्या ऑर्डर्स येथे आपोआप दिसतील.</span>
+                                <span class="lang-en">New customer orders will automatically appear in this table once placed.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1574,48 +1533,63 @@ def build_admin_customers():
         </div>
 
         <div class="col-lg-9 col-xl-10">
+            <!-- Header Bar -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div>
+                        <h4 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                            <i class="bi bi-people-fill text-success"></i>
+                            <span class="lang-mr">शेतकरी ग्राहक डिरेक्टरी व्यवस्थापन</span>
+                            <span class="lang-en">Farmer Customer Directory Management</span>
+                        </h4>
+                        <p class="text-muted small mb-0">
+                            <span class="lang-mr">शेतकऱ्यांची माहिती संपादित (Edit) करा, नवीन ग्राहक जोडा आणि खाते स्थिती व्यवस्थापित करा.</span>
+                            <span class="lang-en">Manage registered farmer records, edit customer details, and control account status.</span>
+                        </p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-success rounded-pill px-3 fw-bold d-flex align-items-center gap-2" onclick="openAddFarmerModal()" style="background:#15803d; border:none;">
+                            <i class="bi bi-person-plus-fill"></i>
+                            <span class="lang-mr">नवीन शेतकरी जोडा</span>
+                            <span class="lang-en">Add New Farmer</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Alert -->
+            <div id="farmerAlertBox" class="alert alert-success d-none py-2 mb-3">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span id="farmerAlertText">शेतकऱ्याची माहिती यशस्वीरित्या अपडेट करण्यात आली!</span>
+            </div>
+
+            <!-- Customers Table Card -->
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-people-fill text-success me-2"></i><span class="lang-mr">शेतकरी ग्राहक यादी</span><span class="lang-en">Registered Farmers (7)</span></h5>
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-person-badge text-success"></i>
+                        <span>Registered Farmers (<span id="farmerCountBadge">7</span>)</span>
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <input type="text" id="farmerSearchInput" class="form-control form-control-sm rounded-pill px-3" placeholder="Search farmer, mobile, village..." oninput="filterFarmersTable()">
+                    </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light text-muted small">
                                 <tr>
-                                    <th class="ps-4">Farmer Name</th>
-                                    <th>Mobile Number</th>
-                                    <th>Village</th>
-                                    <th>Primary Crop</th>
-                                    <th>Total Purchases</th>
-                                    <th>Status</th>
+                                    <th class="ps-4">FARMER NAME</th>
+                                    <th>MOBILE NUMBER</th>
+                                    <th>VILLAGE</th>
+                                    <th>PRIMARY CROP</th>
+                                    <th>TOTAL PURCHASES</th>
+                                    <th>STATUS</th>
+                                    <th class="text-end pe-4">ACTIONS</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-dark">Ramesh Patil</td>
-                                    <td>8600813827</td>
-                                    <td>Vaijapur</td>
-                                    <td>Cotton, Maize</td>
-                                    <td>₹14,500</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-dark">Suresh Deshmukh</td>
-                                    <td>9822001122</td>
-                                    <td>Shrirampur</td>
-                                    <td>Sugarcane</td>
-                                    <td>₹28,900</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-dark">Dnyaneshwar Pawar</td>
-                                    <td>9421003344</td>
-                                    <td>Gangapur</td>
-                                    <td>Soybean, Gram</td>
-                                    <td>₹8,200</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                </tr>
+                            <tbody id="farmerTableBody">
+                                <!-- Populated dynamically from localStorage -->
                             </tbody>
                         </table>
                     </div>
@@ -1624,14 +1598,265 @@ def build_admin_customers():
         </div>
     </div>
 </div>
+
+<!-- ================= EDIT / ADD FARMER MODAL ================= -->
+<div class="modal fade" id="farmerEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2" id="farmerModalTitle">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Edit Farmer Details / शेतकरी माहिती संपादित करा</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="farmerEditForm" onsubmit="return handleSaveFarmer(event)">
+                    <input type="hidden" id="editFarmerId">
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Farmer Name / शेतकऱ्याचे नाव *</label>
+                        <input type="text" id="editFarmerName" class="form-control" required placeholder="e.g. Ramesh Patil">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Mobile Number / मोबाईल नंबर *</label>
+                        <input type="tel" id="editFarmerMobile" class="form-control" required placeholder="e.g. 8600813827">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Village / Location / गाव *</label>
+                        <input type="text" id="editFarmerVillage" class="form-control" required placeholder="e.g. Vaijapur">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Primary Crop / मुख्य पिके *</label>
+                        <input type="text" id="editFarmerCrop" class="form-control" required placeholder="e.g. Cotton, Maize, Wheat">
+                    </div>
+
+                    <div class="row g-2 mb-4">
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-bold text-success">Total Purchases (₹)</label>
+                            <input type="text" id="editFarmerPurchases" class="form-control" placeholder="e.g. ₹14,500">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-bold text-success">Account Status</label>
+                            <select id="editFarmerStatus" class="form-select">
+                                <option value="Active" selected>Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-light rounded-3 px-4 w-50" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success rounded-3 px-4 fw-bold w-50" style="background:#15803d; border:none;">
+                            <i class="bi bi-save me-1"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const DEFAULT_FARMERS = [
+    {{ id: 1, name: "Ramesh Patil", mobile: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active" }},
+    {{ id: 2, name: "Suresh Deshmukh", mobile: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active" }},
+    {{ id: 3, name: "Dnyaneshwar Pawar", mobile: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active" }},
+    {{ id: 4, name: "VSGAWALI", mobile: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active" }},
+    {{ id: 5, name: "Balasaheb Thorat", mobile: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active" }},
+    {{ id: 6, name: "Sanjay Kadam", mobile: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active" }},
+    {{ id: 7, name: "Eknath Shinde", mobile: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active" }}
+];
+
+function getStoredFarmers() {{
+    const raw = localStorage.getItem('ksk_registered_farmers');
+    if (!raw) {{
+        localStorage.setItem('ksk_registered_farmers', JSON.stringify(DEFAULT_FARMERS));
+        return DEFAULT_FARMERS;
+    }}
+    try {{
+        return JSON.parse(raw);
+    }} catch(e) {{
+        return DEFAULT_FARMERS;
+    }}
+}}
+
+function renderFarmersTable() {{
+    const farmers = getStoredFarmers();
+    const tbody = document.getElementById('farmerTableBody');
+    const badge = document.getElementById('farmerCountBadge');
+    if (badge) badge.textContent = farmers.length;
+
+    if (!tbody) return;
+
+    if (farmers.length === 0) {{
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5 text-muted">
+                    <i class="bi bi-people fs-1 d-block mb-2 text-secondary opacity-50"></i>
+                    <p class="mb-0 fw-bold">कोणतेही शेतकरी रेकॉर्ड उपलब्ध नाहीत / No farmers registered</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }}
+
+    tbody.innerHTML = farmers.map(f => {{
+        const statusBadge = f.status === 'Active'
+            ? '<span class="badge bg-success">Active</span>'
+            : '<span class="badge bg-secondary">Inactive</span>';
+
+        return `
+            <tr id="farmerRow_${{f.id}}">
+                <td class="ps-4 fw-bold text-dark">
+                    <i class="bi bi-person-circle text-success me-2"></i>${{f.name}}
+                </td>
+                <td><a href="tel:${{f.mobile}}" class="text-decoration-none text-dark">${{f.mobile}}</a></td>
+                <td>${{f.village}}</td>
+                <td><span class="badge bg-light text-dark border">${{f.crop}}</span></td>
+                <td class="fw-bold text-success">${{f.purchases || '₹0'}}</td>
+                <td>${{statusBadge}}</td>
+                <td class="text-end pe-4">
+                    <button type="button" class="btn btn-sm btn-outline-success py-1 px-2" onclick="editFarmer(${{f.id}})" title="Edit Farmer Details">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteFarmer(${{f.id}}, '${{f.name.replace(/'/g, "\\\'")}}')" title="Delete Farmer">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+    }}).join('');
+}}
+
+function openAddFarmerModal() {{
+    document.getElementById('farmerEditForm').reset();
+    document.getElementById('editFarmerId').value = '';
+    document.getElementById('farmerModalTitle').innerHTML = '<i class="bi bi-person-plus-fill me-2"></i>Add New Farmer / नवीन शेतकरी जोडा';
+    const modalEl = document.getElementById('farmerEditModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {{
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+    }}
+}}
+
+function editFarmer(id) {{
+    const farmers = getStoredFarmers();
+    const f = farmers.find(item => item.id === id);
+    if (!f) return;
+
+    document.getElementById('editFarmerId').value = f.id;
+    document.getElementById('editFarmerName').value = f.name;
+    document.getElementById('editFarmerMobile').value = f.mobile;
+    document.getElementById('editFarmerVillage').value = f.village;
+    document.getElementById('editFarmerCrop').value = f.crop;
+    document.getElementById('editFarmerPurchases').value = f.purchases;
+    document.getElementById('editFarmerStatus').value = f.status || 'Active';
+
+    document.getElementById('farmerModalTitle').innerHTML = '<i class="bi bi-pencil-square me-2"></i>Edit Farmer / ' + f.name;
+
+    const modalEl = document.getElementById('farmerEditModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {{
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+    }}
+}}
+
+function handleSaveFarmer(e) {{
+    if (e && e.preventDefault) e.preventDefault();
+
+    const id = document.getElementById('editFarmerId').value;
+    const name = document.getElementById('editFarmerName').value.trim();
+    const mobile = document.getElementById('editFarmerMobile').value.trim();
+    const village = document.getElementById('editFarmerVillage').value.trim();
+    const crop = document.getElementById('editFarmerCrop').value.trim();
+    let purchases = document.getElementById('editFarmerPurchases').value.trim();
+    if (purchases && !purchases.startsWith('₹')) purchases = '₹' + purchases;
+    const status = document.getElementById('editFarmerStatus').value;
+
+    let farmers = getStoredFarmers();
+
+    if (id) {{
+        // Update existing farmer
+        const index = farmers.findIndex(item => item.id == id);
+        if (index !== -1) {{
+            farmers[index] = {{ ...farmers[index], name, mobile, village, crop, purchases: purchases || '₹0', status }};
+        }}
+    }} else {{
+        // Add new farmer
+        const newFarmer = {{
+            id: Date.now(),
+            name,
+            mobile,
+            village,
+            crop,
+            purchases: purchases || '₹0',
+            status
+        }};
+        farmers.unshift(newFarmer);
+    }}
+
+    localStorage.setItem('ksk_registered_farmers', JSON.stringify(farmers));
+
+    const modalEl = document.getElementById('farmerEditModal');
+    if (modalEl) {{
+        const inst = bootstrap.Modal.getInstance(modalEl);
+        if (inst) inst.hide();
+    }}
+
+    const alertBox = document.getElementById('farmerAlertBox');
+    const alertText = document.getElementById('farmerAlertText');
+    if (alertBox && alertText) {{
+        alertText.textContent = name + ' यांची माहिती यशस्वीरित्या सेव्ह करण्यात आली!';
+        alertBox.classList.remove('d-none');
+        setTimeout(() => {{ alertBox.classList.add('d-none'); }}, 3500);
+    }}
+
+    renderFarmersTable();
+    return false;
+}}
+
+function deleteFarmer(id, name) {{
+    if (!confirm('आपण ' + name + ' यांचे रेकॉर्ड नक्की हटवू इच्छिता का?\n(Are you sure you want to delete this farmer?)')) {{
+        return;
+    }}
+
+    let farmers = getStoredFarmers();
+    farmers = farmers.filter(item => item.id !== id);
+    localStorage.setItem('ksk_registered_farmers', JSON.stringify(farmers));
+
+    const alertBox = document.getElementById('farmerAlertBox');
+    const alertText = document.getElementById('farmerAlertText');
+    if (alertBox && alertText) {{
+        alertText.textContent = name + ' यांचे रेकॉर्ड हटवण्यात आले आहे.';
+        alertBox.classList.remove('d-none');
+        setTimeout(() => {{ alertBox.classList.add('d-none'); }}, 3500);
+    }}
+
+    renderFarmersTable();
+}}
+
+function filterFarmersTable() {{
+    const query = (document.getElementById('farmerSearchInput').value || '').toLowerCase().trim();
+    const rows = document.querySelectorAll('#farmerTableBody tr');
+    rows.forEach(tr => {{
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(query) ? '' : 'none';
+    }});
+}}
+
+document.addEventListener('DOMContentLoaded', function(){{
+    renderFarmersTable();
+}});
+</script>
 """ + foot_html()
     save_admin_page("admin-customers.html", content)
-    print("Generated dist/admin-customers.html")
+    print("Generated dist/admin-customers.html with Farmer Edit and Management!")
 
 
-# ==============================================================================
-# 9. ADMIN REVIEWS MANAGEMENT (Manage & Delete Farmer Reviews)
-# ==============================================================================
 def build_admin_reviews():
     sidebar = render_admin_sidebar("reviews")
     content = head_html("शेतकरी रिव्ह्यू व्यवस्थापन", "Manage Farmer Reviews") + nav_html("dashboard") + f"""
