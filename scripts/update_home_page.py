@@ -728,206 +728,110 @@ def build_home_page():
     </div>
 </section>
 
-<!-- ===== 💬 REVIEWS SECTION (शेतकरी अभिप्राय व मते) ===== -->
-<section id="reviews" class="container my-5 py-3">
-    <!-- Header matching user request: reviews -->
-    <div class="text-center mb-4">
-        <span class="badge px-3 py-1 rounded-pill fw-semibold mb-2 d-inline-block text-success"
-              style="background: rgba(22, 163, 74, 0.12); border: 1px solid rgba(22, 163, 74, 0.25); font-size: 0.8rem;">
-            ⭐ <span class="lang-mr">शेतकरी बांधवांचे अनुभव</span><span class="lang-en">Farmer Testimonials</span>
+<!-- ===== 💬 COMPACT REVIEWS SECTION (शेतकरी अभिप्राय व मते) ===== -->
+<section id="reviews" class="container my-4 py-2">
+    <!-- Compact Header -->
+    <div class="text-center mb-3">
+        <span class="badge px-3 py-1 rounded-pill fw-semibold mb-1 text-success bg-success-subtle border border-success-subtle" style="font-size: 0.8rem;">
+            ⭐ <span class="lang-mr">शेतकरी अभिप्राय व रेटिंग</span><span class="lang-en">Farmer Reviews &amp; Ratings</span>
         </span>
-        <h2 class="fw-bolder text-dark mb-1" style="font-size: 2.2rem; letter-spacing: -0.5px;">
-            reviews
-        </h2>
-        <h3 class="h5 fw-semibold text-success mb-2">
-            <span class="lang-mr">आमच्या ग्राहकांची मते व अभिप्राय</span><span class="lang-en">Customer Reviews &amp; Feedback</span>
+        <h3 class="fw-bold text-dark mb-1" style="font-size: 1.45rem;">
+            <span class="lang-mr">शेतकरी बांधवांचे अनुभव</span><span class="lang-en">What Farmers Say</span>
         </h3>
-        <p class="text-muted small mx-auto mb-0" style="max-width: 620px;">
-            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेसवरील शेतकरी बांधवांचा अतूट विश्वास आणि उत्पादनांविषयीचे अनुभव.</span>
-            <span class="lang-en">Real feedback and genuine ratings from farmers who rely on Saptashrungi Agro Services for certified agricultural supplies.</span>
-        </p>
     </div>
 
     <!-- Rating Summary Pill Strip -->
-    <div class="p-3 mb-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #fefce8 100%); border: 1px solid #bbf7d0;">
-        <div class="row align-items-center text-center g-3">
-            <div class="col-6 col-md-3 border-end">
-                <div class="d-flex align-items-center justify-content-center gap-1 text-warning fs-5">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <div class="fw-bold text-dark fs-5 mt-1">4.9 / 5.0</div>
-                <small class="text-muted"><span class="lang-mr">सरासरी रेटिंग</span><span class="lang-en">Average Rating</span></small>
-            </div>
-            <div class="col-6 col-md-3 border-end">
-                <div class="fw-bold text-success fs-4">५००+</div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">समाधानी शेतकरी</span><span class="lang-en">Happy Farmers</span></div>
-                <small class="text-muted"><span class="lang-mr">वैजापूर व पंचक्रोशी</span><span class="lang-en">Across Region</span></small>
-            </div>
-            <div class="col-6 col-md-3 border-end">
-                <div class="text-success fs-4"><i class="bi bi-patch-check-fill"></i></div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">१००% अस्सल बियाणे व खते</span><span class="lang-en">100% Genuine Supplies</span></div>
-                <small class="text-muted"><span class="lang-mr">अधिकृत कंपनी डीलर</span><span class="lang-en">Certified Quality</span></small>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="text-primary fs-4"><i class="bi bi-truck"></i></div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">वेळेवर शेतपोच सेवा</span><span class="lang-en">Timely Farm Delivery</span></div>
-                <small class="text-muted"><span class="lang-mr">उधारी खाते सुविधा</span><span class="lang-en">Credit Ledger Support</span></small>
-            </div>
+    <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap bg-white rounded-pill shadow-sm border py-2 px-4 mx-auto mb-3" style="max-width: 620px;">
+        <div class="d-flex align-items-center gap-1 text-warning fw-bold">
+            <span class="text-dark">4.9</span>
+            <i class="bi bi-star-fill text-warning"></i>
         </div>
+        <span class="text-muted small">•</span>
+        <span class="text-dark small fw-semibold"><span class="lang-mr">५००+ समाधानी शेतकरी</span><span class="lang-en">500+ Happy Farmers</span></span>
+        <span class="text-muted small">•</span>
+        <span class="text-success small fw-semibold"><i class="bi bi-patch-check-fill me-1"></i><span class="lang-mr">१००% अस्सल उत्पादने</span><span class="lang-en">100% Genuine Supplies</span></span>
     </div>
 
-    <!-- Reviews Grid (4 Testimonials) -->
-    <div class="row g-4">
+    <!-- Compact Reviews Row (3 Clean Cards) -->
+    <div class="row g-3 justify-content-center">
         <!-- Review 1 -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important;">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 bg-white border border-light-subtle">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
-                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #16a34a, #059669); font-size: 1rem;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 34px; height: 34px; background: #16a34a; font-size: 0.82rem;">
                             RP
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">रमेश पाटील</span><span class="lang-en">Ramesh Patil</span></h6>
-                            <small class="text-muted" style="font-size: 0.75rem;"><span class="lang-mr">वैजापूर (कापूस व मका)</span><span class="lang-en">Vaijapur (Cotton Farmer)</span></small>
+                            <strong class="d-block text-dark small" style="line-height: 1.2;"><span class="lang-mr">रमेश पाटील</span><span class="lang-en">Ramesh Patil</span></strong>
+                            <small class="text-muted" style="font-size: 0.72rem;"><span class="lang-mr">वैजापूर (कापूस)</span><span class="lang-en">Vaijapur (Cotton)</span></small>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between my-2">
-                    <div class="text-warning small">
+                    <div class="text-warning" style="font-size: 0.75rem;">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                     </div>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
-                        <i class="bi bi-patch-check-fill me-1"></i><span class="lang-mr">पडताळणी</span><span class="lang-en">Verified</span>
-                    </span>
                 </div>
-                <p class="small text-secondary flex-grow-1 mb-3 fst-italic">
-                    <span class="lang-mr">« सप्तशृंगी ॲग्रो मधून घेतलेले कापूस बियाणे अतिशय दर्जेदार निघाले. १००% उगवण झाली आणि उत्पादन अपेक्षेपेक्षा जास्त मिळाले. वेळेवर शेतपोच माल मिळाला! »</span>
-                    <span class="lang-en">« The cotton seeds purchased from Saptashrungi Agro had exceptional 100% germination. Farm delivery was punctual and dependable! »</span>
+                <p class="text-secondary small mb-0 fst-italic" style="font-size: 0.84rem; line-height: 1.45;">
+                    <span class="lang-mr">« कापूस बियाणे १००% उगवण आणि उत्तम दर्जा. वेळेवर शेतपोच सेवा मिळाली! »</span>
+                    <span class="lang-en">« Certified cotton seeds with 100% germination. Punctual farm delivery! »</span>
                 </p>
-                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
-                    <span><i class="bi bi-calendar3 me-1"></i>12 Oct 2026</span>
-                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
-                </div>
             </div>
         </div>
 
         <!-- Review 2 -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important;">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 bg-white border border-light-subtle">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
-                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #0284c7, #0369a1); font-size: 1rem;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 34px; height: 34px; background: #0284c7; font-size: 0.82rem;">
                             SD
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">सुरेश देशमुख</span><span class="lang-en">Suresh Deshmukh</span></h6>
-                            <small class="text-muted" style="font-size: 0.75rem;"><span class="lang-mr">श्रीरामपूर (ऊस उत्पादक)</span><span class="lang-en">Shrirampur (Sugarcane)</span></small>
+                            <strong class="d-block text-dark small" style="line-height: 1.2;"><span class="lang-mr">सुरेश देशमुख</span><span class="lang-en">Suresh Deshmukh</span></strong>
+                            <small class="text-muted" style="font-size: 0.72rem;"><span class="lang-mr">श्रीरामपूर (ऊस)</span><span class="lang-en">Shrirampur (Cane)</span></small>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between my-2">
-                    <div class="text-warning small">
+                    <div class="text-warning" style="font-size: 0.75rem;">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                     </div>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
-                        <i class="bi bi-patch-check-fill me-1"></i><span class="lang-mr">पडताळणी</span><span class="lang-en">Verified</span>
-                    </span>
                 </div>
-                <p class="small text-secondary flex-grow-1 mb-3 fst-italic">
-                    <span class="lang-mr">« इफको १०:२६:२६ आणि विद्राव्य खतांचे अचूक मार्गदर्शन मिळाले. पिकांची वाढ जोमदार झाली. रास्त भाव आणि अस्सल पक्की पावती मिळते. उधारी खाते खूप सोयीचे आहे. »</span>
-                    <span class="lang-en">« Got genuine IFFCO fertilizers with expert usage tips. Outstanding crop growth and completely fair pricing with GST invoice. Credit facility is very convenient. »</span>
+                <p class="text-secondary small mb-0 fst-italic" style="font-size: 0.84rem; line-height: 1.45;">
+                    <span class="lang-mr">« अस्सल खते आणि अचूक मार्गदर्शन. रास्त दर आणि उधारी सुविधा खूप सोयीची आहे. »</span>
+                    <span class="lang-en">« Genuine fertilizers, expert advice, fair prices and helpful credit facility. »</span>
                 </p>
-                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
-                    <span><i class="bi bi-calendar3 me-1"></i>08 Oct 2026</span>
-                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
-                </div>
             </div>
         </div>
 
         <!-- Review 3 -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important;">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 bg-white border border-light-subtle">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
-                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #d97706, #b45309); font-size: 1rem;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 34px; height: 34px; background: #d97706; font-size: 0.82rem;">
                             DP
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">ज्ञानेश्वर पवार</span><span class="lang-en">Dnyaneshwar Pawar</span></h6>
-                            <small class="text-muted" style="font-size: 0.75rem;"><span class="lang-mr">गंगापूर (सोयाबीन व हरभरा)</span><span class="lang-en">Gangapur (Soybean Farmer)</span></small>
+                            <strong class="d-block text-dark small" style="line-height: 1.2;"><span class="lang-mr">ज्ञानेश्वर पवार</span><span class="lang-en">Dnyaneshwar Pawar</span></strong>
+                            <small class="text-muted" style="font-size: 0.72rem;"><span class="lang-mr">गंगापूर (सोयाबीन)</span><span class="lang-en">Gangapur (Soybean)</span></small>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between my-2">
-                    <div class="text-warning small">
+                    <div class="text-warning" style="font-size: 0.75rem;">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                     </div>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
-                        <i class="bi bi-patch-check-fill me-1"></i><span class="lang-mr">पडताळणी</span><span class="lang-en">Verified</span>
-                    </span>
                 </div>
-                <p class="small text-secondary flex-grow-1 mb-3 fst-italic">
-                    <span class="lang-mr">« कीड व्यवस्थापनासाठी सुचवलेले कोराजन कीटकनाशक अतिशय गुणकारी ठरले. पिकावरील अळी दोनच दिवसांत नियंत्रणात आली. प्रामाणिक सल्ला देणारे हक्काचे कृषी सेवा केंद्र! »</span>
-                    <span class="lang-en">« Pest control pesticide recommended by the store controlled the caterpillar infestation within two days. Honest advisory and genuine products! »</span>
+                <p class="text-secondary small mb-0 fst-italic" style="font-size: 0.84rem; line-height: 1.45;">
+                    <span class="lang-mr">« कीटकनाशकांमुळे अळीचे २ दिवसांत नियंत्रण. प्रामाणिक सल्ला देणारे हक्काचे कृषी केंद्र! »</span>
+                    <span class="lang-en">« Effective crop protection and honest agronomic guidance. Highly recommended! »</span>
                 </p>
-                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
-                    <span><i class="bi bi-calendar3 me-1"></i>02 Oct 2026</span>
-                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Review 4 -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.06) !important;">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
-                             style="width: 44px; height: 44px; background: linear-gradient(135deg, #7c3aed, #6d28d9); font-size: 1rem;">
-                            BS
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">बाळू शिंदे</span><span class="lang-en">Balu Shinde</span></h6>
-                            <small class="text-muted" style="font-size: 0.75rem;"><span class="lang-mr">मिरखनगर, वैजापूर (फळबाग)</span><span class="lang-en">Mirakhnagar, Vaijapur</span></small>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between my-2">
-                    <div class="text-warning small">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill" style="font-size: 0.7rem;">
-                        <i class="bi bi-patch-check-fill me-1"></i><span class="lang-mr">पडताळणी</span><span class="lang-en">Verified</span>
-                    </span>
-                </div>
-                <p class="small text-secondary flex-grow-1 mb-3 fst-italic">
-                    <span class="lang-mr">« ठिबक सिंचन साहित्य आणि सूक्ष्म अन्नद्रव्ये उत्तम क्वालिटीची आहेत. दुकानात नेहमी आदरपूर्वक स्वागत आणि शेतकऱ्यांसाठी योग्य मार्गदर्शन मिळते. मनापासून धन्यवाद! »</span>
-                    <span class="lang-en">« Top quality drip irrigation fittings and micronutrients. The team is courteous and genuinely helps farmers. Sincere thanks! »</span>
-                </p>
-                <div class="border-top pt-2 d-flex justify-content-between align-items-center text-muted" style="font-size: 0.72rem;">
-                    <span><i class="bi bi-calendar3 me-1"></i>28 Sep 2026</span>
-                    <span class="text-success"><i class="bi bi-hand-thumbs-up-fill me-1"></i>उपयुक्त (Helpful)</span>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Actions Below Reviews -->
-    <div class="text-center mt-4 pt-2">
-        <a href="products.html" class="btn btn-krushi px-4 py-2 rounded-pill fw-semibold shadow-sm me-2 text-decoration-none">
-            <i class="bi bi-chat-quote-fill me-1"></i>
-            <span class="lang-mr">उत्पादने पहा व आपला अभिप्राय द्या</span><span class="lang-en">Explore Products &amp; Leave a Review</span>
-        </a>
-        <a href="https://wa.me/918600813827?text=नमस्कार,%20मी%20सप्तशृंगी%20ॲग्रो%20सर्व्हिसेसबद्दल%20अभिप्राय%20देऊ%20इच्छितो." target="_blank" class="btn btn-outline-success px-4 py-2 rounded-pill fw-semibold shadow-sm text-decoration-none">
-            <i class="bi bi-whatsapp me-1"></i>
-            <span class="lang-mr">व्हॉट्सॲपवर अभिप्राय पाठवा</span><span class="lang-en">Send Feedback on WhatsApp</span>
+    <!-- Compact Action -->
+    <div class="text-center mt-3">
+        <a href="https://wa.me/918600813827?text=नमस्कार,%20मी%20सप्तशृंगी%20ॲग्रो%20सर्व्हिसेसबद्दल%20अभिप्राय%20देऊ%20इच्छितो." target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-semibold text-decoration-none">
+            <i class="bi bi-chat-heart me-1"></i>
+            <span class="lang-mr">अभिप्राय द्या</span><span class="lang-en">Share Feedback</span>
         </a>
     </div>
 </section>
