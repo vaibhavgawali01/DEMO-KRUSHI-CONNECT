@@ -40,3 +40,43 @@
   from = "/login"
   to = "/login.html"
   status = 200
+
+[[redirects]]
+  from = "/register"
+  to = "/register.html"
+  status = 200
+
+[[redirects]]
+  from = "/forgot-password"
+  to = "/forgot-password.html"
+  status = 200
+
+[[redirects]]
+  from = "/offers"
+  to = "/offers.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/dashboard"
+  to = "/admin-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-dashboard"
+  to = "/admin-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer/dashboard"
+  to = "/farmer-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer-dashboard"
+  to = "/farmer-dashboard.html"
+  status = 200

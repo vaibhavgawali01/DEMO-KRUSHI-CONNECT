@@ -185,7 +185,7 @@
             </small>
         </div>
         <div class="card-body p-4">
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <form id="loginForm" method="GET" action="admin-dashboard.html" onsubmit="return handleLogin(event)">
                 <div class="mb-3">
                     <label class="form-label small fw-bold text-success text-uppercase">
                         <span class="lang-mr">वापरकर्ता नाव / ईमेल / मोबाईल नंबर *</span>
@@ -230,15 +230,28 @@
                     </a>
                 </div>
 
-                <button type="submit" id="btnSubmitLogin" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm mb-3">
-                    <i class="bi bi-box-arrow-in-right me-1"></i>
-                    <span class="lang-mr">लॉगिन करा</span>
-                    <span class="lang-en">Sign In</span>
-                </button>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" id="btnSubmitLogin" class="btn btn-krushi fw-bold py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+                        <span class="lang-mr">लॉगिन करा</span>
+                        <span class="lang-en">Sign In</span>
+                    </button>
+                    <a href="admin-dashboard.html" onclick="localStorage.setItem('user_role','admin');localStorage.setItem('user_name','Admin');" class="btn btn-outline-success fw-bold py-2 rounded-pill shadow-sm small text-center">
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+                        <span class="lang-mr">थेट ॲडमिन पॅनल उघडा (Quick Admin Panel)</span>
+                        <span class="lang-en">Open Admin Panel (Direct)</span>
+                    </a>
+                </div>
 
                 <div id="loginSuccessBox" class="alert alert-success small d-none text-center py-2">
                     <i class="bi bi-check-circle-fill me-1"></i>
-                    <span id="loginSuccessText">लॉगिन यशस्वी! डॅशबोर्ड उघडत आहे...</span>
+                    <span id="loginSuccessText">लॉगिन यशस्वी! ॲडमिन डॅशबोर्ड उघडत आहे...</span>
+                    <div class="mt-2">
+                        <a id="directDashboardBtn" href="admin-dashboard.html" class="btn btn-sm btn-success text-white px-3 py-1 fw-bold rounded-pill">
+                            <span class="lang-mr">येथे क्लिक करा (ॲडमिन पॅनल) &rarr;</span>
+                            <span class="lang-en">Click here (Admin Panel) &rarr;</span>
+                        </a>
+                    </div>
                 </div>
             </form>
 
@@ -271,30 +284,53 @@ function togglePass(inputId, iconId) {
 }
 
 function handleLogin(e) {
-    e.preventDefault();
-    const u = document.getElementById('username').value.trim().toLowerCase();
+    if (e && e.preventDefault) e.preventDefault();
+    const uInput = document.getElementById('username');
+    const u = (uInput ? uInput.value : '').trim().toLowerCase();
     const alertBox = document.getElementById('loginSuccessBox');
     const textSpan = document.getElementById('loginSuccessText');
     const btn = document.getElementById('btnSubmitLogin');
+    const directBtn = document.getElementById('directDashboardBtn');
 
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Signing in...';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Signing in...';
+    }
 
-    const isAdmin = (u.includes('admin') || u === 'admin@krushiseva.com');
+    const isAdmin = (u.includes('admin') || u === 'admin@krushiseva.com' || u === 'staff' || u === 'owner' || u === '');
+    const target = isAdmin ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+
     if (isAdmin) {
         localStorage.setItem('user_role', 'admin');
         localStorage.setItem('user_name', 'Admin');
-        textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! ॲडमिन डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Admin Dashboard...</span>';
+        if (textSpan) {
+            textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! ॲडमिन डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Admin Dashboard...</span>';
+        }
+        if (directBtn) {
+            directBtn.href = 'admin-dashboard.html';
+            directBtn.innerHTML = '<span class="lang-mr">ॲडमिन डॅशबोर्ड वर जा &rarr;</span><span class="lang-en">Go to Admin Dashboard &rarr;</span>';
+        }
     } else {
         localStorage.setItem('user_role', 'farmer');
-        localStorage.setItem('user_name', document.getElementById('username').value || 'रमेश पाटील');
-        textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! शेतकरी डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Farmer Dashboard...</span>';
+        localStorage.setItem('user_name', (uInput ? uInput.value : '') || 'रमेश पाटील');
+        if (textSpan) {
+            textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! शेतकरी डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Farmer Dashboard...</span>';
+        }
+        if (directBtn) {
+            directBtn.href = 'farmer-dashboard.html';
+            directBtn.innerHTML = '<span class="lang-mr">शेतकरी डॅशबोर्ड वर जा &rarr;</span><span class="lang-en">Go to Farmer Dashboard &rarr;</span>';
+        }
     }
 
-    alertBox.classList.remove('d-none');
+    if (alertBox) {
+        alertBox.classList.remove('d-none');
+    }
+
     setTimeout(() => {
-        window.location.href = isAdmin ? 'admin-dashboard.html' : 'farmer-dashboard.html';
-    }, 600);
+        window.location.replace(target);
+    }, 250);
+
+    return false;
 }
 </script>
 
