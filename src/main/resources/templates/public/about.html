@@ -4,267 +4,92 @@
 <body>
 <div th:replace="~{layout/navbar :: navbar}"></div>
 
-<!-- ===== ABOUT HERO ===== -->
-<section style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 50%, #0d3b0d 100%); min-height: 320px; display:flex; align-items:center; position:relative; overflow:hidden;">
-    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:url('/images/hero_farm_bg.png') center/cover no-repeat; opacity:0.18;"></div>
-    <div class="container text-center py-5" style="position:relative;z-index:2;">
-        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;"
-              th:text="${#locale.language == 'mr' ? '🌾 आमच्याबद्दल' : '🌾 About Us'}">🌾 About Us</span>
-        <h1 class="display-5 fw-bold text-white mb-3" th:text="#{app.name}">Saptashrungi Agro Services</h1>
-        <p class="lead mb-0" style="color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto;"
-           th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर येथील कृषी सेवा केंद्र' : 'Agricultural store in Mirakhnagar, Vaijapur'}">
+<!-- 1. Hero Section (Matching Image 1) -->
+<section class="position-relative py-5 text-center text-white overflow-hidden" style="background: linear-gradient(135deg, rgba(20, 83, 45, 0.92), rgba(21, 128, 61, 0.88)), url('/images/farm_hero_bg.jpg') center/cover no-repeat;">
+    <div class="container py-4 position-relative" style="z-index: 2;">
+        <span class="badge px-3 py-2 rounded-pill fw-semibold text-white shadow-sm mb-3 d-inline-flex align-items-center gap-1" style="background: linear-gradient(135deg, #f59e0b, #d97706); font-size: 0.85rem;">
+            <span>🌾</span> <span th:text="${#locale.language == 'mr' ? 'आमच्याबद्दल' : 'About Us'}">About Us</span>
+        </span>
+        <h1 class="fw-bold text-white mb-2" style="font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: -0.5px;" th:text="#{app.name}">
+            Saptashrungi Agro Services
+        </h1>
+        <p class="text-white-50 fs-6 mb-0" th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर येथील कृषी सेवा केंद्र' : 'Agricultural store in Mirakhnagar, Vaijapur'}">
             Agricultural store in Mirakhnagar, Vaijapur
         </p>
     </div>
 </section>
 
-<!-- ===== OUR STORY ===== -->
-<section class="container my-5">
-    <div class="row align-items-center g-5">
-        <div class="col-lg-6">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
-                  th:text="${#locale.language == 'mr' ? '🌱 आमची कहाणी' : '🌱 Our Story'}">
-                🌱 Our Story
-            </span>
-            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;" th:if="${#locale.language == 'mr'}">
-                मिरखनगर, वैजापूर येथील<br>
-                <span style="color:#1b5e20;">कृषी सेवा केंद्र</span>
-            </h2>
-            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;" th:if="${#locale.language != 'mr'}">
-                Agricultural Store in<br>
-                <span style="color:#1b5e20;">Mirakhnagar, Vaijapur</span>
-            </h2>
-
-            <div th:if="${#locale.language == 'mr'}">
-                <p class="text-muted mb-3" style="line-height:1.8;">
-                    <strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे मिरखनगर, वैजापूर येथील कृषी सेवा केंद्र आहे.
-                    येथे बियाणे, खते, कीटकनाशके आणि शेतीसाठी लागणारे साहित्य उपलब्ध आहे.
-                </p>
-                <p class="text-muted mb-4" style="line-height:1.8;">
-                    उपलब्ध उत्पादनांची कंपनी, वापर आणि बॅचविषयक माहिती त्यांच्या पॅकेजिंगवर तपासा.
-                    उत्पादनांच्या उपलब्धतेसाठी दुकानाशी संपर्क साधा.
-                </p>
-            </div>
-            <div th:if="${#locale.language != 'mr'}">
-                <p class="text-muted mb-3" style="line-height:1.8;">
-                    <strong>Saptashrungi Agro Services</strong> is an agricultural store in Mirakhnagar, Vaijapur.
-                    The store offers seeds, fertilizers, crop protection products, and farming supplies.
-                </p>
-                <p class="text-muted mb-4" style="line-height:1.8;">
-                    Check product packaging for manufacturer, usage, and batch information.
-                    Contact the store to confirm product availability.
-                </p>
-            </div>
-
-            <!-- Key Points -->
-            <div class="d-flex flex-column gap-3">
-                <div class="d-flex align-items-start gap-3">
-                    <div style="width:42px;height:42px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-patch-check-fill text-success fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'उत्पादनांची माहिती' : 'Product information'}">Product information</h6>
-                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'कंपनी, वापर आणि बॅचची माहिती उत्पादनाच्या पॅकेजिंगवर पाहा.' : 'Refer to product packaging for manufacturer, usage, and batch information.'}">Refer to product packaging for manufacturer, usage, and batch information.</p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                    <div style="width:42px;height:42px;border-radius:10px;background:#fff3e0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-people-fill fs-5" style="color:#f97316;"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'तज्ज्ञ कृषी मार्गदर्शन' : 'Expert Agronomist Guidance'}">Expert Agronomist Guidance</h6>
-                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'पीक माहिती, हवामान आणि खत कॅल्क्युलेटर वेबसाइटवर उपलब्ध आहेत.' : 'Crop information, weather, and a fertilizer calculator are available on this site.'}">Crop information, weather, and a fertilizer calculator are available on this site.</p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                    <div style="width:42px;height:42px;border-radius:10px;background:#e3f2fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-credit-card-2-front-fill fs-5" style="color:#0288d1;"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'सुलभ उधारी सुविधा' : 'Hassle-Free Credit (Udhari)'}">Hassle-Free Credit (Udhari)</h6>
-                        <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत ग्राहकांना वेबसाइटवर उधारीची नोंद पाहता येते.' : 'Registered customers can view their credit ledger on the website.'}">Registered customers can view their credit ledger on the website.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="position-relative">
-                <img th:src="@{/images/saptashrungi_shop.jpg}"
-                     onerror="this.src='/images/hero_farm_bg.png'"
-                     alt="Saptashrungi Agro Services Shop"
-                     class="img-fluid rounded-4 shadow-lg w-100"
-                     style="object-fit:cover; max-height:420px;">
-                <!-- Floating Badge -->
-                <div style="position:absolute;bottom:20px;left:20px;background:white;border-radius:14px;padding:14px 20px;box-shadow:0 8px 30px rgba(0,0,0,0.15);border-left:4px solid #16a34a;">
-                    <div class="d-flex align-items-center gap-2">
-                        <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Logo"
-                             style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
-                        <div>
-                            <div class="fw-bold text-success" style="font-size:0.85rem;" th:text="#{app.name}">Saptashrungi Agro Services</div>
-                            <div class="text-muted" style="font-size:0.75rem;" th:text="${#locale.language == 'mr' ? '📍 मिरखनगर, वैजापूर' : '📍 Mirakhnagar, Vaijapur'}">📍 Mirakhnagar, Vaijapur</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== STATS STRIP ===== -->
-<section style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:3rem 0;">
-    <div class="container">
-        <div class="row g-4 text-center text-white">
-            <div class="col-6 col-md-3">
-                <div class="display-5 fw-bold mb-1" style="color:#86efac;" th:text="${#locale.language == 'mr' ? 'बियाणे' : 'Seeds'}">Seeds</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'उपलब्ध उत्पादने' : 'Available products'}">Available products</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="display-5 fw-bold mb-1" style="color:#fbbf24;" th:text="${#locale.language == 'mr' ? 'खते' : 'Fertilizers'}">Fertilizers</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'शेतीसाठी' : 'For farming'}">For farming</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="display-5 fw-bold mb-1" style="color:#86efac;" th:text="${#locale.language == 'mr' ? 'पीक संरक्षण' : 'Crop care'}">Crop care</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'उत्पादने' : 'Products'}">Products</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="display-5 fw-bold mb-1" style="color:#fbbf24;" th:text="${#locale.language == 'mr' ? 'सिंचन' : 'Irrigation'}">Irrigation</div>
-                <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;" th:text="${#locale.language == 'mr' ? 'साहित्य' : 'Supplies'}">Supplies</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== SERVICES ===== -->
-<section class="container my-5">
-    <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
-              th:text="${#locale.language == 'mr' ? '🛒 आमच्या सेवा' : '🛒 Our Services'}">🛒 Our Services</span>
-        <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'आम्ही काय देतो?' : 'What We Offer'}">What We Offer</h2>
-        <p class="text-muted" th:text="${#locale.language == 'mr' ? 'दुकानातील उत्पादनांच्या प्रमुख श्रेणी' : 'Main product categories available at the store'}">Main product categories available at the store</p>
-    </div>
-    <div class="row g-4">
-        <!-- Service 1 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">🌱</div>
-                <h5 class="fw-bold text-success mb-2" th:text="${#locale.language == 'mr' ? 'प्रमाणित बियाणे' : 'Certified Seeds'}">Certified Seeds</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'Mahyco, Mahabeej, Monsanto यांचे संकरित व प्रमाणित बियाणे — कापूस, सोयाबीन, मका, ज्वारी, भाजीपाला सर्व उपलब्ध.' : 'Hybrid & certified seeds from Mahyco, Mahabeej, Monsanto — cotton, soybean, maize, sorghum, and vegetables.'}">Hybrid & certified seeds from Mahyco, Mahabeej, Monsanto.</p>
-            </div>
-        </div>
-        <!-- Service 2 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#fff7ed;border:1px solid #fed7aa;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(249,115,22,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">🌿</div>
-                <h5 class="fw-bold mb-2" style="color:#c2410c;" th:text="${#locale.language == 'mr' ? 'रासायनिक व सेंद्रिय खते' : 'Chemical & Organic Fertilizers'}">Chemical & Organic Fertilizers</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'युरिया, NPK आणि सेंद्रिय खतांसह उपलब्ध पर्यायांची माहिती उत्पादन यादीत पाहा.' : 'Browse the product list for available options, including urea, NPK, and organic fertilizers.'}">Browse the product list for available options, including urea, NPK, and organic fertilizers.</p>
-            </div>
-        </div>
-        <!-- Service 3 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0f9ff;border:1px solid #bae6fd;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(2,132,199,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">💧</div>
-                <h5 class="fw-bold mb-2" style="color:#0369a1;" th:text="${#locale.language == 'mr' ? 'ठिबक सिंचन साहित्य' : 'Drip Irrigation Equipment'}">Drip Irrigation Equipment</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'ठिबक पाईप, ड्रीपर, फिल्टर आणि फिटिंग्जची उपलब्धता दुकानाशी संपर्क करून तपासा.' : 'Contact the store to check availability of drip pipes, drippers, filters, and fittings.'}">Contact the store to check availability of drip pipes, drippers, filters, and fittings.</p>
-            </div>
-        </div>
-        <!-- Service 4 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#fdf4ff;border:1px solid #e9d5ff;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(124,58,237,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">🐛</div>
-                <h5 class="fw-bold mb-2" style="color:#6d28d9;" th:text="${#locale.language == 'mr' ? 'कीटकनाशके व बुरशीनाशके' : 'Pesticides & Fungicides'}">Pesticides & Fungicides</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'उपलब्ध कीटकनाशके व बुरशीनाशकांची माहिती उत्पादन यादीत पाहा.' : 'Browse the product list for available insecticides and fungicides.'}">Browse the product list for available insecticides and fungicides.</p>
-            </div>
-        </div>
-        <!-- Service 5 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#fefce8;border:1px solid #fef08a;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(234,179,8,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">🔧</div>
-                <h5 class="fw-bold mb-2" style="color:#a16207;" th:text="${#locale.language == 'mr' ? 'शेती अवजारे व फवारणी पंप' : 'Farm Tools & Sprayers'}">Farm Tools & Sprayers</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'फवारणी पंप, तण काढण्याची यंत्रे आणि छाटणीची साधने यांची उपलब्धता दुकानाशी संपर्क करून तपासा.' : 'Contact the store to check availability of sprayers, weeders, and pruning tools.'}">Contact the store to check availability of sprayers, weeders, and pruning tools.</p>
-            </div>
-        </div>
-        <!-- Service 6 -->
-        <div class="col-md-4 col-sm-6">
-            <div class="p-4 rounded-4 h-100 text-center" style="background:#f0fdf4;border:1px solid #bbf7d0;transition:all 0.3s;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 30px rgba(27,94,32,0.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                <div style="font-size:2.8rem;margin-bottom:1rem;">💰</div>
-                <h5 class="fw-bold text-success mb-2" th:text="${#locale.language == 'mr' ? 'उधारी सुविधा' : 'Credit Facility (Udhari)'}">Credit Facility (Udhari)</h5>
-                <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत ग्राहक वेबसाइटवरील डॅशबोर्डमधून उधारीची नोंद पाहू शकतात.' : 'Registered customers can view their credit ledger in the website dashboard.'}">Registered customers can view their credit ledger in the website dashboard.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== WHY CHOOSE US ===== -->
-<section style="background:linear-gradient(135deg,#f0fdf4,#e8f5e9); padding:4rem 0;">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
-                  th:text="${#locale.language == 'mr' ? '⭐ उपलब्ध माहिती' : '⭐ Store information'}">⭐ Store information</span>
-            <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'वेबसाइटवरील माहिती व सुविधा' : 'Information and services on this site'}">Information and services on this site</h2>
-        </div>
-        <div class="row g-4 align-items-center">
+<!-- 2. Our Story Section (Matching Image 1) -->
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <div class="d-flex flex-column gap-4">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-3 fw-semibold">
+                    <span class="me-1">🌱</span> <span th:text="${#locale.language == 'mr' ? 'आमची माहिती' : 'Our Story'}">Our Story</span>
+                </span>
+                <h2 class="fw-bold text-success mb-3" style="font-size: 1.85rem; line-height: 1.3;" th:text="${#locale.language == 'mr' ? 'मिरखनगर, वैजापूर येथील कृषी भांडार' : 'Agricultural Store in Mirakhnagar, Vaijapur'}">
+                    Agricultural Store in Mirakhnagar, Vaijapur
+                </h2>
+                <p class="text-secondary mb-3" style="line-height: 1.7; font-size: 0.95rem;" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस हे मिरखनगर, वैजापूर येथील एक अग्रगण्य कृषी सेवा केंद्र आहे. येथे उच्च दर्जाची प्रमाणित बियाणे, रासायनिक व सेंद्रिय खते, पीक संरक्षण उत्पादने आणि आधुनिक शेती साहित्य रास्त दरात उपलब्ध आहे.' : 'Saptashrungi Agro Services is an agricultural store in Mirakhnagar, Vaijapur. The store offers seeds, fertilizers, crop protection products, and farming supplies.'}">
+                    Saptashrungi Agro Services is an agricultural store in Mirakhnagar, Vaijapur. The store offers seeds, fertilizers, crop protection products, and farming supplies.
+                </p>
+                <p class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;" th:text="${#locale.language == 'mr' ? 'उत्पादक, वापर आणि बॅच माहितीसाठी कृपया उत्पादन पॅकेजिंग तपासा. दुकानात उपलब्ध उत्पादनांची खात्री करण्यासाठी अथवा थेट चौकशीसाठी फोन किंवा व्हॉट्सॲपवर संपर्क साधा.' : 'Check product packaging for manufacturer, usage, and batch information. Contact the store to confirm product availability.'}">
+                    Check product packaging for manufacturer, usage, and batch information. Contact the store to confirm product availability.
+                </p>
+
+                <div class="d-flex flex-column gap-3 pt-1">
                     <div class="d-flex align-items-start gap-3">
-                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</span>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-shield-check fs-5"></i>
+                        </div>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'उत्पादन तपशील' : 'Product details'}">Product details</h6>
-                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'उत्पादनाची कंपनी, बॅच आणि वापराविषयी माहिती पॅकेजिंगवर पाहा.' : 'Refer to product packaging for manufacturer, batch, and usage information.'}">Refer to product packaging for manufacturer, batch, and usage information.</p>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;" th:text="${#locale.language == 'mr' ? 'प्रमाणित उत्पादने (Product Information)' : 'Product Information'}">
+                                Product Information
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;" th:text="${#locale.language == 'mr' ? 'उत्पादक, वापर व बॅच माहितीसाठी पॅकिंग तपासा किंवा दुकानातून खात्री करा.' : 'Refer to product packaging for manufacturer, usage, and batch information.'}">
+                                Refer to product packaging for manufacturer, usage, and batch information.
+                            </small>
                         </div>
                     </div>
+
                     <div class="d-flex align-items-start gap-3">
-                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</span>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-people-fill fs-5"></i>
+                        </div>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'शेतीविषयक माहिती' : 'Farming information'}">Farming information</h6>
-                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'पीक माहिती, हवामान पान आणि खत कॅल्क्युलेटर वेबसाइटवर उपलब्ध आहेत.' : 'Crop information, a weather page, and a fertilizer calculator are available on this site.'}">Crop information, a weather page, and a fertilizer calculator are available on this site.</p>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;" th:text="${#locale.language == 'mr' ? 'कृषी तज्ज्ञ सल्ला (Expert Agronomist Guidance)' : 'Expert Agronomist Guidance'}">
+                                Expert Agronomist Guidance
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;" th:text="${#locale.language == 'mr' ? 'पीक माहिती, लाइव्ह हवामान व खत कॅल्क्युलेटर या संकेतस्थळावर मोफत उपलब्ध आहे.' : 'Crop information, weather, and a fertilizer calculator are available on this site.'}">
+                                Crop information, weather, and a fertilizer calculator are available on this site.
+                            </small>
                         </div>
                     </div>
+
                     <div class="d-flex align-items-start gap-3">
-                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</span>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'किंमत आणि कर' : 'Prices and taxes'}">Prices and taxes</h6>
-                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'उत्पादन पानावरील किंमत आणि ऑर्डरवेळी लागू होणारे कर तपासा.' : 'Review the listed product price and any applicable taxes during checkout.'}">Review the listed product price and any applicable taxes during checkout.</p>
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-credit-card-2-front-fill fs-5"></i>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-start gap-3">
-                        <span style="width:36px;height:36px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</span>
                         <div>
-                            <h6 class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'मुदत संपण्याची तारीख' : 'Expiry date tracking'}">Expiry date tracking</h6>
-                            <p class="text-muted small mb-0" th:text="${#locale.language == 'mr' ? 'प्रशासक उत्पादनाच्या नोंदीत मुदत संपण्याची तारीख नोंदवू आणि तपासू शकतात.' : 'Administrators can record and review product expiry dates in inventory.'}">Administrators can record and review product expiry dates in inventory.</p>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;" th:text="${#locale.language == 'mr' ? 'पारदर्शक उधारी खातेवही (Hassle-Free Credit)' : 'Hassle-Free Credit (Udhari)'}">
+                                Hassle-Free Credit (Udhari)
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;" th:text="${#locale.language == 'mr' ? 'नोंदणीकृत शेतकरी ग्राहक संकेतस्थळावर त्यांची उधारी खातेवही पाहू शकतात.' : 'Registered customers can view their credit ledger on the website.'}">
+                                Registered customers can view their credit ledger on the website.
+                            </small>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
-                <!-- Fun Fact Card -->
-                <div class="p-4 rounded-4 text-white text-center" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);box-shadow:0 16px 40px rgba(27,94,32,0.3);">
-                    <div style="font-size:3.5rem;margin-bottom:1rem;">🏆</div>
-                    <h4 class="fw-bold mb-3" th:text="${#locale.language == 'mr' ? 'आमचे खास वैशिष्ट्य' : 'Our Key Highlights'}">Our Key Highlights</h4>
-                    <div class="row g-3 mt-2">
-                        <div class="col-6">
-                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
-                                <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">🌾</div>
-                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'खरीप + रब्बी<br>दोन्ही हंगामात उपलब्ध' : 'Kharif + Rabi<br>All Seasons Ready'}">Kharif + Rabi<br>All Seasons Ready</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
-                                <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">📱</div>
-                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'WhatsApp वर<br>तात्काळ उत्तर' : 'WhatsApp Support<br>Instant Reply'}">WhatsApp Support<br>Instant Reply</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
-                                <div class="fw-bold" style="font-size:1.5rem; color:#86efac;">💳</div>
-                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'UPI / रोख /<br>उधारी सुविधा' : 'UPI / Cash /<br>Credit Facility'}">UPI / Cash /<br>Credit Facility</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="p-3 rounded-3" style="background:rgba(255,255,255,0.12);">
-                                <div class="fw-bold" style="font-size:1.5rem; color:#fbbf24;">🧾</div>
-                                <div style="font-size:0.82rem;" th:utext="${#locale.language == 'mr' ? 'पक्के GST बिल<br>उपलब्ध' : 'Official GST Bill<br>Provided'}">Official GST Bill<br>Provided</div>
-                            </div>
+                <div class="position-relative p-2 rounded-4 shadow-sm bg-white border text-center">
+                    <img th:src="@{/images/saptashrungi_shop.jpg}" alt="Saptashrungi Agro Services Shop" class="img-fluid rounded-3 w-100" style="max-height: 380px; object-fit: cover;" onerror="this.src='/images/saptashrungi_logo_round.jpg'">
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 bg-white px-3 py-2 rounded-pill shadow-sm border d-flex align-items-center gap-2" style="white-space: nowrap; max-width: 90%;">
+                        <img th:src="@{/images/saptashrungi_logo_round.jpg}" width="28" height="28" class="rounded-circle" alt="Logo">
+                        <div class="text-start">
+                            <strong class="d-block text-dark" style="font-size: 0.85rem; line-height: 1.2;">Saptashrungi Agro Services</strong>
+                            <small class="text-muted" style="font-size: 0.75rem;"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Mirakhnagar, Vaijapur</small>
                         </div>
                     </div>
                 </div>
@@ -273,117 +98,159 @@
     </div>
 </section>
 
-<!-- ===== CONTACT & MAP ===== -->
-<section class="container my-5">
-    <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block"
-              th:text="${#locale.language == 'mr' ? '📍 आमचा पत्ता' : '📍 Our Location'}">📍 Our Location</span>
-        <h2 class="fw-bold text-success" th:text="${#locale.language == 'mr' ? 'आम्हाला भेटा' : 'Visit Our Store'}">Visit Our Store</h2>
+<!-- 3. Category Strip (Matching Image 1) -->
+<section class="py-4 text-white" style="background: #14532d;">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold text-white mb-1" style="font-size: 1.75rem;">Seeds</h3>
+                <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'उपलब्ध बियाणे' : 'Available products'}">Available products</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #facc15;">Fertilizers</h3>
+                <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'शेतीसाठी खते' : 'For farming'}">For farming</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #6ee7b7;">Crop care</h3>
+                <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'पीक संरक्षण' : 'Products'}">Products</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #fbbf24;">Irrigation</h3>
+                <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'सिंचन साहित्य' : 'Supplies'}">Supplies</p>
+            </div>
+        </div>
     </div>
-    <div class="row g-4">
-        <!-- Contact Info -->
-        <div class="col-lg-5">
-            <div class="p-4 rounded-4 h-100" style="background:#f8fffe;border:1px solid #d1fae5;">
-                <h5 class="fw-bold text-success mb-4" th:text="${#locale.language == 'mr' ? '📞 संपर्क माहिती' : '📞 Contact Details'}">📞 Contact Details</h5>
+</section>
 
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-geo-alt-fill text-success fs-5"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'दुकानाचा पत्ता' : 'Store Address'}">Store Address</div>
-                        <div class="text-muted small" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - 423703' : 'Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703'}">Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</div>
-                    </div>
-                </div>
+<!-- 4. Visit Our Store Section (Matching Image 2) -->
+<section class="py-5" style="background: #f8fafc;">
+    <div class="container py-2 text-center mb-4">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+            <span class="me-1">📍</span> <span th:text="${#locale.language == 'mr' ? 'दुकानाचे ठिकाण' : 'Our Location'}">Our Location</span>
+        </span>
+        <h2 class="fw-bold text-success" style="font-size: 1.85rem;" th:text="${#locale.language == 'mr' ? 'आमच्या दुकानाला प्रत्यक्ष भेट द्या' : 'Visit Our Store'}">
+            Visit Our Store
+        </h2>
+    </div>
 
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div style="width:44px;height:44px;border-radius:12px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-telephone-fill text-success fs-5"></i>
-                    </div>
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <!-- Left Card: Contact Details -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column justify-content-between">
                     <div>
-                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'फोन नंबर' : 'Phone Number'}">Phone Number</div>
-                        <a href="tel:+918600813827" class="text-success fw-bold text-decoration-none" style="font-size:1.1rem;">+91 8600813827</a>
-                    </div>
-                </div>
+                        <h5 class="fw-bold text-dark d-flex align-items-center gap-2 mb-4 pb-2 border-bottom">
+                            <i class="bi bi-telephone-outbound-fill text-success"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'संपर्क तपशील' : 'Contact Details'}">Contact Details</span>
+                        </h5>
 
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div style="width:44px;height:44px;border-radius:12px;background:#dcfce7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-whatsapp text-success fs-5"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold text-dark mb-1">WhatsApp</div>
-                        <a href="https://wa.me/918600813827" target="_blank" class="text-success fw-bold text-decoration-none"
-                           th:text="${#locale.language == 'mr' ? '+91 8600813827 वर WhatsApp करा' : 'Chat on WhatsApp: +91 8600813827'}">+91 8600813827 वर WhatsApp करा</a>
-                    </div>
-                </div>
+                        <div class="d-flex flex-column gap-3 mb-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'दुकानाचा पत्ता' : 'Store Address'}">Store Address</strong>
+                                    <div class="text-muted small" style="line-height: 1.5;">
+                                        Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703
+                                    </div>
+                                </div>
+                            </div>
 
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div style="width:44px;height:44px;border-radius:12px;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-clock-fill fs-5" style="color:#d97706;"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold text-dark mb-1" th:text="${#locale.language == 'mr' ? 'दुकान वेळ' : 'Store Hours'}">Store Hours</div>
-                        <div class="text-muted small" th:if="${#locale.language == 'mr'}">
-                            सोमवार - शनिवार: <strong class="text-dark">सकाळी 8:00 — संध्याकाळी 8:00</strong><br>
-                            रविवार: <strong class="text-dark">सकाळी 9:00 — दुपारी 2:00</strong>
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-telephone-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'फोन नंबर' : 'Phone Number'}">Phone Number</strong>
+                                    <a href="tel:+918600813827" class="text-dark fw-bold text-decoration-none small">+91 8600813827</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-whatsapp fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold">WhatsApp</strong>
+                                    <a href="https://wa.me/918600813827" target="_blank" class="text-muted text-decoration-none small">
+                                        Chat on WhatsApp: <strong class="text-dark">+91 8600813827</strong>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-warning flex-shrink-0" style="width: 34px; height: 34px; background: #fef3c7;">
+                                    <i class="bi bi-clock-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold" th:text="${#locale.language == 'mr' ? 'दुकानाची वेळ' : 'Store Hours'}">Store Hours</strong>
+                                    <div class="text-muted small" style="line-height: 1.5;">
+                                        Monday – Saturday: 8:00 AM – 8:00 PM<br>
+                                        Sunday: 9:00 AM – 2:00 PM
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-muted small" th:unless="${#locale.language == 'mr'}">
-                            Monday - Saturday: <strong class="text-dark">8:00 AM — 8:00 PM</strong><br>
-                            Sunday: <strong class="text-dark">9:00 AM — 2:00 PM</strong>
-                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <a href="tel:+918600813827" class="btn btn-success rounded-pill px-4 py-2 fw-bold text-white flex-fill d-flex align-items-center justify-content-center gap-2 shadow-sm" style="background: #15803d; border:none;">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'कॉल करा' : 'Call Now'}">Call Now</span>
+                        </a>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" class="btn btn-outline-success rounded-pill px-3 py-2 fw-bold flex-fill d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-compass"></i>
+                            <span th:text="${#locale.language == 'mr' ? 'दिशा दाखवा' : 'Get Directions'}">Get Directions</span>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- CTA Buttons -->
-                <div class="d-flex gap-2 flex-wrap mt-4">
-                    <a href="tel:+918600813827" class="btn btn-success px-4 fw-bold d-flex align-items-center gap-2">
-                        <i class="bi bi-telephone-fill"></i> <span th:text="${#locale.language == 'mr' ? 'कॉल करा' : 'Call Now'}">Call Now</span>
-                    </a>
-                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
-                       class="btn btn-outline-success px-4 fw-bold d-flex align-items-center gap-2">
-                        <i class="bi bi-map-fill"></i> <span th:text="${#locale.language == 'mr' ? 'मार्गदर्शन मिळवा' : 'Get Directions'}">Get Directions</span>
+            <!-- Right Card: Google Map Embed -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 d-flex flex-column justify-content-between">
+                    <div class="rounded-3 overflow-hidden border flex-grow-1" style="min-height: 290px;">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=19.9852957,74.9312239&hl=en&z=17&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; min-height: 290px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" class="btn btn-success w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background: #15803d; border:none;">
+                        <i class="bi bi-google"></i>
+                        <span th:text="${#locale.language == 'mr' ? 'गुगल मॅप्सवर उघडा' : 'Open in Google Maps'}">Open in Google Maps</span>
                     </a>
                 </div>
             </div>
         </div>
-
-        <!-- Google Map Embed -->
-        <div class="col-lg-7">
-            <div class="rounded-4 overflow-hidden shadow-sm" style="height:420px;border:1px solid #d1fae5;">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.123456789!2d74.7!3d20.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sMirakhnagar%2C+Vaijapur%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1234567890"
-                    width="100%" height="420"
-                    style="border:0;"
-                    allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-            <div class="mt-3 text-center">
-                <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer"
-                   class="btn btn-success px-5 py-2 fw-bold shadow">
-                    <i class="bi bi-google me-2"></i> <span th:text="${#locale.language == 'mr' ? 'Google Maps वर उघडा' : 'Open in Google Maps'}">Open in Google Maps</span>
-                </a>
-            </div>
-        </div>
     </div>
 </section>
 
-<!-- ===== MISSION STATEMENT ===== -->
-<section style="background:linear-gradient(135deg,#1b5e20,#2e7d32); padding:4rem 0; text-align:center;">
-    <div class="container">
-        <div style="font-size:3rem;margin-bottom:1rem;">🌾</div>
-        <h2 class="fw-bold text-white mb-3" th:text="${#locale.language == 'mr' ? 'आमचे ध्येय' : 'Our Mission'}">Our Mission</h2>
-        <p style="color:rgba(255,255,255,0.85); font-size:1.15rem; max-width:700px; margin:0 auto 2rem; line-height:1.8;">
-            <em th:text="${#locale.language == 'mr' ? 'प्रत्येक शेतकऱ्याला दर्जेदार आणि प्रमाणित कृषी निविष्ठा रास्त किंमतीत उपलब्ध करून देणे आणि आधुनिक तंत्रज्ञानाद्वारे त्यांचे उत्पन्न वाढवण्यास मदत करणे.' : 'To provide every farmer with genuine, certified agri-inputs at fair prices and enhance crop yields through modern agricultural guidance.'}">"To provide every farmer with genuine, certified agri-inputs at fair prices."</em>
+<!-- 5. Our Mission Section (Matching Image 2 bottom) -->
+<section class="py-5 text-center text-white" style="background: #14532d;">
+    <div class="container py-2">
+        <div class="mb-2">
+            <span style="font-size: 2.2rem; color: #facc15;">🌾</span>
+        </div>
+        <h2 class="fw-bold text-white mb-3" style="font-size: 1.85rem;" th:text="${#locale.language == 'mr' ? 'आमचे ध्येय' : 'Our Mission'}">
+            Our Mission
+        </h2>
+        <p class="text-white-50 mx-auto mb-4" style="max-width: 680px; font-size: 1rem; line-height: 1.7;" th:text="${#locale.language == 'mr' ? 'प्रत्येक शेतकऱ्याला वाजवी दरात १००% अस्सल व प्रमाणित कृषी निविष्ठा पुरवणे आणि आधुनिक शेती तंत्रज्ञान व मार्गदर्शनाद्वारे पिकांचे उत्पादन वाढवणे.' : 'To provide every farmer with genuine, certified agri-inputs at fair prices and enhance crop yields through modern agricultural guidance.'}">
+            To provide every farmer with genuine, certified agri-inputs at fair prices and enhance crop yields through modern agricultural guidance.
         </p>
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a th:href="@{/products}" class="btn px-5 py-2 fw-bold rounded-pill" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;"
-               th:text="${#locale.language == 'mr' ? '🛒 उत्पादने पाहा' : '🛒 Browse Products'}">
-                🛒 Browse Products
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a th:href="@{/products}" class="btn rounded-pill px-4 py-2 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-2" style="background: #d97706; border: none;">
+                <span>🌾</span>
+                <span th:text="${#locale.language == 'mr' ? 'उत्पादने पाहा' : 'Browse Products'}">Browse Products</span>
             </a>
-            <a href="tel:+918600813827" class="btn btn-outline-light px-5 py-2 fw-bold rounded-pill"
-               th:text="${#locale.language == 'mr' ? '📞 आत्ता संपर्क करा' : '📞 Call Us Now'}">
-                📞 Call Us Now
+            <a href="tel:+918600813827" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                <i class="bi bi-telephone-fill"></i>
+                <span th:text="${#locale.language == 'mr' ? 'थेट कॉल करा' : 'Call Us Now'}">Call Us Now</span>
             </a>
         </div>
     </div>

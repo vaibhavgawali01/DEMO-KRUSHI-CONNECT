@@ -910,7 +910,7 @@ about_content = head_html("आमच्याबद्दल", "About Us") + nav
                             <i class="bi bi-telephone-fill"></i>
                             <span><span class="lang-mr">कॉल करा</span><span class="lang-en">Call Now</span></span>
                         </a>
-                        <a href="https://maps.google.com/?q=Saptashrungi+Agro+Services+Mirakhnagar+Vaijapur" target="_blank" class="btn btn-outline-success rounded-pill px-3 py-2 fw-bold flex-fill d-flex align-items-center justify-content-center gap-2">
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" class="btn btn-outline-success rounded-pill px-3 py-2 fw-bold flex-fill d-flex align-items-center justify-content-center gap-2">
                             <i class="bi bi-compass"></i>
                             <span><span class="lang-mr">दिशा दाखवा</span><span class="lang-en">Get Directions</span></span>
                         </a>
@@ -923,7 +923,7 @@ about_content = head_html("आमच्याबद्दल", "About Us") + nav
                 <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 d-flex flex-column justify-content-between">
                     <div class="rounded-3 overflow-hidden border flex-grow-1" style="min-height: 290px;">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15003.585794719018!2d74.721477!3d19.923838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdc103e689bf1db%3A0xc3fcaea9554d6fa7!2sVaijapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000" 
+                            src="https://maps.google.com/maps?q=19.9852957,74.9312239&hl=en&z=17&output=embed" 
                             width="100%" 
                             height="100%" 
                             style="border:0; min-height: 290px;" 
@@ -932,7 +932,7 @@ about_content = head_html("आमच्याबद्दल", "About Us") + nav
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
-                    <a href="https://maps.google.com/?q=Saptashrungi+Agro+Services+Mirakhnagar+Vaijapur" target="_blank" class="btn btn-success w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background: #15803d; border:none;">
+                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" class="btn btn-success w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background: #15803d; border:none;">
                         <i class="bi bi-google"></i>
                         <span><span class="lang-mr">गुगल मॅप्सवर उघडा</span><span class="lang-en">Open in Google Maps</span></span>
                     </a>
