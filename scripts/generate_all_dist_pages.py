@@ -972,20 +972,139 @@ with open(os.path.join(DIST_DIR, "about.html"), "w", encoding="utf-8") as f:
     f.write(about_content)
 print("6. about.html")
 
-# 7. CONTACT
-contact_content = head_html("संपर्क", "Contact Us") + nav_html("contact") + """
-<div class="container my-5">
+# 7. CONTACT (Matching Screenshot 2)
+contact_content = head_html("संपर्क", "Contact Shop") + nav_html("contact") + """
+<div class="container my-5" style="max-width: 1140px;">
+    <!-- Top Centered Header & Badge -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-success"><span class="lang-mr">आमच्याशी संपर्क साधा</span><span class="lang-en">Contact Us</span></h2>
-        <p class="text-muted">मिरखनगर, वैजापूर, छत्रपती संभाजीनगर - ४२३७०३ | फोन: +91 8600813827</p>
+        <span class="badge px-3 py-2 rounded-pill fw-semibold text-white shadow-sm mb-3 d-inline-block" style="background: #15803d; font-size: 0.85rem;">
+            <span class="lang-mr">दुकानदाराशी संपर्क साधा</span>
+            <span class="lang-en">Contact the store</span>
+        </span>
+        <h1 class="fw-bold mb-2" style="font-size: clamp(1.85rem, 3.2vw, 2.45rem); color: #15803d; letter-spacing: -0.3px;">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेसशी संपर्क साधा</span>
+            <span class="lang-en">Contact Saptashrungi Agro Services</span>
+        </h1>
+        <p class="text-secondary mx-auto mb-0" style="max-width: 660px; font-size: 0.95rem; line-height: 1.6;">
+            <span class="lang-mr">ऑर्डर आणि पीक मार्गदर्शनासाठी आमच्या काउंटरला प्रत्यक्ष भेट द्या किंवा थेट संपर्क करा</span>
+            <span class="lang-en">Visit our counter or contact our agronomists directly for orders and crop inquiries</span>
+        </p>
     </div>
-    <div class="row g-4 justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center">
-                <i class="bi bi-telephone-fill fs-1 text-success mb-3"></i>
-                <h5>थेट संपर्क करा</h5>
-                <p class="text-muted"><a href="tel:+918600813827" class="fw-bold text-dark text-decoration-none">+91 8600813827</a></p>
-                <a href="https://wa.me/918600813827" target="_blank" class="btn btn-success rounded-pill px-4"><i class="bi bi-whatsapp me-1"></i>व्हॉट्सॲप</a>
+
+    <!-- Main Content: Store Information Card & Google Map -->
+    <div class="row g-4 align-items-stretch mb-5">
+        <!-- Left Column: Store Information -->
+        <div class="col-lg-5">
+            <div class="card border border-light-subtle shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-4 pb-2 border-bottom">
+                        <i class="bi bi-shop text-success fs-5"></i>
+                        <h5 class="fw-bold text-dark mb-0">
+                            <span class="lang-mr">दुकानाची माहिती</span>
+                            <span class="lang-en">Store Information</span>
+                        </h5>
+                    </div>
+
+                    <!-- Item 1: Shop Address -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 38px; height: 38px; background: #15803d;">
+                            <i class="bi bi-geo-alt-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark fw-bold" style="font-size: 0.93rem;">
+                                <span class="lang-mr">दुकानाचा पत्ता</span>
+                                <span class="lang-en">Shop Address</span>
+                            </strong>
+                            <div class="text-secondary" style="font-size: 0.88rem; line-height: 1.5; margin-top: 3px;">
+                                Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Phone & Mobile -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 38px; height: 38px; background: #15803d;">
+                            <i class="bi bi-telephone-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark fw-bold" style="font-size: 0.93rem;">
+                                <span class="lang-mr">फोन व मोबाईल</span>
+                                <span class="lang-en">Phone & Mobile</span>
+                            </strong>
+                            <div class="text-secondary" style="font-size: 0.88rem; line-height: 1.5; margin-top: 3px;">
+                                <a href="tel:+918600813827" class="text-dark fw-bold text-decoration-none">+91 8600813827</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Working Hours -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 38px; height: 38px; background: #15803d;">
+                            <i class="bi bi-clock-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark fw-bold" style="font-size: 0.93rem;">
+                                <span class="lang-mr">कामाची वेळ</span>
+                                <span class="lang-en">Working Hours</span>
+                            </strong>
+                            <div class="text-secondary" style="font-size: 0.88rem; line-height: 1.5; margin-top: 3px;">
+                                Mon - Sat: 8:00 AM - 8:30 PM | Sun: 9:00 AM - 2:00 PM
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4: GSTIN Registration -->
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 38px; height: 38px; background: #15803d;">
+                            <i class="bi bi-receipt fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark fw-bold" style="font-size: 0.93rem;">
+                                <span class="lang-mr">जीएसटी नोंदणी</span>
+                                <span class="lang-en">GSTIN Registration</span>
+                            </strong>
+                            <div class="text-secondary font-monospace" style="font-size: 0.88rem; line-height: 1.5; margin-top: 3px; letter-spacing: 0.5px;">
+                                27AAAAA0000A1Z5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Matching Screenshot 2) -->
+                <div class="d-flex flex-column gap-2 pt-3 border-top">
+                    <!-- Button 1: WhatsApp -->
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" class="btn btn-success py-2 px-3 fw-bold text-white d-flex align-items-center justify-content-center gap-2 shadow-sm rounded-3" style="background: #15803d; border: none; font-size: 0.93rem;">
+                        <i class="bi bi-whatsapp fs-5"></i>
+                        <span><span class="lang-mr">Chat on WhatsApp (8600813827)</span><span class="lang-en">Chat on WhatsApp (8600813827)</span></span>
+                    </a>
+
+                    <!-- Button 2: Direct Call -->
+                    <a href="tel:+918600813827" class="btn btn-outline-success py-2 px-3 fw-bold d-flex align-items-center justify-content-center gap-2 rounded-3" style="border-color: #15803d; color: #15803d; font-size: 0.93rem;">
+                        <i class="bi bi-telephone-outbound fs-5"></i>
+                        <span><span class="lang-mr">Direct Call Shop (+91 8600813827)</span><span class="lang-en">Direct Call Shop (+91 8600813827)</span></span>
+                    </a>
+
+                    <!-- Button 3: Google Maps -->
+                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" class="btn btn-outline-secondary py-2 px-3 fw-bold d-flex align-items-center justify-content-center gap-2 rounded-3" style="border-color: #cbd5e1; color: #334155; font-size: 0.93rem; background: #ffffff;">
+                        <i class="bi bi-map fs-5"></i>
+                        <span><span class="lang-mr">Open in Google Maps</span><span class="lang-en">Open in Google Maps</span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Google Map -->
+        <div class="col-lg-7">
+            <div class="card border border-light-subtle shadow-sm rounded-4 overflow-hidden bg-white h-100" style="min-height: 480px;">
+                <iframe 
+                    src="https://maps.google.com/maps?q=19.9852957,74.9312239&hl=en&z=17&output=embed" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0; min-height: 480px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
         </div>
     </div>
