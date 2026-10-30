@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>साठा व एक्सपायरी | Inventory & Expiry - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <title>इन्व्हेंटरी व एक्सपायरी | Inventory & Expiry - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
@@ -169,247 +169,165 @@
     </div>
 </nav>
 
-<div class="container-fluid px-3 px-lg-4 my-4" style="max-width:1400px;">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div>
-            <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                <span>📊</span> <span class="lang-mr">इन्व्हेंटरी व मुदत समाप्ती ट्रॅकिंग (Inventory & Expiry)</span><span class="lang-en">Inventory & Expiry Tracking</span>
-            </h1>
-            <p class="text-muted small m-0 mt-1">
-                <span class="lang-mr">रंग संकेतानुसार साठा पातळी (लाल=कमी, पिवळा=सावधानता, हिरवा=पुरेसा) आणि बॅच एक्सपायरी</span>
-                <span class="lang-en">Stock levels with color coding (red=low, yellow=warning, green=ok) and batch expiry tracking</span>
-            </p>
-        </div>
-        <div class="d-flex gap-2">
-            <a href="admin-product-form.html" class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm">
-                ➕ <span class="lang-mr">Add Product (नवीन उत्पादन)</span><span class="lang-en">Add Product</span>
-            </a>
-        </div>
-    </div>
-<div class="d-flex flex-wrap gap-2 mb-4 p-2 bg-white rounded-4 shadow-sm border"><a href="admin-dashboard.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-grid-1x2-fill me-1"></i><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a><a href="admin-products.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-box-seam-fill me-1"></i><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a><a href="admin-product-form.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-plus-circle-fill me-1"></i><span class="lang-mr">➕ उत्पादन जोडा</span><span class="lang-en">➕ Add Product</span></a><a href="admin-udhari.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-wallet2 me-1"></i><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></a><a href="admin-inventory.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-success text-white shadow-sm"><i class="bi bi-boxes me-1"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी</span><span class="lang-en">Inventory & Expiry</span></a></div>
-    <!-- 1. STOCK LEVELS TABLE WITH COLOR CODING -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div>
-                <h5 class="fw-bold mb-0 text-dark">
-                    <i class="bi bi-bar-chart-fill text-success me-2"></i>
-                    <span class="lang-mr">साठा पातळी व रंग संकेत (Stock Levels with Color Coding)</span>
-                    <span class="lang-en">Stock Levels with Color Coding</span>
-                </h5>
-                <small class="text-muted">
-                    Color Legend: 
-                    <span class="badge bg-danger ms-1">🔴 Red = Low</span>
-                    <span class="badge bg-warning text-dark ms-1">🟡 Yellow = Warning</span>
-                    <span class="badge bg-success ms-1">🟢 Green = OK</span>
-                </small>
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
             </div>
-            <a href="admin-products.html" class="btn btn-sm btn-outline-success rounded-pill px-3">कॅटलॉग पाहा</a>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">उत्पादनाचे नाव (Product)</th>
-                        <th>कॅटेगरी (Category)</th>
-                        <th class="text-center">किमान मर्यादा (Min Stock)</th>
-                        <th class="text-center">सध्याचा साठा (Current Stock)</th>
-                        <th class="text-center">स्थिती (Stock Level)</th>
-                        <th class="text-center pe-4">कृती (Action)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Red / Low row -->
-                    <tr style="background: rgba(239, 68, 68, 0.04);">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">फाल्कन १६L बॅटरी स्प्रे पंप</strong>
-                            <small class="text-muted">Falcon 16L Battery Sprayer</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">कृषी अवजारे</span></td>
-                        <td class="text-center fw-semibold text-secondary">5 नग</td>
-                        <td class="text-center">
-                            <!-- RED BADGE -->
-                            <span class="badge bg-danger text-white px-3 py-2 fs-6 rounded-pill">
-                                3 नग
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-1 rounded-pill fw-bold">
-                                🔴 कमी साठा (Low)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4">
-                            <a href="admin-product-form.html?id=3" class="btn btn-sm btn-danger rounded-pill px-3 py-1 fw-bold">
-                                ⚠️ रिस्टॉक करा
-                            </a>
-                        </td>
-                    </tr>
-
-                    <!-- Yellow / Warning row -->
-                    <tr style="background: rgba(245, 158, 11, 0.04);">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">कोरोमंडेल १०:२६:२६ ग्रोमोर खत</strong>
-                            <small class="text-muted">Coromandel Gromor 10:26:26</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">खते (Fertilizers)</span></td>
-                        <td class="text-center fw-semibold text-secondary">5 बॅग्स</td>
-                        <td class="text-center">
-                            <!-- YELLOW BADGE -->
-                            <span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill">
-                                7 बॅग्स
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning px-3 py-1 rounded-pill fw-bold">
-                                🟡 मध्यम साठा (Warning)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4">
-                            <a href="admin-product-form.html?id=4" class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1 fw-bold">
-                                साठा वाढवा
-                            </a>
-                        </td>
-                    </tr>
-
-                    <!-- Green / OK row 1 -->
-                    <tr>
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">माहिको बीजी-२ कापूस बियाणे</strong>
-                            <small class="text-muted">Mahyco BG-II Cotton Seeds (475g)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">बियाणे (Seeds)</span></td>
-                        <td class="text-center fw-semibold text-secondary">10 बॅग्स</td>
-                        <td class="text-center">
-                            <!-- GREEN BADGE -->
-                            <span class="badge bg-success text-white px-3 py-2 fs-6 rounded-pill">
-                                45 बॅग्स
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill fw-bold">
-                                🟢 पुरेसा साठा (OK)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4">
-                            <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>सुरक्षित साठा</span>
-                        </td>
-                    </tr>
-
-                    <!-- Green / OK row 2 -->
-                    <tr>
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">महाधन २४:२४:० खत</strong>
-                            <small class="text-muted">Mahadhan 24:24:0 Fertilizer (50kg)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">खते (Fertilizers)</span></td>
-                        <td class="text-center fw-semibold text-secondary">10 बॅग्स</td>
-                        <td class="text-center">
-                            <!-- GREEN BADGE -->
-                            <span class="badge bg-success text-white px-3 py-2 fs-6 rounded-pill">
-                                28 बॅग्स
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill fw-bold">
-                                🟢 पुरेसा साठा (OK)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4">
-                            <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>सुरक्षित साठा</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- 2. EXPIRY TRACKING SECTION -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="fw-bold mb-0 text-dark">
-                    <i class="bi bi-calendar-x-fill text-danger me-2"></i>
-                    <span class="lang-mr">मुदत समाप्ती ट्रॅकिंग (Expiry Tracking)</span>
-                    <span class="lang-en">Product Batch Expiry Tracking</span>
-                </h5>
-                <small class="text-muted">रासायनिक औषधे, बियाणे व विद्राव्य खतांची एक्सपायरी स्थिती</small>
-            </div>
-            <span class="badge bg-light text-dark border px-3 py-1">४ बॅचेस सक्रिय</span>
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link active">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
+        </a>
+        <a href="offers.html" class="admin-nav-link ">
+            <i class="bi bi-percent text-danger"></i>
+            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
+        </a>
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">उत्पादन (Product)</th>
-                        <th>बॅच नंबर (Batch No)</th>
-                        <th>उत्पादन तारीख (Mfg Date)</th>
-                        <th>मुदत समाप्ती (Expiry Date)</th>
-                        <th class="text-center">स्थिती (Expiry Status)</th>
-                        <th class="text-center pe-4">उपलब्ध साठा</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">सिजेंटा ॲम्प्लिगो कीटकनाशक (100ml)</strong>
-                            <small class="text-muted">Syngenta Ampligo</small>
-                        </td>
-                        <td><code>BCH-2025-09</code></td>
-                        <td>सप्टेंबर २०२५</td>
-                        <td><span class="badge bg-light text-dark border">२८ फेब्रुवारी २०२७</span></td>
-                        <td class="text-center">
-                            <span class="badge bg-success text-white px-3 py-1 rounded-pill">
-                                ✅ सुरक्षित (Safe)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4 fw-bold">18 बाटल्या</td>
-                    </tr>
-                    <tr>
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">बायर कॉन्फिडोर कीटकनाशक (50ml)</strong>
-                            <small class="text-muted">Bayer Confidor</small>
-                        </td>
-                        <td><code>BCH-2024-11</code></td>
-                        <td>नोव्हेंबर २०२४</td>
-                        <td><span class="badge bg-warning text-dark border border-warning">३० नोव्हेंबर २०२६</span></td>
-                        <td class="text-center">
-                            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill">
-                                ⚠️ लवकरच संपणार (Expiring Soon - 30 days)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4 fw-bold text-warning">8 बाटल्या</td>
-                    </tr>
-                    <tr>
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">माहिको बीजी-२ कापूस बियाणे</strong>
-                            <small class="text-muted">Mahyco BG-II Cotton Seeds</small>
-                        </td>
-                        <td><code>MAH-2026-A1</code></td>
-                        <td>जानेवारी २०२६</td>
-                        <td><span class="badge bg-light text-dark border">३१ डिसेंबर २०२६</span></td>
-                        <td class="text-center">
-                            <span class="badge bg-success text-white px-3 py-1 rounded-pill">
-                                ✅ सुरक्षित (Safe)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4 fw-bold">45 बॅग्स</td>
-                    </tr>
-                    <tr style="background: rgba(239,68,68,0.03);">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">जुन्या बॅचचे मायक्रोन्युट्रिएंट टॉनिक</strong>
-                            <small class="text-muted">Sample Micronutrient Tonic</small>
-                        </td>
-                        <td><code>TONIC-2024-X</code></td>
-                        <td>मार्च २०२४</td>
-                        <td><span class="badge bg-danger text-white">१५ ऑक्टोबर २०२६</span></td>
-                        <td class="text-center">
-                            <span class="badge bg-danger text-white px-3 py-1 rounded-pill">
-                                ❌ मुदत संपली (Expired)
-                            </span>
-                        </td>
-                        <td class="text-center pe-4 fw-bold text-danger">2 बाटल्या (बाजूला काढा)</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-boxes text-success me-2"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी ट्रॅकिंग</span><span class="lang-en">Inventory & Expiry Tracking</span></h5>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-success">Green = OK</span>
+                        <span class="badge bg-warning text-dark">Yellow = Warning</span>
+                        <span class="badge bg-danger">Red = Low</span>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">Product</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Min Safe Stock</th>
+                                    <th>Stock Level Status</th>
+                                    <th>Expiry Date</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Wheat Seeds (Lok-1)</td>
+                                    <td>Seeds</td>
+                                    <td>60 units</td>
+                                    <td>15 units</td>
+                                    <td><span class="badge bg-success px-3 py-1">OK (Safe)</span></td>
+                                    <td>30 Apr 2027</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Update</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">NPK 19:19:19</td>
+                                    <td>Fertilizers</td>
+                                    <td>85 units</td>
+                                    <td>20 units</td>
+                                    <td><span class="badge bg-success px-3 py-1">OK (Safe)</span></td>
+                                    <td>15 Dec 2027</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Update</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Falcon Battery Sprayer (16L)</td>
+                                    <td>Farming Tools</td>
+                                    <td>3 units</td>
+                                    <td>5 units</td>
+                                    <td><span class="badge bg-danger px-3 py-1">Low Stock Alert</span></td>
+                                    <td>N/A</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Reorder</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

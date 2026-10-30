@@ -92,6 +92,26 @@
   status = 200
 
 [[redirects]]
+  from = "/admin/categories"
+  to = "/admin-categories.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-categories"
+  to = "/admin-categories.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/customers"
+  to = "/admin-customers.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-customers"
+  to = "/admin-customers.html"
+  status = 200
+
+[[redirects]]
   from = "/admin/udhari"
   to = "/admin-udhari.html"
   status = 200

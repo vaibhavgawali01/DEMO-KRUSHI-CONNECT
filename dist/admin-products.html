@@ -169,248 +169,179 @@
     </div>
 </nav>
 
-<div class="container-fluid px-3 px-lg-4 my-4" style="max-width:1400px;">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div>
-            <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                <span>📦</span> <span class="lang-mr">उत्पादने व्यवस्थापन</span><span class="lang-en">Product Management</span>
-            </h1>
-            <p class="text-muted small m-0 mt-1">
-                <span class="lang-mr">बियाणे, खते, कीटकनाशके व ड्रिप साहित्याची यादी आणि साठा व्यवस्थापन</span>
-                <span class="lang-en">Manage catalog products, stock levels, prices, and suppliers</span>
-            </p>
-        </div>
-        <div class="d-flex gap-2">
-            <a href="admin-product-form.html" class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm">
-                ➕ <span class="lang-mr">Add Product (नवीन उत्पादन)</span><span class="lang-en">Add Product</span>
-            </a>
-        </div>
-    </div>
-<div class="d-flex flex-wrap gap-2 mb-4 p-2 bg-white rounded-4 shadow-sm border"><a href="admin-dashboard.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-grid-1x2-fill me-1"></i><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a><a href="admin-products.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-success text-white shadow-sm"><i class="bi bi-box-seam-fill me-1"></i><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a><a href="admin-product-form.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-plus-circle-fill me-1"></i><span class="lang-mr">➕ उत्पादन जोडा</span><span class="lang-en">➕ Add Product</span></a><a href="admin-udhari.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-wallet2 me-1"></i><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></a><a href="admin-inventory.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-boxes me-1"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी</span><span class="lang-en">Inventory & Expiry</span></a></div>
-    <!-- Search & Filter Controls -->
-    <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
-        <div class="row g-2 align-items-center">
-            <div class="col-md-5">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" id="adminProdSearch" onkeyup="filterAdminTable()" class="form-control border-0 bg-light" placeholder="उत्पादन किंवा कंपनीचे नाव शोधा...">
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
                 </div>
             </div>
-            <div class="col-md-4">
-                <select id="adminProdCat" onchange="filterAdminTable()" class="form-select border-0 bg-light">
-                    <option value="">सर्व कॅटेगरी (All Categories)</option>
-                    <option value="बियाणे">बियाणे (Seeds)</option>
-                    <option value="खते">खते (Fertilizers)</option>
-                    <option value="कीटकनाशके">कीटकनाशके (Pesticides)</option>
-                    <option value="कृषी अवजारे">कृषी अवजारे व पंप (Tools & Sprayers)</option>
-                    <option value="ठिबक सिंचन">ठिबक सिंचन (Drip Irrigation)</option>
-                </select>
-            </div>
-            <div class="col-md-3 text-md-end">
-                <span class="text-muted small fw-semibold" id="prodCountBadge">एकूण उत्पादने: 6</span>
-            </div>
         </div>
     </div>
 
-    <!-- Product List Table -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="table-responsive">
-            <table class="table align-middle mb-0" id="adminProdTable" style="font-size: 13.5px;">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-3" style="width: 70px;">Image</th>
-                        <th style="min-width: 220px;">उत्पादनाचे नाव (Product Name)</th>
-                        <th>कंपनी (Company)</th>
-                        <th>कॅटेगरी (Category)</th>
-                        <th class="text-end">किंमत (Price)</th>
-                        <th class="text-center">साठा (Stock)</th>
-                        <th class="text-center">स्थिती (Status)</th>
-                        <th class="text-center pe-3" style="width: 140px;">कृती (Actions)</th>
-                    </tr>
-                </thead>
-                <tbody id="adminProdTbody">
-                    <!-- Row 1 -->
-                    <tr class="prod-row" data-cat="बियाणे" data-name="माहिको बीजी-२ कापूस बियाणे mahyco bg-ii cotton">
-                        <td class="ps-3">
-                            <img src="images/cotton_seeds.jpg" alt="Cotton" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">माहिको बीजी-२ कापूस बियाणे</strong>
-                            <small class="text-muted">Mahyco BG-II Cotton Seeds (475g)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Mahyco Seeds</span></td>
-                        <td><span class="badge bg-success-subtle text-success">बियाणे (Seeds)</span></td>
-                        <td class="text-end fw-bold text-success">₹820.00</td>
-                        <td class="text-center"><span class="badge bg-success px-3 py-1 rounded-pill">45 बॅग्स</span></td>
-                        <td class="text-center"><span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill">सक्रीय (Active)</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=1" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 2 -->
-                    <tr class="prod-row" data-cat="खते" data-name="महाधन २४:२४:० खत mahadhan 24:24:0">
-                        <td class="ps-3">
-                            <img src="images/npk_fertilizer.jpg" alt="Fertilizer" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">महाधन २४:२४:० खत</strong>
-                            <small class="text-muted">Mahadhan 24:24:0 Fertilizer (50kg)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Mahadhan</span></td>
-                        <td><span class="badge bg-success-subtle text-success">खते (Fertilizers)</span></td>
-                        <td class="text-end fw-bold text-success">₹1,680.00</td>
-                        <td class="text-center"><span class="badge bg-success px-3 py-1 rounded-pill">28 बॅग्स</span></td>
-                        <td class="text-center"><span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill">सक्रीय (Active)</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=2" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 3 -->
-                    <tr class="prod-row" data-cat="कृषी अवजारे" data-name="फाल्कन १६L बॅटरी स्प्रे पंप falcon battery sprayer">
-                        <td class="ps-3">
-                            <img src="images/battery_sprayer.jpg" alt="Sprayer" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">फाल्कन १६L बॅटरी स्प्रे पंप</strong>
-                            <small class="text-muted">Falcon 16L Battery Knapsack Sprayer</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Falcon Agri</span></td>
-                        <td><span class="badge bg-info-subtle text-info">कृषी अवजारे</span></td>
-                        <td class="text-end fw-bold text-success">₹2,800.00</td>
-                        <td class="text-center"><span class="badge bg-warning text-dark px-3 py-1 rounded-pill">3 नग (कमी)</span></td>
-                        <td class="text-center"><span class="badge bg-warning-subtle text-warning border border-warning px-2 py-1 rounded-pill">कमी साठा (Low)</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=3" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 4 -->
-                    <tr class="prod-row" data-cat="खते" data-name="कोरोमंडेल १०:२६:२६ ग्रोमोर coromandel gromor">
-                        <td class="ps-3">
-                            <img src="images/npk_fertilizer.jpg" alt="Gromor" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">कोरोमंडेल १०:२६:२६ ग्रोमोर खत</strong>
-                            <small class="text-muted">Coromandel Gromor 10:26:26 (50kg)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Coromandel</span></td>
-                        <td><span class="badge bg-success-subtle text-success">खते (Fertilizers)</span></td>
-                        <td class="text-end fw-bold text-success">₹1,470.00</td>
-                        <td class="text-center"><span class="badge bg-warning text-dark px-3 py-1 rounded-pill">4 बॅग्स</span></td>
-                        <td class="text-center"><span class="badge bg-warning-subtle text-warning border border-warning px-2 py-1 rounded-pill">कमी साठा</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=4" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 5 -->
-                    <tr class="prod-row" data-cat="कीटकनाशके" data-name="सिजेंटा ॲम्प्लिगो ampligo syngenta">
-                        <td class="ps-3">
-                            <img src="images/pesticide_bottle.jpg" alt="Pesticide" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">सिजेंटा ॲम्प्लिगो कीटकनाशक (100ml)</strong>
-                            <small class="text-muted">Syngenta Ampligo Insecticide</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Syngenta</span></td>
-                        <td><span class="badge bg-danger-subtle text-danger">कीटकनाशके</span></td>
-                        <td class="text-end fw-bold text-success">₹780.00</td>
-                        <td class="text-center"><span class="badge bg-success px-3 py-1 rounded-pill">18 बाटल्या</span></td>
-                        <td class="text-center"><span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill">सक्रीय</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=5" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 6 -->
-                    <tr class="prod-row" data-cat="ठिबक सिंचन" data-name="नेटाफिम १६मिमी इनलाईन ड्रिप पाइप netafim inline drip pipe">
-                        <td class="ps-3">
-                            <img src="images/drip_irrigation.jpg" alt="Drip" class="rounded-3 border" style="width:48px;height:48px;object-fit:cover;" onerror="this.src='images/saptashrungi_shop.jpg'">
-                        </td>
-                        <td>
-                            <strong class="text-dark d-block">नेटाफिम १६मिमी इनलाईन ड्रिप पाईप (४०० मी.)</strong>
-                            <small class="text-muted">Netafim 16mm Inline Drip Lateral (400m)</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">Netafim</span></td>
-                        <td><span class="badge bg-primary-subtle text-primary">ठिबक सिंचन</span></td>
-                        <td class="text-end fw-bold text-success">₹2,450.00</td>
-                        <td class="text-center"><span class="badge bg-success px-3 py-1 rounded-pill">12 बंडल</span></td>
-                        <td class="text-center"><span class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill">सक्रीय</span></td>
-                        <td class="text-center pe-3">
-                            <div class="d-inline-flex gap-1">
-                                <a href="admin-product-form.html?id=6" class="btn btn-sm btn-outline-primary px-2 py-1"><i class="bi bi-pencil-square"></i></a>
-                                <button onclick="deleteProductRow(this)" class="btn btn-sm btn-outline-danger px-2 py-1"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link active">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
+        </a>
+        <a href="offers.html" class="admin-nav-link ">
+            <i class="bi bi-percent text-danger"></i>
+            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
+        </a>
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
 
-        <!-- Empty State Container (shown when 0 products match) -->
-        <div id="adminEmptyState" class="text-center py-5 px-3 d-none" style="background: linear-gradient(135deg,#f0f9f0,#e8f5e9);">
-            <div style="font-size:3.5rem;" class="mb-3">📦</div>
-            <h4 class="fw-bold text-dark mb-2">📦 कोणतेही Products नाहीत</h4>
-            <p class="text-muted mb-4 small">नवीन product add करा — ते सर्व ग्राहकांसाठी कॅटलॉगमध्ये दिसेल.</p>
-            <a href="admin-product-form.html" class="btn btn-success px-5 py-2 fw-bold rounded-pill shadow-lg">
-                ➕ नवीन उत्पादन जोडा (Add Product)
-            </a>
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-box-seam text-success me-2"></i><span class="lang-mr">उत्पादने यादी (Products)</span><span class="lang-en">Product Catalog</span></h5>
+                    <a href="admin-product-form.html" class="btn btn-success fw-bold px-3 py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
+                        ➕ <span class="lang-mr">Add Product</span><span class="lang-en">Add Product</span>
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">Image</th>
+                                    <th>Name</th>
+                                    <th>Company</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4"><img src="images/wheat_seeds.jpg" class="rounded-3" style="width:40px;height:40px;object-fit:cover;"></td>
+                                    <td><strong class="text-dark">Wheat Seeds (Lok-1)</strong></td>
+                                    <td>MAHABEEJ</td>
+                                    <td><span class="badge bg-light text-dark border">Seeds</span></td>
+                                    <td><strong class="text-success">₹1,350</strong> <small class="text-muted text-decoration-line-through">₹1,450</small></td>
+                                    <td><span class="badge bg-success">60 units</span></td>
+                                    <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4"><img src="images/soybean_seeds.jpg" class="rounded-3" style="width:40px;height:40px;object-fit:cover;"></td>
+                                    <td><strong class="text-dark">Soybean Seeds (JS-335)</strong></td>
+                                    <td>MAHABEEJ</td>
+                                    <td><span class="badge bg-light text-dark border">Seeds</span></td>
+                                    <td><strong class="text-success">₹2,950</strong> <small class="text-muted text-decoration-line-through">₹3,200</small></td>
+                                    <td><span class="badge bg-success">40 units</span></td>
+                                    <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4"><img src="images/npk_191919.jpg" class="rounded-3" style="width:40px;height:40px;object-fit:cover;"></td>
+                                    <td><strong class="text-dark">NPK 19:19:19</strong></td>
+                                    <td>IFFCO</td>
+                                    <td><span class="badge bg-light text-dark border">Fertilizers</span></td>
+                                    <td><strong class="text-success">₹1,890</strong> <small class="text-muted text-decoration-line-through">₹2,350</small></td>
+                                    <td><span class="badge bg-success">85 units</span></td>
+                                    <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-function filterAdminTable() {
-    const q = (document.getElementById('adminProdSearch').value || '').toLowerCase();
-    const cat = document.getElementById('adminProdCat').value;
-    const rows = document.querySelectorAll('.prod-row');
-    let visible = 0;
-
-    rows.forEach(r => {
-        const name = (r.getAttribute('data-name') || '').toLowerCase();
-        const rowCat = r.getAttribute('data-cat') || '';
-        const matchQ = !q || name.includes(q);
-        const matchCat = !cat || rowCat.includes(cat);
-        if (matchQ && matchCat) {
-            r.classList.remove('d-none');
-            visible++;
-        } else {
-            r.classList.add('d-none');
-        }
-    });
-
-    const emptyBox = document.getElementById('adminEmptyState');
-    const table = document.getElementById('adminProdTable');
-    if (visible === 0) {
-        emptyBox.classList.remove('d-none');
-        table.classList.add('d-none');
-    } else {
-        emptyBox.classList.add('d-none');
-        table.classList.remove('d-none');
-    }
-    document.getElementById('prodCountBadge').textContent = 'दिसत आहेत: ' + visible + ' उत्पादने';
-}
-
-function deleteProductRow(btn) {
-    if (confirm('तुम्हाला खात्री आहे की हे उत्पादन काढून टाकायचे आहे?')) {
-        const row = btn.closest('tr');
-        row.remove();
-        filterAdminTable();
-    }
-}
-</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">

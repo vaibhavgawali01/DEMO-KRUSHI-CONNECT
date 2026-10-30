@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>उधारी खातेवही | Credit Management - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <title>उधारी व्यवस्थापन | Credit Ledger Management - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
@@ -169,173 +169,161 @@
     </div>
 </nav>
 
-<div class="container-fluid px-3 px-lg-4 my-4" style="max-width:1400px;">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div>
-            <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                <span>💰</span> <span class="lang-mr">शेतकरी उधारी व्यवस्थापन व खातेवही</span><span class="lang-en">Customer Credit Ledger</span>
-            </h1>
-            <p class="text-muted small m-0 mt-1">
-                <span class="lang-mr">शेतकऱ्यांनी नेलेल्या वस्तू, उधारी रक्कम, जमा, बाकी व देय तारीख व्यवस्थापन</span>
-                <span class="lang-en">Track customer credit balances, payment receipts, due dates and settlements</span>
-            </p>
-        </div>
-        <div>
-            <button class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm" onclick="alert('नवीन उधारी नोंद फॉर्म उघडत आहे...')">
-                ➕ <span class="lang-mr">+ नवीन उधारी नोंद करा</span><span class="lang-en">+ Add Credit Record</span>
-            </button>
-        </div>
-    </div>
-<div class="d-flex flex-wrap gap-2 mb-4 p-2 bg-white rounded-4 shadow-sm border"><a href="admin-dashboard.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-grid-1x2-fill me-1"></i><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a><a href="admin-products.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-box-seam-fill me-1"></i><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a><a href="admin-product-form.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-plus-circle-fill me-1"></i><span class="lang-mr">➕ उत्पादन जोडा</span><span class="lang-en">➕ Add Product</span></a><a href="admin-udhari.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-success text-white shadow-sm"><i class="bi bi-wallet2 me-1"></i><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></a><a href="admin-inventory.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-boxes me-1"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी</span><span class="lang-en">Inventory & Expiry</span></a></div>
-    <!-- 3 Summary Metric Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-muted small fw-bold">एकूण दिलेली उधारी (Total Credit Issued)</span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#dbeafe;color:#0284c7;"><i class="bi bi-credit-card"></i></div>
-                </div>
-                <h3 class="fw-bold text-dark mb-1">₹1,12,500</h3>
-                <small class="text-muted">चालू हंगामातील एकूण उधारी</small>
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-muted small fw-bold">एकूण जमा रक्कम (Total Recovered)</span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
                 </div>
-                <h3 class="fw-bold text-success mb-1">₹69,700</h3>
-                <small class="text-success">६२% रक्कम यशस्वी जमा</small>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100" style="border-left: 4px solid #dc2626 !important;">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-danger small fw-bold">🔴 बाकी उधारी (Outstanding Balance)</span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#fee2e2;color:#dc2626;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
                 </div>
-                <h3 class="fw-bold text-danger mb-1">₹42,800</h3>
-                <small class="text-danger">३ खात्यांची मुदत संपलेली (Overdue)</small>
             </div>
         </div>
     </div>
 
-    <!-- Udhari Table with Mark as Paid option -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-people-fill text-success me-2"></i>ग्राहक उधारी यादी (Customer Credit Accounts)</h5>
-            <span class="badge bg-light text-dark border px-3 py-1">१२ सक्रिय खाती</span>
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link active">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
+        </a>
+        <a href="offers.html" class="admin-nav-link ">
+            <i class="bi bi-percent text-danger"></i>
+            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
+        </a>
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" style="font-size: 13.5px;">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">ग्राहक नाव (Customer Name)</th>
-                        <th>गाव (Village)</th>
-                        <th>नेलेल्या वस्तू (Items Taken)</th>
-                        <th class="text-end">एकूण रक्कम</th>
-                        <th class="text-end">जमा रक्कम</th>
-                        <th class="text-end text-danger">बाकी रक्कम (Amount)</th>
-                        <th class="text-center">देय तारीख (Due Date)</th>
-                        <th class="text-center">स्थिती (Status)</th>
-                        <th class="text-center pe-4" style="width: 170px;">कृती (Mark Paid)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Row 1 -->
-                    <tr id="udhariRow1">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">रमेश पाटील</strong>
-                            <small class="text-muted"><i class="bi bi-telephone text-success"></i> ९८२२०१२३४५</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">वैजापूर</span></td>
-                        <td>कापूस बियाणे व एनपीके खत</td>
-                        <td class="text-end fw-semibold">₹12,500.00</td>
-                        <td class="text-end text-success fw-semibold">₹10,000.00</td>
-                        <td class="text-end fw-bold text-danger fs-6" id="udhariBal1">₹2,500.00</td>
-                        <td class="text-center"><span class="badge bg-light text-dark border">१५ नोव्हेंबर २०२६</span></td>
-                        <td class="text-center" id="udhariStatus1"><span class="badge bg-warning text-dark">चालू उधारी (Active)</span></td>
-                        <td class="text-center pe-4">
-                            <button onclick="markAsPaid(1, 'रमेश पाटील', '2,500.00')" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold shadow-sm" id="btnPaid1">
-                                <i class="bi bi-check2-all me-1"></i> Mark as Paid
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Row 2 -->
-                    <tr id="udhariRow2">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">विलास जगताप</strong>
-                            <small class="text-muted"><i class="bi bi-telephone text-success"></i> ९८२३४५६७८०</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">मिरखनगर</span></td>
-                        <td>महाधन २४:२४:० (२ बॅग्स)</td>
-                        <td class="text-end fw-semibold">₹6,720.00</td>
-                        <td class="text-end text-success fw-semibold">₹3,000.00</td>
-                        <td class="text-end fw-bold text-danger fs-6" id="udhariBal2">₹3,720.00</td>
-                        <td class="text-center"><span class="badge bg-light text-dark border">१० नोव्हेंबर २०२६</span></td>
-                        <td class="text-center" id="udhariStatus2"><span class="badge bg-warning text-dark">चालू उधारी</span></td>
-                        <td class="text-center pe-4">
-                            <button onclick="markAsPaid(2, 'विलास जगताप', '3,720.00')" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold shadow-sm" id="btnPaid2">
-                                <i class="bi bi-check2-all me-1"></i> Mark as Paid
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Row 3 -->
-                    <tr id="udhariRow3">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">सचिन काळे</strong>
-                            <small class="text-muted"><i class="bi bi-telephone text-success"></i> ९४२१५५६६७७</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">लाडगाव</span></td>
-                        <td>फाल्कन बॅटरी स्प्रे पंप</td>
-                        <td class="text-end fw-semibold">₹2,800.00</td>
-                        <td class="text-end text-success fw-semibold">₹0.00</td>
-                        <td class="text-end fw-bold text-danger fs-6" id="udhariBal3">₹2,800.00</td>
-                        <td class="text-center"><span class="badge bg-danger text-white">२५ ऑक्टोबर (Overdue)</span></td>
-                        <td class="text-center" id="udhariStatus3"><span class="badge bg-danger">थकबाकी (Overdue)</span></td>
-                        <td class="text-center pe-4">
-                            <button onclick="markAsPaid(3, 'सचिन काळे', '2,800.00')" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold shadow-sm" id="btnPaid3">
-                                <i class="bi bi-check2-all me-1"></i> Mark as Paid
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Row 4 -->
-                    <tr id="udhariRow4">
-                        <td class="ps-4">
-                            <strong class="text-dark d-block">गजानन थोरात</strong>
-                            <small class="text-muted"><i class="bi bi-telephone text-success"></i> ९८९०११२२३३</small>
-                        </td>
-                        <td><span class="badge bg-light text-dark border">शिऊर</span></td>
-                        <td>१०:२६:२६ ग्रोमोर व सिजेंटा ॲम्प्लिगो</td>
-                        <td class="text-end fw-semibold">₹4,500.00</td>
-                        <td class="text-end text-success fw-semibold">₹4,500.00</td>
-                        <td class="text-end fw-bold text-success fs-6" id="udhariBal4">₹0.00</td>
-                        <td class="text-center"><span class="badge bg-light text-dark border">२० ऑक्टोबर २०२६</span></td>
-                        <td class="text-center" id="udhariStatus4"><span class="badge bg-success">पूर्ण भरली (Paid)</span></td>
-                        <td class="text-center pe-4">
-                            <span class="text-success small fw-bold"><i class="bi bi-check-circle-fill me-1"></i>पूर्ण भरले</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-wallet2 text-warning me-2"></i><span class="lang-mr">शेतकरी उधारी खाते (Credit Ledger)</span><span class="lang-en">Credit Ledger Management</span></h5>
+                    <div class="badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill fw-bold">
+                        Total Outstanding: ₹8,000
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">Customer Name</th>
+                                    <th>Contact</th>
+                                    <th>Village</th>
+                                    <th>Remaining Udhari</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Ramesh Patil</td>
+                                    <td>8600813827</td>
+                                    <td>Vaijapur</td>
+                                    <td><strong class="text-danger">₹3,500</strong></td>
+                                    <td>15 Nov 2026</td>
+                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                    <td class="text-end pe-4">
+                                        <button class="btn btn-sm btn-success rounded-pill px-3" onclick="alert('Marked as paid!'); this.disabled=true; this.innerText='Paid';">Mark as Paid</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Suresh Deshmukh</td>
+                                    <td>9822001122</td>
+                                    <td>Shrirampur</td>
+                                    <td><strong class="text-danger">₹4,500</strong></td>
+                                    <td>28 Oct 2026</td>
+                                    <td><span class="badge bg-danger text-white">Overdue</span></td>
+                                    <td class="text-end pe-4">
+                                        <button class="btn btn-sm btn-success rounded-pill px-3" onclick="alert('Marked as paid!'); this.disabled=true; this.innerText='Paid';">Mark as Paid</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-function markAsPaid(rowId, name, amount) {
-    if (confirm(name + ' यांचे उधारी खाते पूर्ण भरले म्हणून चिन्हांकित करायचे आहे का? (रक्कम: ₹' + amount + ')')) {
-        document.getElementById('udhariBal' + rowId).textContent = '₹0.00';
-        document.getElementById('udhariBal' + rowId).className = 'text-end fw-bold text-success fs-6';
-        document.getElementById('udhariStatus' + rowId).innerHTML = '<span class="badge bg-success">पूर्ण भरली (Paid in Full)</span>';
-        const btn = document.getElementById('btnPaid' + rowId);
-        btn.disabled = true;
-        btn.className = 'btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold';
-        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Paid!';
-    }
-}
-</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">

@@ -169,172 +169,178 @@
     </div>
 </nav>
 
-<div class="container my-4" style="max-width:960px;">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                <span>➕</span> <span class="lang-mr">नवीन कृषी उत्पादन जोडा / बदला</span><span class="lang-en">Add / Edit Agricultural Product</span>
-            </h1>
-            <p class="text-muted small m-0 mt-1">
-                <span class="lang-mr">उत्पादनाचे तपशील, दर, जीएसटी, साठा मर्यादा व फोटो भरा</span>
-                <span class="lang-en">Configure product specifications, price, GST, stock threshold and image</span>
-            </p>
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
         </div>
-        <a href="admin-products.html" class="btn btn-light border px-3 py-2 rounded-pill shadow-sm">
-            ← <span class="lang-mr">उत्पादने यादी</span><span class="lang-en">Back to Products</span>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
         </a>
+        <a href="admin-products.html" class="admin-nav-link active">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
     </div>
-<div class="d-flex flex-wrap gap-2 mb-4 p-2 bg-white rounded-4 shadow-sm border"><a href="admin-dashboard.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-grid-1x2-fill me-1"></i><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a><a href="admin-products.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-box-seam-fill me-1"></i><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a><a href="admin-product-form.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-success text-white shadow-sm"><i class="bi bi-plus-circle-fill me-1"></i><span class="lang-mr">➕ उत्पादन जोडा</span><span class="lang-en">➕ Add Product</span></a><a href="admin-udhari.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-wallet2 me-1"></i><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></a><a href="admin-inventory.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-boxes me-1"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी</span><span class="lang-en">Inventory & Expiry</span></a></div>
-    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <form id="adminProductForm" onsubmit="handleProductSave(event)">
-            <div class="row g-3">
-                <!-- 1. Name (English) -->
-                <div class="col-md-6">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Product Name (English) *
-                    </label>
-                    <input type="text" id="fName" class="form-control" required placeholder="e.g. Mahyco Bollgard II Cotton Seeds (475g)" value="Mahyco Bollgard II Cotton Seeds (475g)">
-                </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
+        </a>
+        <a href="offers.html" class="admin-nav-link ">
+            <i class="bi bi-percent text-danger"></i>
+            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
+        </a>
+    </nav>
 
-                <!-- 2. NameMr (Marathi) -->
-                <div class="col-md-6">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        उत्पादनाचे नाव (मराठी) *
-                    </label>
-                    <input type="text" id="fNameMr" class="form-control" required placeholder="उदा. माहिको बीजी-२ कापूस बियाणे" value="माहिको बीजी-२ कापूस बियाणे">
-                </div>
-
-                <!-- 3. Company -->
-                <div class="col-md-4">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Company / Manufacturer *
-                    </label>
-                    <input type="text" id="fCompany" class="form-control" required placeholder="उदा. Mahyco, Bayer, Syngenta, IFFCO" value="Mahyco Seeds">
-                </div>
-
-                <!-- 4. Category -->
-                <div class="col-md-4">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Category / वर्ग *
-                    </label>
-                    <select id="fCategory" class="form-select" required>
-                        <option value="बियाणे" selected>बियाणे (Seeds)</option>
-                        <option value="खते">खते (Fertilizers)</option>
-                        <option value="कीटकनाशके">कीटकनाशके (Pesticides)</option>
-                        <option value="कृषी अवजारे">कृषी अवजारे व पंप (Farm Tools & Sprayers)</option>
-                        <option value="ठिबक सिंचन">ठिबक सिंचन (Drip Irrigation)</option>
-                    </select>
-                </div>
-
-                <!-- 5. GST Rate -->
-                <div class="col-md-4">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        GST Rate (%) *
-                    </label>
-                    <select id="fGstRate" class="form-select" required>
-                        <option value="0" selected>0% (बियाणे / करमुक्त)</option>
-                        <option value="5">5% (खते / पशुखाद्य)</option>
-                        <option value="12">12% (ड्रिप सिंचन / पंप)</option>
-                        <option value="18">18% (कीटकनाशके / टॉनिक)</option>
-                    </select>
-                </div>
-
-                <!-- 6. Price (MRP) -->
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Price / MRP (₹) *
-                    </label>
-                    <input type="number" step="0.01" id="fPrice" class="form-control" required placeholder="864.00" value="864.00">
-                </div>
-
-                <!-- 7. Discount Price -->
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Discount Price (₹)
-                    </label>
-                    <input type="number" step="0.01" id="fDiscountPrice" class="form-control" placeholder="820.00" value="820.00">
-                </div>
-
-                <!-- 8. Stock Quantity -->
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Stock Quantity *
-                    </label>
-                    <input type="number" id="fStockQuantity" class="form-control" required min="0" value="45">
-                </div>
-
-                <!-- 9. Minimum Stock Alert Threshold -->
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Minimum Stock Alert *
-                    </label>
-                    <input type="number" id="fMinimumStock" class="form-control" required min="1" value="10">
-                </div>
-
-                <!-- 10. Image Upload & Preview -->
-                <div class="col-md-12">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Image Upload (उत्पादन फोटो)
-                    </label>
-                    <input type="file" id="fImageFile" accept="image/*" class="form-control" onchange="previewProductImg(event)">
-                    <div class="form-text">Choose JPG, PNG or WebP image. Max 10MB.</div>
-                    <div class="mt-2 d-flex align-items-center gap-3" id="imgPreviewWrap">
-                        <img id="imgPreviewEl" src="images/cotton_seeds.jpg" alt="Preview" class="rounded-3 border shadow-sm p-1" style="width:72px;height:72px;object-fit:cover;">
-                        <span class="small text-muted" id="imgPreviewText">माहिको कापूस बियाणे फोटो लोड आहे</span>
-                    </div>
-                </div>
-
-                <!-- 11. Description -->
-                <div class="col-12">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        Description / सविस्तर माहिती
-                    </label>
-                    <textarea id="fDescription" class="form-control" rows="3" placeholder="उत्पादनाची वैशिष्ट्ये, फायदे, प्रमाण व शिफारस...">उच्च प्रतीचे बीजी-२ तंत्रज्ञान, बोंडअळीपासून संरक्षण व भरघोस उत्पादनाची खात्री. ४७५ ग्रॅम पॅक.</textarea>
-                </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-top d-flex gap-2">
-                <button type="submit" id="btnSaveProd" class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm">
-                    <i class="bi bi-check-circle-fill me-1"></i> Save Product (उत्पादन जतन करा)
-                </button>
-                <a href="admin-products.html" class="btn btn-light border px-4 py-2 rounded-pill">
-                    रद्द करा (Cancel)
-                </a>
-            </div>
-
-            <div id="saveSuccessAlert" class="alert alert-success mt-3 d-none text-center rounded-3">
-                <i class="bi bi-check-circle-fill me-1"></i>
-                <strong>उत्पादन यशस्वीरीत्या जतन केले!</strong> उत्पादने यादीकडे नेले जात आहे...
-            </div>
-        </form>
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
     </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
 </div>
 
-<script>
-function previewProductImg(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-            document.getElementById('imgPreviewEl').src = evt.target.result;
-            document.getElementById('imgPreviewText').textContent = file.name;
-        };
-        reader.readAsDataURL(file);
-    }
-}
+        </div>
 
-function handleProductSave(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnSaveProd');
-    const alertBox = document.getElementById('saveSuccessAlert');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>जतन होत आहे...';
-    alertBox.classList.remove('d-none');
-    setTimeout(() => {
-        window.location.href = 'admin-products.html';
-    }, 800);
-}
-</script>
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-plus-circle text-success me-2"></i><span class="lang-mr">उत्पादन जोडा / बदला</span><span class="lang-en">Add / Edit Product</span></h5>
+                    <a href="admin-products.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">&larr; Back to Products</a>
+                </div>
+                <div class="card-body p-4">
+                    <form onsubmit="alert('Product saved successfully!'); window.location.href='admin-products.html'; return false;">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-success">Product Name (English) *</label>
+                                <input type="text" class="form-control" placeholder="e.g. Wheat Seeds (Lok-1)" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-success">Product Name (Marathi)</label>
+                                <input type="text" class="form-control" placeholder="उदा. गहू बियाणे (लोक-१)">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">Company / Brand</label>
+                                <input type="text" class="form-control" placeholder="e.g. MAHABEEJ / IFFCO">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">Category</label>
+                                <select class="form-select">
+                                    <option value="1">Seeds (बियाणे)</option>
+                                    <option value="2">Fertilizers (खते)</option>
+                                    <option value="3">Pesticides (कीटकनाशके)</option>
+                                    <option value="4">Farming Tools (शेती अवजारे)</option>
+                                    <option value="5">Drip Irrigation (ठिबक सिंचन)</option>
+                                    <option value="6">Animal Feed (पशूखाद्य)</option>
+                                    <option value="7">Organic Products (सेंद्रिय)</option>
+                                    <option value="8">Plant Growth Promoters (वाढ संप्रेरके)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">GST Rate (%)</label>
+                                <input type="number" step="0.01" class="form-control" placeholder="0.00 or 5.00" value="0.00">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">Original Price (₹) *</label>
+                                <input type="number" step="0.01" class="form-control" placeholder="1450" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">Discount Price (₹)</label>
+                                <input type="number" step="0.01" class="form-control" placeholder="1350">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-bold text-success">Stock Quantity</label>
+                                <input type="number" class="form-control" placeholder="60" value="50">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-bold text-success">Minimum Stock Alert</label>
+                                <input type="number" class="form-control" placeholder="10" value="10">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-success">Description</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter product usage details, application dosage, etc."></textarea>
+                            </div>
+                            <div class="col-12 text-end pt-3">
+                                <button type="submit" class="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
+                                    💾 Save Product
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">

@@ -169,154 +169,347 @@
     </div>
 </nav>
 
-<div class="container-fluid px-3 px-lg-4 my-4" style="max-width:1400px;">
-    <!-- Welcome Header -->
-    <div class="card border-0 shadow-sm rounded-4 text-white p-4 mb-4 overflow-hidden position-relative" style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 60%, #14532d 100%);">
-        <div class="row align-items-center g-3 position-relative" style="z-index:2;">
-            <div class="col-md-7">
-                <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill mb-2 fw-semibold">
-                    🌱 <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span><span class="lang-en">Saptashrungi Agro Services, Mirakhnagar</span>
-                </span>
-                <h2 class="display-6 fw-bold mb-1"><span class="lang-mr">व्यवस्थापन डॅशबोर्ड</span><span class="lang-en">Admin Dashboard</span></h2>
-                <p class="text-white-50 small mb-0"><span class="lang-mr">विक्री, इन्व्हेंटरी, शेतकरी उधारी खाती आणि दुकानाच्या कामगिरीचा थेट आढावा.</span><span class="lang-en">Overview of sales, inventory, farmer accounts, and store performance.</span></p>
-            </div>
-            <div class="col-md-5 text-md-end d-flex gap-2 justify-content-md-end flex-wrap">
-                <a href="admin-product-form.html" class="btn btn-light text-success fw-bold px-3 py-2 rounded-pill shadow-sm">
-                    ➕ <span class="lang-mr">Add Product (उत्पादन जोडा)</span><span class="lang-en">Add Product</span>
-                </a>
-                <a href="admin-products.html" class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill">
-                    📦 <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
-                </a>
-                <button onclick="handleLogout()" class="btn btn-danger fw-bold px-3 py-2 rounded-pill shadow-sm">
-                    <i class="bi bi-box-arrow-right me-1"></i><span class="lang-mr">लॉगआउट</span><span class="lang-en">Logout</span>
-                </button>
-            </div>
-        </div>
-    </div>
-<div class="d-flex flex-wrap gap-2 mb-4 p-2 bg-white rounded-4 shadow-sm border"><a href="admin-dashboard.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-success text-white shadow-sm"><i class="bi bi-grid-1x2-fill me-1"></i><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a><a href="admin-products.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-box-seam-fill me-1"></i><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a><a href="admin-product-form.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-plus-circle-fill me-1"></i><span class="lang-mr">➕ उत्पादन जोडा</span><span class="lang-en">➕ Add Product</span></a><a href="admin-udhari.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-wallet2 me-1"></i><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></a><a href="admin-inventory.html" class="btn btn-sm rounded-pill fw-bold px-3 py-2 btn-light text-dark"><i class="bi bi-boxes me-1"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी</span><span class="lang-en">Inventory & Expiry</span></a></div>
-    <!-- Low Stock Alert Banner -->
-    <div class="alert alert-warning border-0 shadow-sm rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 p-3" style="background:#fffbeb; border-left: 5px solid #f59e0b !important;">
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Left Sidebar (Screenshot 3) -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
         <div class="d-flex align-items-center gap-3">
-            <div style="width:40px;height:40px;border-radius:10px;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.25rem;">⚠️</div>
-            <div>
-                <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">कमी साठा चेतावणी (Low Stock Alerts)</span><span class="lang-en">Low Stock Alerts</span></h6>
-                <small class="text-muted"><span class="lang-mr"><strong>३ उत्पादनांचा</strong> साठा कमी झाला आहे (उदा. फाल्कन बॅटरी पंप, 10:26:26 खत).</span><span class="lang-en"><strong>3 products</strong> are running below safety threshold.</span></small>
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
             </div>
         </div>
-        <a href="admin-inventory.html" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill">
-            <span class="lang-mr">इन्व्हेंटरी तपासा &rarr;</span><span class="lang-en">Check Inventory &rarr;</span>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link active">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
         </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
     </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-credit-card-fill text-info"></i>
+            <span><span class="lang-mr">पेमेंट्स</span><span class="lang-en">Payments</span></span>
+        </a>
+        <a href="offers.html" class="admin-nav-link ">
+            <i class="bi bi-percent text-danger"></i>
+            <span><span class="lang-mr">ऑफर व कुपन्स</span><span class="lang-en">Offers &amp; Coupons</span></span>
+        </a>
+    </nav>
 
-    <!-- 4 Main Stats Cards: Total Products, Total Users, Udhari Outstanding, Monthly Revenue -->
-    <div class="row g-3 mb-4">
-        <!-- 1. Total Products -->
-        <div class="col-sm-6 col-xl-3">
-            <a href="admin-products.html" class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 text-decoration-none text-dark">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-muted small fw-bold"><span class="lang-mr">एकूण उत्पादने (Total Products)</span><span class="lang-en">Total Products</span></span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#dbeafe;color:#0284c7;"><i class="bi bi-box-seam-fill"></i></div>
-                </div>
-                <h3 class="fw-bold text-dark mb-1">128</h3>
-                <small class="text-success"><i class="bi bi-check-circle-fill me-1"></i>125 स्टॉकमध्ये उपलब्ध</small>
-            </a>
-        </div>
-
-        <!-- 2. Total Users -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-muted small fw-bold"><span class="lang-mr">एकूण युझर्स (Total Users)</span><span class="lang-en">Total Users</span></span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#f3e8ff;color:#7c3aed;"><i class="bi bi-people-fill"></i></div>
-                </div>
-                <h3 class="fw-bold text-primary mb-1">520+</h3>
-                <small class="text-muted"><span class="lang-mr">नोंदणीकृत शेतकरी ग्राहक</span><span class="lang-en">Registered Farmers</span></small>
-            </div>
-        </div>
-
-        <!-- 3. Udhari Outstanding -->
-        <div class="col-sm-6 col-xl-3">
-            <a href="admin-udhari.html" class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 text-decoration-none text-dark" style="border-left: 4px solid #dc2626 !important;">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-danger small fw-bold"><span class="lang-mr">बाकी उधारी (Udhari Outstanding)</span><span class="lang-en">Udhari Outstanding</span></span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#fee2e2;color:#dc2626;"><i class="bi bi-wallet-fill"></i></div>
-                </div>
-                <h3 class="fw-bold text-danger mb-1">₹42,800</h3>
-                <small class="text-danger"><i class="bi bi-exclamation-circle-fill me-1"></i>१२ शेतकऱ्यांकडे बाकी</small>
-            </a>
-        </div>
-
-        <!-- 4. Monthly Revenue -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-muted small fw-bold"><span class="lang-mr">मासिक महसूल (Monthly Revenue)</span><span class="lang-en">Monthly Revenue</span></span>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#dcfce7;color:#16a34a;"><i class="bi bi-cash-stack"></i></div>
-                </div>
-                <h3 class="fw-bold text-success mb-1">₹1,48,500</h3>
-                <small class="text-success"><i class="bi bi-arrow-up-short"></i>+18.4% चालू महिना</small>
-            </div>
-        </div>
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
     </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
 
-    <!-- Recent Orders Table -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-receipt text-success fs-5"></i>
-                <h5 class="fw-bold mb-0 text-dark"><span class="lang-mr">अलीकडील ऑर्डर्स व पावत्या (Recent Orders)</span><span class="lang-en">Recent Orders & Invoices</span></h5>
-            </div>
-            <a href="admin-products.html" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
-                <span class="lang-mr">सर्व उत्पादने &rarr;</span><span class="lang-en">View Products &rarr;</span>
-            </a>
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">पावती क्र. (Order ID)</th>
-                        <th>शेतकरी ग्राहक (Customer Name)</th>
-                        <th>तारीख</th>
-                        <th>उत्पादने व प्रमाण</th>
-                        <th class="text-end">रक्कम (Amount)</th>
-                        <th class="text-center">स्थिती (Status)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="ps-4"><strong class="text-success">#KSK-8492</strong></td>
-                        <td><strong>रमेश पाटील</strong><br><small class="text-muted">९८२२०१२३४५ • वैजापूर</small></td>
-                        <td>३० ऑक्टोबर २०२६</td>
-                        <td>माहिको बीजी-२ कापूस (२ बॅग्स)</td>
-                        <td class="text-end fw-bold text-success">₹1,640.00</td>
-                        <td class="text-center"><span class="badge bg-success">वितरित (Delivered)</span></td>
-                    </tr>
-                    <tr>
-                        <td class="ps-4"><strong class="text-success">#KSK-8491</strong></td>
-                        <td><strong>विलास जगताप</strong><br><small class="text-muted">९८२३४५६७८० • मिरखनगर</small></td>
-                        <td>२९ ऑक्टोबर २०२६</td>
-                        <td>महाधन २४:२४:० खत (५० किलो, २ बॅग्स)</td>
-                        <td class="text-end fw-bold text-success">₹3,360.00</td>
-                        <td class="text-center"><span class="badge bg-success">वितरित (Delivered)</span></td>
-                    </tr>
-                    <tr>
-                        <td class="ps-4"><strong class="text-success">#KSK-8490</strong></td>
-                        <td><strong>सचिन काळे</strong><br><small class="text-muted">९४२१५५६६७७ • लाडगाव</small></td>
-                        <td>२९ ऑक्टोबर २०२६</td>
-                        <td>फाल्कन १६L बॅटरी स्प्रे पंप</td>
-                        <td class="text-end fw-bold text-success">₹2,800.00</td>
-                        <td class="text-center"><span class="badge bg-primary">तयार (Processing)</span></td>
-                    </tr>
-                    <tr>
-                        <td class="ps-4"><strong class="text-success">#KSK-8489</strong></td>
-                        <td><strong>गजानन थोरात</strong><br><small class="text-muted">९८९०११२२३३ • शिऊर</small></td>
-                        <td>२८ ऑक्टोबर २०२६</td>
-                        <td>कोरोमंडेल १०:२६:२६ ग्रोमोर खत</td>
-                        <td class="text-end fw-bold text-success">₹1,470.00</td>
-                        <td class="text-center"><span class="badge bg-success">वितरित (Delivered)</span></td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <!-- Main Workspace Area -->
+        <div class="col-lg-9 col-xl-10">
+            <!-- Green Welcome Banner (Screenshot 4) -->
+            <div class="admin-welcome-banner mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div>
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-25 small mb-2 fw-semibold">
+                            <span>🌱</span>
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
+                            <span class="lang-en">Saptashrungi Agro Services, Mirkhanagar</span>
+                        </div>
+                        <h2 class="h3 fw-bold mb-1 text-white">
+                            <span class="lang-mr">व्यवस्थापन डॅशबोर्ड</span>
+                            <span class="lang-en">Admin Dashboard</span>
+                        </h2>
+                        <p class="text-white-50 small mb-0">
+                            <span class="lang-mr">विक्री, इन्व्हेंटरी, शेतकरी खाती आणि दुकानाच्या कामगिरीचा आढावा.</span>
+                            <span class="lang-en">Overview of sales, inventory, farmer accounts, and store performance.</span>
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <a href="admin-product-form.html" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
+                            <span>➕</span>
+                            <span class="lang-mr">Add Product (नवीन उत्पादन)</span>
+                            <span class="lang-en">Add Product</span>
+                        </a>
+                        <a href="admin-dashboard.html" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+                            <span class="lang-mr">अहवाल</span>
+                            <span class="lang-en">Reports</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Main Stats Cards (Screenshot 4) -->
+            <div class="row g-3 mb-4">
+                <!-- 1. Total Products -->
+                <div class="col-sm-6 col-xl-3">
+                    <a href="admin-products.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label"><span class="lang-mr">एकूण उत्पादने (Total Products)</span><span class="lang-en">Total Products</span></span>
+                            <div class="admin-kpi-icon-wrap" style="background: #dbeafe; color: #0284c7;">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val">14</div>
+                            <span class="admin-kpi-badge" style="background: #eff6ff; color: #0284c7;">
+                                <i class="bi bi-boxes"></i> <span class="lang-mr">कॅटलॉग यादी</span><span class="lang-en">In Catalog</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 2. Total Users -->
+                <div class="col-sm-6 col-xl-3">
+                    <a href="admin-customers.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label"><span class="lang-mr">एकूण युझर्स (Total Users)</span><span class="lang-en">Total Users</span></span>
+                            <div class="admin-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val">7</div>
+                            <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
+                                <i class="bi bi-person-check-fill"></i> <span class="lang-mr">नोंदणीकृत शेतकरी</span><span class="lang-en">Registered Farmers</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 3. Udhari Outstanding -->
+                <div class="col-sm-6 col-xl-3">
+                    <a href="admin-udhari.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label"><span class="lang-mr">बाकी उधारी (Udhari Outstanding)</span><span class="lang-en">Udhari Outstanding</span></span>
+                            <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val" style="color: #dc2626;">₹8,000</div>
+                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;">
+                                <span class="lang-mr">1 मुदत संपलेली खाती</span><span class="lang-en">1 Overdue</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 4. Monthly Revenue -->
+                <div class="col-sm-6 col-xl-3">
+                    <a href="admin-dashboard.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label"><span class="lang-mr">मासिक महसूल (Monthly Revenue)</span><span class="lang-en">Monthly Revenue</span></span>
+                            <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-cash-stack"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val text-success">₹0</div>
+                            <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-graph-up-arrow"></i> <span class="lang-mr">चालू महिना विक्री</span><span class="lang-en">Current Month</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Two Column Section: Recent Orders & Quick Actions (Screenshot 2) -->
+            <div class="row g-4 mb-4">
+                <!-- Left: Recent Orders -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white">
+                        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-receipt text-success fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0"><span class="lang-mr">अलीकडील ऑर्डर्स</span><span class="lang-en">Recent Orders</span></h6>
+                            </div>
+                            <a href="admin-products.html" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                                <span class="lang-mr">सर्व पाहा &rarr;</span><span class="lang-en">View All &rarr;</span>
+                            </a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-muted small">
+                                    <tr>
+                                        <th class="ps-4">Order ID</th>
+                                        <th>Customer Name</th>
+                                        <th class="text-end">Amount</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <span class="fw-bold text-success">KSK-2026-00001</span>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark">Ramesh Patil</div>
+                                        </td>
+                                        <td class="text-end fw-bold text-dark">₹4499.00</td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1">Delivered</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <span class="fw-bold text-success">KSK-2026-00002</span>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark">Suresh Deshmukh</div>
+                                        </td>
+                                        <td class="text-end fw-bold text-dark">₹2850.00</td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">Processing</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <span class="fw-bold text-success">KSK-2026-00003</span>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark">Dnyaneshwar Pawar</div>
+                                        </td>
+                                        <td class="text-end fw-bold text-dark">₹1350.00</td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1">Delivered</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Actions (Screenshot 2) -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
+                            <h6 class="fw-bold text-dark mb-0"><span class="lang-mr">जलद ॲक्शन्स</span><span class="lang-en">Quick Actions</span></h6>
+                        </div>
+
+                        <a href="admin-product-form.html" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-plus-lg"></i>
+                            </div>
+                            <div class="flex-grow-1"><span class="lang-mr">नवीन उत्पादन जोडा</span><span class="lang-en">Add New Product</span></div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a href="admin-inventory.html" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #e0f2fe; color: #0284c7;">
+                                <i class="bi bi-boxes"></i>
+                            </div>
+                            <div class="flex-grow-1"><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory Management</span></div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a href="admin-udhari.html" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #fef3c7; color: #d97706;">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                            <div class="flex-grow-1"><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a href="admin-customers.html" class="admin-tool-item">
+                            <div class="admin-tool-icon-box" style="background: #f3e8ff; color: #7c3aed;">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="flex-grow-1"><span class="lang-mr">शेतकरी ग्राहक यादी</span><span class="lang-en">Farmers Directory</span></div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <a href="admin-dashboard.html" class="admin-tool-item mb-0">
+                            <div class="admin-tool-icon-box" style="background: #f1f5f9; color: #475569;">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div class="flex-grow-1"><span class="lang-mr">विक्री अहवाल</span><span class="lang-en">Sales Reports</span></div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </a>
+
+                        <!-- Shop Info Small Card (Screenshot 2) -->
+                        <div class="mt-4 p-3 rounded-3" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge bg-success"><span class="lang-mr">ऑनलाइन दुकान</span><span class="lang-en">Online Shop</span></span>
+                                <small class="fw-bold text-dark">Saptashrungi Agro Services</small>
+                            </div>
+                            <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                📍 Mirkhanagar, Vaijapur, Chhatrapati Sambhajinagar<br>
+                                📞 8600813827 | UPI Active
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
