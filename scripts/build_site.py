@@ -6,12 +6,15 @@ BASE_DIR = r"c:\Users\HP\OneDrive\Documents\krushi seva"
 DIST_DIR = os.path.join(BASE_DIR, "dist")
 STATIC_DIR = os.path.join(BASE_DIR, "src", "main", "resources", "static")
 
-# 1. Ensure asset directories are mirrored
+# 1. Ensure asset directories are mirrored across root and subfolders
 for folder in ["css", "js", "images", "videos"]:
     src = os.path.join(STATIC_DIR, folder)
     dst = os.path.join(DIST_DIR, folder)
     if os.path.exists(src):
         shutil.copytree(src, dst, dirs_exist_ok=True)
+        for sub in ["customer", "farmer", "admin"]:
+            sub_dst = os.path.join(DIST_DIR, sub, folder)
+            shutil.copytree(src, sub_dst, dirs_exist_ok=True)
 
 def head_html(title_mr, title_en):
     return f"""<!DOCTYPE html>
@@ -19,10 +22,11 @@ def head_html(title_mr, title_en):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>{title_mr} | {title_en} - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
-    <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -35,14 +39,14 @@ def head_html(title_mr, title_en):
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom Theme CSS -->
-    <link href="css/custom.css" rel="stylesheet">
-    <link href="css/dark-mode.css" rel="stylesheet">
-    <link href="css/ui-polish.css" rel="stylesheet">
-    <link href="css/login-page.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="js/premium.js" defer></script>
+    <script src="/js/premium.js" defer></script>
 </head>
 <body>
 """

@@ -32,89 +32,109 @@ def save_customer_page(filename, content):
 def render_customer_sidebar(active_tab):
     """
     Renders the authentic dark customer sidebar from Screenshot 1 (sidebar-customer)
+    with rock-solid inline styling and brand classes.
     """
-    def is_active(tab):
-        return "active" if active_tab == tab else ""
-    
+    def is_act(tab):
+        return active_tab == tab
+
+    def nav_style(tab):
+        if is_act(tab):
+            return "display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #ffffff !important; text-decoration: none !important; font-weight: 700 !important; font-size: 13.5px !important; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important; box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4) !important;"
+        return "display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;"
+
+    def act_cls(tab):
+        return "customer-sidebar-item active" if is_act(tab) else "customer-sidebar-item"
+
     return f"""
-<div class="customer-sidebar-shell mb-4">
+<div class="customer-sidebar-shell mb-4" style="background: linear-gradient(180deg, #091f14 0%, #0d281a 100%) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 22px !important; padding: 26px 16px !important; box-shadow: 0 14px 36px -4px rgba(0, 0, 0, 0.22) !important;">
     <!-- User Profile Header (Screenshot 1) -->
-    <div class="customer-sidebar-user">
-        <div class="customer-avatar-circle">
+    <div class="customer-sidebar-user text-center pb-3 mb-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;">
+        <div class="customer-avatar-circle mx-auto mb-2" style="width: 66px !important; height: 66px !important; border-radius: 50% !important; background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #ffffff !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 28px !important; margin: 0 auto 10px !important; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4) !important; border: 3px solid rgba(255, 255, 255, 0.2) !important;">
             <i class="bi bi-person-fill"></i>
         </div>
-        <h6 class="mb-1 fw-bold text-white" id="sidebarUserDisplayName" style="letter-spacing:0.5px;">VSGAWALI</h6>
-        <small class="text-secondary small text-uppercase" id="sidebarUserDisplayLoc" style="font-size:0.75rem;letter-spacing:0.5px;">KOPARGAON, AHILYANAGAR</small>
+        <h6 class="mb-1 fw-bold text-white text-uppercase" id="sidebarUserDisplayName" style="letter-spacing: 0.6px; font-size: 15px;">Vaibhav Gawali</h6>
+        <small class="text-secondary small text-uppercase d-block" id="sidebarUserDisplayLoc" style="font-size: 11px; letter-spacing: 0.5px; color: #94a3b8 !important;">TAMASWADI, छत्रपती संभाजीनगर</small>
     </div>
 
     <!-- Section: FARMER MENU -->
-    <div class="customer-sidebar-title">
+    <div class="customer-sidebar-title" style="color: #86efac !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 1.2px !important; padding: 8px 14px 6px !important; display: block !important;">
         <span class="lang-mr">शेतकरी मेनू</span>
         <span class="lang-en">FARMER MENU</span>
     </div>
-    <nav class="customer-sidebar-nav">
-        <a href="farmer-dashboard.html" class="customer-sidebar-item {is_active('dashboard')}">
-            <i class="bi bi-grid-1x2-fill text-success fs-5"></i>
+    <nav class="customer-sidebar-nav" style="display: flex !important; flex-direction: column !important; gap: 4px !important; margin-bottom: 14px !important;">
+        <a href="farmer-dashboard.html" class="{act_cls('dashboard')}" style="{nav_style('dashboard')}">
+            <i class="bi bi-grid-fill fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">डॅशबोर्ड</span>
             <span class="lang-en">Dashboard</span>
         </a>
-        <a href="farmer-orders.html" class="customer-sidebar-item {is_active('orders')}">
-            <i class="bi bi-bag-check-fill text-primary fs-5"></i>
+        <a href="farmer-orders.html" class="{act_cls('orders')}" style="{nav_style('orders')}">
+            <i class="bi bi-bag-fill fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">माझ्या ऑर्डर्स</span>
             <span class="lang-en">My Orders</span>
         </a>
-        <a href="farmer-udhari.html" class="customer-sidebar-item {is_active('udhari')}">
-            <i class="bi bi-credit-card-2-front-fill text-warning fs-5"></i>
+        <a href="farmer-udhari.html" class="{act_cls('udhari')}" style="{nav_style('udhari')}">
+            <i class="bi bi-credit-card-2-front-fill fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">उधारी खातेवही</span>
             <span class="lang-en">My Credit Ledger</span>
         </a>
-        <a href="farmer-pay.html" class="customer-sidebar-item {is_active('pay')}">
-            <i class="bi bi-qr-code-scan text-info fs-5"></i>
+        <a href="farmer-pay.html" class="{act_cls('pay')}" style="{nav_style('pay')}">
+            <i class="bi bi-qr-code-scan fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">💳 Pay Now (UPI)</span>
             <span class="lang-en">💳 Pay Now (UPI)</span>
         </a>
-        <a href="farmer-payments.html" class="customer-sidebar-item {is_active('payments')}">
-            <i class="bi bi-receipt-cutoff text-secondary fs-5"></i>
+        <a href="farmer-payments.html" class="{act_cls('payments')}" style="{nav_style('payments')}">
+            <i class="bi bi-receipt-cutoff fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">जमा पावत्या</span>
             <span class="lang-en">Payment History</span>
         </a>
-        <a href="farmer-notifications.html" class="customer-sidebar-item {is_active('notifications')}">
-            <i class="bi bi-bell-fill text-danger fs-5"></i>
+        <a href="farmer-notifications.html" class="{act_cls('notifications')}" style="{nav_style('notifications')}">
+            <i class="bi bi-bell-fill fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">सूचना व अलर्ट</span>
             <span class="lang-en">Notifications</span>
         </a>
-        <a href="farmer-profile.html" class="customer-sidebar-item {is_active('profile')}">
-            <i class="bi bi-person-lines-fill text-success fs-5"></i>
+        <a href="farmer-profile.html" class="{act_cls('profile')}" style="{nav_style('profile')}">
+            <i class="bi bi-person-lines-fill fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">माझी माहिती / प्रोफाइल</span>
             <span class="lang-en">Profile</span>
         </a>
     </nav>
 
     <!-- Section: AGRI TOOLS -->
-    <div class="customer-sidebar-title">
+    <div class="customer-sidebar-title" style="color: #86efac !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 1.2px !important; padding: 10px 14px 6px !important; display: block !important;">
         <span class="lang-mr">कृषी साधने</span>
         <span class="lang-en">AGRI TOOLS</span>
     </div>
-    <nav class="customer-sidebar-nav">
-        <a href="weather.html" class="customer-sidebar-item">
-            <i class="bi bi-cloud-sun text-primary fs-5"></i>
+    <nav class="customer-sidebar-nav" style="display: flex !important; flex-direction: column !important; gap: 4px !important; margin-bottom: 14px !important;">
+        <a href="weather.html" class="customer-sidebar-item" style="{nav_style('weather')}">
+            <i class="bi bi-cloud-sun-fill text-info fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">हवामान अंदाज</span>
             <span class="lang-en">Agri Weather</span>
         </a>
-        <a href="farming-tips.html" class="customer-sidebar-item">
-            <i class="bi bi-journal-check text-warning fs-5"></i>
+        <a href="farming-tips.html" class="customer-sidebar-item" style="{nav_style('tips')}">
+            <i class="bi bi-journal-check text-warning fs-5" style="width: 22px; text-align: center;"></i>
             <span class="lang-mr">पीक सल्ला</span>
             <span class="lang-en">Crop Tips</span>
         </a>
     </nav>
 
     <!-- Logout Action -->
-    <button type="button" onclick="handleLogout()" class="customer-sidebar-logout">
-        <i class="bi bi-box-arrow-right"></i>
-        <span class="lang-mr">बाहेर पडा (Logout)</span>
-        <span class="lang-en">Logout</span>
+    <button type="button" onclick="handleLogout()" class="customer-sidebar-logout" style="width: 100% !important; background: rgba(239, 68, 68, 0.12) !important; color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.25) !important; border-radius: 12px !important; padding: 11px 16px !important; font-weight: 700 !important; font-size: 13.5px !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; cursor: pointer !important; margin-top: 14px !important; transition: all 0.2s ease !important;">
+        <i class="bi bi-box-arrow-right fs-5"></i>
+        <span><span class="lang-mr">बाहेर पडा (Logout)</span><span class="lang-en">Logout</span></span>
     </button>
 </div>
+<script>
+(function(){{
+    var name = localStorage.getItem('user_name') || 'Vaibhav Gawali';
+    var loc = localStorage.getItem('user_location') || 'TAMASWADI, छत्रपती संभाजीनगर';
+    var elSideName = document.getElementById('sidebarUserDisplayName');
+    var elSideLoc = document.getElementById('sidebarUserDisplayLoc');
+    var elGreet = document.getElementById('farmerGreetName');
+    if (elSideName) elSideName.textContent = name;
+    if (elSideLoc) elSideLoc.textContent = loc;
+    if (elGreet) elGreet.textContent = name;
+}})();
+</script>
 """
 
 # ==============================================================================
@@ -278,9 +298,18 @@ function handleSaveProfile(e) {{
 # 2. FARMER DASHBOARD (Matching Screenshot 2 Pixel-to-Pixel)
 # ==============================================================================
 def build_farmer_dashboard():
-    content = head_html("शेतकरी डॅशबोर्ड", "Farmer Dashboard") + nav_html("dashboard") + """
-<div class="farmer-dashboard-wrapper py-4" style="background:#f8faf8; min-height:85vh;">
-    <div class="container" style="max-width: 1240px;">
+    sidebar = render_customer_sidebar("dashboard")
+    raw_dashboard = """
+<div class="farmer-dashboard-wrapper py-4" style="background:#f6f9f6; min-height:88vh;">
+    <div class="container my-2" style="max-width: 1320px;">
+        <div class="row g-4">
+            <!-- Left Dark Emerald Sidebar (Screenshot 1) -->
+            <div class="col-lg-3 col-md-4">
+                <!-- SIDEBAR_PLACEHOLDER -->
+            </div>
+
+            <!-- Right Workspace (Screenshot 2) -->
+            <div class="col-lg-9 col-md-8">
         <!-- Top Greeting Header (Screenshot 2) -->
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
             <div>
@@ -557,9 +586,9 @@ def build_farmer_dashboard():
                         <span class="lang-en">More Tips &rarr;</span>
                     </a>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div><!-- end right workspace -->
+        </div><!-- end row -->
+    </div><!-- end container -->
 </div>
 
 <!-- ================= MODALS FOR INTERACTIVE FEATURES ================= -->
@@ -1283,9 +1312,11 @@ function handleFarmerReviewSubmit(e) {
 }
 
 </script>
-""" + foot_html()
+"""
+    content = head_html("शेतकरी डॅशबोर्ड", "Farmer Dashboard") + nav_html("dashboard") + raw_dashboard.replace("<!-- SIDEBAR_PLACEHOLDER -->", sidebar) + foot_html()
     save_customer_page("farmer-dashboard.html", content)
-    print("Generated dist/farmer-dashboard.html matching Screenshot 2")
+    save_customer_page("dashboard.html", content)
+    print("Generated dist/farmer-dashboard.html matching Screenshot 2 with Sidebar!")
 
 # ==============================================================================
 # 3. FARMER ORDERS
