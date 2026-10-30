@@ -140,3 +140,68 @@
   from = "/farmer-dashboard"
   to = "/farmer-dashboard.html"
   status = 200
+
+[[redirects]]
+  from = "/customer/dashboard"
+  to = "/farmer-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/profile"
+  to = "/farmer-profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/profile"
+  to = "/farmer-profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer/profile"
+  to = "/farmer-profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/orders"
+  to = "/farmer-orders.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/orders"
+  to = "/farmer-orders.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer/orders"
+  to = "/farmer-orders.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/udhari"
+  to = "/farmer-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer/udhari"
+  to = "/farmer-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/pay"
+  to = "/farmer-pay.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer/pay"
+  to = "/farmer-pay.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/payments"
+  to = "/farmer-payments.html"
+  status = 200
+
+[[redirects]]
+  from = "/customer/notifications"
+  to = "/farmer-notifications.html"
+  status = 200

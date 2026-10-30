@@ -487,64 +487,10 @@ build_admin_categories()
 build_admin_customers()
 print("13. admin-dashboard.html and admin portal pages")
 
-# 14. FARMER DASHBOARD
-farmer_dash_content = head_html("शेतकरी डॅशबोर्ड", "Farmer Dashboard") + nav_html("dashboard") + """
-<div class="container my-4" style="max-width:1240px;">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <div>
-            <h1 class="h3 fw-bold m-0 text-success"><span class="lang-mr">नमस्ते, </span><span class="lang-en">Welcome, </span><span id="farmerDisplayGreet">रमेश पाटील</span> 🌾</h1>
-            <p class="text-muted small m-0 mt-1">सप्तशृंगी ॲग्रो ग्राहक खाते • वैजापूर, संभाजीनगर</p>
-        </div>
-        <div class="d-flex gap-2">
-            <a href="products.html" class="btn btn-success rounded-pill px-3 py-2 fw-bold shadow-sm"><i class="bi bi-cart-plus me-1"></i>खरेदी करा</a>
-            <button onclick="handleLogout()" class="btn btn-outline-secondary rounded-pill px-3 py-2"><i class="bi bi-box-arrow-right me-1"></i>बाहेर पडा</button>
-        </div>
-    </div>
-
-    <!-- Outstanding Udhari Passbook Banner Card -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden p-4" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #bbf7d0 !important;">
-        <div class="row align-items-center g-3">
-            <div class="col-lg-7">
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <span class="badge bg-success text-white px-3 py-1 rounded-pill fw-bold"><i class="bi bi-check-circle-fill me-1"></i>उधारी खातेवही (Credit Passbook)</span>
-                    <span class="badge bg-white text-dark border px-2 py-1 small">मुदत: १५ नोव्हेंबर २०२६</span>
-                </div>
-                <div class="d-flex align-items-baseline gap-3">
-                    <h1 class="display-5 fw-bold text-success m-0">₹2,500.00</h1>
-                    <span class="fs-6 fw-semibold text-muted">सध्याची बाकी रक्कम</span>
-                </div>
-                <div class="d-flex flex-wrap gap-2 mt-3">
-                    <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size: 11px;">एकूण खरेदी:</span><strong class="text-dark">₹12,500.00</strong></div>
-                    <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size: 11px;">आतापर्यंत जमा:</span><strong class="text-success">₹10,000.00</strong></div>
-                    <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size: 11px;">शिल्लक बाकी:</span><strong class="text-danger">₹2,500.00</strong></div>
-                </div>
-            </div>
-            <div class="col-lg-5 text-lg-end">
-                <a href="https://wa.me/918600813827?text=माझी%20उधारी%20जमा%20करायची%20आहे." target="_blank" class="btn btn-success btn-lg px-4 py-2 rounded-pill fw-bold shadow-sm">
-                    <i class="bi bi-whatsapp me-1"></i> UPI ने जमा करा
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Farmer Recent Orders -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 border-0"><h5 class="fw-bold mb-0 text-dark"><i class="bi bi-clock-history text-success me-2"></i>माझ्या अलीकडील खरेदी (My Purchases)</h5></div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light"><tr><th>तारीख</th><th>उत्पादने</th><th>प्रमाण</th><th>रक्कम</th><th>स्थिती</th></tr></thead>
-                <tbody>
-                    <tr><td>२८ ऑक्टोबर २०२६</td><td>माहिको बीजी-२ कापूस बियाणे</td><td>२ बॅग्स</td><td class="fw-bold text-success">₹1,640</td><td><span class="badge bg-success">वितरित (Delivered)</span></td></tr>
-                    <tr><td>१२ ऑक्टोबर २०२६</td><td>महाधन २४:२४:० खत (५० किलो)</td><td>२ बॅग्स</td><td class="fw-bold text-success">₹3,360</td><td><span class="badge bg-success">वितरित (Delivered)</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-""" + foot_html()
-with open(os.path.join(DIST_DIR, "farmer-dashboard.html"), "w", encoding="utf-8") as f:
-    f.write(farmer_dash_content)
-print("14. farmer-dashboard.html")
+# 14. FARMER & USER PANEL PAGES (Matching Screenshot 1 & 2)
+from build_customer_pages import build_all_customer_pages
+build_all_customer_pages()
+print("14. Customer / Farmer pages (dashboard, profile, orders, udhari, pay, payments, notifications)")
 
 # Update dist/_redirects
 redirects_content = """/products /products.html 200
@@ -580,6 +526,21 @@ redirects_content = """/products /products.html 200
 /cart /cart.html 200
 /checkout /checkout.html 200
 /profile /profile.html 200
+/customer/dashboard /farmer-dashboard.html 200
+/customer/profile /farmer-profile.html 200
+/farmer/profile /farmer-profile.html 200
+/customer/orders /farmer-orders.html 200
+/farmer/orders /farmer-orders.html 200
+/orders /farmer-orders.html 200
+/customer/udhari /farmer-udhari.html 200
+/farmer/udhari /farmer-udhari.html 200
+/customer/pay /farmer-pay.html 200
+/farmer/pay /farmer-pay.html 200
+/customer/payments /farmer-payments.html 200
+/customer/payment-history /farmer-payments.html 200
+/farmer/payments /farmer-payments.html 200
+/customer/notifications /farmer-notifications.html 200
+/farmer/notifications /farmer-notifications.html 200
 """
 with open(os.path.join(DIST_DIR, "_redirects"), "w", encoding="utf-8") as f:
     f.write(redirects_content)
