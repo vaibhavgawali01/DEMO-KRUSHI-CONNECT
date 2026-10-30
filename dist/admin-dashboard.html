@@ -343,19 +343,19 @@
                     </a>
                 </div>
 
-                <!-- 3. Udhari Outstanding -->
+                <!-- 3. Udhari Outstanding (Empty by default when no udhari exists) -->
                 <div class="col-sm-6 col-xl-3">
                     <a href="admin-udhari.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
                             <span class="admin-kpi-label"><span class="lang-mr">बाकी उधारी (Udhari Outstanding)</span><span class="lang-en">Udhari Outstanding</span></span>
-                            <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
-                                <i class="bi bi-envelope-fill"></i>
+                            <div class="admin-kpi-icon-wrap" id="dashUdhariIconWrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-wallet2" id="dashUdhariIcon"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" style="color: #dc2626;">₹8,000</div>
-                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;">
-                                <span class="lang-mr">1 मुदत संपलेली खाती</span><span class="lang-en">1 Overdue</span>
+                            <div class="admin-kpi-val" id="dashUdhariVal" style="color: #16a34a;">₹0</div>
+                            <span class="admin-kpi-badge" id="dashUdhariBadge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>
                             </span>
                         </div>
                     </a>
@@ -478,6 +478,54 @@
         </div>
     </div>
 </div>
+
+<script>
+function syncDashboardUdhariState() {
+    const raw = localStorage.getItem('ksk_udhari_records');
+    let records = [];
+    if (raw) {
+        try { records = JSON.parse(raw); } catch(e) { records = []; }
+    }
+    const activeRecords = records.filter(r => r.status !== 'Paid' && (parseFloat(r.amount) || 0) > 0);
+    const total = activeRecords.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+    const overdueCount = activeRecords.filter(r => r.status === 'Overdue').length;
+
+    const valEl = document.getElementById('dashUdhariVal');
+    const badgeEl = document.getElementById('dashUdhariBadge');
+    const iconWrap = document.getElementById('dashUdhariIconWrap');
+
+    if (total > 0) {
+        if (valEl) {
+            valEl.textContent = '₹' + total.toLocaleString('en-IN');
+            valEl.style.color = '#dc2626';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#fee2e2';
+            iconWrap.style.color = '#dc2626';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#fef2f2';
+            badgeEl.style.color = '#dc2626';
+            badgeEl.innerHTML = `<i class="bi bi-exclamation-circle-fill me-1"></i> <span class="lang-mr">${overdueCount || activeRecords.length} खाती बाकी</span><span class="lang-en">${overdueCount || activeRecords.length} Overdue</span>`;
+        }
+    } else {
+        if (valEl) {
+            valEl.textContent = '₹0';
+            valEl.style.color = '#16a34a';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#dcfce7';
+            iconWrap.style.color = '#16a34a';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#f0fdf4';
+            badgeEl.style.color = '#16a34a';
+            badgeEl.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>`;
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', syncDashboardUdhariState);
+</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">

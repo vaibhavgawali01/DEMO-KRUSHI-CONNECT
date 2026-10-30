@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 def build_admin_dashboard():
     sidebar = render_admin_sidebar("dashboard")
-    content = head_html("ॲडमिन डॅशबोर्ड", "Admin Dashboard") + nav_html("dashboard") + f"""
+    content = (head_html("ॲडमिन डॅशबोर्ड", "Admin Dashboard") + nav_html("dashboard") + """
 <div class="container-fluid px-3 px-lg-4 my-4">
     <div class="row g-4">
         <!-- Left Sidebar (Screenshot 3) -->
@@ -444,19 +444,19 @@ def build_admin_dashboard():
                     </a>
                 </div>
 
-                <!-- 3. Udhari Outstanding -->
+                <!-- 3. Udhari Outstanding (Empty by default when no udhari exists) -->
                 <div class="col-sm-6 col-xl-3">
                     <a href="admin-udhari.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
                             <span class="admin-kpi-label"><span class="lang-mr">बाकी उधारी (Udhari Outstanding)</span><span class="lang-en">Udhari Outstanding</span></span>
-                            <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
-                                <i class="bi bi-envelope-fill"></i>
+                            <div class="admin-kpi-icon-wrap" id="dashUdhariIconWrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-wallet2" id="dashUdhariIcon"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" style="color: #dc2626;">₹8,000</div>
-                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;">
-                                <span class="lang-mr">1 मुदत संपलेली खाती</span><span class="lang-en">1 Overdue</span>
+                            <div class="admin-kpi-val" id="dashUdhariVal" style="color: #16a34a;">₹0</div>
+                            <span class="admin-kpi-badge" id="dashUdhariBadge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>
                             </span>
                         </div>
                     </a>
@@ -579,7 +579,55 @@ def build_admin_dashboard():
         </div>
     </div>
 </div>
-""" + foot_html()
+
+<script>
+function syncDashboardUdhariState() {
+    const raw = localStorage.getItem('ksk_udhari_records');
+    let records = [];
+    if (raw) {
+        try { records = JSON.parse(raw); } catch(e) { records = []; }
+    }
+    const activeRecords = records.filter(r => r.status !== 'Paid' && (parseFloat(r.amount) || 0) > 0);
+    const total = activeRecords.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+    const overdueCount = activeRecords.filter(r => r.status === 'Overdue').length;
+
+    const valEl = document.getElementById('dashUdhariVal');
+    const badgeEl = document.getElementById('dashUdhariBadge');
+    const iconWrap = document.getElementById('dashUdhariIconWrap');
+
+    if (total > 0) {
+        if (valEl) {
+            valEl.textContent = '₹' + total.toLocaleString('en-IN');
+            valEl.style.color = '#dc2626';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#fee2e2';
+            iconWrap.style.color = '#dc2626';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#fef2f2';
+            badgeEl.style.color = '#dc2626';
+            badgeEl.innerHTML = `<i class="bi bi-exclamation-circle-fill me-1"></i> <span class="lang-mr">${overdueCount || activeRecords.length} खाती बाकी</span><span class="lang-en">${overdueCount || activeRecords.length} Overdue</span>`;
+        }
+    } else {
+        if (valEl) {
+            valEl.textContent = '₹0';
+            valEl.style.color = '#16a34a';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#dcfce7';
+            iconWrap.style.color = '#16a34a';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#f0fdf4';
+            badgeEl.style.color = '#16a34a';
+            badgeEl.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>`;
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', syncDashboardUdhariState);
+</script>
+""").replace("{sidebar}", sidebar) + foot_html()
     save_admin_page("admin-dashboard.html", content)
     print("Generated dist/admin-dashboard.html matching Screenshot 2, 3, 4")
 
@@ -1377,7 +1425,7 @@ function handleSaveProduct(e) {{
 
 def build_admin_udhari():
     sidebar = render_admin_sidebar("udhari")
-    content = head_html("उधारी व्यवस्थापन", "Credit Ledger Management") + nav_html("dashboard") + f"""
+    content = (head_html("उधारी व्यवस्थापन", "Credit Ledger Management") + nav_html("dashboard") + """
 <div class="container-fluid px-3 px-lg-4 my-4">
     <div class="row g-4">
         <!-- Sidebar -->
@@ -1386,13 +1434,31 @@ def build_admin_udhari():
         </div>
 
         <div class="col-lg-9 col-xl-10">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
                 <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-wallet2 text-warning me-2"></i><span class="lang-mr">शेतकरी उधारी खाते (Credit Ledger)</span><span class="lang-en">Credit Ledger Management</span></h5>
-                    <div class="badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill fw-bold">
-                        Total Outstanding: ₹8,000
+                    <div>
+                        <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                            <i class="bi bi-wallet2 text-success"></i>
+                            <span class="lang-mr">शेतकरी उधारी खातेवही (Credit Ledger)</span>
+                            <span class="lang-en">Credit Ledger Management</span>
+                        </h5>
+                        <small class="text-muted">
+                            <span class="lang-mr">उधारी असल्यास योग्य डेटा दाखवा, नसलेस शून्य बाकी दिसेल.</span>
+                            <span class="lang-en">Shows active dues if present, otherwise displays clean zero-dues empty state.</span>
+                        </small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div id="udhariTotalBadge" class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                            Total Outstanding: ₹0
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold" onclick="openAddUdhariModal()">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                            <span class="lang-en">+ Add Entry</span>
+                        </button>
                     </div>
                 </div>
+
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
@@ -1407,29 +1473,8 @@ def build_admin_udhari():
                                     <th class="text-end pe-4">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-dark">Ramesh Patil</td>
-                                    <td>8600813827</td>
-                                    <td>Vaijapur</td>
-                                    <td><strong class="text-danger">₹3,500</strong></td>
-                                    <td>15 Nov 2026</td>
-                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                    <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-success rounded-pill px-3" onclick="alert('Marked as paid!'); this.disabled=true; this.innerText='Paid';">Mark as Paid</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-4 fw-bold text-dark">Suresh Deshmukh</td>
-                                    <td>9822001122</td>
-                                    <td>Shrirampur</td>
-                                    <td><strong class="text-danger">₹4,500</strong></td>
-                                    <td>28 Oct 2026</td>
-                                    <td><span class="badge bg-danger text-white">Overdue</span></td>
-                                    <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-success rounded-pill px-3" onclick="alert('Marked as paid!'); this.disabled=true; this.innerText='Paid';">Mark as Paid</button>
-                                    </td>
-                                </tr>
+                            <tbody id="udhariTableBody">
+                                <!-- Populated dynamically or shows empty state -->
                             </tbody>
                         </table>
                     </div>
@@ -1438,9 +1483,220 @@ def build_admin_udhari():
         </div>
     </div>
 </div>
-""" + foot_html()
+
+<!-- Modal: Record New Udhari -->
+<div class="modal fade" id="addUdhariModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-success text-white py-3 px-4">
+                <h6 class="modal-title fw-bold">
+                    <i class="bi bi-wallet2 me-2"></i>
+                    <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                    <span class="lang-en">Record New Udhari</span>
+                </h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addUdhariForm" onsubmit="handleSaveUdhari(event)">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Customer Name *</label>
+                        <input type="text" id="udhariName" class="form-control" placeholder="e.g. Ramesh Patil" required>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Mobile Number</label>
+                            <input type="tel" id="udhariMobile" class="form-control" placeholder="10-digit mobile">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Village</label>
+                            <input type="text" id="udhariVillage" class="form-control" placeholder="e.g. Vaijapur">
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Udhari Amount (₹) *</label>
+                            <input type="number" id="udhariAmount" class="form-control" placeholder="Amount in ₹" min="1" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Due Date</label>
+                            <input type="date" id="udhariDueDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Status</label>
+                        <select id="udhariStatus" class="form-select">
+                            <option value="Pending" selected>Pending</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light px-4 py-2 border-top">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">Save Udhari Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function getUdhariRecords() {
+    const raw = localStorage.getItem('ksk_udhari_records');
+    if (!raw) return [];
+    try {
+        return JSON.parse(raw);
+    } catch(e) {
+        return [];
+    }
+}
+
+function saveUdhariRecords(records) {
+    localStorage.setItem('ksk_udhari_records', JSON.stringify(records));
+}
+
+function renderUdhariTable() {
+    const records = getUdhariRecords();
+    const tbody = document.getElementById('udhariTableBody');
+    const badge = document.getElementById('udhariTotalBadge');
+    
+    // Filter active records
+    const activeRecords = records.filter(r => r.status !== 'Paid' && (parseFloat(r.amount) || 0) > 0);
+    const total = activeRecords.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+
+    // Update total outstanding badge
+    if (badge) {
+        if (total > 0) {
+            badge.className = 'badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill fw-bold';
+            badge.textContent = 'Total Outstanding: ₹' + total.toLocaleString('en-IN');
+        } else {
+            badge.className = 'badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold';
+            badge.textContent = 'Total Outstanding: ₹0 (No Dues)';
+        }
+    }
+
+    if (!tbody) return;
+
+    if (activeRecords.length === 0) {
+        // EMPTY STATE as requested: "data nasel kahi udhari data tr empty dakvat ja"
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <div class="py-4">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-success-subtle text-success mb-3 shadow-sm" style="width: 64px; height: 64px;">
+                            <i class="bi bi-check2-circle fs-1"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">
+                            <span class="lang-mr">कोणतीही उधारी बाकी नाही!</span>
+                            <span class="lang-en">No Outstanding Udhari!</span>
+                        </h5>
+                        <p class="text-muted small mb-3">
+                            <span class="lang-mr">सर्व शेतकरी ग्राहकांची खाती पूर्णपणे भरलेली आहेत (शून्य बाकी).</span>
+                            <span class="lang-en">All farmer customer accounts are fully settled (Zero Outstanding).</span>
+                        </p>
+                        <button type="button" class="btn btn-sm btn-success rounded-pill px-4 fw-semibold" onclick="openAddUdhariModal()">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                            <span class="lang-en">Record New Udhari</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = activeRecords.map(r => `
+        <tr>
+            <td class="ps-4 fw-bold text-dark">${r.name}</td>
+            <td>${r.mobile || '-'}</td>
+            <td>${r.village || '-'}</td>
+            <td><strong class="text-danger">₹${parseFloat(r.amount).toLocaleString('en-IN')}</strong></td>
+            <td>${r.dueDate || 'Open'}</td>
+            <td>
+                <span class="badge ${r.status === 'Overdue' ? 'bg-danger text-white' : 'bg-warning text-dark'}">
+                    ${r.status}
+                </span>
+            </td>
+            <td class="text-end pe-4">
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold me-1" onclick="markUdhariPaid(${r.id})">
+                    <i class="bi bi-check-lg me-1"></i>Mark Paid
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:28px;height:28px;" onclick="deleteUdhariRecord(${r.id})" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function openAddUdhariModal() {
+    const form = document.getElementById('addUdhariForm');
+    if (form) form.reset();
+    const modalEl = document.getElementById('addUdhariModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+    }
+}
+
+function handleSaveUdhari(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const name = document.getElementById('udhariName').value.trim();
+    const mobile = document.getElementById('udhariMobile').value.trim();
+    const village = document.getElementById('udhariVillage').value.trim();
+    const amount = parseFloat(document.getElementById('udhariAmount').value) || 0;
+    const dueDate = document.getElementById('udhariDueDate').value || '15 Nov 2026';
+    const status = document.getElementById('udhariStatus').value;
+
+    if (!name || amount <= 0) {
+        alert('Please enter valid customer name and amount.');
+        return;
+    }
+
+    let records = getUdhariRecords();
+    records.unshift({
+        id: Date.now(),
+        name,
+        mobile,
+        village,
+        amount,
+        dueDate,
+        status
+    });
+    saveUdhariRecords(records);
+
+    const modalEl = document.getElementById('addUdhariModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+    renderUdhariTable();
+}
+
+function markUdhariPaid(id) {
+    let records = getUdhariRecords();
+    const item = records.find(r => r.id === id);
+    if (item) {
+        item.status = 'Paid';
+        item.amount = 0;
+        saveUdhariRecords(records);
+        renderUdhariTable();
+    }
+}
+
+function deleteUdhariRecord(id) {
+    if (!confirm('Are you sure you want to delete this record?')) return;
+    let records = getUdhariRecords();
+    records = records.filter(r => r.id !== id);
+    saveUdhariRecords(records);
+    renderUdhariTable();
+}
+
+document.addEventListener('DOMContentLoaded', renderUdhariTable);
+</script>
+""").replace("{sidebar}", sidebar) + foot_html()
     save_admin_page("admin-udhari.html", content)
-    print("Generated dist/admin-udhari.html")
+    print("Generated dist/admin-udhari.html with dynamic empty state!")
 
 # ==============================================================================
 # 7. ADMIN INVENTORY
@@ -2619,7 +2875,7 @@ def build_admin_backup():
 // Default Datasets for complete reliable snapshots
 const defaultFarmersList = [
     {{ id: 1, name: "Ramesh Patil", mobile: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: 14500, due: 0, status: "Active" }},
-    {{ id: 2, name: "Suresh Deshmukh", mobile: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: 28900, due: 8000, status: "Active" }},
+    {{ id: 2, name: "Suresh Deshmukh", mobile: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: 28900, due: 0, status: "Active" }},
     {{ id: 3, name: "Dnyaneshwar Pawar", mobile: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: 8200, due: 0, status: "Active" }},
     {{ id: 4, name: "Balasaheb Vikhe", mobile: "9850123456", village: "Loni", crop: "Pomegranate, Onion", purchases: 32000, due: 0, status: "Active" }},
     {{ id: 5, name: "Kishor Jadhav", mobile: "9923456789", village: "Yeola", crop: "Onion, Wheat", purchases: 19400, due: 0, status: "Active" }},
