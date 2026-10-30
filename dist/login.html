@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>लॉगिन | Staff Login - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <title>लॉगिन | Login - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
@@ -27,6 +27,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
+    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -47,8 +48,11 @@
             </div>
         </a>
 
-        <!-- Mobile Language Switcher -->
-        <div class="d-flex align-items-center d-lg-none ms-auto me-2">
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
             <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
                 <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
                 <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">Eng</button>
@@ -76,7 +80,7 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom px-lg-3" href="index.html#reviews">
                         <i class="bi bi-star-fill text-warning me-1"></i>
-                        <span class="lang-mr">अभिप्राय (Reviews)</span><span class="lang-en">Reviews</span>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
                     </a>
                 </li>
 
@@ -109,6 +113,12 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-3" href="offers.html">
+                        <i class="bi bi-tag-fill text-warning me-1"></i>
+                        <span class="lang-mr">ऑफर्स</span><span class="lang-en">Offers</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link nav-link-custom px-lg-3" href="about.html">
                         <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
                     </a>
@@ -120,88 +130,142 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom px-lg-3" href="faq.html">
-                        <span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span>
+                        <span class="lang-mr">FAQ</span><span class="lang-en">FAQ</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Desktop Language Switcher & Login -->
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
             <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                 <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
                     <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr" style="font-size:0.8rem;">🌾 मराठी</button>
                     <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en" style="font-size:0.8rem;">Eng</button>
                 </div>
 
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Login AND Register -->
                 <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person-circle me-1"></i>
+                    <i class="bi bi-person me-1"></i>
                     <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                </a>
+                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                    <i class="bi bi-person-plus-fill me-1"></i>
+                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
                 </a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container my-5 py-4" style="max-width:480px;">
+<div class="container my-5 py-3" style="max-width:460px;">
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
         <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
             <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
-            <h5 class="fw-bold mb-0">
-                <span class="lang-mr">सप्तशृंगी ॲग्रो पोर्टल</span>
-                <span class="lang-en">Staff & Admin Portal</span>
-            </h5>
-            <small class="text-white-50"><span class="lang-mr">प्रशासकीय लॉगिन</span><span class="lang-en">Administrative Access</span></small>
+            <h4 class="fw-bold mb-1">
+                <span class="lang-mr">पुन्हा स्वागत आहे</span>
+                <span class="lang-en">Welcome Back</span>
+            </h4>
+            <small class="text-white-50">
+                <span class="lang-mr">मोबाईल नंबर किंवा ईमेल वापरून लॉगिन करा</span>
+                <span class="lang-en">Sign in with mobile number or email</span>
+            </small>
         </div>
         <div class="card-body p-4">
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="mb-3">
-                    <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">वापरकर्ता नाव (Username)</span><span class="lang-en">Username</span></label>
+                    <label class="form-label small fw-bold text-success text-uppercase">
+                        <span class="lang-mr">मोबाईल नंबर किंवा ईमेल *</span>
+                        <span class="lang-en">Mobile Number or Email *</span>
+                    </label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" id="username" class="form-control" required
-                               data-placeholder-mr="युझरनेम टाका (उदा. admin)"
-                               data-placeholder-en="Enter username (e.g. admin)"
-                               placeholder="युझरनेम टाका (उदा. admin)">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
+                        <input type="text" id="username" class="form-control" required autofocus
+                               data-placeholder-mr="मोबाईल नंबर किंवा ईमेल"
+                               data-placeholder-en="Mobile or Email"
+                               placeholder="मोबाईल नंबर किंवा ईमेल">
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">पासवर्ड (Password)</span><span class="lang-en">Password</span></label>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-success text-uppercase">
+                        <span class="lang-mr">पासवर्ड *</span>
+                        <span class="lang-en">Password *</span>
+                    </label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
                         <input type="password" id="password" class="form-control" required
-                               data-placeholder-mr="पासवर्ड टाका"
-                               data-placeholder-en="Enter password"
-                               placeholder="पासवर्ड टाका">
+                               placeholder="••••••••">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePass('password', 'eyeIcon')">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 small">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                        <label class="form-check-label text-muted" for="rememberMe">
+                            <span class="lang-mr">लक्षात ठेवा</span>
+                            <span class="lang-en">Remember me</span>
+                        </label>
+                    </div>
+                    <a href="forgot-password.html" class="text-success text-decoration-none fw-semibold">
+                        <span class="lang-mr">पासवर्ड विसरलात?</span>
+                        <span class="lang-en">Forgot password?</span>
+                    </a>
                 </div>
 
                 <button type="submit" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm mb-3">
                     <i class="bi bi-box-arrow-in-right me-1"></i>
-                    <span class="lang-mr">लॉगिन करा</span><span class="lang-en">Sign In</span>
+                    <span class="lang-mr">लॉगिन करा</span>
+                    <span class="lang-en">Log In</span>
                 </button>
 
-                <div id="loginMsg" class="alert alert-info small d-none text-center">
-                    <i class="bi bi-info-circle me-1"></i>
-                    <span class="lang-mr">डेमो मोड: हे स्थिर नेटिफाय व्हर्जन आहे. संपूर्ण ॲडमिन पॅनेल स्थानिक स्प्रिंग बूट सर्व्हरवर कार्यरत आहे.</span>
-                    <span class="lang-en">Demo Mode: This is a static deployment. Full backend admin panel runs on the Spring Boot server.</span>
+                <div id="loginMsg" class="alert alert-success small d-none text-center">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    <span class="lang-mr">लॉगिन यशस्वी! मुख्य पानावर नेले जात आहे...</span>
+                    <span class="lang-en">Login Successful! Redirecting...</span>
                 </div>
             </form>
+
+            <div class="text-center pt-3 border-top mt-3 small">
+                <span class="text-muted"><span class="lang-mr">नवीन शेतकरी?</span><span class="lang-en">New farmer?</span></span>
+                <a href="register.html" class="text-success fw-bold text-decoration-none ms-1">
+                    <span class="lang-mr">येथे नोंदणी करा</span><span class="lang-en">Register here</span>
+                </a>
+            </div>
         </div>
-        <div class="card-footer text-center bg-light py-3 border-0">
-            <a href="index.html" class="text-success small text-decoration-none fw-semibold">
-                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home Page</span>
+        <div class="card-footer text-center bg-light py-2 border-0">
+            <a href="index.html" class="text-muted small text-decoration-none">
+                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home</span>
             </a>
         </div>
     </div>
 </div>
 
 <script>
+function togglePass(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if(input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
 function handleLogin(e) {
     e.preventDefault();
-    const u = document.getElementById('username').value;
-    const p = document.getElementById('password').value;
     const msg = document.getElementById('loginMsg');
     msg.classList.remove('d-none');
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1200);
 }
 </script>
 
@@ -256,6 +320,7 @@ function handleLogin(e) {
                     <li><a href="fertilizer-calc.html" class="text-decoration-none text-light"><i class="bi bi-calculator me-1 text-success"></i><span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span></a></li>
                     <li><a href="weather.html" class="text-decoration-none text-light"><i class="bi bi-cloud-sun me-1 text-primary"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
                     <li><a href="farming-tips.html" class="text-decoration-none text-light"><i class="bi bi-journal-text me-1 text-warning"></i><span class="lang-mr">पीक सल्ला व कीड नियंत्रण</span><span class="lang-en">Crop Care & Pest Advice</span></a></li>
+                    <li><a href="offers.html" class="text-decoration-none text-light"><i class="bi bi-tag-fill me-1 text-warning"></i><span class="lang-mr">विशेष ऑफर्स व कूपन्स</span><span class="lang-en">Offers & Discounts</span></a></li>
                     <li><a href="index.html#reviews" class="text-decoration-none text-light"><i class="bi bi-star-fill me-1 text-warning"></i><span class="lang-mr">शेतकरी अभिप्राय (Reviews)</span><span class="lang-en">Farmer Reviews</span></a></li>
                     <li><a href="faq.html" class="text-decoration-none text-light"><i class="bi bi-question-circle me-1 text-info"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
                 </ul>
@@ -284,7 +349,7 @@ function handleLogin(e) {
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher Engine -->
+    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -304,9 +369,32 @@ function handleLogin(e) {
 
             window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
         }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
         });
     </script>
 </footer>

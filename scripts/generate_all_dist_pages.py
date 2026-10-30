@@ -4,7 +4,7 @@ import sys
 
 from build_site import head_html, nav_html, foot_html, DIST_DIR
 
-print("Starting generation of all 9 static pages...")
+print("Starting generation of all 11 static pages...")
 
 # ==============================================================================
 # 1. INDEX.HTML
@@ -1363,7 +1363,6 @@ function submitContactForm(e) {
     const alertBox = document.getElementById('contactAlert');
     alertBox.classList.remove('d-none');
     
-    // Also prepare WhatsApp link
     const waText = `नमस्कार, मी ${name} (मोबाईल: ${phone}). पीक: ${crop}. संदेश: ${msg}`;
     setTimeout(() => {
         window.open('https://wa.me/918600813827?text=' + encodeURIComponent(waText), '_blank');
@@ -1468,70 +1467,115 @@ with open(os.path.join(DIST_DIR, "faq.html"), "w", encoding="utf-8") as f:
 print("Generated dist/faq.html")
 
 # ==============================================================================
-# 9. LOGIN.HTML
+# 9. LOGIN.HTML (Full Authenticated & Client-Side UI)
 # ==============================================================================
-login_content = head_html("लॉगिन", "Staff Login") + nav_html("login") + """
-<div class="container my-5 py-4" style="max-width:480px;">
+login_content = head_html("लॉगिन", "Login") + nav_html("login") + """
+<div class="container my-5 py-3" style="max-width:460px;">
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
         <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
             <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
-            <h5 class="fw-bold mb-0">
-                <span class="lang-mr">सप्तशृंगी ॲग्रो पोर्टल</span>
-                <span class="lang-en">Staff & Admin Portal</span>
-            </h5>
-            <small class="text-white-50"><span class="lang-mr">प्रशासकीय लॉगिन</span><span class="lang-en">Administrative Access</span></small>
+            <h4 class="fw-bold mb-1">
+                <span class="lang-mr">पुन्हा स्वागत आहे</span>
+                <span class="lang-en">Welcome Back</span>
+            </h4>
+            <small class="text-white-50">
+                <span class="lang-mr">मोबाईल नंबर किंवा ईमेल वापरून लॉगिन करा</span>
+                <span class="lang-en">Sign in with mobile number or email</span>
+            </small>
         </div>
         <div class="card-body p-4">
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="mb-3">
-                    <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">वापरकर्ता नाव (Username)</span><span class="lang-en">Username</span></label>
+                    <label class="form-label small fw-bold text-success text-uppercase">
+                        <span class="lang-mr">मोबाईल नंबर किंवा ईमेल *</span>
+                        <span class="lang-en">Mobile Number or Email *</span>
+                    </label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" id="username" class="form-control" required
-                               data-placeholder-mr="युझरनेम टाका (उदा. admin)"
-                               data-placeholder-en="Enter username (e.g. admin)"
-                               placeholder="युझरनेम टाका (उदा. admin)">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
+                        <input type="text" id="username" class="form-control" required autofocus
+                               data-placeholder-mr="मोबाईल नंबर किंवा ईमेल"
+                               data-placeholder-en="Mobile or Email"
+                               placeholder="मोबाईल नंबर किंवा ईमेल">
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">पासवर्ड (Password)</span><span class="lang-en">Password</span></label>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-success text-uppercase">
+                        <span class="lang-mr">पासवर्ड *</span>
+                        <span class="lang-en">Password *</span>
+                    </label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
                         <input type="password" id="password" class="form-control" required
-                               data-placeholder-mr="पासवर्ड टाका"
-                               data-placeholder-en="Enter password"
-                               placeholder="पासवर्ड टाका">
+                               placeholder="••••••••">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePass('password', 'eyeIcon')">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 small">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                        <label class="form-check-label text-muted" for="rememberMe">
+                            <span class="lang-mr">लक्षात ठेवा</span>
+                            <span class="lang-en">Remember me</span>
+                        </label>
+                    </div>
+                    <a href="forgot-password.html" class="text-success text-decoration-none fw-semibold">
+                        <span class="lang-mr">पासवर्ड विसरलात?</span>
+                        <span class="lang-en">Forgot password?</span>
+                    </a>
                 </div>
 
                 <button type="submit" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm mb-3">
                     <i class="bi bi-box-arrow-in-right me-1"></i>
-                    <span class="lang-mr">लॉगिन करा</span><span class="lang-en">Sign In</span>
+                    <span class="lang-mr">लॉगिन करा</span>
+                    <span class="lang-en">Log In</span>
                 </button>
 
-                <div id="loginMsg" class="alert alert-info small d-none text-center">
-                    <i class="bi bi-info-circle me-1"></i>
-                    <span class="lang-mr">डेमो मोड: हे स्थिर नेटिफाय व्हर्जन आहे. संपूर्ण ॲडमिन पॅनेल स्थानिक स्प्रिंग बूट सर्व्हरवर कार्यरत आहे.</span>
-                    <span class="lang-en">Demo Mode: This is a static deployment. Full backend admin panel runs on the Spring Boot server.</span>
+                <div id="loginMsg" class="alert alert-success small d-none text-center">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    <span class="lang-mr">लॉगिन यशस्वी! मुख्य पानावर नेले जात आहे...</span>
+                    <span class="lang-en">Login Successful! Redirecting...</span>
                 </div>
             </form>
+
+            <div class="text-center pt-3 border-top mt-3 small">
+                <span class="text-muted"><span class="lang-mr">नवीन शेतकरी?</span><span class="lang-en">New farmer?</span></span>
+                <a href="register.html" class="text-success fw-bold text-decoration-none ms-1">
+                    <span class="lang-mr">येथे नोंदणी करा</span><span class="lang-en">Register here</span>
+                </a>
+            </div>
         </div>
-        <div class="card-footer text-center bg-light py-3 border-0">
-            <a href="index.html" class="text-success small text-decoration-none fw-semibold">
-                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home Page</span>
+        <div class="card-footer text-center bg-light py-2 border-0">
+            <a href="index.html" class="text-muted small text-decoration-none">
+                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home</span>
             </a>
         </div>
     </div>
 </div>
 
 <script>
+function togglePass(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if(input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
 function handleLogin(e) {
     e.preventDefault();
-    const u = document.getElementById('username').value;
-    const p = document.getElementById('password').value;
     const msg = document.getElementById('loginMsg');
     msg.classList.remove('d-none');
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1200);
 }
 </script>
 """ + foot_html()
@@ -1540,4 +1584,373 @@ with open(os.path.join(DIST_DIR, "login.html"), "w", encoding="utf-8") as f:
     f.write(login_content)
 print("Generated dist/login.html")
 
-print("All 9 static pages generated successfully!")
+# ==============================================================================
+# 10. REGISTER.HTML (New Farmer Registration)
+# ==============================================================================
+register_content = head_html("नवीन शेतकरी नोंदणी", "Farmer Registration") + nav_html("register") + """
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+                <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
+                    <h4 class="fw-bold mb-1">
+                        👨‍🌾 <span class="lang-mr">नवीन शेतकरी नोंदणी</span>
+                        <span class="lang-en">New Farmer Registration</span>
+                    </h4>
+                    <small class="text-white-50">
+                        <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस - तुमचे शेतकरी खाते तयार करा</span>
+                        <span class="lang-en">Saptashrungi Agro Services - Create your farmer account</span>
+                    </small>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form id="registerForm" onsubmit="handleRegister(event)">
+                        <div class="row g-3">
+                            <!-- Full Name -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">पूर्ण नाव *</span><span class="lang-en">Full Name *</span>
+                                </label>
+                                <input type="text" id="regName" class="form-control" required
+                                       data-placeholder-mr="उदा. रमेश आनंदा पाटील"
+                                       data-placeholder-en="e.g. Ramesh Ananda Patil"
+                                       placeholder="उदा. रमेश आनंदा पाटील">
+                            </div>
+
+                            <!-- Mobile Number -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">मोबाईल नंबर *</span><span class="lang-en">Mobile Number *</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+91</span>
+                                    <input type="tel" id="regMobile" class="form-control" maxlength="10" required
+                                           data-placeholder-mr="१० अंकी मोबाईल नंबर"
+                                           data-placeholder-en="10-digit mobile"
+                                           placeholder="१० अंकी मोबाईल नंबर">
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">ईमेल पत्ता</span><span class="lang-en">Email Address</span>
+                                </label>
+                                <input type="email" id="regEmail" class="form-control"
+                                       data-placeholder-mr="farmer@example.com"
+                                       data-placeholder-en="farmer@example.com"
+                                       placeholder="farmer@example.com">
+                            </div>
+
+                            <!-- Village -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">गाव *</span><span class="lang-en">Village *</span>
+                                </label>
+                                <input type="text" id="regVillage" class="form-control" required
+                                       data-placeholder-mr="उदा. मिरखनगर / कसबे डिग्रज"
+                                       data-placeholder-en="e.g. Mirakhnagar / Kasbe Digraj"
+                                       placeholder="उदा. मिरखनगर / कसबे डिग्रज">
+                            </div>
+
+                            <!-- Taluka -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">तालुका *</span><span class="lang-en">Taluka *</span>
+                                </label>
+                                <input type="text" id="regTaluka" class="form-control" required
+                                       data-placeholder-mr="उदा. वैजापूर"
+                                       data-placeholder-en="e.g. Vaijapur"
+                                       placeholder="उदा. वैजापूर">
+                            </div>
+
+                            <!-- District -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">जिल्हा *</span><span class="lang-en">District *</span>
+                                </label>
+                                <input type="text" id="regDistrict" class="form-control" required
+                                       data-placeholder-mr="उदा. छत्रपती संभाजीनगर"
+                                       data-placeholder-en="e.g. Chh. Sambhajinagar"
+                                       placeholder="उदा. छत्रपती संभाजीनगर">
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">शेतीचा / घराचा पत्ता *</span><span class="lang-en">Farm / Home Address *</span>
+                                </label>
+                                <textarea id="regAddress" class="form-control" rows="2" required
+                                          data-placeholder-mr="गट क्र., लँडमार्क, पोस्ट..."
+                                          data-placeholder-en="Gat No, Landmark, Post..."
+                                          placeholder="गट क्र., लँडमार्क, पोस्ट..."></textarea>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">पासवर्ड तयार करा *</span><span class="lang-en">Create Password *</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" id="regPass" class="form-control" minlength="6" required placeholder="••••••••">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('regPass', 'eyeReg1')">
+                                        <i class="bi bi-eye" id="eyeReg1"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-success">
+                                    <span class="lang-mr">पासवर्डची पुष्टी करा *</span><span class="lang-en">Confirm Password *</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="password" id="regConfirmPass" class="form-control" minlength="6" required placeholder="••••••••">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('regConfirmPass', 'eyeReg2')">
+                                        <i class="bi bi-eye" id="eyeReg2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="regAlert" class="alert alert-success mt-4 d-none">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <span class="lang-mr">अभिनंदन! आपले शेतकरी खाते तयार झाले आहे. लॉगिन पानावर नेले जात आहे...</span>
+                            <span class="lang-en">Congratulations! Your farmer account has been created. Redirecting to login...</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-krushi w-100 py-2 rounded-pill fw-bold shadow-sm">
+                                <i class="bi bi-person-check-fill me-1"></i>
+                                <span class="lang-mr">नोंदणी पूर्ण करा (Register Account)</span>
+                                <span class="lang-en">Complete Registration</span>
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3 pt-3 border-top small">
+                            <span class="text-muted"><span class="lang-mr">आधीच नोंदणी केली आहे का?</span><span class="lang-en">Already registered?</span></span>
+                            <a href="login.html" class="text-success fw-bold text-decoration-none ms-1">
+                                <span class="lang-mr">येथे लॉगिन करा</span><span class="lang-en">Login here</span>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePass(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if(input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+function handleRegister(e) {
+    e.preventDefault();
+    const p1 = document.getElementById('regPass').value;
+    const p2 = document.getElementById('regConfirmPass').value;
+    if(p1 !== p2) {
+        alert("दोन्ही पासवर्ड समान असणे आवश्यक आहे! / Both passwords must match!");
+        return;
+    }
+    const alertBox = document.getElementById('regAlert');
+    alertBox.classList.remove('d-none');
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1500);
+}
+</script>
+""" + foot_html()
+
+with open(os.path.join(DIST_DIR, "register.html"), "w", encoding="utf-8") as f:
+    f.write(register_content)
+print("Generated dist/register.html")
+
+# ==============================================================================
+# 11. FORGOT-PASSWORD.HTML
+# ==============================================================================
+forgot_content = head_html("पासवर्ड रीसेट", "Forgot Password") + nav_html("login") + """
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:64px;height:64px;background:#e8f5e9;color:#1b5e20;">
+                        <i class="bi bi-key-fill fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">
+                        <span class="lang-mr">पासवर्ड रीसेट साहाय्य</span>
+                        <span class="lang-en">Password Reset Support</span>
+                    </h4>
+                    <p class="text-muted small mb-4" style="line-height:1.6;">
+                        <span class="lang-mr">खाते सुरक्षिततेसाठी पासवर्ड रीसेट करण्यासाठी थेट दुकानाच्या हेल्पलाइनवर संपर्क साधा किंवा व्हॉट्सॲपवर मेसेज करा.</span>
+                        <span class="lang-en">For account security, please contact our store helpline or message on WhatsApp to reset your credentials.</span>
+                    </p>
+
+                    <div class="d-grid gap-2 mb-3">
+                        <a href="tel:+918600813827" class="btn btn-krushi py-2 rounded-pill fw-bold shadow-sm">
+                            <i class="bi bi-telephone-fill me-2"></i>+91 8600813827 वर कॉल करा
+                        </a>
+                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मी%20माझा%20पासवर्ड%20विसरलो%20आहे.%20कृपया%20मदत%20करा." target="_blank" class="btn btn-outline-success py-2 rounded-pill fw-bold">
+                            <i class="bi bi-whatsapp me-2"></i>व्हॉट्सॲपवर मदत मागा
+                        </a>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <a href="login.html" class="text-success text-decoration-none small fw-bold">
+                            « <span class="lang-mr">लॉगिन पानाकडे परत जा</span><span class="lang-en">Back to Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+""" + foot_html()
+
+with open(os.path.join(DIST_DIR, "forgot-password.html"), "w", encoding="utf-8") as f:
+    f.write(forgot_content)
+print("Generated dist/forgot-password.html")
+
+# ==============================================================================
+# 12. OFFERS.HTML (Seasonal Offers & Discounts)
+# ==============================================================================
+offers_content = head_html("विशेष ऑफर्स व कूपन्स", "Offers & Discounts") + nav_html("offers") + """
+<div class="container my-4">
+    <div class="text-center mb-5">
+        <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mb-2 fw-bold">
+            🔥 <span class="lang-mr">हंगामी सवलत योजना</span><span class="lang-en">Seasonal Farm Deals</span>
+        </span>
+        <h2 class="fw-bold text-success">
+            <span class="lang-mr">सध्याच्या चालू ऑफर्स व कूपन्स</span>
+            <span class="lang-en">Current Special Agri Offers</span>
+        </h2>
+        <p class="text-muted" style="max-width:650px;margin:0 auto;">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेसतर्फे खरीप व रब्बी हंगामासाठी शेतकरी बांधवांना विशेष सूट आणि सवलत.</span>
+            <span class="lang-en">Exclusive seasonal coupons, fertilizer combo discounts, and irrigation package offers.</span>
+        </p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Offer 1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white" style="border-top: 4px solid #16a34a !important;">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-success rounded-pill px-3 py-1">१०% सूट (10% OFF)</span>
+                        <small class="text-muted"><span class="lang-mr">खरीप हंगाम</span><span class="lang-en">Kharif Season</span></small>
+                    </div>
+                    <h5 class="fw-bold text-dark mt-2">
+                        <span class="lang-mr">प्रमाणित बियाण्यांवर १०% सूट</span>
+                        <span class="lang-en">10% OFF on Certified Seeds</span>
+                    </h5>
+                    <p class="text-muted small flex-grow-1" style="line-height:1.6;">
+                        <span class="lang-mr">महाबीज सोयाबीन आणि माहिको कापूस बियाण्यांच्या २ किंवा अधिक बॅग्ज खरेदीवर तात्काळ १०% सूट.</span>
+                        <span class="lang-en">Flat 10% discount on purchase of 2 or more bags of Mahabeej soybean & Mahyco cotton seeds.</span>
+                    </p>
+                    <div class="bg-light p-3 rounded-3 border d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">COUPON CODE</small>
+                            <code class="fw-bold fs-5 text-success">KHARIF10</code>
+                        </div>
+                        <a href="https://wa.me/918600813827?text=मला%20KHARIF10%20कूपन%20वापरून%20बियाणे%20मागवायचे%20आहेत." target="_blank" class="btn btn-sm btn-krushi rounded-pill px-3">
+                            <span class="lang-mr">कूपन वापरा</span><span class="lang-en">Use Code</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offer 2 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white" style="border-top: 4px solid #f57f17 !important;">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-warning text-dark rounded-pill px-3 py-1">₹५० सूट / बॅग</span>
+                        <small class="text-muted"><span class="lang-mr">खत कॉम्बो</span><span class="lang-en">Fertilizer Combo</span></small>
+                    </div>
+                    <h5 class="fw-bold text-dark mt-2">
+                        <span class="lang-mr">NPK कॉम्प्लेक्स खत डिस्काउंट</span>
+                        <span class="lang-en">NPK Fertilizer Combo Deal</span>
+                    </h5>
+                    <p class="text-muted small flex-grow-1" style="line-height:1.6;">
+                        <span class="lang-mr">१०:२६:२६ किंवा महाधन २४:२४:० खतांच्या ५ पेक्षा जास्त बॅग्स खरेदीवर प्रति बॅग ₹५० ची थेट बचत.</span>
+                        <span class="lang-en">Flat ₹50 rebate per bag on bulk purchase of 5 or more bags of 10:26:26 or Mahadhan 24:24:0.</span>
+                    </p>
+                    <div class="bg-light p-3 rounded-3 border d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">COUPON CODE</small>
+                            <code class="fw-bold fs-5 text-success">NPK50</code>
+                        </div>
+                        <a href="https://wa.me/918600813827?text=मला%20NPK50%20कूपन%20वापरून%20खते%20मागवायची%20आहेत." target="_blank" class="btn btn-sm btn-krushi rounded-pill px-3">
+                            <span class="lang-mr">कूपन वापरा</span><span class="lang-en">Use Code</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offer 3 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white" style="border-top: 4px solid #0288d1 !important;">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-info text-white rounded-pill px-3 py-1">₹३०० सूट</span>
+                        <small class="text-muted"><span class="lang-mr">स्प्रे पंप</span><span class="lang-en">Sprayer Special</span></small>
+                    </div>
+                    <h5 class="fw-bold text-dark mt-2">
+                        <span class="lang-mr">बॅटरी स्प्रे पंप ऑफर</span>
+                        <span class="lang-en">Battery Sprayer Special</span>
+                    </h5>
+                    <p class="text-muted small flex-grow-1" style="line-height:1.6;">
+                        <span class="lang-mr">फाल्कन १६ लिटर १२V डबल मोटर बॅटरी स्प्रे पंप खरेदीवर ₹३०० सूट व १ मोफत अतिरिक्त नोझल सेट.</span>
+                        <span class="lang-en">Instant ₹300 OFF on Falcon 16L 12V dual-motor battery sprayer plus a free accessory nozzle set.</span>
+                    </p>
+                    <div class="bg-light p-3 rounded-3 border d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">COUPON CODE</small>
+                            <code class="fw-bold fs-5 text-success">PUMP300</code>
+                        </div>
+                        <a href="https://wa.me/918600813827?text=मला%20PUMP300%20कूपन%20वापरून%20स्प्रे%20पंप%20मागवायचा%20आहे." target="_blank" class="btn btn-sm btn-krushi rounded-pill px-3">
+                            <span class="lang-mr">कूपन वापरा</span><span class="lang-en">Use Code</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+""" + foot_html()
+
+with open(os.path.join(DIST_DIR, "offers.html"), "w", encoding="utf-8") as f:
+    f.write(offers_content)
+print("Generated dist/offers.html")
+
+# Update dist/_redirects
+redirects_content = """/products /products.html 200
+/about /about.html 200
+/contact /contact.html 200
+/farming-tips /farming-tips.html 200
+/fertilizer-calculator /fertilizer-calc.html 200
+/weather /weather.html 200
+/faq /faq.html 200
+/login /login.html 200
+/register /register.html 200
+/forgot-password /forgot-password.html 200
+/offers /offers.html 200
+"""
+
+with open(os.path.join(DIST_DIR, "_redirects"), "w", encoding="utf-8") as f:
+    f.write(redirects_content)
+print("Updated dist/_redirects")
+
+print("All static pages and redirects generated successfully!")

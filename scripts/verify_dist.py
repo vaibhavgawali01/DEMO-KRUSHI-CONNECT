@@ -6,7 +6,8 @@ DIST_DIR = r"c:\Users\HP\OneDrive\Documents\krushi seva\dist"
 files = [
     "index.html", "products.html", "fertilizer-calc.html",
     "weather.html", "farming-tips.html", "about.html",
-    "contact.html", "faq.html", "login.html"
+    "contact.html", "faq.html", "login.html",
+    "register.html", "forgot-password.html", "offers.html"
 ]
 
 all_passed = True
@@ -19,6 +20,8 @@ for f in files:
     has_lang_mr = 'class="lang-mr"' in content or "class='lang-mr'" in content or ".lang-mr" in content
     has_lang_en = 'class="lang-en"' in content or "class='lang-en'" in content or ".lang-en" in content
     has_set_lang = "function setLang" in content or "setLang(" in content
+    has_register_link = "register.html" in content
+    has_login_link = "login.html" in content
     
     # Check restrictions:
     has_credit_upi = "Credit & UPI" in content or "Credit &amp; UPI" in content
@@ -28,14 +31,16 @@ for f in files:
     print(f"  - Has lang-mr: {has_lang_mr}")
     print(f"  - Has lang-en: {has_lang_en}")
     print(f"  - Has setLang engine: {has_set_lang}")
+    print(f"  - Has register link: {has_register_link}")
+    print(f"  - Has login link: {has_login_link}")
     print(f"  - Contains unwanted Credit & UPI: {has_credit_upi}")
     print(f"  - Contains unwanted Accepted badges: {has_accepted_badges}")
 
-    if not (has_lang_mr and has_lang_en and has_set_lang) or has_credit_upi or has_accepted_badges:
+    if not (has_lang_mr and has_lang_en and has_set_lang and has_register_link and has_login_link) or has_credit_upi or has_accepted_badges:
         all_passed = False
         print(f"  FAILED checks for {f}!")
 
 if all_passed:
-    print("\nALL 9 PAGES PASSED ALL VERIFICATION CHECKS!")
+    print("\nALL 12 PAGES PASSED ALL VERIFICATION CHECKS!")
 else:
     print("\nSOME CHECKS FAILED!")

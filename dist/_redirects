@@ -6,3 +6,6 @@
 /weather /weather.html 200
 /faq /faq.html 200
 /login /login.html 200
+/register /register.html 200
+/forgot-password /forgot-password.html 200
+/offers /offers.html 200
