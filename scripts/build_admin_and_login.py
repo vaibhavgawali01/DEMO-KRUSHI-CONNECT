@@ -1034,8 +1034,10 @@ def build_admin_products():
                                     <td><span class="badge bg-success">60 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=1" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(1)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -1047,8 +1049,10 @@ def build_admin_products():
                                     <td><span class="badge bg-success">40 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=2" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(2)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -1060,8 +1064,10 @@ def build_admin_products():
                                     <td><span class="badge bg-success">85 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=3" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(3)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -1076,27 +1082,85 @@ def build_admin_products():
 <script>
 document.addEventListener('DOMContentLoaded', function(){{
     const tbody = document.getElementById('adminProductsTableBody');
+    if (!tbody) return;
+
+    // 1. Hide default products that were marked deleted
+    const hiddenDefaults = JSON.parse(localStorage.getItem('ksk_hidden_default_products') || '[]');
+    hiddenDefaults.forEach(id => {{
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {{
+            const editLink = row.querySelector('a[href="admin-product-form.html?edit=' + id + '"]');
+            if (editLink) row.style.display = 'none';
+        }});
+    }});
+
+    // 2. Apply any saved edits to default products (overrides)
+    const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{{}}');
+    Object.keys(overrides).forEach(id => {{
+        const prod = overrides[id];
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {{
+            const editLink = row.querySelector('a[href="admin-product-form.html?edit=' + id + '"]');
+            if (editLink) {{
+                // Update image
+                if (prod.image) {{
+                    const img = row.querySelector('td:nth-child(1) img');
+                    if (img) img.src = prod.image;
+                }}
+                // Update name
+                const nameCol = row.querySelector('td:nth-child(2)');
+                if (nameCol) {{
+                    nameCol.innerHTML = '<strong class="text-dark d-block">' + (prod.nameEn || '') + '</strong>' +
+                                        (prod.nameMr ? '<small class="text-muted">' + prod.nameMr + '</small>' : '');
+                }}
+                // Update company
+                const compCol = row.querySelector('td:nth-child(3)');
+                if (compCol && prod.company) compCol.textContent = prod.company;
+                // Update category
+                const catCol = row.querySelector('td:nth-child(4) .badge');
+                if (catCol && prod.category) catCol.textContent = prod.category;
+                // Update price
+                const priceCol = row.querySelector('td:nth-child(5)');
+                if (priceCol && (prod.discountPrice || prod.price)) {{
+                    const dp = prod.discountPrice || prod.price;
+                    const op = prod.price || prod.discountPrice;
+                    priceCol.innerHTML = '<strong class="text-success">₹' + dp.toLocaleString('en-IN') + '</strong>' +
+                                         (op > dp ? ' <small class="text-muted text-decoration-line-through">₹' + op.toLocaleString('en-IN') + '</small>' : '');
+                }}
+                // Update stock
+                const stockCol = row.querySelector('td:nth-child(6) .badge');
+                if (stockCol && prod.stock !== undefined) stockCol.textContent = prod.stock + ' units';
+            }}
+        }});
+    }});
+
+    // 3. Prepend custom/added products
     const customProds = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-    if (tbody && customProds.length > 0) {{
+    if (customProds.length > 0) {{
         customProds.forEach(p => {{
             const tr = document.createElement('tr');
             tr.className = 'table-success-subtle';
+            const dp = p.discountPrice || p.price || 0;
+            const op = p.price || p.discountPrice || 0;
             tr.innerHTML = `
                 <td class="ps-4">
-                    <img src="${{p.image}}" class="rounded-3 shadow-sm border" style="width:44px;height:44px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
+                    <img src="${{p.image || 'images/cotton_seeds.jpg'}}" class="rounded-3 shadow-sm border" style="width:40px;height:40px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
                 </td>
                 <td>
-                    <strong class="text-dark d-block">${{p.nameEn}}</strong>
-                    <small class="text-muted">${{p.nameMr}}</small>
+                    <strong class="text-dark d-block">${{p.nameEn || ''}}</strong>
+                    <small class="text-muted">${{p.nameMr || ''}}</small>
                 </td>
-                <td>${{p.company}}</td>
-                <td><span class="badge bg-light text-dark border">${{p.category}}</span></td>
-                <td><strong class="text-success">₹${{p.discountPrice || p.price}}</strong></td>
-                <td><span class="badge bg-success">${{p.stock}}</span></td>
-                <td><span class="badge bg-success-subtle text-success">Active</span></td>
+                <td>${{p.company || 'Saptashrungi Agro'}}</td>
+                <td><span class="badge bg-light text-dark border">${{p.category || 'General'}}</span></td>
+                <td>
+                    <strong class="text-success">₹${{dp.toLocaleString('en-IN')}}</strong>
+                    ${{op > dp ? `<small class="text-muted text-decoration-line-through ms-1">₹${{op.toLocaleString('en-IN')}}</small>` : ''}}
+                </td>
+                <td><span class="badge bg-success">${{p.stock || 0}} units</span></td>
+                <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                 <td class="text-end pe-4">
-                    <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${{p.id}})"><i class="bi bi-trash"></i></button>
+                    <a href="admin-product-form.html?edit=${{p.id}}&src=custom" class="btn btn-sm btn-outline-primary py-1 px-2" title="Edit Product"><i class="bi bi-pencil-square"></i></a>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${{p.id}})" title="Delete Product"><i class="bi bi-trash"></i></button>
                 </td>
             `;
             tbody.insertBefore(tr, tbody.firstChild);
@@ -1107,8 +1171,17 @@ document.addEventListener('DOMContentLoaded', function(){{
 function deleteCustomProduct(id) {{
     if (confirm('या उत्पादनाला काढून टाकायचे आहे का? (Delete this product?)')) {{
         let prods = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-        prods = prods.filter(p => p.id !== id);
+        prods = prods.filter(p => String(p.id) !== String(id));
         localStorage.setItem('ksk_custom_products', JSON.stringify(prods));
+        window.location.reload();
+    }}
+}}
+
+function deleteDefaultProduct(id) {{
+    if (confirm('हे उत्पादन काढून टाकायचे आहे का? (Delete this default product?)')) {{
+        let hidden = JSON.parse(localStorage.getItem('ksk_hidden_default_products') || '[]');
+        if (!hidden.includes(id)) hidden.push(id);
+        localStorage.setItem('ksk_hidden_default_products', JSON.stringify(hidden));
         window.location.reload();
     }}
 }}
@@ -1148,6 +1221,8 @@ def build_admin_product_form():
                     </div>
 
                     <form id="productForm" onsubmit="return handleSaveProduct(event)">
+                        <input type="hidden" id="editProductId" value="">
+                        <input type="hidden" id="editProductSrc" value="">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-success">
@@ -1374,6 +1449,125 @@ document.addEventListener('DOMContentLoaded', function(){{
     }}
 }});
 
+// Default products catalog data for pre-population
+const DEFAULT_EDIT_PRODUCTS = [
+    {{
+        id: 1,
+        nameEn: "Wheat Seeds (Lok-1)",
+        nameMr: "गहू बियाणे (लोक-१)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 1450,
+        discountPrice: 1350,
+        stock: 60,
+        minStock: 10,
+        desc: "High germination certified Lok-1 wheat seeds suitable for Maharashtra irrigated soil.",
+        image: "images/wheat_seeds.jpg"
+    }},
+    {{
+        id: 2,
+        nameEn: "Soybean Seeds (JS-335)",
+        nameMr: "सोयाबीन बियाणे (JS-335)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 3200,
+        discountPrice: 2950,
+        stock: 40,
+        minStock: 10,
+        desc: "Certified high yielding JS-335 soybean seeds with strong disease resistance.",
+        image: "images/soybean_seeds.jpg"
+    }},
+    {{
+        id: 3,
+        nameEn: "NPK 19:19:19",
+        nameMr: "NPK 19:19:19 खत",
+        company: "IFFCO",
+        category: "Fertilizers",
+        gst: "5.00",
+        price: 2350,
+        discountPrice: 1890,
+        stock: 85,
+        minStock: 15,
+        desc: "100% water soluble balanced fertilizer providing Nitrogen, Phosphorus, and Potassium in equal ratio.",
+        image: "images/npk_191919.jpg"
+    }}
+];
+
+// Pre-populate form when opening in Edit mode (?edit=<id>)
+document.addEventListener('DOMContentLoaded', function() {{
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('edit');
+    const editSrc = params.get('src'); // 'custom' or default
+
+    if (editId) {{
+        document.getElementById('editProductId').value = editId;
+        document.getElementById('editProductSrc').value = editSrc || 'default';
+
+        let product = null;
+
+        if (editSrc === 'custom') {{
+            // Search in custom products
+            const customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            product = customs.find(p => String(p.id) === String(editId));
+        }} else {{
+            // Search in overrides first, then defaults
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{{}}');
+            if (overrides[editId]) {{
+                product = overrides[editId];
+            }} else {{
+                product = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId));
+            }}
+        }}
+
+        if (product) {{
+            // 1. Fill all input fields with existing values
+            if (document.getElementById('pNameEn')) document.getElementById('pNameEn').value = product.nameEn || '';
+            if (document.getElementById('pNameMr')) document.getElementById('pNameMr').value = product.nameMr || '';
+            if (document.getElementById('pCompany')) document.getElementById('pCompany').value = product.company || '';
+            if (document.getElementById('pCategory')) document.getElementById('pCategory').value = product.category || 'Seeds';
+            if (document.getElementById('pGst')) document.getElementById('pGst').value = product.gst !== undefined ? product.gst : '0.00';
+            if (document.getElementById('pPrice')) document.getElementById('pPrice').value = product.price !== undefined ? product.price : '';
+            if (document.getElementById('pDiscount')) document.getElementById('pDiscount').value = product.discountPrice !== undefined ? product.discountPrice : '';
+            if (document.getElementById('pStock')) document.getElementById('pStock').value = product.stock !== undefined ? product.stock : '';
+            if (document.getElementById('pMinStock')) document.getElementById('pMinStock').value = product.minStock !== undefined ? product.minStock : '10';
+            if (document.getElementById('pDesc')) document.getElementById('pDesc').value = product.desc || '';
+
+            // 2. Pre-populate image preview
+            if (product.image) {{
+                selectedProductImageDataUrl = product.image;
+                const img = document.getElementById('productImagePreview');
+                const promptBox = document.getElementById('uploadPrompt');
+                const previewWrap = document.getElementById('imagePreviewWrap');
+                const fileNameBadge = document.getElementById('imageFileName');
+                if (img) img.src = product.image;
+                if (fileNameBadge) fileNameBadge.textContent = 'Existing image (' + (product.nameEn || 'product') + ')';
+                if (promptBox) promptBox.classList.add('d-none');
+                if (previewWrap) previewWrap.classList.remove('d-none');
+            }}
+
+            // 3. Update Page Title and Button to Edit Mode
+            const titleEl = document.querySelector('h5.fw-bold');
+            if (titleEl) {{
+                titleEl.innerHTML = '<i class="bi bi-pencil-square text-success fs-5"></i> ' +
+                                    '<span class="lang-mr">उत्पादन माहिती बदला</span>' +
+                                    '<span class="lang-en">Edit Product</span>';
+            }}
+            const btnSave = document.getElementById('btnSaveProd');
+            if (btnSave) {{
+                btnSave.innerHTML = '💾 <span class="lang-mr">बदल सेव्ह करा</span><span class="lang-en">Update Product</span>';
+            }}
+            const alertText = document.getElementById('saveAlert');
+            if (alertText) {{
+                alertText.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> ' +
+                                      '<span class="lang-mr">उत्पादनाची माहिती यशस्वीरित्या अपडेट केली!</span>' +
+                                      '<span class="lang-en">Product information updated successfully!</span>';
+            }}
+        }}
+    }}
+}});
+
 function handleSaveProduct(e) {{
     if (e && e.preventDefault) e.preventDefault();
     
@@ -1381,39 +1575,57 @@ function handleSaveProduct(e) {{
     const nameMr = document.getElementById('pNameMr').value.trim() || nameEn;
     const company = document.getElementById('pCompany').value.trim() || 'Saptashrungi Agro';
     const category = document.getElementById('pCategory').value;
+    const gst = document.getElementById('pGst') ? document.getElementById('pGst').value.trim() : '0.00';
     const price = parseFloat(document.getElementById('pPrice').value) || 0;
     const discountPrice = parseFloat(document.getElementById('pDiscount').value) || price;
     const stock = parseInt(document.getElementById('pStock').value) || 50;
+    const minStock = document.getElementById('pMinStock') ? parseInt(document.getElementById('pMinStock').value) || 10 : 10;
     const desc = document.getElementById('pDesc').value.trim();
     const image = selectedProductImageDataUrl || 'images/cotton_seeds.jpg';
 
-    const newProd = {{
-        id: Date.now(),
-        nameEn: nameEn,
-        nameMr: nameMr,
-        company: company,
-        category: category,
-        price: price,
-        discountPrice: discountPrice,
-        stock: stock,
-        desc: desc,
-        image: image,
-        createdAt: new Date().toISOString()
-    }};
+    const editId = document.getElementById('editProductId').value;
+    const editSrc = document.getElementById('editProductSrc').value;
 
-    // Save to localStorage
-    const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-    saved.unshift(newProd);
-    localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+    if (editId) {{
+        // EDIT MODE - update existing record
+        if (editSrc === 'custom') {{
+            let customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            const idx = customs.findIndex(p => String(p.id) === String(editId));
+            if (idx >= 0) {{
+                customs[idx] = Object.assign(customs[idx], {{
+                    nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                    updatedAt: new Date().toISOString()
+                }});
+            }}
+            localStorage.setItem('ksk_custom_products', JSON.stringify(customs));
+        }} else {{
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{{}}');
+            const base = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId)) || {{}};
+            overrides[editId] = Object.assign({{}}, base, {{
+                nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                updatedAt: new Date().toISOString()
+            }});
+            localStorage.setItem('ksk_default_product_overrides', JSON.stringify(overrides));
+        }}
+    }} else {{
+        // ADD NEW PRODUCT MODE
+        const newProd = {{
+            id: Date.now(),
+            nameEn, nameMr, company, category, gst,
+            price, discountPrice, stock, minStock, desc, image,
+            createdAt: new Date().toISOString()
+        }};
+        const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+        saved.unshift(newProd);
+        localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+    }}
 
     const alertBox = document.getElementById('saveAlert');
-    if (alertBox) {{
-        alertBox.classList.remove('d-none');
-    }}
+    if (alertBox) alertBox.classList.remove('d-none');
 
     setTimeout(() => {{
         window.location.href = 'admin-products.html';
-    }}, 1200);
+    }}, 900);
 
     return false;
 }}

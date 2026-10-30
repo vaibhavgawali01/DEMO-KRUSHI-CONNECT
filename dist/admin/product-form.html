@@ -288,6 +288,8 @@
                     </div>
 
                     <form id="productForm" onsubmit="return handleSaveProduct(event)">
+                        <input type="hidden" id="editProductId" value="">
+                        <input type="hidden" id="editProductSrc" value="">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-success">
@@ -514,6 +516,125 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 });
 
+// Default products catalog data for pre-population
+const DEFAULT_EDIT_PRODUCTS = [
+    {
+        id: 1,
+        nameEn: "Wheat Seeds (Lok-1)",
+        nameMr: "गहू बियाणे (लोक-१)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 1450,
+        discountPrice: 1350,
+        stock: 60,
+        minStock: 10,
+        desc: "High germination certified Lok-1 wheat seeds suitable for Maharashtra irrigated soil.",
+        image: "images/wheat_seeds.jpg"
+    },
+    {
+        id: 2,
+        nameEn: "Soybean Seeds (JS-335)",
+        nameMr: "सोयाबीन बियाणे (JS-335)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 3200,
+        discountPrice: 2950,
+        stock: 40,
+        minStock: 10,
+        desc: "Certified high yielding JS-335 soybean seeds with strong disease resistance.",
+        image: "images/soybean_seeds.jpg"
+    },
+    {
+        id: 3,
+        nameEn: "NPK 19:19:19",
+        nameMr: "NPK 19:19:19 खत",
+        company: "IFFCO",
+        category: "Fertilizers",
+        gst: "5.00",
+        price: 2350,
+        discountPrice: 1890,
+        stock: 85,
+        minStock: 15,
+        desc: "100% water soluble balanced fertilizer providing Nitrogen, Phosphorus, and Potassium in equal ratio.",
+        image: "images/npk_191919.jpg"
+    }
+];
+
+// Pre-populate form when opening in Edit mode (?edit=<id>)
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('edit');
+    const editSrc = params.get('src'); // 'custom' or default
+
+    if (editId) {
+        document.getElementById('editProductId').value = editId;
+        document.getElementById('editProductSrc').value = editSrc || 'default';
+
+        let product = null;
+
+        if (editSrc === 'custom') {
+            // Search in custom products
+            const customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            product = customs.find(p => String(p.id) === String(editId));
+        } else {
+            // Search in overrides first, then defaults
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{}');
+            if (overrides[editId]) {
+                product = overrides[editId];
+            } else {
+                product = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId));
+            }
+        }
+
+        if (product) {
+            // 1. Fill all input fields with existing values
+            if (document.getElementById('pNameEn')) document.getElementById('pNameEn').value = product.nameEn || '';
+            if (document.getElementById('pNameMr')) document.getElementById('pNameMr').value = product.nameMr || '';
+            if (document.getElementById('pCompany')) document.getElementById('pCompany').value = product.company || '';
+            if (document.getElementById('pCategory')) document.getElementById('pCategory').value = product.category || 'Seeds';
+            if (document.getElementById('pGst')) document.getElementById('pGst').value = product.gst !== undefined ? product.gst : '0.00';
+            if (document.getElementById('pPrice')) document.getElementById('pPrice').value = product.price !== undefined ? product.price : '';
+            if (document.getElementById('pDiscount')) document.getElementById('pDiscount').value = product.discountPrice !== undefined ? product.discountPrice : '';
+            if (document.getElementById('pStock')) document.getElementById('pStock').value = product.stock !== undefined ? product.stock : '';
+            if (document.getElementById('pMinStock')) document.getElementById('pMinStock').value = product.minStock !== undefined ? product.minStock : '10';
+            if (document.getElementById('pDesc')) document.getElementById('pDesc').value = product.desc || '';
+
+            // 2. Pre-populate image preview
+            if (product.image) {
+                selectedProductImageDataUrl = product.image;
+                const img = document.getElementById('productImagePreview');
+                const promptBox = document.getElementById('uploadPrompt');
+                const previewWrap = document.getElementById('imagePreviewWrap');
+                const fileNameBadge = document.getElementById('imageFileName');
+                if (img) img.src = product.image;
+                if (fileNameBadge) fileNameBadge.textContent = 'Existing image (' + (product.nameEn || 'product') + ')';
+                if (promptBox) promptBox.classList.add('d-none');
+                if (previewWrap) previewWrap.classList.remove('d-none');
+            }
+
+            // 3. Update Page Title and Button to Edit Mode
+            const titleEl = document.querySelector('h5.fw-bold');
+            if (titleEl) {
+                titleEl.innerHTML = '<i class="bi bi-pencil-square text-success fs-5"></i> ' +
+                                    '<span class="lang-mr">उत्पादन माहिती बदला</span>' +
+                                    '<span class="lang-en">Edit Product</span>';
+            }
+            const btnSave = document.getElementById('btnSaveProd');
+            if (btnSave) {
+                btnSave.innerHTML = '💾 <span class="lang-mr">बदल सेव्ह करा</span><span class="lang-en">Update Product</span>';
+            }
+            const alertText = document.getElementById('saveAlert');
+            if (alertText) {
+                alertText.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> ' +
+                                      '<span class="lang-mr">उत्पादनाची माहिती यशस्वीरित्या अपडेट केली!</span>' +
+                                      '<span class="lang-en">Product information updated successfully!</span>';
+            }
+        }
+    }
+});
+
 function handleSaveProduct(e) {
     if (e && e.preventDefault) e.preventDefault();
     
@@ -521,39 +642,57 @@ function handleSaveProduct(e) {
     const nameMr = document.getElementById('pNameMr').value.trim() || nameEn;
     const company = document.getElementById('pCompany').value.trim() || 'Saptashrungi Agro';
     const category = document.getElementById('pCategory').value;
+    const gst = document.getElementById('pGst') ? document.getElementById('pGst').value.trim() : '0.00';
     const price = parseFloat(document.getElementById('pPrice').value) || 0;
     const discountPrice = parseFloat(document.getElementById('pDiscount').value) || price;
     const stock = parseInt(document.getElementById('pStock').value) || 50;
+    const minStock = document.getElementById('pMinStock') ? parseInt(document.getElementById('pMinStock').value) || 10 : 10;
     const desc = document.getElementById('pDesc').value.trim();
     const image = selectedProductImageDataUrl || 'images/cotton_seeds.jpg';
 
-    const newProd = {
-        id: Date.now(),
-        nameEn: nameEn,
-        nameMr: nameMr,
-        company: company,
-        category: category,
-        price: price,
-        discountPrice: discountPrice,
-        stock: stock,
-        desc: desc,
-        image: image,
-        createdAt: new Date().toISOString()
-    };
+    const editId = document.getElementById('editProductId').value;
+    const editSrc = document.getElementById('editProductSrc').value;
 
-    // Save to localStorage
-    const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-    saved.unshift(newProd);
-    localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+    if (editId) {
+        // EDIT MODE - update existing record
+        if (editSrc === 'custom') {
+            let customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            const idx = customs.findIndex(p => String(p.id) === String(editId));
+            if (idx >= 0) {
+                customs[idx] = Object.assign(customs[idx], {
+                    nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('ksk_custom_products', JSON.stringify(customs));
+        } else {
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{}');
+            const base = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId)) || {};
+            overrides[editId] = Object.assign({}, base, {
+                nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                updatedAt: new Date().toISOString()
+            });
+            localStorage.setItem('ksk_default_product_overrides', JSON.stringify(overrides));
+        }
+    } else {
+        // ADD NEW PRODUCT MODE
+        const newProd = {
+            id: Date.now(),
+            nameEn, nameMr, company, category, gst,
+            price, discountPrice, stock, minStock, desc, image,
+            createdAt: new Date().toISOString()
+        };
+        const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+        saved.unshift(newProd);
+        localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+    }
 
     const alertBox = document.getElementById('saveAlert');
-    if (alertBox) {
-        alertBox.classList.remove('d-none');
-    }
+    if (alertBox) alertBox.classList.remove('d-none');
 
     setTimeout(() => {
         window.location.href = 'admin-products.html';
-    }, 1200);
+    }, 900);
 
     return false;
 }

@@ -303,8 +303,10 @@
                                     <td><span class="badge bg-success">60 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=1" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(1)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -316,8 +318,10 @@
                                     <td><span class="badge bg-success">40 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=2" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(2)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -329,8 +333,10 @@
                                     <td><span class="badge bg-success">85 units</span></td>
                                     <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                                     <td class="text-end pe-4">
-                                        <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="alert('Product deleted')"><i class="bi bi-trash"></i></button>
+                                        <a href="admin-product-form.html?edit=3" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+
+                                        <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteDefaultProduct(3)"><i class="bi bi-trash"></i></button>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -345,27 +351,85 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     const tbody = document.getElementById('adminProductsTableBody');
+    if (!tbody) return;
+
+    // 1. Hide default products that were marked deleted
+    const hiddenDefaults = JSON.parse(localStorage.getItem('ksk_hidden_default_products') || '[]');
+    hiddenDefaults.forEach(id => {
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const editLink = row.querySelector('a[href="admin-product-form.html?edit=' + id + '"]');
+            if (editLink) row.style.display = 'none';
+        });
+    });
+
+    // 2. Apply any saved edits to default products (overrides)
+    const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{}');
+    Object.keys(overrides).forEach(id => {
+        const prod = overrides[id];
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const editLink = row.querySelector('a[href="admin-product-form.html?edit=' + id + '"]');
+            if (editLink) {
+                // Update image
+                if (prod.image) {
+                    const img = row.querySelector('td:nth-child(1) img');
+                    if (img) img.src = prod.image;
+                }
+                // Update name
+                const nameCol = row.querySelector('td:nth-child(2)');
+                if (nameCol) {
+                    nameCol.innerHTML = '<strong class="text-dark d-block">' + (prod.nameEn || '') + '</strong>' +
+                                        (prod.nameMr ? '<small class="text-muted">' + prod.nameMr + '</small>' : '');
+                }
+                // Update company
+                const compCol = row.querySelector('td:nth-child(3)');
+                if (compCol && prod.company) compCol.textContent = prod.company;
+                // Update category
+                const catCol = row.querySelector('td:nth-child(4) .badge');
+                if (catCol && prod.category) catCol.textContent = prod.category;
+                // Update price
+                const priceCol = row.querySelector('td:nth-child(5)');
+                if (priceCol && (prod.discountPrice || prod.price)) {
+                    const dp = prod.discountPrice || prod.price;
+                    const op = prod.price || prod.discountPrice;
+                    priceCol.innerHTML = '<strong class="text-success">₹' + dp.toLocaleString('en-IN') + '</strong>' +
+                                         (op > dp ? ' <small class="text-muted text-decoration-line-through">₹' + op.toLocaleString('en-IN') + '</small>' : '');
+                }
+                // Update stock
+                const stockCol = row.querySelector('td:nth-child(6) .badge');
+                if (stockCol && prod.stock !== undefined) stockCol.textContent = prod.stock + ' units';
+            }
+        });
+    });
+
+    // 3. Prepend custom/added products
     const customProds = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-    if (tbody && customProds.length > 0) {
+    if (customProds.length > 0) {
         customProds.forEach(p => {
             const tr = document.createElement('tr');
             tr.className = 'table-success-subtle';
+            const dp = p.discountPrice || p.price || 0;
+            const op = p.price || p.discountPrice || 0;
             tr.innerHTML = `
                 <td class="ps-4">
-                    <img src="${p.image}" class="rounded-3 shadow-sm border" style="width:44px;height:44px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
+                    <img src="${p.image || 'images/cotton_seeds.jpg'}" class="rounded-3 shadow-sm border" style="width:40px;height:40px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
                 </td>
                 <td>
-                    <strong class="text-dark d-block">${p.nameEn}</strong>
-                    <small class="text-muted">${p.nameMr}</small>
+                    <strong class="text-dark d-block">${p.nameEn || ''}</strong>
+                    <small class="text-muted">${p.nameMr || ''}</small>
                 </td>
-                <td>${p.company}</td>
-                <td><span class="badge bg-light text-dark border">${p.category}</span></td>
-                <td><strong class="text-success">₹${p.discountPrice || p.price}</strong></td>
-                <td><span class="badge bg-success">${p.stock}</span></td>
-                <td><span class="badge bg-success-subtle text-success">Active</span></td>
+                <td>${p.company || 'Saptashrungi Agro'}</td>
+                <td><span class="badge bg-light text-dark border">${p.category || 'General'}</span></td>
+                <td>
+                    <strong class="text-success">₹${dp.toLocaleString('en-IN')}</strong>
+                    ${op > dp ? `<small class="text-muted text-decoration-line-through ms-1">₹${op.toLocaleString('en-IN')}</small>` : ''}
+                </td>
+                <td><span class="badge bg-success">${p.stock || 0} units</span></td>
+                <td><span class="badge bg-success-subtle text-success border border-success-subtle">Active</span></td>
                 <td class="text-end pe-4">
-                    <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
-                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${p.id})"><i class="bi bi-trash"></i></button>
+                    <a href="admin-product-form.html?edit=${p.id}&src=custom" class="btn btn-sm btn-outline-primary py-1 px-2" title="Edit Product"><i class="bi bi-pencil-square"></i></a>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${p.id})" title="Delete Product"><i class="bi bi-trash"></i></button>
                 </td>
             `;
             tbody.insertBefore(tr, tbody.firstChild);
@@ -376,8 +440,17 @@ document.addEventListener('DOMContentLoaded', function(){
 function deleteCustomProduct(id) {
     if (confirm('या उत्पादनाला काढून टाकायचे आहे का? (Delete this product?)')) {
         let prods = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
-        prods = prods.filter(p => p.id !== id);
+        prods = prods.filter(p => String(p.id) !== String(id));
         localStorage.setItem('ksk_custom_products', JSON.stringify(prods));
+        window.location.reload();
+    }
+}
+
+function deleteDefaultProduct(id) {
+    if (confirm('हे उत्पादन काढून टाकायचे आहे का? (Delete this default product?)')) {
+        let hidden = JSON.parse(localStorage.getItem('ksk_hidden_default_products') || '[]');
+        if (!hidden.includes(id)) hidden.push(id);
+        localStorage.setItem('ksk_hidden_default_products', JSON.stringify(hidden));
         window.location.reload();
     }
 }
