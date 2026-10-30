@@ -1,4 +1,4 @@
-﻿target/
+target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -21,7 +21,7 @@
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+# /dist/ (enabled for Netlify static deployment)
 /nbdist/
 /.nb-gradle/
 
