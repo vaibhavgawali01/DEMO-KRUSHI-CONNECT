@@ -1,4 +1,5 @@
 [build]
+  command = "echo 'Static bundle ready'"
   publish = "dist"
 
 [[redirects]]
@@ -210,4 +211,6 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
