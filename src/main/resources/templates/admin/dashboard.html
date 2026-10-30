@@ -1,79 +1,325 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout/header :: head('Admin Dashboard - Saptashrungi Agro')}"></head>
-<body style="background: #f1f5f9;">
-<div th:replace="~{layout/navbar :: navbar}"></div>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>ॲडमिन डॅशबोर्ड | Admin Dashboard - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
+        </div>
+
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
+
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
+                </div>
+
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <div class="container-fluid px-3 px-lg-4 my-4">
     <div class="row g-4">
-
-        <!-- Left Admin Navigation Sidebar -->
+        <!-- Left Sidebar (Screenshot 3) -->
         <div class="col-lg-3 col-xl-2">
-            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('dashboard')}"></div>
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link active">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-reviews.html" class="admin-nav-link ">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span><span class="lang-mr">शेतकरी रिव्ह्यू व्यवस्थापन</span><span class="lang-en">Manage Reviews</span></span>
+            <span class="badge bg-success ms-auto" style="font-size:0.65rem;">New</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-reports.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-backup.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-settings.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
 
         <!-- Main Workspace Area -->
         <div class="col-lg-9 col-xl-10">
-
-            <!-- Premium Header Welcome Banner -->
+            <!-- Green Welcome Banner (Screenshot 4) -->
             <div class="admin-welcome-banner mb-4">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
                         <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-25 small mb-2 fw-semibold">
                             <span>🌱</span>
-                            <span th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर' : 'Saptashrungi Agro Services, Mirkhanagar'}">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
+                            <span class="lang-en">Saptashrungi Agro Services, Mirkhanagar</span>
                         </div>
-                        <h2 class="h3 fw-bold mb-1 text-white" th:text="${#locale.language == 'mr' ? 'व्यवस्थापन डॅशबोर्ड' : 'Admin Dashboard'}">व्यवस्थापन डॅशबोर्ड</h2>
-                        <p class="text-white-50 small mb-0" th:text="${#locale.language == 'mr' ? 'विक्री, इन्व्हेंटरी, शेतकरी खाती आणि दुकानाच्या कामगिरीचा आढावा.' : 'Overview of sales, inventory, farmer accounts, and store performance.'}">Overview of sales, inventory, farmer accounts, and store performance.</p>
+                        <h2 class="h3 fw-bold mb-1 text-white">
+                            <span class="lang-mr">व्यवस्थापन डॅशबोर्ड</span>
+                            <span class="lang-en">Admin Dashboard</span>
+                        </h2>
+                        <p class="text-white-50 small mb-0">
+                            <span class="lang-mr">विक्री, इन्व्हेंटरी, शेतकरी खाती आणि दुकानाच्या कामगिरीचा आढावा.</span>
+                            <span class="lang-en">Overview of sales, inventory, farmer accounts, and store performance.</span>
+                        </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <a th:href="@{/admin/products/add}" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
+                        <a href="admin-product-form.html" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
                             <span>➕</span>
-                            <span th:text="${#locale.language == 'mr' ? 'Add Product (नवीन उत्पादन)' : 'Add Product'}">➕ Add Product</span>
+                            <span class="lang-mr">Add Product (नवीन उत्पादन)</span>
+                            <span class="lang-en">Add Product</span>
                         </a>
-                        <a th:href="@{/admin/reports}" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
+                        <a href="admin-dashboard.html" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-bar-graph"></i>
-                            <span th:text="${#locale.language == 'mr' ? 'अहवाल' : 'Reports'}">Reports</span>
+                            <span class="lang-mr">अहवाल</span>
+                            <span class="lang-en">Reports</span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Low Stock / Expiry Alert Banner -->
-            <div th:if="${lowStockProducts != null and !lowStockProducts.empty}" 
-                 class="alert alert-warning border-0 shadow-sm rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 p-3"
-                 style="background: #fffbeb; border-left: 5px solid #f59e0b !important;">
-                <div class="d-flex align-items-center gap-3">
-                    <div style="width: 40px; height: 40px; border-radius: 10px; background: #fef3c7; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                        ⚠️
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'कमी साठा चेतावणी (Low Stock Alerts)' : 'Low Stock Alerts'}">Low Stock Alerts</h6>
-                        <small class="text-muted" th:if="${#locale.language == 'mr'}"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा किमान मर्यादेपेक्षा कमी झाला आहे. त्वरित रिस्टॉक करा.</small>
-                        <small class="text-muted" th:if="${#locale.language != 'mr'}"><strong th:text="${lowStockCount}">0</strong> products are running below minimum safety threshold. Please reorder.</small>
-                    </div>
-                </div>
-                <a th:href="@{/admin/inventory}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill" th:text="${#locale.language == 'mr' ? 'इन्व्हेंटरी तपासा &rarr;' : 'Check Inventory &rarr;'}">
-                    इन्व्हेंटरी तपासा &rarr;
-                </a>
-            </div>
-
-            <!-- 4 Main Stats Cards: Total Products, Total Users, Udhari Outstanding, Monthly Revenue -->
+            <!-- 4 Main Stats Cards (Screenshot 4) -->
             <div class="row g-3 mb-4">
-
                 <!-- 1. Total Products -->
                 <div class="col-sm-6 col-xl-3">
-                    <a th:href="@{/admin/products}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                    <a href="admin-products.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण उत्पादने (Total Products)' : 'Total Products'}">Total Products</span>
+                            <span class="admin-kpi-label"><span class="lang-mr">एकूण उत्पादने (Total Products)</span><span class="lang-en">Total Products</span></span>
                             <div class="admin-kpi-icon-wrap" style="background: #dbeafe; color: #0284c7;">
                                 <i class="bi bi-box-seam-fill"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" th:text="${totalProducts != null ? totalProducts : '0'}">0</div>
+                            <div class="admin-kpi-val">14</div>
                             <span class="admin-kpi-badge" style="background: #eff6ff; color: #0284c7;">
-                                <i class="bi bi-boxes"></i> <span th:text="${#locale.language == 'mr' ? 'कॅटलॉग यादी' : 'In Catalog'}">In Catalog</span>
+                                <i class="bi bi-boxes"></i> <span class="lang-mr">कॅटलॉग यादी</span><span class="lang-en">In Catalog</span>
                             </span>
                         </div>
                     </a>
@@ -81,35 +327,35 @@
 
                 <!-- 2. Total Users -->
                 <div class="col-sm-6 col-xl-3">
-                    <a th:href="@{/admin/customers}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                    <a href="admin-customers.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण युझर्स (Total Users)' : 'Total Users'}">Total Users</span>
+                            <span class="admin-kpi-label"><span class="lang-mr">एकूण युझर्स (Total Users)</span><span class="lang-en">Total Users</span></span>
                             <div class="admin-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
                                 <i class="bi bi-people-fill"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" th:text="${totalCustomers != null ? totalCustomers : '0'}">0</div>
+                            <div class="admin-kpi-val">7</div>
                             <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
-                                <i class="bi bi-person-check-fill"></i> <span th:text="${#locale.language == 'mr' ? 'नोंदणीकृत शेतकरी' : 'Registered Farmers'}">Registered Farmers</span>
+                                <i class="bi bi-person-check-fill"></i> <span class="lang-mr">नोंदणीकृत शेतकरी</span><span class="lang-en">Registered Farmers</span>
                             </span>
                         </div>
                     </a>
                 </div>
 
-                <!-- 3. Udhari Outstanding -->
+                <!-- 3. Udhari Outstanding (Empty by default when no udhari exists) -->
                 <div class="col-sm-6 col-xl-3">
-                    <a th:href="@{/admin/udhari}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                    <a href="admin-udhari.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'बाकी उधारी (Udhari Outstanding)' : 'Udhari Outstanding'}">Udhari Outstanding</span>
-                            <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
-                                <i class="bi bi-wallet-fill"></i>
+                            <span class="admin-kpi-label"><span class="lang-mr">बाकी उधारी (Udhari Outstanding)</span><span class="lang-en">Udhari Outstanding</span></span>
+                            <div class="admin-kpi-icon-wrap" id="dashUdhariIconWrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-wallet2" id="dashUdhariIcon"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" style="color: #dc2626;" th:text="'₹' + ${totalRemainingUdhari != null ? #numbers.formatDecimal(totalRemainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="${#locale.language == 'mr' ? (overdueCount != null ? overdueCount : 0) + ' मुदत संपलेली खाती' : (overdueCount != null ? overdueCount : 0) + ' Overdue'}">
-                                0 Overdue
+                            <div class="admin-kpi-val" id="dashUdhariVal" style="color: #16a34a;">₹0</div>
+                            <span class="admin-kpi-badge" id="dashUdhariBadge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>
                             </span>
                         </div>
                     </a>
@@ -117,240 +363,361 @@
 
                 <!-- 4. Monthly Revenue -->
                 <div class="col-sm-6 col-xl-3">
-                    <a th:href="@{/admin/reports}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                    <a href="admin-dashboard.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'मासिक महसूल (Monthly Revenue)' : 'Monthly Revenue'}">Monthly Revenue</span>
+                            <span class="admin-kpi-label"><span class="lang-mr">मासिक महसूल (Monthly Revenue)</span><span class="lang-en">Monthly Revenue</span></span>
                             <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
                                 <i class="bi bi-cash-stack"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val text-success" th:text="'₹' + ${monthlySales != null ? #numbers.formatDecimal(monthlySales, 0, 'COMMA', 0, 'POINT') : (#numbers.formatDecimal(totalSales != null ? totalSales : 0, 0, 'COMMA', 0, 'POINT'))}">₹0</div>
+                            <div class="admin-kpi-val text-success">₹0</div>
                             <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
-                                <i class="bi bi-graph-up-arrow"></i> <span th:text="${#locale.language == 'mr' ? 'चालू महिना विक्री' : 'Current Month'}">Current Month</span>
+                                <i class="bi bi-graph-up-arrow"></i> <span class="lang-mr">चालू महिना विक्री</span><span class="lang-en">Current Month</span>
                             </span>
                         </div>
                     </a>
                 </div>
-
-            </div>
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'कमी साठा' : 'Low Stock'}">कमी साठा</span>
-                            <div class="admin-kpi-icon-wrap" style="background: #fef3c7; color: #d97706;">
-                                <i class="bi bi-exclamation-octagon-fill"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="admin-kpi-val" th:text="${lowStockCount != null ? lowStockCount : '0'}">0</div>
-                            <span class="admin-kpi-badge" style="background: #fffbeb; color: #d97706;" th:text="${#locale.language == 'mr' ? 'तातडीने खरेदी करा' : 'Urgent Reorder'}">
-                                Urgent Reorder
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 6. Inventory Value -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <div class="admin-kpi-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'स्टॉक मूल्य' : 'Inventory Value'}">स्टॉक मूल्य</span>
-                            <div class="admin-kpi-icon-wrap" style="background: #f1f5f9; color: #475569;">
-                                <i class="bi bi-box-fill"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="admin-kpi-val" th:text="'₹' + ${inventoryValue != null ? #numbers.formatDecimal(inventoryValue, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #f8fafc; color: #475569;" th:text="${#locale.language == 'mr' ? (totalProducts != null ? totalProducts : 0) + ' उत्पादने' : (totalProducts != null ? totalProducts : 0) + ' Products'}">
-                                0 Products
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- Two Column Section: Recent Invoices & Fast Actions -->
+            <!-- Two Column Section: Recent Orders & Quick Actions (Screenshot 2) -->
             <div class="row g-4 mb-4">
-
-                <!-- Left: Recent Orders / Invoices -->
+                <!-- Left: Recent Orders -->
                 <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white">
                         <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-receipt text-success fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'अलीकडील पावत्या' : 'Recent Orders'}">अलीकडील पावत्या</h6>
+                                <h6 class="fw-bold text-dark mb-0"><span class="lang-mr">अलीकडील ऑर्डर्स</span><span class="lang-en">Recent Orders</span></h6>
                             </div>
-                            <a th:href="@{/admin/orders}" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold" th:text="${#locale.language == 'mr' ? 'सर्व पाहा &rarr;' : 'View All &rarr;'}">
-                                सर्व पाहा &rarr;
+                            <a href="admin-products.html" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                                <span class="lang-mr">सर्व पाहा &rarr;</span><span class="lang-en">View All &rarr;</span>
                             </a>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light text-muted small">
-                                    <tr>
-                                        <th class="ps-4" th:text="${#locale.language == 'mr' ? 'पावती क्रमांक' : 'Order ID'}">पावती क्रमांक</th>
-                                        <th th:text="${#locale.language == 'mr' ? 'शेतकरी नाव' : 'Customer Name'}">शेतकरी नाव</th>
-                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'रक्कम' : 'Amount'}">रक्कम</th>
-                                        <th class="text-center" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">स्थिती</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:if="${recentOrders == null or recentOrders.empty}">
-                                        <td colspan="4" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणत्याही अलीकडील ऑर्डर्स नाहीत.' : 'No recent orders found.'}">
-                                            कोणत्याही अलीकडील ऑर्डर्स नाहीत.
-                                        </td>
-                                    </tr>
-                                    <tr th:each="order : ${recentOrders}">
-                                        <td class="ps-4">
-                                            <a th:href="@{'/admin/orders/' + ${order.id}}" class="fw-bold text-success text-decoration-none" th:text="${order.orderNumber}">
-                                                KSK-001
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="fw-semibold text-dark" th:text="${order.user != null ? order.user.name : (#locale.language == 'mr' ? 'थेट शेतकरी ग्राहक' : 'Walk-in Customer')}">Customer</div>
-                                        </td>
-                                        <td class="text-end fw-bold text-dark" th:text="'₹' + ${order.total}">₹0</td>
-                                        <td class="text-center">
-                                            <span class="status-pill"
-                                                  th:classappend="${order.orderStatus.name() == 'DELIVERED'} ? 'status-pill-green' : 
-                                                                 (${order.orderStatus.name() == 'PROCESSING'} ? 'status-pill-blue' : 
-                                                                 (${order.orderStatus.name() == 'CANCELLED'} ? 'status-pill-red' : 'status-pill-amber'))"
-                                                  th:text="${#locale.language == 'mr' ? order.orderStatus.displayNameMr : order.orderStatus.displayNameEn}">
-                                                Status
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <!-- Empty Orders State (User Request: admin pannel madhil resent order empty kr) -->
+                        <div class="card-body p-4 text-center py-5">
+                            <div class="mb-3">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 72px; height: 72px; background: #f0fdf4; border: 2px dashed #86efac;">
+                                    <i class="bi bi-inbox text-success fs-1"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">
+                                <span class="lang-mr">सध्या कोणतीही चालू ऑर्डर नाही</span>
+                                <span class="lang-en">No Recent Orders Available</span>
+                            </h6>
+                            <p class="text-muted small mb-0" style="max-width: 360px; margin: 0 auto; line-height: 1.5;">
+                                <span class="lang-mr">शेतकऱ्यांनी नवीन उत्पादनांची ऑर्डर दिल्यावर त्या ऑर्डर्स येथे आपोआप दिसतील.</span>
+                                <span class="lang-en">New customer orders will automatically appear in this table once placed.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: Quick Admin Shortcuts -->
+                <!-- Right: Quick Actions (Screenshot 2) -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
-                            <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'जलद ॲक्शन्स' : 'Quick Actions'}">जलद ॲक्शन्स</h6>
+                            <h6 class="fw-bold text-dark mb-0"><span class="lang-mr">जलद ॲक्शन्स</span><span class="lang-en">Quick Actions</span></h6>
                         </div>
 
-                        <a th:href="@{/admin/products/add}" class="admin-tool-item">
+                        <a href="admin-product-form.html" class="admin-tool-item">
                             <div class="admin-tool-icon-box" style="background: #dcfce7; color: #16a34a;">
                                 <i class="bi bi-plus-lg"></i>
                             </div>
-                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'नवीन उत्पादन जोडा' : 'Add New Product'}">नवीन उत्पादन जोडा</div>
+                            <div class="flex-grow-1"><span class="lang-mr">नवीन उत्पादन जोडा</span><span class="lang-en">Add New Product</span></div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
-                        <a th:href="@{/admin/inventory}" class="admin-tool-item">
+                        <a href="admin-inventory.html" class="admin-tool-item">
                             <div class="admin-tool-icon-box" style="background: #e0f2fe; color: #0284c7;">
                                 <i class="bi bi-boxes"></i>
                             </div>
-                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'साठा व्यवस्थापन' : 'Inventory Management'}">साठा व्यवस्थापन</div>
+                            <div class="flex-grow-1"><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory Management</span></div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
-                        <a th:href="@{/admin/udhari}" class="admin-tool-item">
+                        <a href="admin-udhari.html" class="admin-tool-item">
                             <div class="admin-tool-icon-box" style="background: #fef3c7; color: #d97706;">
                                 <i class="bi bi-wallet2"></i>
                             </div>
-                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'उधारी खाते' : 'Credit Ledger'}">उधारी खाते</div>
+                            <div class="flex-grow-1"><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
-                        <a th:href="@{/admin/customers}" class="admin-tool-item">
+                        <a href="admin-customers.html" class="admin-tool-item">
                             <div class="admin-tool-icon-box" style="background: #f3e8ff; color: #7c3aed;">
                                 <i class="bi bi-people"></i>
                             </div>
-                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक यादी' : 'Farmers Directory'}">शेतकरी ग्राहक यादी</div>
+                            <div class="flex-grow-1"><span class="lang-mr">शेतकरी ग्राहक यादी</span><span class="lang-en">Farmers Directory</span></div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
-                        <a th:href="@{/admin/reports}" class="admin-tool-item mb-0">
+                        <a href="admin-reports.html" class="admin-tool-item mb-0">
                             <div class="admin-tool-icon-box" style="background: #f1f5f9; color: #475569;">
                                 <i class="bi bi-graph-up"></i>
                             </div>
-                            <div class="flex-grow-1" th:text="${#locale.language == 'mr' ? 'विक्री अहवाल' : 'Sales Reports'}">विक्री अहवाल</div>
+                            <div class="flex-grow-1"><span class="lang-mr">विक्री अहवाल</span><span class="lang-en">Sales Reports</span></div>
                             <i class="bi bi-chevron-right text-muted small"></i>
                         </a>
 
-                        <!-- Shop Info Small Card -->
+                        <!-- Shop Info Small Card (Screenshot 2) -->
                         <div class="mt-4 p-3 rounded-3" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
                             <div class="d-flex align-items-center gap-2 mb-1">
-                                <span class="badge bg-success" th:text="${#locale.language == 'mr' ? 'ऑनलाइन कृषी केंद्र' : 'Online Shop'}">ऑनलाइन केंद्र</span>
-                                <small class="fw-bold text-dark" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस' : 'Saptashrungi Agro Services'}">सप्तशृंगी ॲग्रो सर्व्हिसेस</small>
+                                <span class="badge bg-success"><span class="lang-mr">ऑनलाइन दुकान</span><span class="lang-en">Online Shop</span></span>
+                                <small class="fw-bold text-dark">Saptashrungi Agro Services</small>
                             </div>
-                            <small class="text-muted d-block" style="font-size: 0.75rem;" th:if="${#locale.language == 'mr'}">
-                                📍 मिरखनगर, वैजापूर, छत्रपती संभाजीनगर<br>
-                                📞 8600813827 | UPI सक्रीय
-                            </small>
-                            <small class="text-muted d-block" style="font-size: 0.75rem;" th:if="${#locale.language != 'mr'}">
+                            <small class="text-muted d-block" style="font-size: 0.75rem;">
                                 📍 Mirkhanagar, Vaijapur, Chhatrapati Sambhajinagar<br>
                                 📞 8600813827 | UPI Active
                             </small>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <!-- Overdue Udhari Table Row -->
-            <div class="row g-4">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                        <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-exclamation-diamond-fill text-danger fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0" th:text="${#locale.language == 'mr' ? 'मुदत संपलेली उधारी' : 'Overdue Credit Accounts'}">मुदत संपलेली उधारी</h6>
-                            </div>
-                            <a th:href="@{/admin/udhari}" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold" th:text="${#locale.language == 'mr' ? 'संपूर्ण उधारी व्यवस्थापन &rarr;' : 'Manage All Credit &rarr;'}">
-                                संपूर्ण उधारी व्यवस्थापन &rarr;
-                            </a>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light text-muted small">
-                                    <tr>
-                                        <th class="ps-4" th:text="${#locale.language == 'mr' ? 'शेतकरी नाव' : 'Customer Name'}">शेतकरी नाव</th>
-                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'एकूण उधारी' : 'Total Credit'}">एकूण उधारी</th>
-                                        <th class="text-end" th:text="${#locale.language == 'mr' ? 'शिल्लक बाकी' : 'Remaining Due'}">शिल्लक बाकी</th>
-                                        <th class="text-center" th:text="${#locale.language == 'mr' ? 'थकबाकी दिवस' : 'Overdue Days'}">थकबाकी दिवस</th>
-                                        <th class="text-center pe-4" th:text="${#locale.language == 'mr' ? 'कृती' : 'Action'}">कृती</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:if="${overdueUdhariList == null or overdueUdhariList.empty}">
-                                        <td colspan="5" class="text-center py-4 text-success fw-semibold" th:text="${#locale.language == 'mr' ? 'सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही!' : 'All clear! No overdue credit accounts.'}">
-                                            सध्या कोणतीही मुदत संपलेली उधारी बाकी नाही!
-                                        </td>
-                                    </tr>
-                                    <tr th:each="u : ${overdueUdhariList}">
-                                        <td class="ps-4">
-                                            <div class="fw-bold text-dark" th:text="${u.user != null ? u.user.name : (#locale.language == 'mr' ? 'शेतकरी' : 'Farmer')}">Farmer Name</div>
-                                            <small class="text-muted" th:text="${u.user != null ? u.user.mobile : ''}">Phone</small>
-                                        </td>
-                                        <td class="text-end fw-semibold text-muted" th:text="'₹' + ${u.totalAmount}">₹0</td>
-                                        <td class="text-end fw-bold text-danger" th:text="'₹' + ${u.remainingAmount}">₹0</td>
-                                        <td class="text-center">
-                                            <span class="status-pill status-pill-red" th:text="${#locale.language == 'mr' ? (u.daysOverdue + ' दिवस बाकी') : (u.daysOverdue + ' days overdue')}">0 days</span>
-                                        </td>
-                                        <td class="text-center pe-4">
-                                            <a th:href="@{'/admin/udhari?customerId=' + ${u.user != null ? u.user.id : ''}}" class="btn btn-xs btn-outline-success rounded-pill px-2 py-1" style="font-size: 0.75rem;" th:text="${#locale.language == 'mr' ? 'तपशील &rarr;' : 'Details &rarr;'}">
-                                                तपशील &rarr;
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
 
-<div th:replace="~{layout/footer :: footer}"></div>
+<script>
+function syncDashboardUdhariState() {
+    const raw = localStorage.getItem('ksk_udhari_records');
+    let records = [];
+    if (raw) {
+        try { records = JSON.parse(raw); } catch(e) { records = []; }
+    }
+    const activeRecords = records.filter(r => r.status !== 'Paid' && (parseFloat(r.amount) || 0) > 0);
+    const total = activeRecords.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+    const overdueCount = activeRecords.filter(r => r.status === 'Overdue').length;
+
+    const valEl = document.getElementById('dashUdhariVal');
+    const badgeEl = document.getElementById('dashUdhariBadge');
+    const iconWrap = document.getElementById('dashUdhariIconWrap');
+
+    if (total > 0) {
+        if (valEl) {
+            valEl.textContent = '₹' + total.toLocaleString('en-IN');
+            valEl.style.color = '#dc2626';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#fee2e2';
+            iconWrap.style.color = '#dc2626';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#fef2f2';
+            badgeEl.style.color = '#dc2626';
+            badgeEl.innerHTML = `<i class="bi bi-exclamation-circle-fill me-1"></i> <span class="lang-mr">${overdueCount || activeRecords.length} खाती बाकी</span><span class="lang-en">${overdueCount || activeRecords.length} Overdue</span>`;
+        }
+    } else {
+        if (valEl) {
+            valEl.textContent = '₹0';
+            valEl.style.color = '#16a34a';
+        }
+        if (iconWrap) {
+            iconWrap.style.background = '#dcfce7';
+            iconWrap.style.color = '#16a34a';
+        }
+        if (badgeEl) {
+            badgeEl.style.background = '#f0fdf4';
+            badgeEl.style.color = '#16a34a';
+            badgeEl.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">शून्य बाकी (सर्व उधारी पूर्ण)</span><span class="lang-en">0 Overdue (No Dues)</span>`;
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', syncDashboardUdhariState);
+</script>
+
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

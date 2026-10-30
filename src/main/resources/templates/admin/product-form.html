@@ -1,200 +1,894 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head(${isEdit} ? 'Edit Product' : 'Add Product')}"></head>
-<body class="page-bg-light">
-<div th:replace="~{layout/navbar :: navbar}"></div>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>उत्पादन फॉर्म | Product Form - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
 
-<div class="container-fluid px-lg-4 my-4">
-    <div class="row g-4">
-        <!-- Sidebar -->
-        <div class="col-lg-2">
-            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('products')}"></div>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
         </div>
 
-        <div class="col-lg-10">
-            <!-- Header & Navigation -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <i class="ti" th:classappend="${isEdit} ? 'ti-edit text-primary' : 'ti-plus text-success'"></i>
-                        <span th:text="${isEdit} ? 'Edit Agricultural Product' : 'Add New Agricultural Product'">Add Product</span>
-                    </h1>
-                    <p class="text-muted small m-0 mt-1">Configure SKU, pricing, inventory threshold, and chemical/crop specifications</p>
-                </div>
-                <a th:href="@{/admin/products}" class="btn btn-light border px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 13px;">
-                    <i class="ti ti-arrow-left me-1"></i> Back to Products
-                </a>
-            </div>
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="modern-card p-4">
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <span th:text="${errorMessage}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <form th:action="${isEdit} ? @{'/admin/products/' + ${productDto.id} + '/edit'} : @{/admin/products/add}" 
-                      th:object="${productDto}" method="POST" enctype="multipart/form-data">
-                    
-                    <div class="row g-3">
-                        <!-- Category -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">Category / वर्ग *</label>
-                            <select th:field="*{categoryId}" class="form-select form-select-sm" th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
-                                <option value="">-- Select Category --</option>
-                                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name + ' (' + (cat.nameMr != null ? cat.nameMr : '') + ')'}">Seeds</option>
-                            </select>
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
-                        </div>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
 
-                        <!-- Product Name (English) -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">Product Name (English) *</label>
-                            <input type="text" th:field="*{name}" class="form-control form-control-sm" placeholder="e.g. Mahyco Bollgard II Cotton Seeds (475g)" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                        </div>
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-                        <!-- Product Name (Marathi) -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">उत्पादनाचे नाव (मराठी)</label>
-                            <input type="text" th:field="*{nameMr}" class="form-control form-control-sm" placeholder="उदा. माहिको बीजी-२ कापूस बियाणे">
-                        </div>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
 
-                        <!-- Company / Brand -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">Company / Manufacturer *</label>
-                            <input type="text" th:field="*{company}" class="form-control form-control-sm" placeholder="e.g. Syngenta, Mahyco, IFFCO, Bayer" th:classappend="${#fields.hasErrors('company')} ? 'is-invalid'">
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></div>
-                        </div>
-
-                        <!-- Price (MRP) -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">MRP / Price (₹) *</label>
-                            <input type="number" step="0.01" th:field="*{price}" class="form-control form-control-sm" placeholder="0.00" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'">
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
-                        </div>
-
-                        <!-- Discount Price -->
-                        <div class="col-md-4">
-                            <label class="form-label small fw-bold text-dark">Discount / Offer Price (₹)</label>
-                            <input type="number" step="0.01" th:field="*{discountPrice}" class="form-control form-control-sm" placeholder="Leave empty if same as MRP">
-                        </div>
-
-                        <!-- GST Rate % -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">GST Tax Rate *</label>
-                            <select th:field="*{gstRate}" class="form-select form-select-sm">
-                                <option value="0.00">0% (Seeds / Exempt)</option>
-                                <option value="5.00">5% (Fertilizers / Feed)</option>
-                                <option value="12.00">12% (Drip / Hand Sprayers)</option>
-                                <option value="18.00">18% (Pesticides / PGR)</option>
-                            </select>
-                        </div>
-
-                        <!-- Initial Stock -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Stock Quantity (Units) *</label>
-                            <input type="number" th:field="*{stockQuantity}" class="form-control form-control-sm" min="0" th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'">
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}"></div>
-                        </div>
-
-                        <!-- Minimum Stock Threshold -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Minimum Stock Alert Level *</label>
-                            <input type="number" th:field="*{minimumStock}" class="form-control form-control-sm" min="0">
-                        </div>
-
-                        <!-- Status -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Listing Status</label>
-                            <select th:field="*{status}" class="form-select form-select-sm">
-                                <option value="ACTIVE">ACTIVE (Visible in Store)</option>
-                                <option value="INACTIVE">INACTIVE (Hidden)</option>
-                            </select>
-                        </div>
-
-                        <!-- SKU -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">SKU Code</label>
-                            <input type="text" th:field="*{sku}" class="form-control form-control-sm" placeholder="e.g. MAH-COT-01">
-                        </div>
-
-                        <!-- Barcode -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Barcode / EAN</label>
-                            <input type="text" th:field="*{barcode}" class="form-control form-control-sm" placeholder="e.g. 890123456701">
-                        </div>
-
-                        <!-- Batch Number -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Batch Number</label>
-                            <input type="text" th:field="*{batchNumber}" class="form-control form-control-sm" placeholder="e.g. BCH-2026-01">
-                        </div>
-
-                        <!-- Expiry Date -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">Expiry Date (if applicable)</label>
-                            <input type="date" th:field="*{expiryDate}" class="form-control form-control-sm">
-                        </div>
-
-                        <!-- Product Image Upload -->
-                        <div class="col-md-12">
-                            <label for="productImageFile" class="form-label small fw-bold text-dark">Product Image</label>
-                            <input type="hidden" th:field="*{existingImage}">
-                            <input type="file" th:field="*{imageFile}" id="productImageFile"
-                                   class="form-control form-control-sm" accept="image/jpeg,image/png,image/gif,image/webp">
-                            <div class="form-text">Choose an image from your device (JPG, PNG, GIF or WebP, up to 10 MB).</div>
-                            <div class="mt-3 d-flex align-items-center gap-3" id="productImagePreviewContainer"
-                                 th:style="${productDto.existingImage != null and !productDto.existingImage.isBlank()} ? 'display: flex;' : 'display: none;'">
-                                <img id="productImagePreview"
-                                     th:src="${productDto.existingImage != null and #strings.startsWith(productDto.existingImage, '/uploads/') ? productDto.existingImage : '/images/' + productDto.existingImage}"
-                                     alt="Selected product preview"
-                                     style="width: 88px; height: 88px; object-fit: contain; border: 1px solid #dee2e6; border-radius: 10px; padding: 5px;">
-                                <span class="small text-muted" id="productImageFileName"
-                                      th:text="${productDto.existingImage}">Current product image</span>
-                            </div>
-                        </div>
-
-                        <!-- Description -->
-                        <div class="col-12">
-                            <label class="form-label small fw-bold text-dark">Product Description</label>
-                            <textarea th:field="*{description}" class="form-control form-control-sm" rows="3" placeholder="Technical specifications, features, composition..."></textarea>
-                        </div>
-
-                        <!-- Usage Instructions -->
-                        <div class="col-12">
-                            <label class="form-label small fw-bold text-dark">Agronomic Usage & Spraying Instructions</label>
-                            <textarea th:field="*{usageInstructions}" class="form-control form-control-sm" rows="3" placeholder="Dosage per acre / liter of water, application stages, safety precautions..."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-top d-flex gap-2">
-                        <button type="submit" class="btn btn-success px-4 fw-semibold text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 13px;">
-                            <i class="ti ti-check me-1"></i> <span th:text="${isEdit} ? 'Save Changes' : 'Publish Product'">Save Product</span>
-                        </button>
-                        <a th:href="@{/admin/products}" class="btn btn-light border px-4" style="font-size: 13px;">Cancel</a>
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
                     </div>
                 </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
+                </div>
+
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link active">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-reviews.html" class="admin-nav-link ">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span><span class="lang-mr">शेतकरी रिव्ह्यू व्यवस्थापन</span><span class="lang-en">Manage Reviews</span></span>
+            <span class="badge bg-success ms-auto" style="font-size:0.65rem;">New</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-reports.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-backup.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-settings.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
+        </div>
+
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle text-success fs-5"></i>
+                        <span class="lang-mr">उत्पादन जोडा / बदला</span>
+                        <span class="lang-en">Add / Edit Product</span>
+                    </h5>
+                    <a href="admin-products.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">&larr; <span class="lang-mr">उत्पादनांकडे परत जा</span><span class="lang-en">Back to Products</span></a>
+                </div>
+                <div class="card-body p-4">
+                    <div id="saveAlert" class="alert alert-success d-none py-2 mb-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <span class="lang-mr">उत्पादन फोटोसह यशस्वीरित्या सेव्ह केले!</span>
+                        <span class="lang-en">Product saved successfully with image!</span>
+                    </div>
+
+                    <form id="productForm" onsubmit="return handleSaveProduct(event)">
+                        <input type="hidden" id="editProductId" value="">
+                        <input type="hidden" id="editProductSrc" value="">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाचे नाव (इंग्रजी) *</span>
+                                    <span class="lang-en">Product Name (English) *</span>
+                                </label>
+                                <input type="text" id="pNameEn" class="form-control" placeholder="e.g. Wheat Seeds (Lok-1)" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाचे नाव (मराठी)</span>
+                                    <span class="lang-en">Product Name (Marathi)</span>
+                                </label>
+                                <input type="text" id="pNameMr" class="form-control" placeholder="उदा. गहू बियाणे (लोक-१)">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">कंपनी / ब्रँड</span>
+                                    <span class="lang-en">Company / Brand</span>
+                                </label>
+                                <input type="text" id="pCompany" class="form-control" placeholder="e.g. MAHABEEJ / IFFCO">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">वर्गवारी (Category)</span>
+                                    <span class="lang-en">Category</span>
+                                </label>
+                                <select id="pCategory" class="form-select">
+                                    <option value="Seeds">Seeds (बियाणे)</option>
+                                    <option value="Fertilizers">Fertilizers (खते)</option>
+                                    <option value="Pesticides">Pesticides (कीटकनाशके)</option>
+                                    <option value="Farming Tools">Farming Tools (शेती अवजारे)</option>
+                                    <option value="Drip Irrigation">Drip Irrigation (ठिबक सिंचन)</option>
+                                    <option value="Animal Feed">Animal Feed (पशूखाद्य)</option>
+                                    <option value="Organic Products">Organic Products (सेंद्रिय)</option>
+                                    <option value="Plant Growth Promoters">Plant Growth Promoters (वाढ संप्रेरके)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">जीएसटी दर (%)</span>
+                                    <span class="lang-en">GST Rate (%)</span>
+                                </label>
+                                <input type="number" step="0.01" id="pGst" class="form-control" placeholder="0.00 or 5.00" value="0.00">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">मूळ किंमत (₹) *</span>
+                                    <span class="lang-en">Original Price (₹) *</span>
+                                </label>
+                                <input type="number" step="0.01" id="pPrice" class="form-control" placeholder="1450" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">सवलत किंमत (₹)</span>
+                                    <span class="lang-en">Discount Price (₹)</span>
+                                </label>
+                                <input type="number" step="0.01" id="pDiscount" class="form-control" placeholder="1350">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उपलब्ध साठा (Stock)</span>
+                                    <span class="lang-en">Stock Quantity</span>
+                                </label>
+                                <input type="number" id="pStock" class="form-control" placeholder="50" value="50">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">किमान साठा अलर्ट</span>
+                                    <span class="lang-en">Minimum Stock Alert</span>
+                                </label>
+                                <input type="number" id="pMinStock" class="form-control" placeholder="10" value="10">
+                            </div>
+
+                            <!-- Product Image Upload Box (Requested Feature) -->
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-success d-flex align-items-center gap-1">
+                                    <i class="bi bi-image-fill"></i>
+                                    <span class="lang-mr">उत्पादनाचा फोटो (Product Image) *</span>
+                                    <span class="lang-en">Product Image *</span>
+                                </label>
+
+                                <div class="product-image-upload-box p-4 rounded-4 text-center border-dashed"
+                                     id="productDropzone"
+                                     onclick="triggerFileInput()"
+                                     style="border: 2px dashed #16a34a; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
+                                    
+                                    <input type="file" id="productImageInput" accept="image/jpeg,image/png,image/webp,image/jpg,image/gif" class="d-none" onchange="previewProductImage(event)">
+                                    
+                                    <!-- Upload Prompt (Click or Drag) -->
+                                    <div id="uploadPrompt" class="py-2">
+                                        <div class="mb-2">
+                                            <i class="bi bi-cloud-arrow-up-fill text-success" style="font-size: 2.75rem;"></i>
+                                        </div>
+                                        <h6 class="fw-bold text-dark mb-1">
+                                            <span class="lang-mr">फोटो निवडण्यासाठी येथे क्लिक करा</span>
+                                            <span class="lang-en">Click here to upload product image</span>
+                                        </h6>
+                                        <p class="small text-muted mb-2">
+                                            <span class="lang-mr">किंवा तुमच्या डिव्हाइसवरून इमेज फाइल येथे ड्रॅग आणि ड्रॉप करा (JPG, PNG, WebP)</span>
+                                            <span class="lang-en">or drag and drop your image file here (JPG, PNG, WebP, max 10MB)</span>
+                                        </p>
+                                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold">
+                                            <i class="bi bi-folder2-open me-1"></i>
+                                            <span class="lang-mr">फाइल निवडा (Choose File)</span>
+                                            <span class="lang-en">Choose File</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Live Selected Image Preview -->
+                                    <div id="imagePreviewWrap" class="d-none text-center py-2">
+                                        <div class="d-inline-block position-relative shadow-sm rounded-4 overflow-hidden border p-2 bg-white">
+                                            <img id="productImagePreview" src="" alt="Selected Product Image" style="max-height: 200px; max-width: 100%; object-fit: contain; border-radius: 10px;">
+                                            <button type="button" onclick="removeProductImage(event)" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Remove image">
+                                                <i class="bi bi-trash-fill fs-6"></i>
+                                            </button>
+                                        </div>
+                                        <div class="mt-2 d-flex align-items-center justify-content-center gap-2">
+                                            <span id="imageFileName" class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small fw-semibold"></span>
+                                            <button type="button" onclick="triggerFileInput(); event.stopPropagation();" class="btn btn-sm btn-link text-success text-decoration-none fw-bold">
+                                                <i class="bi bi-arrow-repeat me-1"></i>
+                                                <span class="lang-mr">फोटो बदला (Change Image)</span>
+                                                <span class="lang-en">Change Image</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-text small text-muted">
+                                    <span class="lang-mr">दुकानात व वेबसाइटवर दाखवण्यासाठी उत्पादनाचा स्पष्ट फोटो निवडा.</span>
+                                    <span class="lang-en">Select a clear product image to display in store catalog.</span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाची माहिती / वापर (Description)</span>
+                                    <span class="lang-en">Description</span>
+                                </label>
+                                <textarea id="pDesc" class="form-control" rows="3" placeholder="Enter product usage details, application dosage, etc."></textarea>
+                            </div>
+
+                            <div class="col-12 text-end pt-3">
+                                <button type="submit" id="btnSaveProd" class="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
+                                    💾 <span class="lang-mr">उत्पादन सेव्ह करा</span><span class="lang-en">Save Product</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div th:replace="~{layout/footer :: footer}"></div>
 <script>
-    const productImageInput = document.getElementById('productImageFile');
-    const productImagePreview = document.getElementById('productImagePreview');
-    const productImagePreviewContainer = document.getElementById('productImagePreviewContainer');
-    const productImageFileName = document.getElementById('productImageFileName');
-    let productImagePreviewUrl;
+let selectedProductImageDataUrl = '';
 
-    productImageInput.addEventListener('change', () => {
-        const file = productImageInput.files[0];
-        if (!file) return;
-        if (productImagePreviewUrl) URL.revokeObjectURL(productImagePreviewUrl);
-        productImagePreviewUrl = URL.createObjectURL(file);
-        productImagePreview.src = productImagePreviewUrl;
-        productImageFileName.textContent = file.name;
-        productImagePreviewContainer.style.display = 'flex';
-    });
+function triggerFileInput() {
+    var input = document.getElementById('productImageInput');
+    if (input) input.click();
+}
+
+function previewProductImage(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        selectedProductImageDataUrl = e.target.result;
+        const img = document.getElementById('productImagePreview');
+        const promptBox = document.getElementById('uploadPrompt');
+        const previewWrap = document.getElementById('imagePreviewWrap');
+        const fileNameBadge = document.getElementById('imageFileName');
+
+        if (img) img.src = selectedProductImageDataUrl;
+        if (fileNameBadge) fileNameBadge.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        if (promptBox) promptBox.classList.add('d-none');
+        if (previewWrap) previewWrap.classList.remove('d-none');
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeProductImage(event) {
+    if (event) event.stopPropagation();
+    selectedProductImageDataUrl = '';
+    const input = document.getElementById('productImageInput');
+    if (input) input.value = '';
+    const promptBox = document.getElementById('uploadPrompt');
+    const previewWrap = document.getElementById('imagePreviewWrap');
+    if (promptBox) promptBox.classList.remove('d-none');
+    if (previewWrap) previewWrap.classList.add('d-none');
+}
+
+// Drag & Drop event bindings
+document.addEventListener('DOMContentLoaded', function(){
+    const dropzone = document.getElementById('productDropzone');
+    if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.style.background = '#dcfce7';
+                dropzone.style.borderColor = '#15803d';
+            }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.style.background = '#f0fdf4';
+                dropzone.style.borderColor = '#16a34a';
+            }, false);
+        });
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files[0]) {
+                const input = document.getElementById('productImageInput');
+                input.files = files;
+                previewProductImage({ target: { files: files } });
+            }
+        }, false);
+    }
+});
+
+// Default products catalog data for pre-population
+const DEFAULT_EDIT_PRODUCTS = [
+    {
+        id: 1,
+        nameEn: "Wheat Seeds (Lok-1)",
+        nameMr: "गहू बियाणे (लोक-१)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 1450,
+        discountPrice: 1350,
+        stock: 60,
+        minStock: 10,
+        desc: "High germination certified Lok-1 wheat seeds suitable for Maharashtra irrigated soil.",
+        image: "images/wheat_seeds.jpg"
+    },
+    {
+        id: 2,
+        nameEn: "Soybean Seeds (JS-335)",
+        nameMr: "सोयाबीन बियाणे (JS-335)",
+        company: "MAHABEEJ",
+        category: "Seeds",
+        gst: "0.00",
+        price: 3200,
+        discountPrice: 2950,
+        stock: 40,
+        minStock: 10,
+        desc: "Certified high yielding JS-335 soybean seeds with strong disease resistance.",
+        image: "images/soybean_seeds.jpg"
+    },
+    {
+        id: 3,
+        nameEn: "NPK 19:19:19",
+        nameMr: "NPK 19:19:19 खत",
+        company: "IFFCO",
+        category: "Fertilizers",
+        gst: "5.00",
+        price: 2350,
+        discountPrice: 1890,
+        stock: 85,
+        minStock: 15,
+        desc: "100% water soluble balanced fertilizer providing Nitrogen, Phosphorus, and Potassium in equal ratio.",
+        image: "images/npk_191919.jpg"
+    }
+];
+
+// Pre-populate form when opening in Edit mode (?edit=<id>)
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('edit');
+    const editSrc = params.get('src'); // 'custom' or default
+
+    if (editId) {
+        document.getElementById('editProductId').value = editId;
+        document.getElementById('editProductSrc').value = editSrc || 'default';
+
+        let product = null;
+
+        if (editSrc === 'custom') {
+            // Search in custom products
+            const customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            product = customs.find(p => String(p.id) === String(editId));
+        } else {
+            // Search in overrides first, then defaults
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{}');
+            if (overrides[editId]) {
+                product = overrides[editId];
+            } else {
+                product = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId));
+            }
+        }
+
+        if (product) {
+            // 1. Fill all input fields with existing values
+            if (document.getElementById('pNameEn')) document.getElementById('pNameEn').value = product.nameEn || '';
+            if (document.getElementById('pNameMr')) document.getElementById('pNameMr').value = product.nameMr || '';
+            if (document.getElementById('pCompany')) document.getElementById('pCompany').value = product.company || '';
+            if (document.getElementById('pCategory')) document.getElementById('pCategory').value = product.category || 'Seeds';
+            if (document.getElementById('pGst')) document.getElementById('pGst').value = product.gst !== undefined ? product.gst : '0.00';
+            if (document.getElementById('pPrice')) document.getElementById('pPrice').value = product.price !== undefined ? product.price : '';
+            if (document.getElementById('pDiscount')) document.getElementById('pDiscount').value = product.discountPrice !== undefined ? product.discountPrice : '';
+            if (document.getElementById('pStock')) document.getElementById('pStock').value = product.stock !== undefined ? product.stock : '';
+            if (document.getElementById('pMinStock')) document.getElementById('pMinStock').value = product.minStock !== undefined ? product.minStock : '10';
+            if (document.getElementById('pDesc')) document.getElementById('pDesc').value = product.desc || '';
+
+            // 2. Pre-populate image preview
+            if (product.image) {
+                selectedProductImageDataUrl = product.image;
+                const img = document.getElementById('productImagePreview');
+                const promptBox = document.getElementById('uploadPrompt');
+                const previewWrap = document.getElementById('imagePreviewWrap');
+                const fileNameBadge = document.getElementById('imageFileName');
+                if (img) img.src = product.image;
+                if (fileNameBadge) fileNameBadge.textContent = 'Existing image (' + (product.nameEn || 'product') + ')';
+                if (promptBox) promptBox.classList.add('d-none');
+                if (previewWrap) previewWrap.classList.remove('d-none');
+            }
+
+            // 3. Update Page Title and Button to Edit Mode
+            const titleEl = document.querySelector('h5.fw-bold');
+            if (titleEl) {
+                titleEl.innerHTML = '<i class="bi bi-pencil-square text-success fs-5"></i> ' +
+                                    '<span class="lang-mr">उत्पादन माहिती बदला</span>' +
+                                    '<span class="lang-en">Edit Product</span>';
+            }
+            const btnSave = document.getElementById('btnSaveProd');
+            if (btnSave) {
+                btnSave.innerHTML = '💾 <span class="lang-mr">बदल सेव्ह करा</span><span class="lang-en">Update Product</span>';
+            }
+            const alertText = document.getElementById('saveAlert');
+            if (alertText) {
+                alertText.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> ' +
+                                      '<span class="lang-mr">उत्पादनाची माहिती यशस्वीरित्या अपडेट केली!</span>' +
+                                      '<span class="lang-en">Product information updated successfully!</span>';
+            }
+        }
+    }
+});
+
+function handleSaveProduct(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    
+    const nameEn = document.getElementById('pNameEn').value.trim();
+    const nameMr = document.getElementById('pNameMr').value.trim() || nameEn;
+    const company = document.getElementById('pCompany').value.trim() || 'Saptashrungi Agro';
+    const category = document.getElementById('pCategory').value;
+    const gst = document.getElementById('pGst') ? document.getElementById('pGst').value.trim() : '0.00';
+    const price = parseFloat(document.getElementById('pPrice').value) || 0;
+    const discountPrice = parseFloat(document.getElementById('pDiscount').value) || price;
+    const stock = parseInt(document.getElementById('pStock').value) || 50;
+    const minStock = document.getElementById('pMinStock') ? parseInt(document.getElementById('pMinStock').value) || 10 : 10;
+    const desc = document.getElementById('pDesc').value.trim();
+    const image = selectedProductImageDataUrl || 'images/cotton_seeds.jpg';
+
+    const editId = document.getElementById('editProductId').value;
+    const editSrc = document.getElementById('editProductSrc').value;
+
+    if (editId) {
+        // EDIT MODE - update existing record
+        if (editSrc === 'custom') {
+            let customs = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+            const idx = customs.findIndex(p => String(p.id) === String(editId));
+            if (idx >= 0) {
+                customs[idx] = Object.assign(customs[idx], {
+                    nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('ksk_custom_products', JSON.stringify(customs));
+        } else {
+            const overrides = JSON.parse(localStorage.getItem('ksk_default_product_overrides') || '{}');
+            const base = DEFAULT_EDIT_PRODUCTS.find(p => String(p.id) === String(editId)) || {};
+            overrides[editId] = Object.assign({}, base, {
+                nameEn, nameMr, company, category, gst, price, discountPrice, stock, minStock, desc, image,
+                updatedAt: new Date().toISOString()
+            });
+            localStorage.setItem('ksk_default_product_overrides', JSON.stringify(overrides));
+        }
+    } else {
+        // ADD NEW PRODUCT MODE
+        const newProd = {
+            id: Date.now(),
+            nameEn, nameMr, company, category, gst,
+            price, discountPrice, stock, minStock, desc, image,
+            createdAt: new Date().toISOString()
+        };
+        const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+        saved.unshift(newProd);
+        localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+    }
+
+    const alertBox = document.getElementById('saveAlert');
+    if (alertBox) alertBox.classList.remove('d-none');
+
+    setTimeout(() => {
+        window.location.href = 'admin-products.html';
+    }, 900);
+
+    return false;
+}
 </script>
+
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

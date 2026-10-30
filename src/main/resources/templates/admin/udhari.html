@@ -1,498 +1,375 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head('Udhari Credit Management')}"></head>
-<body class="page-bg-light">
-<div th:replace="~{layout/navbar :: navbar}"></div>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>उधारी व्यवस्थापन | Credit Ledger Management - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
 
-<div class="container-fluid px-lg-4 my-4">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
+        </div>
+
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
+
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
+                </div>
+
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-3 px-lg-4 my-4">
     <div class="row g-4">
         <!-- Sidebar -->
-        <div class="col-lg-2">
-            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('udhari')}"></div>
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link ">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-reviews.html" class="admin-nav-link ">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span><span class="lang-mr">शेतकरी रिव्ह्यू व्यवस्थापन</span><span class="lang-en">Manage Reviews</span></span>
+            <span class="badge bg-success ms-auto" style="font-size:0.65rem;">New</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link active">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-reports.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-backup.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-settings.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
         </div>
 
-        <div class="col-lg-10">
-            <!-- Header -->
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-                <div>
-                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <span th:text="${#locale.language == 'mr' ? '💰 उधार नेणारे ग्राहक व खातेवही' : '💰 Credit Customers & Ledger'}">💰 Credit Ledger</span>
-                    </h1>
-                    <p class="text-muted small m-0 mt-1" th:text="${#locale.language == 'mr' ? 'उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख' : 'Customer credit records, items taken, total amount, payments, balance, and due dates'}">उधार नेणाऱ्या ग्राहकांची नोंद, काय वस्तू नेल्या, एकूण उधारी रक्कम, जमा, बाकी आणि परत देण्याची तारीख</p>
-                </div>
-                <div>
-                    <button type="button" id="btnAddCreditCustomer" class="btn btn-success px-4 py-2 fw-bold shadow d-flex align-items-center gap-2" style="background-color: #16a34a; border: none; font-size: 14px; border-radius: 8px; cursor: pointer;" onclick="openCreateUdhariModal()" data-bs-toggle="modal" data-bs-target="#createUdhariModal">
-                        <i class="ti ti-user-plus fs-5"></i> <span th:text="${#locale.language == 'mr' ? '+ नवीन उधार नेणारा ग्राहक जोडा' : '+ Add Credit Customer'}">+ Add Credit Customer</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Flash Message -->
-            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
-                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <div th:if="${errorMessage}" class="alert alert-danger border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
-                <i class="ti ti-alert-circle me-1"></i> <span th:text="${errorMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-
-            <!-- KPI Metric Cards for Credit Ledger -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? 'एकूण दिलेली उधारी' : 'Total Credit Issued'}">एकूण दिलेली उधारी</small>
-                            <h4 class="fw-bold text-dark my-1" th:text="'₹' + ${totalIssued}">₹8,500</h4>
-                            <small class="text-muted" th:text="${#locale.language == 'mr' ? 'एकूण उधारी नोंदी' : 'Total Credit Records'}">एकूण उधारी नोंदी</small>
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                            <i class="bi bi-wallet2 text-success"></i>
+                            <span class="lang-mr">शेतकरी उधारी खातेवही (Credit Ledger)</span>
+                            <span class="lang-en">Credit Ledger Management</span>
+                        </h5>
+                        <small class="text-muted">
+                            <span class="lang-mr">उधारी असल्यास योग्य डेटा दाखवा, नसलेस शून्य बाकी दिसेल.</span>
+                            <span class="lang-en">Shows active dues if present, otherwise displays clean zero-dues empty state.</span>
+                        </small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div id="udhariTotalBadge" class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                            Total Outstanding: ₹0
                         </div>
-                        <div class="kpi-icon-bubble" style="background: #dbeafe;">
-                            <i class="ti ti-credit-card" style="color: #0284c7;"></i>
-                        </div>
+                        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold" onclick="openAddUdhariModal()">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                            <span class="lang-en">+ Add Entry</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? 'एकूण जमा रक्कम' : 'Total Recovered'}">एकूण जमा रक्कम</small>
-                            <h4 class="fw-bold text-success my-1" th:text="'₹' + ${totalCollected}">₹3,500</h4>
-                            <small class="text-success" th:text="${#locale.language == 'mr' ? 'शेतकऱ्यांनी भरलेली रक्कम' : 'Amount Recovered'}">शेतकऱ्यांनी भरलेली रक्कम</small>
-                        </div>
-                        <div class="kpi-icon-bubble" style="background: #dcfce7;">
-                            <i class="ti ti-check" style="color: #16a34a;"></i>
-                        </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">Customer Name</th>
+                                    <th>Contact</th>
+                                    <th>Village</th>
+                                    <th>Remaining Udhari</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="udhariTableBody">
+                                <!-- Populated dynamically or shows empty state -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="modern-card p-3 h-100 d-flex justify-content-between align-items-center" style="border-left: 4px solid #dc2626;">
-                        <div>
-                            <small class="text-danger text-uppercase fw-bold" style="font-size: 11px;" th:text="${#locale.language == 'mr' ? '🔴 एकूण बाकी उधारी' : '🔴 Total Outstanding Due'}">🔴 एकूण बाकी उधारी</small>
-                            <h4 class="fw-bold text-danger my-1" th:text="'₹' + ${totalRemaining}">₹5,000</h4>
-                            <small class="text-danger" th:text="${#locale.language == 'mr' ? (overdueList.size() + ' मुदत संपलेली खाती') : (overdueList.size() + ' Overdue Accounts')}"></small>
-                        </div>
-                        <div class="kpi-icon-bubble" style="background: #fee2e2;">
-                            <i class="ti ti-alert-triangle" style="color: #dc2626;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search Bar -->
-            <form th:action="@{/admin/udhari}" method="GET" class="modern-card p-3 mb-4">
-                <div class="row g-2 align-items-center">
-                    <div class="col-md-6">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text bg-white border-end-0" style="border-color: #ddd;"><i class="ti ti-search text-muted"></i></span>
-                            <input type="text" name="query" th:value="${query}" class="form-control border-start-0" 
-                                   th:placeholder="${#locale.language == 'mr' ? 'ग्राहकाचे नाव, मोबाईल किंवा गाव शोधा...' : 'Search customer by name, mobile, village...'}" style="font-size: 12px; border-color: #ddd; border-radius: 0 6px 6px 0;">
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-sm btn-dark px-3" style="border-radius: 6px; font-size: 12px;" th:text="${#locale.language == 'mr' ? 'शोधा' : 'Search'}">Search</button>
-                        <a th:href="@{/admin/udhari}" class="btn btn-sm btn-light border px-3" style="border-radius: 6px; font-size: 12px; background: #f3f4f6;" th:text="${#locale.language == 'mr' ? 'रीसेट' : 'Reset'}">Reset</a>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Udhari Table -->
-            <div class="modern-card overflow-hidden mb-4">
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
-                        <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-                            <tr>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;">#</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'उधार नेणारा ग्राहक' : 'Customer'}">उधार नेणारा ग्राहक</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'गाव' : 'Village'}">गाव</th>
-                                <th style="padding: 12px 14px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'काय नेले / तपशील' : 'Items Taken'}">काय नेले / तपशील</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'एकूण उधारी' : 'Total Credit'}">एकूण उधारी</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'जमा रक्कम' : 'Paid Amount'}">जमा</th>
-                                <th style="padding: 12px 14px; text-align: right; font-weight: 600; color: #dc2626;" th:text="${#locale.language == 'mr' ? '🔴 बाकी रक्कम' : '🔴 Balance Due'}">🔴 बाकी रक्कम</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'परत देण्याची तारीख' : 'Due Date'}">देण्याची तारीख</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'स्थिती' : 'Status'}">स्थिती</th>
-                                <th style="padding: 12px 14px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'कृती' : 'Actions'}">कृती</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${udhariPage.empty}">
-                                <td colspan="10" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणतीही उधारी नोंद सापडली नाही.' : 'No credit records found.'}">कोणतीही उधारी नोंद सापडली नाही.</td>
-                            </tr>
-                            <tr th:each="u : ${udhariPage.content}" style="border-bottom: 1px solid #f3f4f6;">
-                                <td style="padding: 12px 14px;" th:text="${u.id}">1</td>
-                                <td style="padding: 12px 14px;">
-                                    <strong class="text-dark d-block fs-6" th:text="${u.user.name}">Ramesh Patil</strong>
-                                    <small class="text-muted"><i class="ti ti-phone text-success"></i> <span th:text="${u.user.mobile}">9822012345</span></small>
-                                </td>
-                                <td style="padding: 12px 14px;">
-                                    <span class="badge bg-light text-dark border" th:text="${u.user.village != null and !u.user.village.isBlank() ? u.user.village : 'वैजापूर'}">गाव</span>
-                                </td>
-                                <td style="padding: 12px 14px; max-width: 180px;">
-                                    <span th:if="${u.notes != null and !u.notes.isBlank()}" th:text="${u.notes}" class="small text-dark fw-medium">कापूस बियाणे</span>
-                                    <span th:if="${u.notes == null or u.notes.isBlank()}" class="text-muted small">
-                                        <span th:if="${u.order != null}" th:text="'Order #' + ${u.order.orderNumber}">Order #KSK-1</span>
-                                        <span th:if="${u.order == null}">थेट खते / बियाणे उधारी</span>
-                                    </span>
-                                </td>
-                                <td style="padding: 12px 14px; text-align: right;" class="small fw-semibold text-secondary" th:text="'₹' + ${u.totalAmount}">₹5,000.00</td>
-                                <td style="padding: 12px 14px; text-align: right;"><span class="text-success fw-bold small" th:text="'₹' + ${u.paidAmount}">₹2,500.00</span></td>
-                                <td style="padding: 12px 14px; text-align: right;"><strong class="text-danger fs-6" th:text="'₹' + ${u.remainingAmount}">₹2,500.00</strong></td>
-                                <td style="padding: 12px 14px; text-align: center;" class="small">
-                                    <span class="badge bg-light text-dark border px-2 py-1" th:text="${u.dueDate}">2026-08-25</span>
-                                    <span th:if="${u.isOverdue()}" class="status-pill status-pill-red ms-1 d-block mt-1">मुदत संपली (OVERDUE)</span>
-                                </td>
-                                <td style="padding: 12px 14px; text-align: center;">
-                                    <span class="status-pill" 
-                                          th:classappend="${u.status.name() == 'PAID_IN_FULL'} ? 'status-pill-green' : (${u.status.name() == 'OVERDUE'} ? 'status-pill-red' : 'status-pill-amber')"
-                                          th:text="${u.status.name() == 'PAID_IN_FULL' ? 'पूर्ण भरली' : (u.status.name() == 'OVERDUE' ? 'थकबाकी' : 'चालू उधारी')}">Active</span>
-                                </td>
-                                <td style="padding: 12px 14px; text-align: center;">
-                                    <div class="d-inline-flex gap-1">
-                                        <!-- Edit Udhari Record Button -->
-                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1 text-primary shadow-sm" style="font-size: 11px;" title="उधारी माहिती बदला (Edit Record)"
-                                                th:data-id="${u.id}"
-                                                th:data-name="${u.user != null ? u.user.name : ''}"
-                                                th:data-mobile="${u.user != null ? u.user.mobile : ''}"
-                                                th:data-total="${u.totalAmount}"
-                                                th:data-paid="${u.paidAmount}"
-                                                th:data-remaining="${u.remainingAmount}"
-                                                th:data-due="${u.dueDate}"
-                                                th:data-status="${u.status != null ? u.status.name() : 'ACTIVE'}"
-                                                th:data-notes="${u.notes != null ? u.notes : ''}"
-                                                onclick="handleUdhariEdit(this)">
-                                            <i class="ti ti-edit"></i> बदला
-                                        </button>
-
-                                        <!-- Mark as Paid Direct Option -->
-                                        <form th:if="${u.remainingAmount > 0}" th:action="@{/admin/udhari/record-payment}" method="POST" class="d-inline" onsubmit="return confirm('पूर्ण रक्कम (₹' + [[${u.remainingAmount}]] + ') जमा करून उधारी खाते पूर्ण भरले म्हणून चिन्हांकित करायचे आहे का?');">
-                                            <input type="hidden" name="udhariId" th:value="${u.id}">
-                                            <input type="hidden" name="amount" th:value="${u.remainingAmount}">
-                                            <input type="hidden" name="paymentMethod" value="CASH">
-                                            <input type="hidden" name="notes" value="पूर्ण भरली - Mark as Paid">
-                                            <button type="submit" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1 px-2 py-1 shadow-sm" style="font-size: 11px;" title="Mark as Paid (पूर्ण भरली)">
-                                                <i class="ti ti-check-double"></i> Mark Paid
-                                            </button>
-                                        </form>
-
-                                        <!-- Record Payment Button -->
-                                        <button type="button" class="btn btn-sm btn-success d-flex align-items-center gap-1 px-2 py-1 text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 11px;" title="रक्कम जमा करा (Collect Payment)"
-                                                th:disabled="${u.remainingAmount <= 0}"
-                                                th:data-id="${u.id}"
-                                                th:data-name="${u.user != null ? u.user.name : ''}"
-                                                th:data-remaining="${u.remainingAmount}"
-                                                onclick="handleUdhariPay(this)">
-                                            <i class="ti ti-cash"></i> जमा
-                                        </button>
-
-                                        <!-- Send Reminder Button -->
-                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 px-2 py-1" style="font-size: 11px; color: #0284c7;" title="मेसेज पाठवा (Send Reminder)"
-                                                th:disabled="${u.remainingAmount <= 0}"
-                                                th:data-userid="${u.user != null ? u.user.id : ''}"
-                                                th:data-id="${u.id}"
-                                                th:data-name="${u.user != null ? u.user.name : ''}"
-                                                th:data-mobile="${u.user != null ? u.user.mobile : ''}"
-                                                th:data-remaining="${u.remainingAmount}"
-                                                th:data-due="${u.dueDate}"
-                                                th:data-overdue="${u.isOverdue()}"
-                                                onclick="handleUdhariReminder(this)">
-                                            <i class="ti ti-bell"></i> Remind
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${udhariPage.totalPages > 1}">
-                    <a th:href="@{/admin/udhari(page=${udhariPage.number - 1}, query=${query})}" 
-                       class="btn btn-sm btn-light border" 
-                       th:classappend="${udhariPage.first} ? 'disabled'"
-                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
-                        ← Previous
-                    </a>
-
-                    <span th:each="i : ${#numbers.sequence(0, udhariPage.totalPages - 1)}" 
-                          th:if="${i >= udhariPage.number - 2 and i <= udhariPage.number + 2}">
-                        <a th:href="@{/admin/udhari(page=${i}, query=${query})}"
-                           class="btn btn-sm"
-                           th:classappend="${udhariPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
-                           th:style="${udhariPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
-                           th:text="${i + 1}">1</a>
-                    </span>
-
-                    <a th:href="@{/admin/udhari(page=${udhariPage.number + 1}, query=${query})}" 
-                       class="btn btn-sm btn-light border" 
-                       th:classappend="${udhariPage.last} ? 'disabled'"
-                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
-                        Next →
-                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal 0: Add Credit Customer / नवीन उधार नेणारा ग्राहक जोडा -->
-<div class="modal fade" id="createUdhariModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow-lg rounded-3">
-            <div class="modal-header text-white" style="background-color: #16a34a;">
-                <h5 class="modal-title fw-bold" style="font-size: 17px;">
-                    <i class="ti ti-user-plus me-2"></i>💰 नवीन उधार नेणारा ग्राहक व उधारी नोंद (Add Credit Customer)
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<!-- Modal: Record New Udhari -->
+<div class="modal fade" id="addUdhariModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-success text-white py-3 px-4">
+                <h6 class="modal-title fw-bold">
+                    <i class="bi bi-wallet2 me-2"></i>
+                    <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                    <span class="lang-en">Record New Udhari</span>
+                </h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form th:action="@{/admin/udhari/add-credit-customer}" method="POST">
+            <form id="addUdhariForm" onsubmit="handleSaveUdhari(event)">
                 <div class="modal-body p-4">
-                    <!-- Customer Type Selection Tabs -->
-                    <div class="btn-group w-100 mb-3" role="group">
-                        <input type="radio" class="btn-check" name="customerTypeRadio" id="typeNewCust" checked onchange="toggleCustomerType()">
-                        <label class="btn btn-outline-success fw-semibold" for="typeNewCust">
-                            <i class="ti ti-user-plus me-1"></i> नवीन ग्राहक / New Walk-in Farmer
-                        </label>
-
-                        <input type="radio" class="btn-check" name="customerTypeRadio" id="typeExistingCust" onchange="toggleCustomerType()">
-                        <label class="btn btn-outline-success fw-semibold" for="typeExistingCust">
-                            <i class="ti ti-users me-1"></i> हयात शेतकरी निवडा / Select Registered
-                        </label>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Customer Name *</label>
+                        <input type="text" id="udhariName" class="form-control" placeholder="e.g. Ramesh Patil" required>
                     </div>
-
-                    <!-- Existing Customer Dropdown -->
-                    <div id="existingCustomerSection" class="mb-3 d-none p-3 bg-light rounded-3 border">
-                        <label class="form-label small fw-bold text-dark">नोंदणीकृत शेतकरी निवडा (Select Farmer) *</label>
-                        <select name="userId" id="existingUserIdSelect" class="form-select form-select-sm">
-                            <option value="" selected>-- शेतकरी निवडा / Select Customer --</option>
-                            <option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.name + ' (' + cust.mobile + ' - ' + (cust.village != null ? cust.village : '') + ')'}">
-                                Ramesh Patil (9822012345)
-                            </option>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Mobile Number</label>
+                            <input type="tel" id="udhariMobile" class="form-control" placeholder="10-digit mobile">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Village</label>
+                            <input type="text" id="udhariVillage" class="form-control" placeholder="e.g. Vaijapur">
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Udhari Amount (₹) *</label>
+                            <input type="number" id="udhariAmount" class="form-control" placeholder="Amount in ₹" min="1" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-success">Due Date</label>
+                            <input type="date" id="udhariDueDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">Status</label>
+                        <select id="udhariStatus" class="form-select">
+                            <option value="Pending" selected>Pending</option>
+                            <option value="Overdue">Overdue</option>
                         </select>
                     </div>
-
-                    <!-- New Customer Info Fields -->
-                    <div id="newCustomerSection" class="p-3 bg-light rounded-3 border mb-3">
-                        <div class="row g-3">
-                            <div class="col-md-5">
-                                <label class="form-label small fw-bold text-dark">ग्राहकाचे नाव (Customer Full Name) *</label>
-                                <input type="text" name="customerName" id="newCustNameInput" class="form-control form-control-sm" placeholder="उदा. गजानन विठ्ठल पाटील" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-dark">मोबाईल नंबर (Mobile Number) *</label>
-                                <input type="tel" name="customerMobile" id="newCustMobileInput" pattern="[0-9]{10}" maxlength="10" class="form-control form-control-sm" placeholder="उदा. 9822012345" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small fw-bold text-dark">गाव / पत्ता (Village / Address)</label>
-                                <input type="text" name="customerVillage" class="form-control form-control-sm" placeholder="उदा. वैजापूर / मिराखनगर">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Items / Goods Taken -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">
-                            <i class="ti ti-package text-success me-1"></i> काय वस्तू नेल्या / उधारी तपशील (Items / Products Taken) *
-                        </label>
-                        <input type="text" name="itemsDescription" class="form-control form-control-sm" placeholder="उदा. २ पोती महाधन २४:२४:० खत, १ पाकीट कापूस बियाणे, ५०० मिली कीटकनाशक..." required>
-                    </div>
-
-                    <!-- Amounts & Due Date Row -->
-                    <div class="row g-3 p-3 rounded-3" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
-                        <!-- Total Credit Amount -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">एकूण उधारी रक्कम (Total ₹) *</label>
-                            <input type="number" step="0.01" min="1" name="totalAmount" id="newUdhariTotal" class="form-control form-control-sm fw-bold" placeholder="उदा. 4500" oninput="calcNewUdhariRemaining()" required>
-                        </div>
-
-                        <!-- Paid Amount -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-success">जमा रक्कम (Paid ₹)</label>
-                            <input type="number" step="0.01" min="0" name="paidAmount" id="newUdhariPaid" value="0" class="form-control form-control-sm text-success fw-bold" placeholder="0" oninput="calcNewUdhariRemaining()">
-                        </div>
-
-                        <!-- Remaining Due -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-danger">🔴 बाकी रक्कम (Pending ₹)</label>
-                            <input type="number" step="0.01" id="newUdhariRemaining" class="form-control form-control-sm border-danger text-danger fw-bold bg-white" readonly placeholder="0.00">
-                        </div>
-
-                        <!-- Promise Due Date -->
-                        <div class="col-md-3">
-                            <label class="form-label small fw-bold text-dark">📅 देण्याची तारीख (Promise Date) *</label>
-                            <input type="date" name="dueDate" id="newUdhariDueDate" class="form-control form-control-sm fw-bold border-success" required>
-                        </div>
-                    </div>
-
-                    <!-- Additional Notes -->
-                    <div class="mt-3">
-                        <label class="form-label small fw-bold text-dark">शेरा / टीप / जामीनदार (Notes / Remarks)</label>
-                        <textarea name="notes" class="form-control form-control-sm" rows="2" placeholder="उदा. कापूस वेचणी झाल्यावर पूर्ण रक्कम देणार..."></textarea>
-                    </div>
                 </div>
-                <div class="modal-footer bg-light border-0">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">रद्द करा (Cancel)</button>
-                    <button type="submit" class="btn btn-sm btn-success px-4 fw-bold" style="background-color: #16a34a; border: none;">
-                        <i class="ti ti-check me-1"></i> 💾 उधारी नोंद जतन करा (Save Credit Customer)
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal 1: Edit Full Udhari Record (नवीन उधारी संपादन मोडल) -->
-<div class="modal fade" id="editUdhariRecordModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3">
-            <div class="modal-header text-white" style="background-color: #1a5f3d;">
-                <h5 class="modal-title fw-bold" style="font-size: 16px;">
-                    <i class="ti ti-edit me-2"></i>Edit Udhari Record / उधारी खाते माहिती बदला
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form th:action="@{/admin/udhari/edit}" th:object="${udhariEditDto}" method="POST">
-                <input type="hidden" id="editUdhariId" th:field="*{id}">
-                <div class="modal-body p-4">
-                    <div class="mb-3 p-3 bg-light rounded-3 border">
-                        <small class="text-muted d-block">Farmer / ग्राहक:</small>
-                        <strong class="text-dark fs-6" id="editUdhariCustomerName">Customer Name</strong>
-                        <div class="text-muted small mt-1">Mobile: <strong id="editUdhariCustomerMobile">9822012345</strong></div>
-                    </div>
-
-                    <div class="row g-3">
-                        <!-- Total Credit Amount -->
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Total Udhari / एकूण उधारी (₹) *</label>
-                            <input type="number" step="0.01" min="0" id="editUdhariTotalAmount" th:field="*{totalAmount}" class="form-control form-control-sm" oninput="calculateUdhariRemaining()" required>
-                        </div>
-
-                        <!-- Paid Amount -->
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Paid Amount / जमा रक्कम (₹) *</label>
-                            <input type="number" step="0.01" min="0" id="editUdhariPaidAmount" th:field="*{paidAmount}" class="form-control form-control-sm" readonly required>
-                        </div>
-
-                        <!-- Remaining Due / Pending -->
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-danger">Pending Amount / बाकी रक्कम (₹) *</label>
-                            <input type="number" step="0.01" min="0" id="editUdhariRemainingAmount" th:field="*{remainingAmount}" class="form-control form-control-sm border-danger text-danger fw-bold" readonly required>
-                        </div>
-
-                        <!-- Due Date / Payment Promise Date -->
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-dark">Due Date / देण्याची तारीख 📅 *</label>
-                            <input type="date" id="editUdhariDueDate" th:field="*{dueDate}" class="form-control form-control-sm" required>
-                        </div>
-
-                        <!-- Status is derived from the balance and due date. -->
-                        <div class="col-12">
-                            <label class="form-label small fw-bold text-dark">Status is calculated from the balance and due date.</label>
-                        </div>
-
-                        <!-- Notes -->
-                        <div class="col-12">
-                            <label class="form-label small fw-bold text-dark">Notes / शेरा</label>
-                            <textarea id="editUdhariNotes" th:field="*{notes}" class="form-control form-control-sm" rows="2" placeholder="उदा. खरीप कापूस काढणीनंतर देणार..."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer bg-light border-0">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a; border: none;">
-                        <i class="ti ti-check me-1"></i> Save Udhari Changes / सेव्ह करा
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal 2: Record Udhari Payment -->
-<div class="modal fade" id="recordUdhariPaymentModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3">
-            <div class="modal-header text-white" style="background-color: #16a34a;">
-                <h5 class="modal-title fw-bold" style="font-size: 16px;"><i class="ti ti-cash me-2"></i>Record Udhari Payment</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form th:action="@{/admin/udhari/record-payment}" th:object="${paymentDto}" method="POST">
-                <input type="hidden" id="udhariPayModalId" th:field="*{udhariId}">
-                <div class="modal-body p-4">
-                    <div class="mb-3 p-3 bg-light rounded-3 border">
-                        <small class="text-muted d-block">Customer:</small>
-                        <strong class="text-dark fs-6" id="udhariPayCustomerName">Customer Name</strong>
-                        <div class="text-danger small mt-1">Remaining Due: <strong id="udhariPayRemaining">₹0</strong></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">Payment Amount (₹) *</label>
-                        <input type="number" step="0.01" min="1" id="udhariPayAmountInput" th:field="*{amount}" class="form-control form-control-sm" placeholder="Enter amount received" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">Payment Mode *</label>
-                        <select th:field="*{paymentMethod}" class="form-select form-select-sm">
-                            <option value="CASH">Cash (रोख)</option>
-                            <option value="UPI">UPI / PhonePe / GPay</option>
-                            <option value="BANK_TRANSFER">Bank Transfer / NEFT</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">Transaction Ref / Cheque No.</label>
-                        <input type="text" th:field="*{transactionId}" class="form-control form-control-sm" placeholder="e.g. UPI-TXN-12345">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-dark">Remarks</label>
-                        <input type="text" th:field="*{remarks}" class="form-control form-control-sm" placeholder="e.g. Counter cash deposit">
-                    </div>
-                </div>
-                <div class="modal-footer bg-light border-0">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-success px-4 fw-semibold" style="background-color: #16a34a;">Record Payment</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal 3: Send Reminder Modal -->
-<div class="modal fade" id="sendReminderModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" style="font-size: 16px;"><i class="ti ti-bell me-2"></i>Send Udhari Reminder Alert</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form th:action="@{/admin/udhari/send-reminder}" method="POST">
-                <input type="hidden" id="reminderUserId" name="userId">
-                <input type="hidden" id="reminderUdhariId" name="udhariId">
-                <div class="modal-body p-4">
-                    <div class="mb-3 p-3 bg-light rounded-3 border">
-                        <small class="text-muted d-block">Recipient Farmer:</small>
-                        <strong class="text-dark fs-6" id="reminderCustomerName">Ramesh Patil</strong>
-                        <div class="text-muted small">Mobile: <strong id="reminderMobile">9822012345</strong></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-primary">Dispatch Channel</label>
-                        <select name="type" class="form-select form-select-sm">
-                            <option value="WHATSAPP">📲 WhatsApp Message</option>
-                            <option value="SMS">💬 SMS Gateway</option>
-                            <option value="IN_APP">🔔 In-App Portal Notification</option>
-                            <option value="EMAIL">✉️ Email Notification</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-primary">Reminder Message Text</label>
-                        <textarea id="reminderMessageText" name="message" class="form-control form-control-sm" rows="3" required></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer bg-light border-0">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary px-4 fw-semibold">Send Reminder</button>
+                <div class="modal-footer bg-light px-4 py-2 border-top">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">Save Udhari Entry</button>
                 </div>
             </form>
         </div>
@@ -500,212 +377,352 @@
 </div>
 
 <script>
-function toggleCustomerType() {
-    var isNew = document.getElementById('typeNewCust').checked;
-    var newSection = document.getElementById('newCustomerSection');
-    var existingSection = document.getElementById('existingCustomerSection');
-    var nameInput = document.getElementById('newCustNameInput');
-    var mobileInput = document.getElementById('newCustMobileInput');
-    var existingSelect = document.getElementById('existingUserIdSelect');
-
-    if (isNew) {
-        newSection.classList.remove('d-none');
-        existingSection.classList.add('d-none');
-        nameInput.setAttribute('required', 'required');
-        mobileInput.setAttribute('required', 'required');
-        existingSelect.removeAttribute('required');
-        existingSelect.value = '';
-    } else {
-        newSection.classList.add('d-none');
-        existingSection.classList.remove('d-none');
-        nameInput.removeAttribute('required');
-        mobileInput.removeAttribute('required');
-        existingSelect.setAttribute('required', 'required');
+function getUdhariRecords() {
+    const raw = localStorage.getItem('ksk_udhari_records');
+    if (!raw) return [];
+    try {
+        return JSON.parse(raw);
+    } catch(e) {
+        return [];
     }
 }
 
-function showModalSafe(modalId) {
-    var modalEl = document.getElementById(modalId);
-    if (!modalEl) {
-        console.error('Modal element not found: ' + modalId);
+function saveUdhariRecords(records) {
+    localStorage.setItem('ksk_udhari_records', JSON.stringify(records));
+}
+
+function renderUdhariTable() {
+    const records = getUdhariRecords();
+    const tbody = document.getElementById('udhariTableBody');
+    const badge = document.getElementById('udhariTotalBadge');
+    
+    // Filter active records
+    const activeRecords = records.filter(r => r.status !== 'Paid' && (parseFloat(r.amount) || 0) > 0);
+    const total = activeRecords.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
+
+    // Update total outstanding badge
+    if (badge) {
+        if (total > 0) {
+            badge.className = 'badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill fw-bold';
+            badge.textContent = 'Total Outstanding: ₹' + total.toLocaleString('en-IN');
+        } else {
+            badge.className = 'badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold';
+            badge.textContent = 'Total Outstanding: ₹0 (No Dues)';
+        }
+    }
+
+    if (!tbody) return;
+
+    if (activeRecords.length === 0) {
+        // EMPTY STATE as requested: "data nasel kahi udhari data tr empty dakvat ja"
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <div class="py-4">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-success-subtle text-success mb-3 shadow-sm" style="width: 64px; height: 64px;">
+                            <i class="bi bi-check2-circle fs-1"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">
+                            <span class="lang-mr">कोणतीही उधारी बाकी नाही!</span>
+                            <span class="lang-en">No Outstanding Udhari!</span>
+                        </h5>
+                        <p class="text-muted small mb-3">
+                            <span class="lang-mr">सर्व शेतकरी ग्राहकांची खाती पूर्णपणे भरलेली आहेत (शून्य बाकी).</span>
+                            <span class="lang-en">All farmer customer accounts are fully settled (Zero Outstanding).</span>
+                        </p>
+                        <button type="button" class="btn btn-sm btn-success rounded-pill px-4 fw-semibold" onclick="openAddUdhariModal()">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            <span class="lang-mr">नवीन उधारी नोंदवा</span>
+                            <span class="lang-en">Record New Udhari</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
         return;
     }
-    try {
-        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-            var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();
-            return;
-        }
-    } catch (e) {
-        console.warn('Bootstrap modal init error, using fallback:', e);
-    }
-    // Fallback if Bootstrap JS is blocked or unavailable
-    modalEl.classList.add('show');
-    modalEl.style.display = 'block';
-    modalEl.removeAttribute('aria-hidden');
-    modalEl.setAttribute('aria-modal', 'true');
-    document.body.classList.add('modal-open');
-    if (!document.getElementById('manualModalBackdrop')) {
-        var bd = document.createElement('div');
-        bd.id = 'manualModalBackdrop';
-        bd.className = 'modal-backdrop fade show';
-        document.body.appendChild(bd);
+
+    tbody.innerHTML = activeRecords.map(r => `
+        <tr>
+            <td class="ps-4 fw-bold text-dark">${r.name}</td>
+            <td>${r.mobile || '-'}</td>
+            <td>${r.village || '-'}</td>
+            <td><strong class="text-danger">₹${parseFloat(r.amount).toLocaleString('en-IN')}</strong></td>
+            <td>${r.dueDate || 'Open'}</td>
+            <td>
+                <span class="badge ${r.status === 'Overdue' ? 'bg-danger text-white' : 'bg-warning text-dark'}">
+                    ${r.status}
+                </span>
+            </td>
+            <td class="text-end pe-4">
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold me-1" onclick="markUdhariPaid(${r.id})">
+                    <i class="bi bi-check-lg me-1"></i>Mark Paid
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:28px;height:28px;" onclick="deleteUdhariRecord(${r.id})" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function openAddUdhariModal() {
+    const form = document.getElementById('addUdhariForm');
+    if (form) form.reset();
+    const modalEl = document.getElementById('addUdhariModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
     }
 }
 
-function hideModalSafe(modalEl) {
-    if (!modalEl) return;
-    try {
-        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-            var inst = bootstrap.Modal.getInstance(modalEl);
-            if (inst) inst.hide();
-        }
-    } catch (e) {
-        console.warn('Bootstrap modal hide error:', e);
-    }
-    modalEl.classList.remove('show');
-    modalEl.style.display = 'none';
-    modalEl.setAttribute('aria-hidden', 'true');
-    modalEl.removeAttribute('aria-modal');
-    document.body.classList.remove('modal-open');
-    var bd = document.getElementById('manualModalBackdrop');
-    if (bd) bd.remove();
-    document.querySelectorAll('.modal-backdrop').forEach(function(b) { b.remove(); });
-}
+function handleSaveUdhari(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const name = document.getElementById('udhariName').value.trim();
+    const mobile = document.getElementById('udhariMobile').value.trim();
+    const village = document.getElementById('udhariVillage').value.trim();
+    const amount = parseFloat(document.getElementById('udhariAmount').value) || 0;
+    const dueDate = document.getElementById('udhariDueDate').value || '15 Nov 2026';
+    const status = document.getElementById('udhariStatus').value;
 
-// Global click listener for closing modals
-document.addEventListener('click', function(e) {
-    if (e.target.closest('[data-bs-dismiss="modal"]') || e.target.classList.contains('btn-close')) {
-        var modal = e.target.closest('.modal');
-        if (modal) {
-            hideModalSafe(modal);
-        }
-    } else if (e.target.classList.contains('modal') && e.target.classList.contains('show')) {
-        hideModalSafe(e.target);
-    }
-});
-
-// Open Add Credit Customer modal
-function openCreateUdhariModal() {
-    var d = new Date();
-    d.setDate(d.getDate() + 30);
-    var dateStr = d.toISOString().split('T')[0];
-    var dueInput = document.getElementById('newUdhariDueDate');
-    if (dueInput && !dueInput.value) {
-        dueInput.value = dateStr;
-    }
-    showModalSafe('createUdhariModal');
-}
-window.openCreateUdhariModal = openCreateUdhariModal;
-
-document.addEventListener('DOMContentLoaded', function() {
-    var d = new Date();
-    d.setDate(d.getDate() + 30);
-    var dateStr = d.toISOString().split('T')[0];
-    var dueInput = document.getElementById('newUdhariDueDate');
-    if (dueInput && !dueInput.value) {
-        dueInput.value = dateStr;
+    if (!name || amount <= 0) {
+        alert('Please enter valid customer name and amount.');
+        return;
     }
 
-    var addBtn = document.getElementById('btnAddCreditCustomer');
-    if (addBtn) {
-        addBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            openCreateUdhariModal();
-        });
+    let records = getUdhariRecords();
+    records.unshift({
+        id: Date.now(),
+        name,
+        mobile,
+        village,
+        amount,
+        dueDate,
+        status
+    });
+    saveUdhariRecords(records);
+
+    const modalEl = document.getElementById('addUdhariModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
     }
-});
-
-function calcNewUdhariRemaining() {
-    var total = parseFloat(document.getElementById('newUdhariTotal').value) || 0;
-    var paid = parseFloat(document.getElementById('newUdhariPaid').value) || 0;
-    var remaining = total - paid;
-    if (remaining < 0) remaining = 0;
-    document.getElementById('newUdhariRemaining').value = remaining.toFixed(2);
+    renderUdhariTable();
 }
 
-function handleUdhariEdit(btn) {
-    var id = btn.getAttribute('data-id');
-    var name = btn.getAttribute('data-name');
-    var mobile = btn.getAttribute('data-mobile');
-    var total = btn.getAttribute('data-total');
-    var paid = btn.getAttribute('data-paid');
-    var remaining = btn.getAttribute('data-remaining');
-    var due = btn.getAttribute('data-due');
-    var status = btn.getAttribute('data-status');
-    var notes = btn.getAttribute('data-notes');
-    openUdhariEditModal(id, name, mobile, total, paid, remaining, due, status, notes);
-}
-
-function openUdhariEditModal(id, customerName, mobile, totalAmount, paidAmount, remainingAmount, dueDate, status, notes) {
-    document.getElementById('editUdhariId').value = id;
-    document.getElementById('editUdhariCustomerName').innerText = customerName;
-    document.getElementById('editUdhariCustomerMobile').innerText = mobile;
-    document.getElementById('editUdhariTotalAmount').value = totalAmount;
-    document.getElementById('editUdhariPaidAmount').value = paidAmount;
-    document.getElementById('editUdhariRemainingAmount').value = remainingAmount;
-    document.getElementById('editUdhariTotalAmount').min = paidAmount;
-    document.getElementById('editUdhariDueDate').value = dueDate;
-    document.getElementById('editUdhariNotes').value = notes || '';
-
-    showModalSafe('editUdhariRecordModal');
-}
-
-function calculateUdhariRemaining() {
-    var total = parseFloat(document.getElementById('editUdhariTotalAmount').value) || 0;
-    var paid = parseFloat(document.getElementById('editUdhariPaidAmount').value) || 0;
-    var totalInput = document.getElementById('editUdhariTotalAmount');
-    totalInput.min = paid;
-    if (total < paid) {
-        total = paid;
-        totalInput.value = total.toFixed(2);
+function markUdhariPaid(id) {
+    let records = getUdhariRecords();
+    const item = records.find(r => r.id === id);
+    if (item) {
+        item.status = 'Paid';
+        item.amount = 0;
+        saveUdhariRecords(records);
+        renderUdhariTable();
     }
-    var remaining = total - paid;
-    document.getElementById('editUdhariRemainingAmount').value = remaining.toFixed(2);
 }
 
-function handleUdhariPay(btn) {
-    var id = btn.getAttribute('data-id');
-    var name = btn.getAttribute('data-name');
-    var remaining = btn.getAttribute('data-remaining');
-    openUdhariPayModal(id, name, remaining);
+function deleteUdhariRecord(id) {
+    if (!confirm('Are you sure you want to delete this record?')) return;
+    let records = getUdhariRecords();
+    records = records.filter(r => r.id !== id);
+    saveUdhariRecords(records);
+    renderUdhariTable();
 }
 
-function openUdhariPayModal(udhariId, customerName, remainingAmount) {
-    document.getElementById('udhariPayModalId').value = udhariId;
-    document.getElementById('udhariPayCustomerName').innerText = customerName;
-    document.getElementById('udhariPayRemaining').innerText = '₹' + remainingAmount;
-    document.getElementById('udhariPayAmountInput').value = remainingAmount;
-    showModalSafe('recordUdhariPaymentModal');
-}
-
-function handleUdhariReminder(btn) {
-    var userId = btn.getAttribute('data-userid');
-    var id = btn.getAttribute('data-id');
-    var name = btn.getAttribute('data-name');
-    var mobile = btn.getAttribute('data-mobile');
-    var remaining = btn.getAttribute('data-remaining');
-    var due = btn.getAttribute('data-due');
-    var isOverdue = btn.getAttribute('data-overdue') === 'true';
-    openReminderModal(userId, id, name, mobile, remaining, due, isOverdue);
-}
-
-function openReminderModal(userId, udhariId, customerName, mobile, remainingAmount, dueDate, isOverdue) {
-    document.getElementById('reminderUserId').value = userId;
-    document.getElementById('reminderUdhariId').value = udhariId;
-    document.getElementById('reminderCustomerName').innerText = customerName;
-    document.getElementById('reminderMobile').innerText = mobile;
-    
-    var msg = "Dear " + customerName + ", your outstanding Udhari balance at Saptashrungi Agro Services is ₹" + remainingAmount + " due on " + dueDate + ". Kindly make payment via UPI or visit shop. Thank you!";
-    if (isOverdue) {
-        msg = "URGENT: Dear " + customerName + ", your Udhari balance of ₹" + remainingAmount + " was due on " + dueDate + " and is now OVERDUE. Please clear immediately. Thank you!";
-    }
-    document.getElementById('reminderMessageText').value = msg;
-    
-    showModalSafe('sendReminderModal');
-}
+document.addEventListener('DOMContentLoaded', renderUdhariTable);
 </script>
 
-<div th:replace="~{layout/footer :: footer}"></div>
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

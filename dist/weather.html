@@ -184,24 +184,32 @@
 
     <!-- Search Box with Quick Location Chips -->
     <div class="row justify-content-center mb-4">
-        <div class="col-lg-7">
-            <div class="input-group shadow-sm rounded-4 overflow-hidden mb-3 border">
-                <span class="input-group-text bg-white border-0 ps-3 text-muted"><i class="bi bi-geo-alt-fill text-danger fs-5"></i></span>
-                <input type="text" id="cityInput" class="form-control border-0 py-3 ps-2" placeholder="गाव किंवा तालुक्याचे नाव टाका (उदा. वैजापूर, कोपरगाव, नाशिक...)" value="वैजापूर (Vaijapur)">
-                <button onclick="searchWeather()" class="btn btn-success px-4 fw-bold" style="background:#15803d; border:none;">
-                    <i class="bi bi-search me-1"></i> शोधा
-                </button>
-            </div>
+        <div class="col-lg-8">
+            <form id="weatherSearchForm" onsubmit="searchWeather(); return false;" class="w-100">
+                <div class="input-group shadow-sm rounded-4 overflow-hidden mb-3 border bg-white" style="border: 2px solid #16a34a !important;">
+                    <span class="input-group-text bg-white border-0 ps-3 text-muted"><i class="bi bi-geo-alt-fill text-danger fs-5"></i></span>
+                    <input type="text" id="cityInput" class="form-control border-0 py-3 ps-2 fw-semibold" 
+                           placeholder="गाव, तालुका किंवा जिल्ह्याचे नाव टाका (उदा. वैजापूर, तामसवाडी, कोपरगाव, नाशिक, येवला...)" 
+                           value="वैजापूर (Vaijapur)"
+                           autocomplete="off"
+                           onkeydown="if(event.key==='Enter'){event.preventDefault();searchWeather();}"
+                           oninput="onCityInputChanged(this.value)">
+                    <button type="submit" class="btn btn-success px-4 fw-bold d-flex align-items-center gap-2" style="background:#15803d; border:none;">
+                        <i class="bi bi-search fs-6"></i> <span>शोधा</span>
+                    </button>
+                </div>
+            </form>
             <!-- Quick Chips -->
-            <div class="d-flex gap-2 flex-wrap justify-content-center small">
-                <span class="text-muted small align-self-center fw-semibold">प्रमुख तालुके:</span>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('वैजापूर (Vaijapur)')">📍 वैजापूर</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('कोपरगाव (Kopargaon)')">📍 कोपरगाव</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('श्रीरामपूर (Shrirampur)')">📍 श्रीरामपूर</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('गंगापूर (Gangapur)')">📍 गंगापूर</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('छत्रपती संभाजीनगर')">📍 छ. संभाजीनगर</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('नाशिक (Nashik)')">📍 नाशिक</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill py-1 px-3" onclick="setCityAndSearch('येवला (Yeola)')">📍 येवला</button>
+            <div class="d-flex gap-2 flex-wrap justify-content-center small align-items-center">
+                <span class="text-muted small fw-bold"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>जलद निवड:</span>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('वैजापूर (Vaijapur)')">📍 वैजापूर</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('तामसवाडी (Tamaswadi)')">📍 तामसवाडी</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('कोपरगाव (Kopargaon)')">📍 कोपरगाव</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('श्रीरामपूर (Shrirampur)')">📍 श्रीरामपूर</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('गंगापूर (Gangapur)')">📍 गंगापूर</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('येवला (Yeola)')">📍 येवला</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('नाशिक (Nashik)')">📍 नाशिक</button>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fw-semibold shadow-sm bg-white" onclick="setCityAndSearch('छत्रपती संभाजीनगर')">📍 छ. संभाजीनगर</button>
             </div>
         </div>
     </div>
@@ -267,6 +275,8 @@
 <script>
 const weatherDatabase = {
     "vaijapur": { name: "वैजापूर (Vaijapur)", temp: 29, cond: "अंशतः ढगाळ व कोरडे", rain: "20%", humidity: "65%", wind: "12 km/h", icon: "bi-cloud-sun-fill", advisory: "फवारणी सल्ला: आज वाऱ्याचा वेग अनुकूल असून फवारणीसाठी योग्य वेळ आहे. पाऊस येण्याची शक्यता कमी आहे." },
+    "tamaswadi": { name: "तामसवाडी (Tamaswadi, Vaijapur)", temp: 29, cond: "कोरडे व स्वच्छ हवामान", rain: "15%", humidity: "63%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: कपाशी, कांदा व मका पिकांवर कीटकनाशक फवारणीसाठी आज अनुकूल दिवस आहे." },
+    "mirakhnagar": { name: "मिराखनगर (Mirakhnagar, Vaijapur)", temp: 29, cond: "अंशतः ढगाळ व कोरडे", rain: "18%", humidity: "64%", wind: "11 km/h", icon: "bi-cloud-sun-fill", advisory: "फवारणी सल्ला: हवामान पूर्णपणे अनुकूल आहे. कीटकनाशक व बुरशीनाशक फवारणी वेळेत आटोपून घ्यावी." },
     "kopargaon": { name: "कोपरगाव (Kopargaon)", temp: 31, cond: "कोरडे व स्वच्छ सूर्यप्रकाश", rain: "10%", humidity: "58%", wind: "10 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: फवारणी व सिंचनासाठी हवामान उत्तम आहे. उन्हाचा कडाका असल्याने सकाळी किंवा संध्याकाळी फवारणी करावी." },
     "shrirampur": { name: "श्रीरामपूर (Shrirampur)", temp: 30, cond: "निरभ्र आकाश", rain: "15%", humidity: "62%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: हवामान पूर्णपणे अनुकूल आहे. ऊस व सोयाबीन पिकांना पाणी देण्यास योग्य वेळ आहे." },
     "gangapur": { name: "गंगापूर (Gangapur)", temp: 28, cond: "अंशतः ढगाळ", rain: "25%", humidity: "68%", wind: "14 km/h", icon: "bi-cloudy-fill", advisory: "फवारणी सल्ला: दुपारनंतर ढगाळ वातावरण होऊ शकते, सकाळी फवारणी आटोपून घ्यावी." },
@@ -274,37 +284,89 @@ const weatherDatabase = {
     "aurangabad": { name: "छत्रपती संभाजीनगर (Chh. Sambhajinagar)", temp: 29, cond: "हलके ढगाळ वातावरण", rain: "30%", humidity: "70%", wind: "15 km/h", icon: "bi-clouds-fill", advisory: "फवारणी सल्ला: दुपारच्या वेळी हलक्या सरींची शक्यता असल्याने सिस्टिमिक औषधांसोबत स्टिकरचा वापर करा." },
     "nashik": { name: "नाशिक (Nashik)", temp: 27, cond: "थंड व आल्हाददायक हवा", rain: "35%", humidity: "75%", wind: "13 km/h", icon: "bi-cloud-sun-fill", advisory: "फवारणी सल्ला: द्राक्ष व कांदा बागांमध्ये बुरशीनाशक फवारणीसाठी पोषक वातावरण आहे." },
     "yeola": { name: "येवला (Yeola)", temp: 30, cond: "स्वच्छ व कोरडे", rain: "10%", humidity: "60%", wind: "10 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: कांदा रोपांवर व पिकांवर कीटकनाशक फवारणी करण्यास उत्तम वातावरण आहे." },
-    "ahilyanagar": { name: "अहिल्यानगर (Ahilyanagar)", temp: 31, cond: "स्वच्छ सूर्यप्रकाश", rain: "15%", humidity: "59%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: सर्व प्रकारच्या फवारणीसाठी योग्य दिवस. वाऱ्याचा वेग शांत आहे." },
-    "shirdi": { name: "शिर्डी / राहाता (Shirdi / Rahata)", temp: 30, cond: "स्वच्छ व निरभ्र", rain: "12%", humidity: "61%", wind: "10 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: फवारणी करण्यास कोणतीही अडचण नाही. पिकांना पाणी व्यवस्थापन सुरू ठेवा." }
+    "sinnar": { name: "सिन्नर (Sinnar)", temp: 28, cond: "निरभ्र व आल्हाददायक", rain: "15%", humidity: "62%", wind: "12 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: भाजीपाला व सोयाबीन पिकांवर टॉनिक व बुरशीनाशक फवारणीस अनुकूल वेळ." },
+    "lasalgaon": { name: "लासलगाव (Lasalgaon)", temp: 29, cond: "स्वच्छ सूर्यप्रकाश", rain: "12%", humidity: "61%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: कांदा पिकासाठी हवामान आदर्श आहे. करपा रोगापासून संरक्षणासाठी फवारणी करा." },
+    "niphad": { name: "निफाड (Niphad)", temp: 28, cond: "थंड व स्वच्छ हवा", rain: "20%", humidity: "68%", wind: "12 km/h", icon: "bi-cloud-sun-fill", advisory: "फवारणी सल्ला: द्राक्ष बागांमध्ये छाटणीनंतर आवश्यक औषध फवारणीसाठी योग्य वेळ." },
+    "sangamner": { name: "संगमनेर (Sangamner)", temp: 31, cond: "उष्ण व कोरडे", rain: "10%", humidity: "56%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: उन्हाच्या तीव्रतेपूर्वी सकाळी ८ ते ११ या वेळेत फवारणी पूर्ण करा." },
+    "shirdi": { name: "शिर्डी / राहाता (Shirdi / Rahata)", temp: 30, cond: "स्वच्छ व निरभ्र", rain: "12%", humidity: "61%", wind: "10 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: फवारणी करण्यास कोणतीही अडचण नाही. पिकांना पाणी व्यवस्थापन सुरू ठेवा." },
+    "rahata": { name: "राहाता (Rahata)", temp: 30, cond: "स्वच्छ व निरभ्र", rain: "12%", humidity: "61%", wind: "10 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: फवारणी करण्यास कोणतीही अडचण नाही. पिकांना पाणी व्यवस्थापन सुरू ठेवा." },
+    "newasa": { name: "नेवासा (Newasa)", temp: 31, cond: "स्वच्छ व कोरडे", rain: "14%", humidity: "60%", wind: "12 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: कपाशी व तूर पिकांवरील अळी नियंत्रणासाठी कीटकनाशक फवारणी करा." },
+    "paithan": { name: "पैठण (Paithan)", temp: 30, cond: "कोरडे व स्वच्छ", rain: "15%", humidity: "63%", wind: "12 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: फवारणीसाठी दिवस उत्तम आहे. फवारणीनंतर लगेच सिंचन करू नका." },
+    "ahilyanagar": { name: "अहिल्यानगर (Ahilyanagar)", temp: 31, cond: "स्वच्छ सूर्यप्रकाश", rain: "15%", humidity: "59%", wind: "11 km/h", icon: "bi-sun-fill", advisory: "फवारणी सल्ला: सर्व प्रकारच्या फवारणीसाठी योग्य दिवस. वाऱ्याचा वेग शांत आहे." }
 };
 
+let searchDebounceTimer = null;
+function onCityInputChanged(val) {
+    clearTimeout(searchDebounceTimer);
+    if (!val || val.trim().length < 2) return;
+    searchDebounceTimer = setTimeout(() => {
+        searchWeather();
+    }, 450);
+}
+
 function setCityAndSearch(cityName) {
-    document.getElementById('cityInput').value = cityName;
-    searchWeather();
+    const input = document.getElementById('cityInput');
+    if (input) {
+        input.value = cityName;
+        searchWeather();
+    }
 }
 
 function searchWeather() {
-    const raw = document.getElementById('cityInput').value.trim().toLowerCase();
-    if (!raw) return;
+    const rawInput = document.getElementById('cityInput') ? document.getElementById('cityInput').value.trim() : '';
+    if (!rawInput) return;
 
-    let matchKey = null;
-    for (const k of Object.keys(weatherDatabase)) {
-        if (raw.includes(k) || weatherDatabase[k].name.toLowerCase().includes(raw)) {
-            matchKey = k;
+    const raw = rawInput.toLowerCase();
+
+    // Mapping synonyms / marathi spellings
+    const aliasMap = {
+        'वैजापूर': 'vaijapur', 'vaijapur': 'vaijapur',
+        'तामसवाडी': 'tamaswadi', 'tamaswadi': 'tamaswadi',
+        'मिराखनगर': 'mirakhnagar', 'mirakhnagar': 'mirakhnagar',
+        'कोपरगाव': 'kopargaon', 'kopargaon': 'kopargaon',
+        'श्रीरामपूर': 'shrirampur', 'shrirampur': 'shrirampur',
+        'गंगापूर': 'gangapur', 'gangapur': 'gangapur',
+        'नाशिक': 'nashik', 'nashik': 'nashik',
+        'येवला': 'yeola', 'yeola': 'yeola',
+        'सिन्नर': 'sinnar', 'sinnar': 'sinnar',
+        'लासलगाव': 'lasalgaon', 'lasalgaon': 'lasalgaon',
+        'निफाड': 'niphad', 'niphad': 'niphad',
+        'संगमनेर': 'sangamner', 'sangamner': 'sangamner',
+        'शिर्डी': 'shirdi', 'shirdi': 'shirdi',
+        'राहाता': 'rahata', 'rahata': 'rahata',
+        'नेवासा': 'newasa', 'newasa': 'newasa',
+        'पैठण': 'paithan', 'paithan': 'paithan',
+        'संभाजीनगर': 'sambhajinagar', 'aurangabad': 'sambhajinagar', 'औरंगाबाद': 'sambhajinagar',
+        'अहिल्यानगर': 'ahilyanagar', 'ahmednagar': 'ahilyanagar', 'अहमदनगर': 'ahilyanagar'
+    };
+
+    let matchedKey = null;
+    for (const [term, key] of Object.entries(aliasMap)) {
+        if (raw.includes(term)) {
+            matchedKey = key;
             break;
         }
     }
 
+    if (!matchedKey) {
+        for (const k of Object.keys(weatherDatabase)) {
+            if (raw.includes(k) || weatherDatabase[k].name.toLowerCase().includes(raw)) {
+                matchedKey = k;
+                break;
+            }
+        }
+    }
+
     let data;
-    if (matchKey) {
-        data = weatherDatabase[matchKey];
+    if (matchedKey && weatherDatabase[matchedKey]) {
+        data = weatherDatabase[matchedKey];
     } else {
         // Algorithmic generator for any custom village or town
         const seed = raw.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        const tempGen = 27 + (seed % 6);
-        const rainGen = (seed % 40) + 10;
-        const humGen = 55 + (seed % 25);
-        const windGen = 8 + (seed % 10);
+        const tempGen = 28 + (seed % 5);
+        const rainGen = (seed % 35) + 10;
+        const humGen = 58 + (seed % 20);
+        const windGen = 9 + (seed % 8);
         
         let condText = "स्वच्छ व कोरडे वातावरण";
         let iconName = "bi-sun-fill";
@@ -321,7 +383,7 @@ function searchWeather() {
         }
 
         data = {
-            name: document.getElementById('cityInput').value.trim(),
+            name: rawInput + " (परिसर)",
             temp: tempGen,
             cond: condText,
             rain: rainGen + "%",
@@ -332,26 +394,31 @@ function searchWeather() {
         };
     }
 
-    // Update UI elements
-    document.getElementById('weatherCityName').innerHTML = '<i class="bi bi-geo-alt-fill text-warning"></i> <span>' + data.name + '</span>';
-    document.getElementById('weatherTemp').textContent = data.temp + '°C';
-    document.getElementById('weatherCondition').textContent = data.cond;
-    document.getElementById('weatherRain').textContent = data.rain;
-    document.getElementById('weatherHumidity').textContent = data.humidity;
-    document.getElementById('weatherWind').textContent = data.wind;
-    document.getElementById('weatherAdvisoryText').textContent = data.advisory;
-    document.getElementById('weatherIconBig').innerHTML = '<i class="bi ' + data.icon + '" style="font-size:3.5rem;"></i>';
+    // Update UI elements smoothly with pulse effect
+    const cityNameEl = document.getElementById('weatherCityName');
+    if (cityNameEl) {
+        cityNameEl.innerHTML = '<i class="bi bi-geo-alt-fill text-warning"></i> <span>' + data.name + '</span>';
+        cityNameEl.style.opacity = '0.5';
+        setTimeout(() => { cityNameEl.style.opacity = '1'; }, 180);
+    }
+    if (document.getElementById('weatherTemp')) document.getElementById('weatherTemp').textContent = data.temp + '°C';
+    if (document.getElementById('weatherCondition')) document.getElementById('weatherCondition').textContent = data.cond;
+    if (document.getElementById('weatherRain')) document.getElementById('weatherRain').textContent = data.rain;
+    if (document.getElementById('weatherHumidity')) document.getElementById('weatherHumidity').textContent = data.humidity;
+    if (document.getElementById('weatherWind')) document.getElementById('weatherWind').textContent = data.wind;
+    if (document.getElementById('weatherAdvisoryText')) document.getElementById('weatherAdvisoryText').textContent = data.advisory;
+    if (document.getElementById('weatherIconBig')) document.getElementById('weatherIconBig').innerHTML = '<i class="bi ' + data.icon + '" style="font-size:3.5rem;"></i>';
 
     renderFiveDayOutlook(data.temp, parseInt(data.rain));
 }
 
 function renderFiveDayOutlook(baseTemp, baseRain) {
     const days = [
-        { label: "उद्या", offsetTemp: 1, rainDiff: -5, icon: "bi-sun-fill" },
-        { label: "परवा", offsetTemp: 0, rainDiff: 10, icon: "bi-cloud-sun-fill" },
-        { label: "३ दिवसांनी", offsetTemp: -1, rainDiff: 15, icon: "bi-clouds-fill" },
-        { label: "४ दिवसांनी", offsetTemp: 1, rainDiff: -10, icon: "bi-sun-fill" },
-        { label: "५ दिवसांनी", offsetTemp: 2, rainDiff: -8, icon: "bi-sun-fill" }
+        { label: "उद्या (Tomorrow)", offsetTemp: 1, rainDiff: -5, icon: "bi-sun-fill" },
+        { label: "परवा (Day 2)", offsetTemp: 0, rainDiff: 10, icon: "bi-cloud-sun-fill" },
+        { label: "३ दिवसांनी (Day 3)", offsetTemp: -1, rainDiff: 15, icon: "bi-clouds-fill" },
+        { label: "४ दिवसांनी (Day 4)", offsetTemp: 1, rainDiff: -10, icon: "bi-sun-fill" },
+        { label: "५ दिवसांनी (Day 5)", offsetTemp: 2, rainDiff: -8, icon: "bi-sun-fill" }
     ];
 
     const grid = document.getElementById('fiveDayForecastGrid');
@@ -364,27 +431,22 @@ function renderFiveDayOutlook(baseTemp, baseRain) {
         const dayRain = Math.max(5, Math.min(90, baseRain + d.rainDiff));
         const dayTemp = baseTemp + d.offsetTemp;
         col.innerHTML = `
-            <div class="card border-0 shadow-sm rounded-4 p-3 text-center bg-white h-100 border-top border-3 border-success">
-                <small class="text-muted fw-bold mb-1">${d.label}</small>
-                <div class="fs-3 text-warning my-1"><i class="bi ${d.icon}"></i></div>
-                <div class="fw-bold text-dark fs-5">${dayTemp}°C</div>
-                <small class="text-primary fw-semibold"><i class="bi bi-droplet"></i> ${dayRain}%</small>
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center h-100 bg-white">
+                <small class="text-muted fw-bold mb-1 d-block" style="font-size: 0.75rem;">${d.label}</small>
+                <div class="fs-2 text-warning my-1"><i class="bi ${d.icon}"></i></div>
+                <h5 class="fw-bold text-dark mb-0">${dayTemp}°C</h5>
+                <span class="badge bg-light text-primary border rounded-pill mt-2 small" style="font-size: 0.72rem;">
+                    <i class="bi bi-cloud-rain me-1"></i>${dayRain}%
+                </span>
             </div>
         `;
         grid.appendChild(col);
     });
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function() {
     searchWeather();
-    const inp = document.getElementById('cityInput');
-    if (inp) {
-        inp.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') searchWeather();
-        });
-    }
-});
-</script>
+});</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">
