@@ -27,9 +27,10 @@
             <span class="lang-en">Back to shop</span>
         </a>
 
+        <!-- Bilingual Switcher in Login Header -->
         <div class="login-language-switch" role="group" aria-label="Choose language">
-            <button type="button" onclick="setLang('en')" class="btn-lang-en">EN</button>
-            <button type="button" onclick="setLang('mr')" class="btn-lang-mr active">मराठी</button>
+            <button type="button" id="loginBtnEn" onclick="setLang('en')" class="btn-lang-en">EN</button>
+            <button type="button" id="loginBtnMr" onclick="setLang('mr')" class="btn-lang-mr active">मराठी</button>
         </div>
     </div>
 
@@ -38,7 +39,10 @@
             <img src="images/saptashrungi_logo_round.jpg" alt="Krushi Seva Kendra logo">
             <div>
                 <div class="login-brand-name">Krushi Seva Kendra</div>
-                <div class="login-brand-subtitle">Saptashrungi Agro Services</div>
+                <div class="login-brand-subtitle">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </div>
             </div>
         </div>
 
@@ -53,35 +57,35 @@
             </p>
         </header>
 
-        <!-- Dynamic Success / Logout Alert -->
-        <div id="loginAlertBox" class="alert alert-success py-2 px-3 small rounded-3 mb-3 d-flex align-items-center" style="background:#e6f4ea; color:#137333; border: 1px solid #ceead6;">
-            <i class="bi bi-check-circle-fill me-2 fs-6"></i>
-            <div>
-                <span class="lang-mr">आपण यशस्वीरित्या लॉग आउट झाला आहात.</span>
-                <span class="lang-en">You have been logged out successfully / आपण यशस्वीरित्या लॉग आउट झाला आहात.</span>
+        <!-- Dynamic Success / Logout Alert Banner -->
+        <div id="loginAlertBox" class="alert py-2 px-3 small rounded-3 mb-3 d-none align-items-center" style="background:#e6f4ea; color:#137333; border: 1px solid #ceead6;">
+            <i id="loginAlertIcon" class="bi bi-check-circle-fill me-2 fs-6"></i>
+            <div id="loginAlertContent">
+                <span id="alertMsgMr" class="lang-mr">आपण यशस्वीरित्या लॉग आउट झाला आहात.</span>
+                <span id="alertMsgEn" class="lang-en">You have been logged out successfully.</span>
             </div>
         </div>
 
         <form id="loginForm" onsubmit="handleStaticLogin(event)">
             <div class="login-field">
                 <label for="loginUsername">
-                    <span class="lang-mr">मोबाईल नंबर किंवा ईमेल</span>
-                    <span class="lang-en">Mobile number or email</span>
+                    <span class="lang-mr">मोबाईल नंबर किंवा ईमेल *</span>
+                    <span class="lang-en">Mobile number or email *</span>
                 </label>
                 <input type="text" name="username" id="loginUsername"
-                       value="admin@krushiseva.com"
-                       placeholder="Mobile number or email"
+                       data-placeholder-mr="मोबाईल नंबर किंवा ईमेल"
+                       data-placeholder-en="Mobile number or email"
+                       placeholder="मोबाईल नंबर किंवा ईमेल"
                        required autofocus autocomplete="username">
             </div>
 
             <div class="login-field">
                 <label for="loginPassword">
-                    <span class="lang-mr">पासवर्ड</span>
-                    <span class="lang-en">Password</span>
+                    <span class="lang-mr">पासवर्ड *</span>
+                    <span class="lang-en">Password *</span>
                 </label>
                 <div class="login-password-wrap">
                     <input type="password" name="password" id="loginPassword"
-                           value="admin123"
                            placeholder="••••••••" required autocomplete="current-password">
                     <button type="button" class="login-password-toggle" onclick="togglePass()" aria-label="Show or hide password">
                         <i class="bi bi-eye" id="eyeIcon"></i>
@@ -101,7 +105,7 @@
                 </a>
             </div>
 
-            <button type="submit" class="login-submit">
+            <button type="submit" class="login-submit" id="btnSubmit">
                 <span class="lang-mr">लॉगिन करा</span>
                 <span class="lang-en">Log in</span>
             </button>
@@ -133,16 +137,19 @@ function togglePass() {
 
 function handleStaticLogin(e) {
     e.preventDefault();
-    var username = document.getElementById('loginUsername').value.trim().toLowerCase();
+    var uInput = document.getElementById('loginUsername');
+    var username = (uInput ? uInput.value : '').trim().toLowerCase();
     
     // Check if admin login
-    if (username.indexOf('admin') !== -1 || username === 'admin@krushiseva.com') {
+    if (username.indexOf('admin') !== -1 || username === 'admin@krushiseva.com' || username === 'staff') {
         localStorage.setItem('user_role', 'admin');
         localStorage.setItem('user_name', 'Admin');
         window.location.href = 'admin-dashboard.html';
     } else {
         localStorage.setItem('user_role', 'farmer');
-        localStorage.setItem('user_name', username.split('@')[0] || 'Ramesh Patil');
+        var registeredName = localStorage.getItem('last_registered_name');
+        var displayName = registeredName || username.split('@')[0] || 'VSGAWALI';
+        localStorage.setItem('user_name', displayName);
         window.location.href = 'farmer-dashboard.html';
     }
 }
@@ -151,23 +158,79 @@ function setLang(lang) {
     document.documentElement.setAttribute('lang', lang);
     localStorage.setItem('site_lang', lang);
     var isMr = (lang === 'mr');
-    document.querySelectorAll('.btn-lang-mr').forEach(function(b){
-        b.className = isMr ? 'btn-lang-mr active' : 'btn-lang-mr';
+    
+    // Update active state on language toggle buttons
+    var btnEn = document.getElementById('loginBtnEn');
+    var btnMr = document.getElementById('loginBtnMr');
+    if (btnEn) btnEn.className = (!isMr) ? 'btn-lang-en active' : 'btn-lang-en';
+    if (btnMr) btnMr.className = isMr ? 'btn-lang-mr active' : 'btn-lang-mr';
+
+    // Update input placeholders
+    document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+        el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
     });
-    document.querySelectorAll('.btn-lang-en').forEach(function(b){
-        b.className = !isMr ? 'btn-lang-en active' : 'btn-lang-en';
-    });
+
+    window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
 }
 
 document.addEventListener('DOMContentLoaded', function(){
     var savedLang = localStorage.getItem('site_lang') || 'mr';
     setLang(savedLang);
     
-    // Check if logged out alert should show
     var urlParams = new URLSearchParams(window.location.search);
     var alertBox = document.getElementById('loginAlertBox');
-    if (!urlParams.has('logout') && !document.referrer.includes('admin') && !document.referrer.includes('farmer')) {
-        // If normal visit, still show the friendly prompt or keep it visible as per screenshot
+    var alertIcon = document.getElementById('loginAlertIcon');
+    var msgMr = document.getElementById('alertMsgMr');
+    var msgEn = document.getElementById('alertMsgEn');
+    var uInput = document.getElementById('loginUsername');
+    var pInput = document.getElementById('loginPassword');
+
+    // Case 1: Just registered
+    if (urlParams.has('registered')) {
+        var phone = urlParams.get('phone') || localStorage.getItem('last_registered_phone') || '';
+        if (uInput && phone) {
+            uInput.value = phone;
+        }
+        if (pInput) {
+            pInput.value = '';
+            pInput.focus();
+        }
+        if (alertBox) {
+            alertBox.style.background = '#e6f4ea';
+            alertBox.style.color = '#137333';
+            alertBox.style.borderColor = '#ceead6';
+            if (alertIcon) alertIcon.className = 'bi bi-check-circle-fill me-2 fs-6 text-success';
+            if (msgMr) msgMr.textContent = '🎉 आपली शेतकरी नोंदणी यशस्वी झाली आहे! कृपया पासवर्ड टाकून लॉगिन करा.';
+            if (msgEn) msgEn.textContent = '🎉 Farmer registration successful! Please enter your password to log in.';
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('d-flex');
+        }
+    }
+    // Case 2: Just logged out
+    else if (urlParams.has('logout')) {
+        if (alertBox) {
+            alertBox.style.background = '#f1f5f9';
+            alertBox.style.color = '#334155';
+            alertBox.style.borderColor = '#cbd5e1';
+            if (alertIcon) alertIcon.className = 'bi bi-info-circle-fill me-2 fs-6 text-secondary';
+            if (msgMr) msgMr.textContent = 'आपण यशस्वीरित्या लॉग आउट झाला आहात.';
+            if (msgEn) msgEn.textContent = 'You have been logged out successfully.';
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('d-flex');
+        }
+        if (uInput) {
+            var lastPhone = localStorage.getItem('last_registered_phone');
+            if (lastPhone) uInput.value = lastPhone;
+            else uInput.value = '';
+        }
+        if (pInput) pInput.value = '';
+    }
+    // Case 3: Default visit
+    else {
+        var lastPhone = localStorage.getItem('last_registered_phone');
+        if (lastPhone && uInput && !uInput.value) {
+            uInput.value = lastPhone;
+        }
     }
 });
 </script>

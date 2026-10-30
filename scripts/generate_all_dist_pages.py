@@ -407,44 +407,9 @@ with open(os.path.join(DIST_DIR, "offers.html"), "w", encoding="utf-8") as f:
     f.write(offers_content)
 print("9. offers.html")
 
-# 10. REGISTER
-register_content = head_html("नोंदणी करा", "Register") + nav_html("register") + """
-<div class="container my-5" style="max-width:680px;">
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-        <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
-            <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
-            <h4 class="fw-bold mb-1">👨‍🌾 नवीन शेतकरी नोंदणी</h4>
-            <small class="text-white-50">सप्तशृंगी ॲग्रो सर्व्हिसेस - खाते तयार करा</small>
-        </div>
-        <div class="card-body p-4">
-            <form id="regForm" onsubmit="handleReg(event)">
-                <div class="row g-3">
-                    <div class="col-md-6"><label class="form-label small fw-bold text-success">पूर्ण नाव *</label><input type="text" id="rName" class="form-control" required placeholder="उदा. रमेश पाटील"></div>
-                    <div class="col-md-6"><label class="form-label small fw-bold text-success">मोबाईल नंबर *</label><input type="tel" id="rPhone" class="form-control" required maxlength="10" placeholder="१० अंकी नंबर"></div>
-                    <div class="col-md-6"><label class="form-label small fw-bold text-success">गाव *</label><input type="text" id="rVillage" class="form-control" required placeholder="उदा. मिरखनगर"></div>
-                    <div class="col-md-6"><label class="form-label small fw-bold text-success">तालुका *</label><input type="text" id="rTaluka" class="form-control" required placeholder="उदा. वैजापूर"></div>
-                    <div class="col-12"><label class="form-label small fw-bold text-success">पासवर्ड *</label><input type="password" id="rPass" class="form-control" required placeholder="••••••••"></div>
-                </div>
-                <button type="submit" class="btn btn-krushi w-100 py-2 rounded-pill fw-bold shadow-sm mt-4">नोंदणी पूर्ण करा</button>
-                <div id="regSuccess" class="alert alert-success mt-3 d-none text-center">नोंदणी यशस्वी! लॉगिन केले जात आहे...</div>
-            </form>
-            <div class="text-center pt-3 border-top mt-3 small"><a href="login.html" class="text-success fw-bold text-decoration-none">आधीच खाते आहे? लॉगिन करा</a></div>
-        </div>
-    </div>
-</div>
-<script>
-function handleReg(e) {
-    e.preventDefault();
-    const name = document.getElementById('rName').value;
-    localStorage.setItem('user_role', 'farmer');
-    localStorage.setItem('user_name', name || 'शेतकरी');
-    document.getElementById('regSuccess').classList.remove('d-none');
-    setTimeout(() => { window.location.href = 'farmer-dashboard.html'; }, 800);
-}
-</script>
-""" + foot_html()
-with open(os.path.join(DIST_DIR, "register.html"), "w", encoding="utf-8") as f:
-    f.write(register_content)
+# 10. REGISTER (Full bilingual + proper registration without direct auto-login)
+from build_register_page import build_register_page
+build_register_page()
 print("10. register.html")
 
 # 11. FORGOT PASSWORD
