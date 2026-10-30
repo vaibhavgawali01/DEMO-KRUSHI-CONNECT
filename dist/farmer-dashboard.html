@@ -174,7 +174,7 @@
 <div class="container my-4" style="max-width:1240px;">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>
-            <h1 class="h3 fw-bold m-0 text-success">नमस्ते, रमेश पाटील 🌾</h1>
+            <h1 class="h3 fw-bold m-0 text-success"><span class="lang-mr">नमस्ते, </span><span class="lang-en">Welcome, </span><span id="farmerDisplayGreet">रमेश पाटील</span> 🌾</h1>
             <p class="text-muted small m-0 mt-1">सप्तशृंगी ॲग्रो ग्राहक खाते • वैजापूर, संभाजीनगर</p>
         </div>
         <div class="d-flex gap-2">
@@ -377,6 +377,11 @@
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
             checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
         });
     </script>
 </footer>

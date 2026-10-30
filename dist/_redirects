@@ -11,4 +11,6 @@
 /offers /offers.html 200
 /admin/dashboard /admin-dashboard.html 200
 /admin /admin-dashboard.html 200
+/admin-dashboard /admin-dashboard.html 200
 /farmer/dashboard /farmer-dashboard.html 200
+/farmer-dashboard /farmer-dashboard.html 200

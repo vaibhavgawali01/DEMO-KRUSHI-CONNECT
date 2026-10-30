@@ -395,6 +395,11 @@ document.addEventListener('DOMContentLoaded', calculateFertilizer);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
             checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
         });
     </script>
 </footer>

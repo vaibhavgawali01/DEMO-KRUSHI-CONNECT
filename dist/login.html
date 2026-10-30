@@ -180,24 +180,34 @@
                 <span class="lang-en">Staff & Admin Portal</span>
             </h4>
             <small class="text-white-50">
-                <span class="lang-mr">प्रशासकीय व शेतकरी लॉगिन</span>
-                <span class="lang-en">Administrative Access</span>
+                <span class="lang-mr">शेतकरी व ॲडमिन सुरक्षित लॉगिन</span>
+                <span class="lang-en">Farmer & Staff Portal Access</span>
             </small>
         </div>
         <div class="card-body p-4">
-            <form id="loginForm" method="GET" action="admin-dashboard.html" onsubmit="return handleLogin(event)">
+            <!-- Role Selector Pills -->
+            <div class="d-flex p-1 bg-light rounded-pill mb-4 border shadow-sm">
+                <button type="button" id="tabFarmer" class="btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm" onclick="switchLoginRole('farmer')">
+                    🌾 <span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Farmer</span>
+                </button>
+                <button type="button" id="tabAdmin" class="btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark" onclick="switchLoginRole('admin')">
+                    🛡️ <span class="lang-mr">ॲडमिन पॅनल</span><span class="lang-en">Admin Panel</span>
+                </button>
+            </div>
+
+            <form id="loginForm" method="GET" action="farmer-dashboard.html" onsubmit="return handleLogin(event)">
+                <input type="hidden" id="loginRole" value="farmer">
+
                 <div class="mb-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        <span class="lang-mr">वापरकर्ता नाव / ईमेल / मोबाईल नंबर *</span>
-                        <span class="lang-en">Username</span>
+                    <label id="lblUsername" class="form-label small fw-bold text-success text-uppercase">
+                        <span class="lang-mr">शेतकरी नाव किंवा मोबाईल नंबर *</span>
+                        <span class="lang-en">Farmer Name or Mobile *</span>
                     </label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
                         <input type="text" id="username" class="form-control" required autofocus
-                               value="admin@krushiseva.com"
-                               data-placeholder-mr="उदा. admin@krushiseva.com"
-                               data-placeholder-en="admin@krushiseva.com"
-                               placeholder="admin@krushiseva.com">
+                               value="रमेश पाटील (९८२३४५६७८९)"
+                               placeholder="उदा. रमेश पाटील किंवा ९८२३४५६७८९">
                     </div>
                 </div>
 
@@ -208,7 +218,7 @@
                     </label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
-                        <input type="password" id="password" class="form-control" required value="admin123"
+                        <input type="password" id="password" class="form-control" required value="farmer123"
                                placeholder="••••••••">
                         <button class="btn btn-outline-secondary" type="button" onclick="togglePass('password', 'eyeIcon')">
                             <i class="bi bi-eye" id="eyeIcon"></i>
@@ -230,30 +240,45 @@
                     </a>
                 </div>
 
-                <div class="d-grid gap-2 mb-3">
-                    <button type="submit" id="btnSubmitLogin" class="btn btn-krushi fw-bold py-2 rounded-pill shadow-sm">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>
-                        <span class="lang-mr">लॉगिन करा</span>
-                        <span class="lang-en">Sign In</span>
-                    </button>
-                    <a href="admin-dashboard.html" onclick="localStorage.setItem('user_role','admin');localStorage.setItem('user_name','Admin');" class="btn btn-outline-success fw-bold py-2 rounded-pill shadow-sm small text-center">
-                        <i class="bi bi-shield-lock-fill me-1"></i>
-                        <span class="lang-mr">थेट ॲडमिन पॅनल उघडा (Quick Admin Panel)</span>
-                        <span class="lang-en">Open Admin Panel (Direct)</span>
-                    </a>
-                </div>
+                <button type="submit" id="btnSubmitLogin" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm mb-3">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    <span id="btnSubmitText">
+                        <span class="lang-mr">शेतकरी खात्यात प्रवेश करा</span>
+                        <span class="lang-en">Sign In to Farmer Dashboard</span>
+                    </span>
+                </button>
 
                 <div id="loginSuccessBox" class="alert alert-success small d-none text-center py-2">
                     <i class="bi bi-check-circle-fill me-1"></i>
-                    <span id="loginSuccessText">लॉगिन यशस्वी! ॲडमिन डॅशबोर्ड उघडत आहे...</span>
+                    <span id="loginSuccessText">लॉगिन यशस्वी! डॅशबोर्ड उघडत आहे...</span>
                     <div class="mt-2">
-                        <a id="directDashboardBtn" href="admin-dashboard.html" class="btn btn-sm btn-success text-white px-3 py-1 fw-bold rounded-pill">
-                            <span class="lang-mr">येथे क्लिक करा (ॲडमिन पॅनल) &rarr;</span>
-                            <span class="lang-en">Click here (Admin Panel) &rarr;</span>
+                        <a id="directDashboardBtn" href="farmer-dashboard.html" class="btn btn-sm btn-success text-white px-3 py-1 fw-bold rounded-pill">
+                            <span class="lang-mr">येथे क्लिक करा &rarr;</span>
+                            <span class="lang-en">Click here &rarr;</span>
                         </a>
                     </div>
                 </div>
             </form>
+
+            <!-- 1-Click Direct Demo Access Buttons -->
+            <div class="border-top pt-3 mt-3">
+                <div class="text-center mb-2">
+                    <span class="badge bg-light text-dark border px-3 py-1 rounded-pill small fw-semibold">
+                        ⚡ <span class="lang-mr">थेट १-क्लिक प्रवेश (Quick Direct Access)</span>
+                        <span class="lang-en">1-Click Direct Access</span>
+                    </span>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="farmer-dashboard.html" onclick="quickLoginFarmer()" class="btn btn-outline-success fw-bold py-2 rounded-pill shadow-sm small text-center">
+                        🌾 <span class="lang-mr">थेट शेतकरी डॅशबोर्ड उघडा (Farmer Dashboard)</span>
+                        <span class="lang-en">Open Farmer Dashboard Directly</span>
+                    </a>
+                    <a href="admin-dashboard.html" onclick="quickLoginAdmin()" class="btn btn-outline-dark fw-bold py-2 rounded-pill shadow-sm small text-center">
+                        🛡️ <span class="lang-mr">थेट ॲडमिन पॅनल उघडा (Admin Panel)</span>
+                        <span class="lang-en">Open Admin Panel Directly</span>
+                    </a>
+                </div>
+            </div>
 
             <div class="text-center pt-3 border-top mt-3 small">
                 <span class="text-muted"><span class="lang-mr">नवीन शेतकरी?</span><span class="lang-en">New farmer?</span></span>
@@ -271,6 +296,47 @@
 </div>
 
 <script>
+function switchLoginRole(role) {
+    const tabF = document.getElementById('tabFarmer');
+    const tabA = document.getElementById('tabAdmin');
+    const roleInput = document.getElementById('loginRole');
+    const form = document.getElementById('loginForm');
+    const uInput = document.getElementById('username');
+    const pInput = document.getElementById('password');
+    const lbl = document.getElementById('lblUsername');
+    const btnText = document.getElementById('btnSubmitText');
+
+    roleInput.value = role;
+
+    if (role === 'admin') {
+        tabA.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm';
+        tabF.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark';
+        form.action = 'admin-dashboard.html';
+        uInput.value = 'admin@krushiseva.com';
+        pInput.value = 'admin123';
+        lbl.innerHTML = '<span class="lang-mr">ॲडमिन वापरकर्ता नाव / ईमेल *</span><span class="lang-en">Admin Username / Email *</span>';
+        btnText.innerHTML = '<span class="lang-mr">ॲडमिन पॅनलमध्ये प्रवेश करा</span><span class="lang-en">Sign In to Admin Panel</span>';
+    } else {
+        tabF.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm';
+        tabA.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark';
+        form.action = 'farmer-dashboard.html';
+        uInput.value = 'रमेश पाटील (९८२३४५६७८९)';
+        pInput.value = 'farmer123';
+        lbl.innerHTML = '<span class="lang-mr">शेतकरी नाव किंवा मोबाईल नंबर *</span><span class="lang-en">Farmer Name or Mobile *</span>';
+        btnText.innerHTML = '<span class="lang-mr">शेतकरी खात्यात प्रवेश करा</span><span class="lang-en">Sign In to Farmer Dashboard</span>';
+    }
+}
+
+function quickLoginFarmer() {
+    localStorage.setItem('user_role', 'farmer');
+    localStorage.setItem('user_name', 'रमेश पाटील');
+}
+
+function quickLoginAdmin() {
+    localStorage.setItem('user_role', 'admin');
+    localStorage.setItem('user_name', 'Admin');
+}
+
 function togglePass(inputId, iconId) {
     const input = document.getElementById(inputId);
     const icon = document.getElementById(iconId);
@@ -285,6 +351,7 @@ function togglePass(inputId, iconId) {
 
 function handleLogin(e) {
     if (e && e.preventDefault) e.preventDefault();
+    const roleInput = document.getElementById('loginRole');
     const uInput = document.getElementById('username');
     const u = (uInput ? uInput.value : '').trim().toLowerCase();
     const alertBox = document.getElementById('loginSuccessBox');
@@ -297,7 +364,8 @@ function handleLogin(e) {
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Signing in...';
     }
 
-    const isAdmin = (u.includes('admin') || u === 'admin@krushiseva.com' || u === 'staff' || u === 'owner' || u === '');
+    const currentTabRole = roleInput ? roleInput.value : 'farmer';
+    const isAdmin = (currentTabRole === 'admin' || u.includes('admin') || u === 'admin@krushiseva.com' || u === 'staff' || u === 'owner');
     const target = isAdmin ? 'admin-dashboard.html' : 'farmer-dashboard.html';
 
     if (isAdmin) {
@@ -312,7 +380,8 @@ function handleLogin(e) {
         }
     } else {
         localStorage.setItem('user_role', 'farmer');
-        localStorage.setItem('user_name', (uInput ? uInput.value : '') || 'रमेश पाटील');
+        var displayUName = (uInput ? uInput.value : '').replace(/\s*\(.*\)/, '').trim() || 'रमेश पाटील';
+        localStorage.setItem('user_name', displayUName);
         if (textSpan) {
             textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! शेतकरी डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Farmer Dashboard...</span>';
         }
@@ -328,7 +397,7 @@ function handleLogin(e) {
 
     setTimeout(() => {
         window.location.replace(target);
-    }, 250);
+    }, 200);
 
     return false;
 }
@@ -487,6 +556,11 @@ function handleLogin(e) {
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
             checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
         });
     </script>
 </footer>
