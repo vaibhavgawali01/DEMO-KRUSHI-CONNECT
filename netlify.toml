@@ -72,6 +72,46 @@
   status = 200
 
 [[redirects]]
+  from = "/admin/products"
+  to = "/admin-products.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-products"
+  to = "/admin-products.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/products/add"
+  to = "/admin-product-form.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-product-form"
+  to = "/admin-product-form.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/udhari"
+  to = "/admin-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-udhari"
+  to = "/admin-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/inventory"
+  to = "/admin-inventory.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-inventory"
+  to = "/admin-inventory.html"
+  status = 200
+
+[[redirects]]
   from = "/farmer/dashboard"
   to = "/farmer-dashboard.html"
   status = 200

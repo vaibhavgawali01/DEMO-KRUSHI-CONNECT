@@ -163,6 +163,17 @@
                                             <i class="ti ti-edit"></i> बदला
                                         </button>
 
+                                        <!-- Mark as Paid Direct Option -->
+                                        <form th:if="${u.remainingAmount > 0}" th:action="@{/admin/udhari/record-payment}" method="POST" class="d-inline" onsubmit="return confirm('पूर्ण रक्कम (₹' + [[${u.remainingAmount}]] + ') जमा करून उधारी खाते पूर्ण भरले म्हणून चिन्हांकित करायचे आहे का?');">
+                                            <input type="hidden" name="udhariId" th:value="${u.id}">
+                                            <input type="hidden" name="amount" th:value="${u.remainingAmount}">
+                                            <input type="hidden" name="paymentMethod" value="CASH">
+                                            <input type="hidden" name="notes" value="पूर्ण भरली - Mark as Paid">
+                                            <button type="submit" class="btn btn-sm btn-outline-success d-flex align-items-center gap-1 px-2 py-1 shadow-sm" style="font-size: 11px;" title="Mark as Paid (पूर्ण भरली)">
+                                                <i class="ti ti-check-double"></i> Mark Paid
+                                            </button>
+                                        </form>
+
                                         <!-- Record Payment Button -->
                                         <button type="button" class="btn btn-sm btn-success d-flex align-items-center gap-1 px-2 py-1 text-white shadow-sm" style="background-color: #16a34a; border: none; font-size: 11px;" title="रक्कम जमा करा (Collect Payment)"
                                                 th:disabled="${u.remainingAmount <= 0}"

@@ -28,8 +28,8 @@
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
                         <a th:href="@{/admin/products/add}" class="btn btn-light fw-bold text-success px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2">
-                            <i class="bi bi-plus-circle-fill fs-5"></i>
-                            <span th:text="${#locale.language == 'mr' ? 'नवीन उत्पादन जोडा' : 'Add Product'}">Add Product</span>
+                            <span>➕</span>
+                            <span th:text="${#locale.language == 'mr' ? 'Add Product (नवीन उत्पादन)' : 'Add Product'}">➕ Add Product</span>
                         </a>
                         <a th:href="@{/admin/reports}" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-3 d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-bar-graph"></i>
@@ -48,9 +48,9 @@
                         ⚠️
                     </div>
                     <div>
-                        <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'कमी साठा चेतावणी' : 'Low Stock Alert'}">कमी साठा चेतावणी</h6>
-                        <small class="text-muted" th:if="${#locale.language == 'mr'}"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा संपत आला आहे. त्वरित रिस्टॉक करा.</small>
-                        <small class="text-muted" th:if="${#locale.language != 'mr'}"><strong th:text="${lowStockCount}">0</strong> products are running low in stock. Please reorder.</small>
+                        <h6 class="fw-bold mb-0 text-dark" th:text="${#locale.language == 'mr' ? 'कमी साठा चेतावणी (Low Stock Alerts)' : 'Low Stock Alerts'}">Low Stock Alerts</h6>
+                        <small class="text-muted" th:if="${#locale.language == 'mr'}"><strong th:text="${lowStockCount}">0</strong> उत्पादनांचा साठा किमान मर्यादेपेक्षा कमी झाला आहे. त्वरित रिस्टॉक करा.</small>
+                        <small class="text-muted" th:if="${#locale.language != 'mr'}"><strong th:text="${lowStockCount}">0</strong> products are running below minimum safety threshold. Please reorder.</small>
                     </div>
                 </div>
                 <a th:href="@{/admin/inventory}" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill" th:text="${#locale.language == 'mr' ? 'इन्व्हेंटरी तपासा &rarr;' : 'Check Inventory &rarr;'}">
@@ -58,51 +58,32 @@
                 </a>
             </div>
 
-            <!-- Key Performance Metrics (6 Cards Grid) -->
+            <!-- 4 Main Stats Cards: Total Products, Total Users, Udhari Outstanding, Monthly Revenue -->
             <div class="row g-3 mb-4">
 
-                <!-- 1. Total Sales -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <div class="admin-kpi-card">
+                <!-- 1. Total Products -->
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/admin/products}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण विक्री' : 'Total Sales'}">एकूण विक्री</span>
-                            <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
-                                <i class="bi bi-graph-up-arrow"></i>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण उत्पादने (Total Products)' : 'Total Products'}">Total Products</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #dbeafe; color: #0284c7;">
+                                <i class="bi bi-box-seam-fill"></i>
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val" th:text="'₹' + ${totalSales != null ? #numbers.formatDecimal(totalSales, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
-                                <i class="bi bi-arrow-up-short"></i> <span th:text="${#locale.language == 'mr' ? 'चालू वर्ष' : 'Active Year'}">Active Year</span>
+                            <div class="admin-kpi-val" th:text="${totalProducts != null ? totalProducts : '0'}">0</div>
+                            <span class="admin-kpi-badge" style="background: #eff6ff; color: #0284c7;">
+                                <i class="bi bi-boxes"></i> <span th:text="${#locale.language == 'mr' ? 'कॅटलॉग यादी' : 'In Catalog'}">In Catalog</span>
                             </span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
-                <!-- 2. Total Orders -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <div class="admin-kpi-card">
+                <!-- 2. Total Users -->
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/admin/customers}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण ऑर्डर्स' : 'Total Orders'}">एकूण ऑर्डर्स</span>
-                            <div class="admin-kpi-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
-                                <i class="bi bi-bag-check-fill"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="admin-kpi-val" th:text="${totalOrders != null ? totalOrders : '0'}">0</div>
-                            <span class="admin-kpi-badge" style="background: #f0f9ff; color: #0284c7;" th:text="${#locale.language == 'mr' ? 'दुकानातील पावत्या' : 'Store Invoices'}">
-                                Store Invoices
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. Customers / Farmers -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <a th:href="@{/admin/customers}" class="admin-kpi-card admin-kpi-card-link text-decoration-none text-reset"
-                       th:attr="aria-label=${#locale.language == 'mr' ? 'ग्राहक यादी आणि लॉगिन इतिहास उघडा' : 'Open customer directory and login history'}">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'शेतकरी ग्राहक' : 'Farmer Customers'}">शेतकरी ग्राहक</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'एकूण युझर्स (Total Users)' : 'Total Users'}">Total Users</span>
                             <div class="admin-kpi-icon-wrap" style="background: #f3e8ff; color: #7c3aed;">
                                 <i class="bi bi-people-fill"></i>
                             </div>
@@ -110,34 +91,49 @@
                         <div>
                             <div class="admin-kpi-val" th:text="${totalCustomers != null ? totalCustomers : '0'}">0</div>
                             <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
-                                <span th:text="${#locale.language == 'mr' ? 'ग्राहक व्यवस्थापन' : 'Manage Customers'}">Manage Customers</span>
-                                <i class="bi bi-arrow-up-right ms-1"></i>
+                                <i class="bi bi-person-check-fill"></i> <span th:text="${#locale.language == 'mr' ? 'नोंदणीकृत शेतकरी' : 'Registered Farmers'}">Registered Farmers</span>
                             </span>
                         </div>
                     </a>
                 </div>
 
-                <!-- 4. Pending Udhari -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <div class="admin-kpi-card">
+                <!-- 3. Udhari Outstanding -->
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/admin/udhari}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
-                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'बाकी उधारी' : 'Outstanding Credit'}">बाकी उधारी</span>
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'बाकी उधारी (Udhari Outstanding)' : 'Udhari Outstanding'}">Udhari Outstanding</span>
                             <div class="admin-kpi-icon-wrap" style="background: #fee2e2; color: #dc2626;">
                                 <i class="bi bi-wallet-fill"></i>
                             </div>
                         </div>
                         <div>
                             <div class="admin-kpi-val" style="color: #dc2626;" th:text="'₹' + ${totalRemainingUdhari != null ? #numbers.formatDecimal(totalRemainingUdhari, 0, 'COMMA', 0, 'POINT') : '0'}">₹0</div>
-                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="${#locale.language == 'mr' ? (overdueCount != null ? overdueCount : 0) + ' मुदत संपलेली' : (overdueCount != null ? overdueCount : 0) + ' Overdue'}">
+                            <span class="admin-kpi-badge" style="background: #fef2f2; color: #dc2626;" th:text="${#locale.language == 'mr' ? (overdueCount != null ? overdueCount : 0) + ' मुदत संपलेली खाती' : (overdueCount != null ? overdueCount : 0) + ' Overdue'}">
                                 0 Overdue
                             </span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
-                <!-- 5. Low Stock Alert -->
-                <div class="col-sm-6 col-md-4 col-xl-2">
-                    <div class="admin-kpi-card">
+                <!-- 4. Monthly Revenue -->
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/admin/reports}" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'मासिक महसूल (Monthly Revenue)' : 'Monthly Revenue'}">Monthly Revenue</span>
+                            <div class="admin-kpi-icon-wrap" style="background: #dcfce7; color: #16a34a;">
+                                <i class="bi bi-cash-stack"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="admin-kpi-val text-success" th:text="'₹' + ${monthlySales != null ? #numbers.formatDecimal(monthlySales, 0, 'COMMA', 0, 'POINT') : (#numbers.formatDecimal(totalSales != null ? totalSales : 0, 0, 'COMMA', 0, 'POINT'))}">₹0</div>
+                            <span class="admin-kpi-badge" style="background: #f0fdf4; color: #16a34a;">
+                                <i class="bi bi-graph-up-arrow"></i> <span th:text="${#locale.language == 'mr' ? 'चालू महिना विक्री' : 'Current Month'}">Current Month</span>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
                         <div class="d-flex justify-content-between align-items-start">
                             <span class="admin-kpi-label" th:text="${#locale.language == 'mr' ? 'कमी साठा' : 'Low Stock'}">कमी साठा</span>
                             <div class="admin-kpi-icon-wrap" style="background: #fef3c7; color: #d97706;">
