@@ -439,6 +439,9 @@ from build_admin_and_login import (
     build_admin_categories,
     build_admin_customers,
     build_admin_reviews,
+    build_admin_reports,
+    build_admin_backup,
+    build_admin_settings,
 )
 
 build_login_page()
@@ -452,6 +455,9 @@ build_admin_inventory()
 build_admin_categories()
 build_admin_customers()
 build_admin_reviews()
+build_admin_reports()
+build_admin_backup()
+build_admin_settings()
 print("13. admin-dashboard.html and admin portal pages")
 
 # 14. FARMER & USER PANEL PAGES (Matching Screenshot 1 & 2)
@@ -487,6 +493,14 @@ redirects_content = """/products /products.html 200
 /admin-udhari /admin-udhari.html 200
 /admin/customers /admin-customers.html 200
 /admin-customers /admin-customers.html 200
+/admin/reviews /admin-reviews.html 200
+/admin-reviews /admin-reviews.html 200
+/admin/reports /admin-reports.html 200
+/admin-reports /admin-reports.html 200
+/admin/backup /admin-backup.html 200
+/admin-backup /admin-backup.html 200
+/admin/settings /admin-settings.html 200
+/admin-settings /admin-settings.html 200
 /farmer/dashboard /farmer-dashboard.html 200
 /farmer-dashboard /farmer-dashboard.html 200
 /farmer/cart /cart.html 200

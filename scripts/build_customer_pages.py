@@ -336,10 +336,10 @@ def build_farmer_dashboard():
             </div>
         </div>
 
-        <!-- 2. Quick Stats: 3 KPI Cards (Screenshot 2) -->
+        <!-- 2. Quick Stats: 2 KPI Cards (User Request: Removed AVAILABLE CREDIT LIMIT) -->
         <div class="row g-3 mb-4">
             <!-- 1. PENDING DUE -->
-            <div class="col-sm-6 col-lg-4">
+            <div class="col-sm-6">
                 <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #ea580c !important;">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <p class="m-0 text-muted fw-semibold text-uppercase small" style="font-size: 12px; letter-spacing: 0.5px;">
@@ -356,26 +356,8 @@ def build_farmer_dashboard():
                 </div>
             </div>
 
-            <!-- 2. AVAILABLE CREDIT LIMIT -->
-            <div class="col-sm-6 col-lg-4">
-                <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #16a34a !important;">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <p class="m-0 text-muted fw-semibold text-uppercase small" style="font-size: 12px; letter-spacing: 0.5px;">
-                            <span class="lang-mr">उपलब्ध उधारी मर्यादा</span>
-                            <span class="lang-en">AVAILABLE CREDIT LIMIT</span>
-                        </p>
-                        <i class="bi bi-credit-card text-success fs-5"></i>
-                    </div>
-                    <p class="h3 fw-bold m-0 text-success">₹15,000</p>
-                    <p class="m-0 mt-2 text-muted small" style="font-size: 12px;">
-                        <span class="lang-mr">एकूण मर्यादा: ₹15,000</span>
-                        <span class="lang-en">Total Limit: ₹15,000</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- 3. TOTAL PURCHASES -->
-            <div class="col-sm-6 col-lg-4">
+            <!-- 2. TOTAL PURCHASES -->
+            <div class="col-sm-6">
                 <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #0284c7 !important;">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <p class="m-0 text-muted fw-semibold text-uppercase small" style="font-size: 12px; letter-spacing: 0.5px;">
@@ -1385,9 +1367,8 @@ def build_farmer_udhari():
                         <h1 class="display-5 fw-bold m-0" style="color:#059669; font-weight:800;">₹0.00</h1>
                         <span class="fs-6 fw-semibold text-muted">चालू बाकी उधारी रक्कम (Current Outstanding Due)</span>
                         <div class="d-flex flex-wrap gap-2 mt-3">
-                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">एकूण मर्यादा (Credit Limit):</span><strong>₹15,000.00</strong></div>
-                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">उपलब्ध मर्यादा (Available):</span><strong class="text-success">₹15,000.00</strong></div>
-                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">बाकी रक्कम (Due):</span><strong class="text-success">₹0.00</strong></div>
+                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">खाते स्थिती (Account Status):</span><strong class="text-success">सक्रिय / Active</strong></div>
+                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">चालू बाकी (Due):</span><strong class="text-success">₹0.00</strong></div>
                         </div>
                     </div>
                     <div class="col-md-5 text-md-end">

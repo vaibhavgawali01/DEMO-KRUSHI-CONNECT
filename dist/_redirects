@@ -25,6 +25,14 @@
 /admin-udhari /admin-udhari.html 200
 /admin/customers /admin-customers.html 200
 /admin-customers /admin-customers.html 200
+/admin/reviews /admin-reviews.html 200
+/admin-reviews /admin-reviews.html 200
+/admin/reports /admin-reports.html 200
+/admin-reports /admin-reports.html 200
+/admin/backup /admin-backup.html 200
+/admin-backup /admin-backup.html 200
+/admin/settings /admin-settings.html 200
+/admin-settings /admin-settings.html 200
 /farmer/dashboard /farmer-dashboard.html 200
 /farmer-dashboard /farmer-dashboard.html 200
 /farmer/cart /cart.html 200
