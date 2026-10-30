@@ -64,6 +64,11 @@ def render_admin_sidebar(active_tab="dashboard"):
             <i class="bi bi-people-fill"></i>
             <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
         </a>
+        <a href="admin-reviews.html" class="admin-nav-link {'active' if active_tab == 'reviews' else ''}">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span><span class="lang-mr">शेतकरी रिव्ह्यू व्यवस्थापन</span><span class="lang-en">Manage Reviews</span></span>
+            <span class="badge bg-success ms-auto" style="font-size:0.65rem;">New</span>
+        </a>
         <a href="admin-udhari.html" class="admin-nav-link {'active' if active_tab == 'udhari' else ''}">
             <i class="bi bi-wallet2 text-warning"></i>
             <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
@@ -1623,6 +1628,312 @@ def build_admin_customers():
     save_admin_page("admin-customers.html", content)
     print("Generated dist/admin-customers.html")
 
+
+# ==============================================================================
+# 9. ADMIN REVIEWS MANAGEMENT (Manage & Delete Farmer Reviews)
+# ==============================================================================
+def build_admin_reviews():
+    sidebar = render_admin_sidebar("reviews")
+    content = head_html("शेतकरी रिव्ह्यू व्यवस्थापन", "Manage Farmer Reviews") + nav_html("dashboard") + f"""
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            {sidebar}
+        </div>
+
+        <div class="col-lg-9 col-xl-10">
+            <!-- Header Banner -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div>
+                        <h4 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <span class="lang-mr">शेतकरी अभिप्राय व रेटिंग्ज व्यवस्थापन</span>
+                            <span class="lang-en">Manage Farmer Reviews & Ratings</span>
+                        </h4>
+                        <p class="text-muted small mb-0">
+                            <span class="lang-mr">शेतकऱ्यांनी दिलेले अभिप्राय तपासा, रेटिंग्स पाहा आणि अवांछित रिव्ह्यू हटवा (Delete Reviews).</span>
+                            <span class="lang-en">Review customer feedback, monitor ratings, and delete inappropriate entries.</span>
+                        </p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success btn-sm rounded-pill px-3" onclick="resetDefaultReviews()">
+                            <i class="bi bi-arrow-clockwise me-1"></i>
+                            <span class="lang-mr">डिफॉल्ट रिव्ह्यू रीसेट करा</span>
+                            <span class="lang-en">Reset Defaults</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-warning h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">Average Rating</small>
+                            <i class="bi bi-star-fill text-warning fs-5"></i>
+                        </div>
+                        <h3 class="fw-bold text-warning mb-0" id="adminAvgRating">4.9 / 5.0</h3>
+                        <small class="text-muted" style="font-size:11px;">Overall Customer Score</small>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-success h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">Total Reviews</small>
+                            <i class="bi bi-chat-heart-fill text-success fs-5"></i>
+                        </div>
+                        <h3 class="fw-bold text-success mb-0" id="adminTotalReviews">5</h3>
+                        <small class="text-muted" style="font-size:11px;">Active Published Reviews</small>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-primary h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">5-Star Ratings</small>
+                            <i class="bi bi-hand-thumbs-up-fill text-primary fs-5"></i>
+                        </div>
+                        <h3 class="fw-bold text-primary mb-0" id="adminFiveStarCount">96%</h3>
+                        <small class="text-muted" style="font-size:11px;">Satisfied Farmers</small>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-info h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">Verified Buyers</small>
+                            <i class="bi bi-patch-check-fill text-info fs-5"></i>
+                        </div>
+                        <h3 class="fw-bold text-info mb-0">100%</h3>
+                        <small class="text-muted" style="font-size:11px;">Registered Customers</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Box -->
+            <div id="adminReviewAlert" class="alert alert-success d-none py-2 mb-3">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span id="adminReviewAlertText">रिव्ह्यू यशस्वीरित्या हटवण्यात आला आहे.</span>
+            </div>
+
+            <!-- Reviews Table Card -->
+            <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-chat-quote-fill text-success"></i>
+                        <span>Farmer Reviews List (<span id="tableReviewCount">5</span>)</span>
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <input type="text" id="reviewSearchInput" class="form-control form-control-sm rounded-pill px-3" placeholder="Search farmer or product..." oninput="filterReviewsTable()">
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">#</th>
+                                    <th>FARMER NAME & LOCATION</th>
+                                    <th>RATING</th>
+                                    <th>PRODUCT / CONTEXT</th>
+                                    <th style="min-width:250px;">FEEDBACK COMMENT</th>
+                                    <th>DATE</th>
+                                    <th class="text-end pe-4">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminReviewsTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const DEFAULT_REVIEWS = [
+    {{
+        id: 1,
+        name: "रामेश्वर पाटील",
+        village: "वैजापूर, छत्रपती संभाजीनगर",
+        product: "महाबीज गहू बियाणे (लोक-१)",
+        rating: 5,
+        date: "26 Oct 2026",
+        comment: "सप्तशृंगी ॲग्रो कडून घेतलेले गहू बियाणे १००% उगवून आले. दर्जेदार बियाणे आणि रास्त भाव. दुकानदार योग्य सल्ला देतात.",
+        verified: true
+    }},
+    {{
+        id: 2,
+        name: "सचिन गायकवाड",
+        village: "कोपरगाव, अहिल्यानगर",
+        product: "IFFCO NPK 19:19:19 खत",
+        rating: 5,
+        date: "20 Oct 2026",
+        comment: "विद्राव्य खताचा रिझल्ट अतिशय चांगला आला. कांद्याची पात हिरवीगार झाली. वेळेवर माल मिळाला.",
+        verified: true
+    }},
+    {{
+        id: 3,
+        name: "बाळासाहेब थोरात",
+        village: "येवला, नाशिक",
+        product: "ठिबक सिंचन फिल्टर व लॅटरल",
+        rating: 5,
+        date: "15 Oct 2026",
+        comment: "ठिबकचे साहित्य योग्य किमतीत मिळाले. फिटिंगसाठी योग्य मार्गदर्शन केले. अतिशय प्रामाणिक सेवा.",
+        verified: true
+    }},
+    {{
+        id: 4,
+        name: "ज्ञानेश्वर शिंदे",
+        village: "धोंदलगाव, वैजापूर",
+        product: "बॅटरी स्प्रेअर पंप (१६ लिटर)",
+        rating: 4,
+        date: "10 Oct 2026",
+        comment: "बॅटरी पंप चांगला चालतो. एकदा चार्ज केल्यावर १५-२० टाक्या फवारणी होते. वॉरंटी पण दिली.",
+        verified: true
+    }},
+    {{
+        id: 5,
+        name: "संजय कदम",
+        village: "मिरखनगर, वैजापूर",
+        product: "सेंद्रिय निंबोळी पेंड व खत",
+        rating: 5,
+        date: "04 Oct 2026",
+        comment: "सेंद्रिय उत्पादने अस्सल आहेत. रासायनिक खतांचा खर्च कमी झाला. आमचे हक्काचे कृषी सेवा केंद्र!",
+        verified: true
+    }}
+];
+
+function getStoredReviews() {{
+    const raw = localStorage.getItem('ksk_farmer_reviews');
+    if (!raw) {{
+        localStorage.setItem('ksk_farmer_reviews', JSON.stringify(DEFAULT_REVIEWS));
+        return DEFAULT_REVIEWS;
+    }}
+    try {{
+        return JSON.parse(raw);
+    }} catch(e) {{
+        return DEFAULT_REVIEWS;
+    }}
+}}
+
+function renderAdminReviews() {{
+    const reviews = getStoredReviews();
+    const tbody = document.getElementById('adminReviewsTableBody');
+    const countEl = document.getElementById('tableReviewCount');
+    const totalEl = document.getElementById('adminTotalReviews');
+    const avgEl = document.getElementById('adminAvgRating');
+
+    if (countEl) countEl.textContent = reviews.length;
+    if (totalEl) totalEl.textContent = reviews.length;
+
+    if (reviews.length > 0 && avgEl) {{
+        const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+        avgEl.textContent = (sum / reviews.length).toFixed(1) + ' / 5.0';
+    }}
+
+    if (!tbody) return;
+
+    if (reviews.length === 0) {{
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5 text-muted">
+                    <i class="bi bi-chat-square-text fs-1 d-block mb-2 text-secondary opacity-50"></i>
+                    <p class="mb-0 fw-bold">कोणतेही रिव्ह्यू उपलब्ध नाहीत / No reviews found</p>
+                    <small>शेतकऱ्यांनी सबमिट केलेले रिव्ह्यू येथे दिसतील.</small>
+                </td>
+            </tr>
+        `;
+        return;
+    }}
+
+    tbody.innerHTML = reviews.map((r, idx) => {{
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {{
+            if (i <= r.rating) {{
+                starsHtml += '<i class="bi bi-star-fill text-warning"></i>';
+            }} else {{
+                starsHtml += '<i class="bi bi-star text-muted"></i>';
+            }}
+        }}
+
+        return `
+            <tr id="reviewRow_${{r.id}}">
+                <td class="ps-4 fw-bold text-muted">${{idx + 1}}</td>
+                <td>
+                    <strong class="text-dark d-block">${{r.name}}</strong>
+                    <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>${{r.village || 'मिरखनगर'}}</small>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center gap-1">${{starsHtml}}</div>
+                    <small class="fw-bold text-warning">${{r.rating}}.0</small>
+                </td>
+                <td>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">${{r.product || 'कृषी सेवा'}}</span>
+                </td>
+                <td>
+                    <p class="small text-dark mb-0" style="max-width:320px; line-height:1.45;">"${{r.comment}}"</p>
+                </td>
+                <td class="small text-muted">${{r.date || 'Recent'}}</td>
+                <td class="text-end pe-4">
+                    <button type="button" class="btn btn-sm btn-outline-danger px-2 py-1 d-inline-flex align-items-center gap-1" onclick="deleteReview(${{r.id}}, '${{r.name.replace(/'/g, "\\\'")}}')" title="Delete this review">
+                        <i class="bi bi-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </td>
+            </tr>
+        `;
+    }}).join('');
+}}
+
+function deleteReview(id, farmerName) {{
+    if (!confirm('आपण ' + farmerName + ' यांचा रिव्ह्यू नक्की हटवू इच्छिता का?\n(Are you sure you want to delete this review?)')) {{
+        return;
+    }}
+
+    let reviews = getStoredReviews();
+    reviews = reviews.filter(r => r.id !== id);
+    localStorage.setItem('ksk_farmer_reviews', JSON.stringify(reviews));
+
+    const alertBox = document.getElementById('adminReviewAlert');
+    const alertText = document.getElementById('adminReviewAlertText');
+    if (alertBox && alertText) {{
+        alertText.textContent = farmerName + ' यांचा रिव्ह्यू यशस्वीरित्या हटवण्यात आला आहे. (Review deleted successfully)';
+        alertBox.classList.remove('d-none');
+        setTimeout(() => {{ alertBox.classList.add('d-none'); }}, 3500);
+    }}
+
+    renderAdminReviews();
+}}
+
+function resetDefaultReviews() {{
+    if (confirm('सर्व रिव्ह्यू मूळ डिफॉल्ट स्थितीत रीसेट करायचे का?')) {{
+        localStorage.setItem('ksk_farmer_reviews', JSON.stringify(DEFAULT_REVIEWS));
+        renderAdminReviews();
+    }}
+}}
+
+function filterReviewsTable() {{
+    const query = (document.getElementById('reviewSearchInput').value || '').toLowerCase().trim();
+    const rows = document.querySelectorAll('#adminReviewsTableBody tr');
+    rows.forEach(tr => {{
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(query) ? '' : 'none';
+    }});
+}}
+
+document.addEventListener('DOMContentLoaded', function(){{
+    renderAdminReviews();
+}});
+</script>
+""" + foot_html()
+    save_admin_page("admin-reviews.html", content)
+    print("Generated dist/admin-reviews.html with Review Management & Delete!")
+
+
 if __name__ == "__main__":
     build_login_page()
     build_admin_dashboard()
@@ -1632,4 +1943,5 @@ if __name__ == "__main__":
     build_admin_udhari()
     build_admin_inventory()
     build_admin_customers()
+    build_admin_reviews()
     print("All Admin Panel and Login pages built successfully matching all screenshots!")

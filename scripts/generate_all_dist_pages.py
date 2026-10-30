@@ -438,6 +438,7 @@ from build_admin_and_login import (
     build_admin_inventory,
     build_admin_categories,
     build_admin_customers,
+    build_admin_reviews,
 )
 
 build_login_page()
@@ -450,6 +451,7 @@ build_admin_udhari()
 build_admin_inventory()
 build_admin_categories()
 build_admin_customers()
+build_admin_reviews()
 print("13. admin-dashboard.html and admin portal pages")
 
 # 14. FARMER & USER PANEL PAGES (Matching Screenshot 1 & 2)

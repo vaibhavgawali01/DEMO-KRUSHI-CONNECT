@@ -397,75 +397,43 @@ def build_farmer_dashboard():
         <div class="row g-4">
             <!-- Left Column: Recent Orders & Reviews -->
             <div class="col-lg-8">
-                <!-- Recent Orders Card (Screenshot 2) -->
+                <!-- Recent Orders Card (Screenshot 2 / User Request: Empty State) -->
                 <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold text-dark m-0">
                             <span class="lang-mr">अलीकडील ऑर्डर्स</span>
                             <span class="lang-en">Recent Orders</span>
                         </h5>
-                        <a href="farmer-orders.html" class="text-primary small fw-semibold text-decoration-none d-flex align-items-center gap-1">
-                            <span class="lang-mr">सर्व पाहा</span>
-                            <span class="lang-en">View All</span> &rarr;
+                        <a href="products.html" class="text-primary small fw-semibold text-decoration-none d-flex align-items-center gap-1">
+                            <span class="lang-mr">उत्पादने पाहा</span>
+                            <span class="lang-en">Browse Products</span> &rarr;
                         </a>
                     </div>
 
-                    <!-- Order Item 1 -->
-                    <div class="farmer-order-row">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: #f0fdf4; color: #16a34a; font-size: 1.25rem;">
-                                🌱
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">NPK Fertilizer (50 kg)</h6>
-                                <small class="text-muted d-block mb-1">Order: KSK-2026-00342 | 28 Aug 2026</small>
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill small">Ready for Delivery</span>
+                    <!-- Clean Empty Orders State matching user request -->
+                    <div class="text-center py-4 my-2">
+                        <div class="mb-3">
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 76px; height: 76px; background: #f0fdf4; border: 2px dashed #86efac;">
+                                <i class="bi bi-bag-x text-success" style="font-size: 2.2rem;"></i>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <h6 class="fw-bold text-dark mb-2">₹2,450</h6>
-                            <button type="button" class="btn btn-sm btn-light border px-3 py-1 rounded-3" onclick="openOrderTrack('KSK-2026-00342', 'NPK Fertilizer (50 kg)', '28 Aug 2026', 'Ready for Delivery', 4)">Track</button>
-                        </div>
-                    </div>
-
-                    <!-- Order Item 2 -->
-                    <div class="farmer-order-row">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: #fffbeb; color: #d97706; font-size: 1.25rem;">
-                                🧴
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">Organic Pesticide (1 Liter)</h6>
-                                <small class="text-muted d-block mb-1">Order: KSK-2026-00341 | 25 Aug 2026</small>
-                                <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 rounded-pill small">Processing</span>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <h6 class="fw-bold text-dark mb-2">₹650</h6>
-                            <button type="button" class="btn btn-sm btn-light border px-3 py-1 rounded-3" onclick="openOrderTrack('KSK-2026-00341', 'Organic Pesticide (1 Liter)', '25 Aug 2026', 'Processing', 2)">Track</button>
-                        </div>
-                    </div>
-
-                    <!-- Order Item 3 -->
-                    <div class="farmer-order-row">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: #fdf4ff; color: #9333ea; font-size: 1.25rem;">
-                                🔧
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">Manual Farming Tool</h6>
-                                <small class="text-muted d-block mb-1">Order: KSK-2026-00340 | 20 Aug 2026</small>
-                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill small">Delivered</span>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <h6 class="fw-bold text-dark mb-2">₹1,200</h6>
-                            <button type="button" class="btn btn-sm btn-light border px-3 py-1 rounded-3" onclick="openOrderInvoice('KSK-2026-00340')">Invoice</button>
-                        </div>
+                        <h6 class="fw-bold text-dark mb-1">
+                            <span class="lang-mr">सध्या कोणतीही चालू ऑर्डर नाही</span>
+                            <span class="lang-en">No Recent Orders</span>
+                        </h6>
+                        <p class="text-muted small mb-3" style="max-width: 380px; margin: 0 auto; line-height: 1.5;">
+                            <span class="lang-mr">आपण अद्याप कोणतीही नवीन ऑर्डर केलेली नाही. उच्च दर्जाची प्रमाणित बियाणे, खते व शेती अवजारे खरेदी करण्यासाठी खालील बटणावर क्लिक करा.</span>
+                            <span class="lang-en">You haven't placed any orders recently. Explore our certified seeds, fertilizers, and farming tools.</span>
+                        </p>
+                        <a href="products.html" class="btn btn-success fw-bold px-4 py-2 rounded-3 text-white shadow-sm d-inline-flex align-items-center gap-2" style="background: #16a34a; border: none;">
+                            <i class="bi bi-cart-plus"></i>
+                            <span class="lang-mr">उत्पादने खरेदी करा</span>
+                            <span class="lang-en">Start Shopping</span>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Farmer Reviews & Ratings Card (Screenshot 2) -->
+                <!-- Farmer Reviews & Ratings Card (User Request: Read other reviews & Submit own review) -->
                 <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
@@ -473,35 +441,36 @@ def build_farmer_dashboard():
                             <span class="lang-mr">शेतकरी अभिप्राय आणि रेटिंग</span>
                             <span class="lang-en">Farmer Reviews & Ratings</span>
                         </h5>
-                        <a href="index.html#reviews" class="text-primary small fw-semibold text-decoration-none">
+                        <button type="button" onclick="openReadReviewsModal()" class="btn btn-link text-primary small fw-semibold text-decoration-none p-0 d-flex align-items-center gap-1">
                             <span class="lang-mr">सर्व पाहा</span>
-                            <span class="lang-en">View All</span>
-                        </a>
+                            <span class="lang-en">View All</span> &rarr;
+                        </button>
                     </div>
 
                     <div class="p-3 rounded-4 mb-3" style="background:#f0fdf4; border: 1px solid #bbf7d0;">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge px-3 py-1 rounded-pill fw-bold text-white" style="background:#15803d !important;">
+                            <span class="badge px-3 py-1 rounded-pill fw-bold text-white" id="dashReviewsAvgBadge" style="background:#15803d !important;">
                                 4.9 / 5.0 ⭐
                             </span>
-                            <span class="text-muted small fw-semibold">500+ Farmers</span>
+                            <span class="text-muted small fw-semibold" id="dashReviewsCountBadge">500+ Farmers</span>
                         </div>
                         <p class="small text-muted mb-0">
-                            <span class="lang-mr">आपण खरेदी केलेल्या कृषी उत्पादनांविषयी आपला मोलाचा अनुभव शेअर करा.</span>
-                            <span class="lang-en">Share your valuable experience with products you purchased.</span>
+                            <span class="lang-mr">इतर शेतकऱ्यांचे अनुभव वाचा किंवा आपण स्वतः खरेदी केलेल्या उत्पादनाचा अभिप्राय व रेटिंग नोंदवा.</span>
+                            <span class="lang-en">Read verified experiences from other farmers or share your valuable feedback and rating.</span>
                         </p>
                     </div>
 
                     <div class="d-flex gap-2 flex-wrap">
-                        <a href="index.html#reviews" class="btn btn-outline-success rounded-3 fw-bold px-3 py-2 d-flex align-items-center gap-2">
+                        <button type="button" onclick="openReadReviewsModal()" class="btn btn-outline-success rounded-3 fw-bold px-3 py-2 d-flex align-items-center gap-2">
                             <i class="bi bi-chat-left-text"></i>
-                            <span class="lang-mr">अभिप्राय वाचा</span>
-                            <span class="lang-en">Read Reviews</span>
-                        </a>
-                        <a href="products.html" class="btn btn-success rounded-3 fw-bold px-3 py-2 text-white d-flex align-items-center gap-2" style="background:#16a34a; border-color:#16a34a;">
-                            <span class="lang-mr">उत्पादने खरेदी करा</span>
-                            <span class="lang-en">Browse Products</span>
-                        </a>
+                            <span class="lang-mr">इतर शेतकऱ्यांचे अभिप्राय वाचा</span>
+                            <span class="lang-en">Read Other Reviews</span>
+                        </button>
+                        <button type="button" onclick="openSubmitReviewModal()" class="btn btn-success rounded-3 fw-bold px-3 py-2 text-white d-flex align-items-center gap-2" style="background:#16a34a; border-color:#16a34a;">
+                            <i class="bi bi-pencil-square"></i>
+                            <span class="lang-mr">अभिप्राय द्या (Give Review)</span>
+                            <span class="lang-en">Write a Review</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -843,6 +812,126 @@ def build_farmer_dashboard():
     </div>
 </div>
 
+
+<!-- 6. Read Farmer Reviews Modal (User Request: Read other farmers' reviews) -->
+<div class="modal fade" id="readFarmerReviewsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span class="lang-mr">इतर शेतकऱ्यांचे अभिप्राय व रेटिंग्ज</span>
+                        <span class="lang-en">Verified Farmer Reviews & Ratings</span>
+                    </h5>
+                    <small class="text-muted">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर येथील शेतकऱ्यांचे प्रत्यक्ष अनुभव</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Summary bar -->
+                <div class="d-flex align-items-center justify-content-between p-3 rounded-4 mb-4" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="display-6 fw-bold text-success mb-0" id="modalReviewsAvgScore">4.9</div>
+                        <div>
+                            <div class="text-warning fs-5">⭐⭐⭐⭐⭐</div>
+                            <small class="text-muted"><span id="modalReviewsTotalCount">5</span> शेतकऱ्यांचे अभिप्राय (Verified)</small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold" onclick="switchToSubmitReview()" style="background:#16a34a;">
+                        <i class="bi bi-pencil-square me-1"></i> आपला अभिप्राय द्या
+                    </button>
+                </div>
+
+                <!-- Reviews Feed List -->
+                <div id="farmerReviewsFeedList" class="d-flex flex-column gap-3">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success rounded-pill px-4 fw-bold" onclick="switchToSubmitReview()" style="background:#16a34a;">
+                    <i class="bi bi-star me-1"></i> अभिप्राय नोंदवा (Write Review)
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 7. Submit Farmer Review & Rating Modal (User Request: Farmer review & rating karta aali pahije) -->
+<div class="modal fade" id="submitFarmerReviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2">
+                    <i class="bi bi-pencil-fill"></i>
+                    <span class="lang-mr">आपला अभिप्राय व रेटिंग नोंदवा</span>
+                    <span class="lang-en">Submit Your Review & Rating</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div id="reviewSuccessMsg" class="alert alert-success d-none py-2 mb-3 small">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    <span class="lang-mr">धन्यवाद! आपला अभिप्राय यशस्वीरित्या नोंदवला गेला आहे.</span>
+                    <span class="lang-en">Thank you! Your review has been submitted successfully.</span>
+                </div>
+
+                <form id="farmerReviewForm" onsubmit="return handleFarmerReviewSubmit(event)">
+                    <!-- Star Rating Interactive Picker -->
+                    <div class="mb-3 text-center p-3 rounded-4 bg-light border">
+                        <label class="form-label small fw-bold text-dark d-block mb-1">रेटिंग निवडा (Select Stars) *</label>
+                        <div class="d-flex justify-content-center gap-2 fs-2 text-warning" id="starPickerContainer" style="cursor: pointer;">
+                            <i class="bi bi-star-fill star-item" data-value="1" onclick="selectStarRating(1)"></i>
+                            <i class="bi bi-star-fill star-item" data-value="2" onclick="selectStarRating(2)"></i>
+                            <i class="bi bi-star-fill star-item" data-value="3" onclick="selectStarRating(3)"></i>
+                            <i class="bi bi-star-fill star-item" data-value="4" onclick="selectStarRating(4)"></i>
+                            <i class="bi bi-star-fill star-item" data-value="5" onclick="selectStarRating(5)"></i>
+                        </div>
+                        <input type="hidden" id="selectedStarValue" value="5">
+                        <small class="text-success fw-bold d-block mt-1" id="starRatingDesc">५ स्टार - उत्कृष्ट सेवा व उत्पादने (Excellent)</small>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-bold text-success">शेतकरी नाव *</label>
+                            <input type="text" id="revFarmerName" class="form-control" required value="VSGAWALI">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-bold text-success">गाव / तालुका *</label>
+                            <input type="text" id="revFarmerLoc" class="form-control" required value="कोपरगाव, अहिल्यानगर">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">खरेदी केलेले उत्पादन / विषय *</label>
+                        <select id="revProduct" class="form-select" required>
+                            <option value="NPK 19:19:19 खत (IFFCO)" selected>NPK 19:19:19 खत (IFFCO)</option>
+                            <option value="महाबीज गहू बियाणे (लोक-१)">महाबीज गहू बियाणे (लोक-१)</option>
+                            <option value="कापूस बियाणे (हायब्रीड)">कापूस बियाणे (हायब्रीड)</option>
+                            <option value="सेंद्रिय कीटकनाशक व निंबोळी अर्क">सेंद्रिय कीटकनाशक व निंबोळी अर्क</option>
+                            <option value="ठिबक सिंचन साहित्य व फिटिंग">ठिबक सिंचन साहित्य व फिटिंग</option>
+                            <option value="शेती अवजारे (बॅटरी स्प्रेअर / विडर)">शेती अवजारे (बॅटरी स्प्रेअर / विडर)</option>
+                            <option value="दुकान सेवा व कृषी सल्ला">दुकान सेवा व कृषी सल्ला</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-success">आपला अनुभव / अभिप्राय *</label>
+                        <textarea id="revComment" class="form-control" rows="3" placeholder="उत्पादनाचा रिझल्ट कसा आला? सेवा कशी वाटली? सविस्तर लिहा..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success fw-bold w-100 py-2 rounded-3 shadow-sm" style="background:#15803d; border:none;">
+                        <i class="bi bi-star-fill me-1"></i>
+                        <span class="lang-mr">अभिप्राय सबमिट करा</span>
+                        <span class="lang-en">Submit Review</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 5. Daily Tips Modal -->
 <div class="modal fade" id="farmerTipsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -896,6 +985,8 @@ document.addEventListener('DOMContentLoaded', function(){
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         dateEl.textContent = now.toLocaleDateString('en-US', options) + ' | Dashboard Overview';
     }
+
+    updateDashboardReviewStats();
 });
 
 function openOrderTrack(orderId, prodName, dateStr, badgeStr, stepNum) {
@@ -944,6 +1035,249 @@ function openTipsModal() {
         m.show();
     }
 }
+
+const DEFAULT_FARMER_REVIEWS = [
+    {
+        id: 1,
+        name: "रामेश्वर पाटील",
+        village: "वैजापूर, छत्रपती संभाजीनगर",
+        product: "महाबीज गहू बियाणे (लोक-१)",
+        rating: 5,
+        date: "26 Oct 2026",
+        comment: "सप्तशृंगी ॲग्रो कडून घेतलेले गहू बियाणे १००% उगवून आले. दर्जेदार बियाणे आणि रास्त भाव. दुकानदार योग्य सल्ला देतात.",
+        verified: true
+    },
+    {
+        id: 2,
+        name: "सचिन गायकवाड",
+        village: "कोपरगाव, अहिल्यानगर",
+        product: "IFFCO NPK 19:19:19 खत",
+        rating: 5,
+        date: "20 Oct 2026",
+        comment: "विद्राव्य खताचा रिझल्ट अतिशय चांगला आला. कांद्याची पात हिरवीगार झाली. वेळेवर माल मिळाला.",
+        verified: true
+    },
+    {
+        id: 3,
+        name: "बाळासाहेब थोरात",
+        village: "येवला, नाशिक",
+        product: "ठिबक सिंचन फिल्टर व लॅटरल",
+        rating: 5,
+        date: "15 Oct 2026",
+        comment: "ठिबकचे साहित्य योग्य किमतीत मिळाले. फिटिंगसाठी योग्य मार्गदर्शन केले. अतिशय प्रामाणिक सेवा.",
+        verified: true
+    },
+    {
+        id: 4,
+        name: "ज्ञानेश्वर शिंदे",
+        village: "धोंदलगाव, वैजापूर",
+        product: "बॅटरी स्प्रेअर पंप (१६ लिटर)",
+        rating: 4,
+        date: "10 Oct 2026",
+        comment: "बॅटरी पंप चांगला चालतो. एकदा चार्ज केल्यावर १५-२० टाक्या फवारणी होते. वॉरंटी पण दिली.",
+        verified: true
+    },
+    {
+        id: 5,
+        name: "संजय कदम",
+        village: "मिरखनगर, वैजापूर",
+        product: "सेंद्रिय निंबोळी पेंड व खत",
+        rating: 5,
+        date: "04 Oct 2026",
+        comment: "सेंद्रिय उत्पादने अस्सल आहेत. रासायनिक खतांचा खर्च कमी झाला. आमचे हक्काचे कृषी सेवा केंद्र!",
+        verified: true
+    }
+];
+
+function getStoredFarmerReviews() {
+    const raw = localStorage.getItem('ksk_farmer_reviews');
+    if (!raw) {
+        localStorage.setItem('ksk_farmer_reviews', JSON.stringify(DEFAULT_FARMER_REVIEWS));
+        return DEFAULT_FARMER_REVIEWS;
+    }
+    try {
+        return JSON.parse(raw);
+    } catch(e) {
+        return DEFAULT_FARMER_REVIEWS;
+    }
+}
+
+function updateDashboardReviewStats() {
+    const reviews = getStoredFarmerReviews();
+    const countBadge = document.getElementById('dashReviewsCountBadge');
+    const avgBadge = document.getElementById('dashReviewsAvgBadge');
+    if (countBadge) countBadge.textContent = (500 + reviews.length) + '+ Farmers';
+    if (avgBadge && reviews.length > 0) {
+        const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+        avgBadge.textContent = (sum / reviews.length).toFixed(1) + ' / 5.0 ⭐';
+    }
+}
+
+function openReadReviewsModal() {
+    renderReviewsFeed();
+    const modalEl = document.getElementById('readFarmerReviewsModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+    }
+}
+
+function openSubmitReviewModal() {
+    // Pre-fill user name and village
+    const savedName = localStorage.getItem('user_name') || 'VSGAWALI';
+    const savedLoc = localStorage.getItem('user_location') || 'कोपरगाव, अहिल्यानगर';
+    const nameEl = document.getElementById('revFarmerName');
+    const locEl = document.getElementById('revFarmerLoc');
+    if (nameEl) nameEl.value = savedName;
+    if (locEl) locEl.value = savedLoc;
+
+    selectStarRating(5);
+
+    const modalEl = document.getElementById('submitFarmerReviewModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+    }
+}
+
+function switchToSubmitReview() {
+    const readModalEl = document.getElementById('readFarmerReviewsModal');
+    if (readModalEl) {
+        const modalInstance = bootstrap.Modal.getInstance(readModalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+    setTimeout(openSubmitReviewModal, 300);
+}
+
+function selectStarRating(val) {
+    const input = document.getElementById('selectedStarValue');
+    if (input) input.value = val;
+
+    const stars = document.querySelectorAll('#starPickerContainer .star-item');
+    stars.forEach(star => {
+        const starVal = Number(star.getAttribute('data-value'));
+        if (starVal <= val) {
+            star.className = 'bi bi-star-fill star-item text-warning';
+        } else {
+            star.className = 'bi bi-star star-item text-muted';
+        }
+    });
+
+    const descEl = document.getElementById('starRatingDesc');
+    const descs = {
+        1: '१ स्टार - असमाधानकारक (Poor)',
+        2: '२ स्टार - साधारण (Fair)',
+        3: '३ स्टार - बरे (Good)',
+        4: '४ स्टार - खूप चांगले (Very Good)',
+        5: '५ स्टार - उत्कृष्ट सेवा व उत्पादने (Excellent)'
+    };
+    if (descEl) descEl.textContent = descs[val] || '';
+}
+
+function renderReviewsFeed() {
+    const reviews = getStoredFarmerReviews();
+    const feed = document.getElementById('farmerReviewsFeedList');
+    const avgScoreEl = document.getElementById('modalReviewsAvgScore');
+    const totalCountEl = document.getElementById('modalReviewsTotalCount');
+
+    if (totalCountEl) totalCountEl.textContent = reviews.length;
+    if (avgScoreEl && reviews.length > 0) {
+        const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+        avgScoreEl.textContent = (sum / reviews.length).toFixed(1);
+    }
+
+    if (!feed) return;
+
+    feed.innerHTML = reviews.map(r => {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += (i <= r.rating) ? '⭐' : '☆';
+        }
+
+        return `
+            <div class="p-3 rounded-4 bg-white border shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-success-subtle text-success fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                            🌾
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold text-dark">${r.name}</h6>
+                            <small class="text-muted"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${r.village || 'महाराष्ट्र'}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill small">
+                            <i class="bi bi-patch-check-fill me-1"></i>Verified Farmer
+                        </span>
+                        <small class="text-muted d-block mt-1">${r.date || 'Recent'}</small>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <span class="text-warning fs-6">${stars}</span>
+                    <span class="badge bg-light text-dark border ms-2">${r.product || 'कृषी सेवा'}</span>
+                </div>
+
+                <p class="small text-dark mb-0" style="line-height: 1.55;">
+                    "${r.comment}"
+                </p>
+            </div>
+        `;
+    }).join('');
+}
+
+function handleFarmerReviewSubmit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const name = document.getElementById('revFarmerName').value.trim();
+    const village = document.getElementById('revFarmerLoc').value.trim();
+    const product = document.getElementById('revProduct').value;
+    const rating = Number(document.getElementById('selectedStarValue').value) || 5;
+    const comment = document.getElementById('revComment').value.trim();
+
+    if (!comment) {
+        alert('कृपया आपला अभिप्राय लिहा!');
+        return false;
+    }
+
+    const now = new Date();
+    const dateStr = now.getDate() + ' ' + now.toLocaleString('en-US', { month: 'short' }) + ' ' + now.getFullYear();
+
+    const newRev = {
+        id: Date.now(),
+        name: name,
+        village: village,
+        product: product,
+        rating: rating,
+        date: dateStr,
+        comment: comment,
+        verified: true
+    };
+
+    let reviews = getStoredFarmerReviews();
+    reviews.unshift(newRev);
+    localStorage.setItem('ksk_farmer_reviews', JSON.stringify(reviews));
+
+    const alertBox = document.getElementById('reviewSuccessMsg');
+    if (alertBox) alertBox.classList.remove('d-none');
+
+    document.getElementById('farmerReviewForm').reset();
+    updateDashboardReviewStats();
+
+    setTimeout(() => {
+        if (alertBox) alertBox.classList.add('d-none');
+        const modalEl = document.getElementById('submitFarmerReviewModal');
+        if (modalEl) {
+            const inst = bootstrap.Modal.getInstance(modalEl);
+            if (inst) inst.hide();
+        }
+        openReadReviewsModal();
+    }, 1800);
+
+    return false;
+}
+
 </script>
 """ + foot_html()
     save_customer_page("farmer-dashboard.html", content)
