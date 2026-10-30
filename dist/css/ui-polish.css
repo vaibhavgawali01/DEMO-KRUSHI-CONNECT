@@ -340,3 +340,269 @@ textarea.form-control {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ==========================================================================
+   SAPTASHRUNGI AGRO - BRAND FARMER / USER PORTAL DESIGN SYSTEM
+   ========================================================================== */
+
+/* 1. Global Wrapper & Canvas */
+.farmer-dashboard-wrapper {
+  background-color: #f6f9f6 !important;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(22, 163, 74, 0.07) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(22, 163, 74, 0.04) 0px, transparent 50%) !important;
+  min-height: 88vh;
+}
+
+/* 2. Top Hero Balance Banner (Nil Balance Banner) */
+.farmer-balance-card {
+  background: #ffffff !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%) !important;
+  border: 1.5px solid #86efac !important;
+  border-radius: 22px !important;
+  padding: 28px 32px !important;
+  box-shadow: 0 10px 30px -4px rgba(22, 163, 74, 0.10), 0 2px 6px -1px rgba(0, 0, 0, 0.02) !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.farmer-balance-card:hover {
+  box-shadow: 0 16px 36px -4px rgba(22, 163, 74, 0.16) !important;
+  transform: translateY(-2px);
+}
+.farmer-balance-card::after {
+  content: "🌾";
+  position: absolute;
+  right: 15px;
+  bottom: -15px;
+  font-size: 110px;
+  opacity: 0.10;
+  pointer-events: none;
+  transform: rotate(-12deg);
+}
+
+/* 3. Farmer KPI Stat Cards */
+.farmer-stat-card {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  padding: 24px 26px !important;
+  border: 1.5px solid #eef2ef !important;
+  box-shadow: 0 4px 18px -2px rgba(15, 81, 50, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative;
+  overflow: hidden;
+}
+.farmer-stat-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 14px 32px -4px rgba(15, 81, 50, 0.12) !important;
+}
+.farmer-stat-card .stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  transition: transform 0.25s ease;
+}
+.farmer-stat-card:hover .stat-icon-wrapper {
+  transform: scale(1.12);
+}
+.farmer-stat-card .stat-amount {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+.farmer-stat-card .stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 30px;
+}
+
+/* 4. Brand White Content Cards */
+.farmer-card {
+  background: #ffffff !important;
+  border-radius: 22px !important;
+  border: 1.5px solid #edf2ed !important;
+  box-shadow: 0 4px 22px -2px rgba(15, 81, 50, 0.05) !important;
+  padding: 26px !important;
+  transition: all 0.25s ease;
+}
+.farmer-card:hover {
+  box-shadow: 0 10px 30px -4px rgba(15, 81, 50, 0.09) !important;
+}
+
+/* 5. Quick Actions 2x2 Grid Tiles */
+.farmer-quick-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 18px 12px !important;
+  border-radius: 18px !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  border: 1.5px solid transparent !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.farmer-quick-btn:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.10) !important;
+}
+.farmer-quick-btn .btn-icon-bubble {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  margin-bottom: 8px;
+  transition: transform 0.25s ease;
+}
+.farmer-quick-btn:hover .btn-icon-bubble {
+  transform: scale(1.15);
+}
+
+/* 6. Dark Emerald Brand Sidebar (Matching Screenshot 1) */
+.customer-sidebar-shell {
+  background: linear-gradient(180deg, #091f14 0%, #0d281a 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 22px !important;
+  padding: 26px 18px !important;
+  box-shadow: 0 14px 36px -4px rgba(0, 0, 0, 0.18) !important;
+}
+.customer-sidebar-user {
+  text-align: center;
+  padding-bottom: 22px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.customer-avatar-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 12px;
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+.customer-sidebar-title {
+  color: #86efac;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 12px 14px 6px;
+}
+.customer-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.customer-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  color: #cbd5e1 !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.22s ease;
+}
+.customer-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.09) !important;
+  color: #ffffff !important;
+  transform: translateX(4px);
+}
+.customer-sidebar-item.active {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4) !important;
+}
+.customer-sidebar-item i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+/* 7. Enhanced Form Controls for Farmer Panel */
+.farmer-form-card {
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1.5px solid #edf2ed;
+  box-shadow: 0 4px 24px -2px rgba(15, 81, 50, 0.05);
+  overflow: hidden;
+}
+.farmer-form-card .form-control {
+  border-radius: 12px;
+  border: 1.5px solid #dce4dd;
+  padding: 11px 16px;
+  font-size: 14.5px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.farmer-form-card .form-control:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+}
+.farmer-form-card .form-control[readonly] {
+  background-color: #f8faf8 !important;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+
+/* 8. Stepper for Order Tracking */
+.tracking-stepper .track-step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.tracking-stepper .track-step-circle.done {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+}
+
+/* 9. Star Rating Interactivity */
+.farmer-review-star-btn {
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0 6px;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+.farmer-review-star-btn:hover,
+.farmer-review-star-btn.active {
+  color: #f59e0b;
+  transform: scale(1.18);
+}

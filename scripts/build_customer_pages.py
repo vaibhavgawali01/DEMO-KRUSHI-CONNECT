@@ -336,41 +336,55 @@ def build_farmer_dashboard():
             </div>
         </div>
 
-        <!-- 2. Quick Stats: 2 KPI Cards (User Request: Removed AVAILABLE CREDIT LIMIT) -->
+        <!-- 2. Quick Stats: 2 KPI Cards (Brand Redesign) -->
         <div class="row g-3 mb-4">
             <!-- 1. PENDING DUE -->
             <div class="col-sm-6">
-                <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #ea580c !important;">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <p class="m-0 text-muted fw-semibold text-uppercase small" style="font-size: 12px; letter-spacing: 0.5px;">
+                <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 5px solid #ea580c !important;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-light text-muted border px-2 py-1 small fw-bold text-uppercase" style="letter-spacing: 0.6px; font-size: 11px;">
                             <span class="lang-mr">बाकी उधारी</span>
                             <span class="lang-en">PENDING DUE</span>
-                        </p>
-                        <i class="bi bi-exclamation-circle text-danger fs-5"></i>
+                        </span>
+                        <div class="stat-icon-wrapper" style="background:#fff7ed; color:#ea580c;">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
                     </div>
-                    <p class="h3 fw-bold m-0 text-danger">₹0</p>
-                    <p class="m-0 mt-2 text-muted small" style="font-size: 12px;">
-                        <span class="lang-mr">उधारी निरंक</span>
-                        <span class="lang-en">Nil Balance</span>
-                    </p>
+                    <div>
+                        <div class="stat-amount text-danger mb-1">₹0.00</div>
+                        <div>
+                            <span class="stat-pill" style="background:#ecfdf5; color:#059669;">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span class="lang-mr">उधारी निरंक</span>
+                                <span class="lang-en">Nil Balance</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- 2. TOTAL PURCHASES -->
             <div class="col-sm-6">
-                <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 4px solid #0284c7 !important;">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <p class="m-0 text-muted fw-semibold text-uppercase small" style="font-size: 12px; letter-spacing: 0.5px;">
+                <div class="farmer-stat-card h-100 d-flex flex-column justify-content-between" style="border-left: 5px solid #0284c7 !important;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-light text-muted border px-2 py-1 small fw-bold text-uppercase" style="letter-spacing: 0.6px; font-size: 11px;">
                             <span class="lang-mr">एकूण खरेदी</span>
                             <span class="lang-en">TOTAL PURCHASES</span>
-                        </p>
-                        <i class="bi bi-cart3 text-primary fs-5"></i>
+                        </span>
+                        <div class="stat-icon-wrapper" style="background:#f0f9ff; color:#0284c7;">
+                            <i class="bi bi-bag-check-fill"></i>
+                        </div>
                     </div>
-                    <p class="h3 fw-bold m-0 text-primary">₹0</p>
-                    <p class="m-0 mt-2 text-muted small" style="font-size: 12px;">
-                        <span class="lang-mr">या महिन्यात: ₹0</span>
-                        <span class="lang-en">This Month: ₹0</span>
-                    </p>
+                    <div>
+                        <div class="stat-amount text-primary mb-1">₹0.00</div>
+                        <div>
+                            <span class="stat-pill" style="background:#f0f9ff; color:#0284c7;">
+                                <i class="bi bi-calendar-check"></i>
+                                <span class="lang-mr">चालू महिना खरेदी: ₹0</span>
+                                <span class="lang-en">This Month: ₹0</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,7 +394,7 @@ def build_farmer_dashboard():
             <!-- Left Column: Recent Orders & Reviews -->
             <div class="col-lg-8">
                 <!-- Recent Orders Card (Screenshot 2 / User Request: Empty State) -->
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <div class="card farmer-card mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold text-dark m-0">
                             <span class="lang-mr">अलीकडील ऑर्डर्स</span>
@@ -416,7 +430,7 @@ def build_farmer_dashboard():
                 </div>
 
                 <!-- Farmer Reviews & Ratings Card (User Request: Read other reviews & Submit own review) -->
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <div class="card farmer-card mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="fw-bold text-dark m-0 d-flex align-items-center gap-2">
                             <span class="text-warning">⭐</span>
@@ -460,7 +474,7 @@ def build_farmer_dashboard():
             <!-- Right Column: Quick Actions, Due Alert, Daily Tip -->
             <div class="col-lg-4">
                 <!-- Quick Actions 2x2 Grid (Screenshot 2) -->
-                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white mb-4">
+                <div class="card farmer-card mb-4">
                     <h6 class="fw-bold text-dark mb-3 px-1">
                         <span class="lang-mr">⚡ झटपट कृती</span>
                         <span class="lang-en">⚡ Quick Actions</span>
@@ -468,32 +482,40 @@ def build_farmer_dashboard():
                     <div class="row g-2">
                         <!-- 1. Shopping -->
                         <div class="col-6">
-                            <a href="products.html" class="farmer-quick-btn" style="background: #f0fdf4; color: #16a34a;">
-                                <i class="bi bi-cart-check fs-4 mb-1"></i>
+                            <a href="products.html" class="farmer-quick-btn" style="background: #f0fdf4; border-color: #bbf7d0; color: #15803d;">
+                                <div class="btn-icon-bubble" style="background: #dcfce7; color: #15803d;">
+                                    <i class="bi bi-cart-check"></i>
+                                </div>
                                 <span class="lang-mr">खरेदी</span>
                                 <span class="lang-en">Shopping</span>
                             </a>
                         </div>
                         <!-- 2. Invoices -->
                         <div class="col-6">
-                            <a href="farmer-orders.html" class="farmer-quick-btn" style="background: #f8fafc; color: #475569;">
-                                <i class="bi bi-file-earmark-text fs-4 mb-1"></i>
+                            <a href="farmer-orders.html" class="farmer-quick-btn" style="background: #f8fafc; border-color: #e2e8f0; color: #334155;">
+                                <div class="btn-icon-bubble" style="background: #e2e8f0; color: #334155;">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
                                 <span class="lang-mr">पावत्या</span>
                                 <span class="lang-en">Invoices</span>
                             </a>
                         </div>
                         <!-- 3. Alerts -->
                         <div class="col-6">
-                            <a href="farmer-notifications.html" class="farmer-quick-btn" style="background: #fffbeb; color: #d97706;">
-                                <i class="bi bi-exclamation-circle fs-4 mb-1"></i>
+                            <a href="farmer-notifications.html" class="farmer-quick-btn" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">
+                                <div class="btn-icon-bubble" style="background: #fef3c7; color: #b45309;">
+                                    <i class="bi bi-bell"></i>
+                                </div>
                                 <span class="lang-mr">अलर्ट्स</span>
                                 <span class="lang-en">Alerts</span>
                             </a>
                         </div>
                         <!-- 4. Contact -->
                         <div class="col-6">
-                            <a href="javascript:void(0)" onclick="openStoreContactModal()" class="farmer-quick-btn" style="background: #faf5ff; color: #7c3aed;">
-                                <i class="bi bi-telephone fs-4 mb-1"></i>
+                            <a href="javascript:void(0)" onclick="openStoreContactModal()" class="farmer-quick-btn" style="background: #faf5ff; border-color: #e9d5ff; color: #7c3aed;">
+                                <div class="btn-icon-bubble" style="background: #f3e8ff; color: #7c3aed;">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
                                 <span class="lang-mr">संपर्क</span>
                                 <span class="lang-en">Contact</span>
                             </a>
