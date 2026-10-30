@@ -1088,7 +1088,7 @@ def build_home_page():
                             <i class="bi bi-cursor-fill text-primary"></i> <span><span class="lang-mr">मार्ग पहा</span><span class="lang-en">Get Directions</span></span>
                         </a>
                         <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="btn btn-light border py-2 px-3 fw-semibold text-success flex-fill d-flex align-items-center justify-content-center gap-1 text-decoration-none">
-                            <i class="bi bi-whatsapp"></i> WhatsApp
+                            <i class="bi bi-whatsapp"></i> <span class="lang-mr">व्हॉट्सॲप (8600813827)</span><span class="lang-en">WhatsApp (8600813827)</span>
                         </a>
                     </div>
                 </div>
