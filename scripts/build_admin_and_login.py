@@ -187,7 +187,7 @@ def build_login_page():
             </div>
         </div>
 
-        <form id="loginForm" onsubmit="handleStaticLogin(event)">
+        <form id="loginForm" action="login.html" onsubmit="handleStaticLogin(event)">
             <div class="login-field">
                 <label for="loginUsername">
                     <span class="lang-mr">मोबाईल नंबर किंवा ईमेल *</span>
@@ -634,43 +634,98 @@ def build_admin_categories():
 
         <div class="col-lg-9 col-xl-10">
             <div class="row g-4">
-                <!-- Add Category Card (Screenshot 5 left) -->
+                <!-- Add Category Card (Screenshot 1 left) -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-                        <div class="card-header bg-success text-white py-3 px-4">
-                            <h6 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i><span class="lang-mr">नवीन कॅटेगरी जोडा</span><span class="lang-en">Add New Category</span></h6>
+                        <div class="card-header bg-success text-white py-3 px-4" style="background:#15803d !important;">
+                            <h6 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                                <i class="bi bi-plus-circle"></i>
+                                <span class="lang-mr">नवीन कॅटेगरी जोडा</span>
+                                <span class="lang-en">Add New Category</span>
+                            </h6>
                         </div>
                         <div class="card-body p-4">
-                            <form id="addCategoryForm" onsubmit="alert('Category saved successfully!'); return false;">
+                            <div id="catSuccessAlert" class="alert alert-success d-none py-2 mb-3 small">
+                                <i class="bi bi-check-circle-fill me-1"></i>
+                                <span class="lang-mr">कॅटेगरी फोटोसह यशस्वीरित्या जोडली!</span>
+                                <span class="lang-en">Category added successfully with image!</span>
+                            </div>
+
+                            <form id="addCategoryForm" onsubmit="return handleCreateCategory(event)">
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-success">Category Name (English) *</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="e.g. Bio-Pesticides" required>
+                                    <input type="text" id="catNameEn" class="form-control" placeholder="e.g. Bio-Pesticides" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-success">Category Name (Marathi)</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="उदा. सेंद्रिय कीटकनाशके">
+                                    <input type="text" id="catNameMr" class="form-control" placeholder="उदा. सेंद्रिय कीटकनाशके">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-success">Description</label>
-                                    <textarea class="form-control form-control-sm" rows="3" placeholder="Short description"></textarea>
+                                    <textarea id="catDesc" class="form-control" rows="3" placeholder="Short description"></textarea>
                                 </div>
+
+                                <!-- Image Upload Option (Requested) -->
                                 <div class="mb-4">
-                                    <label class="form-label small fw-bold text-success">Image Name</label>
-                                    <input type="text" class="form-control form-control-sm" placeholder="e.g. seeds.jpg">
+                                    <label class="form-label small fw-bold text-success d-flex align-items-center gap-1">
+                                        <i class="bi bi-image"></i>
+                                        <span class="lang-mr">कॅटेगरीचा फोटो (Category Image)</span>
+                                        <span class="lang-en">Category Image</span>
+                                    </label>
+                                    
+                                    <div class="p-3 rounded-3 text-center border-dashed"
+                                         id="catDropzone"
+                                         onclick="triggerCatFileInput()"
+                                         style="border: 2px dashed #16a34a; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
+                                        
+                                        <input type="file" id="catImageInput" accept="image/jpeg,image/png,image/webp,image/jpg,image/gif" class="d-none" onchange="previewCatImage(event)">
+                                        
+                                        <!-- Prompt -->
+                                        <div id="catUploadPrompt" class="py-2">
+                                            <i class="bi bi-cloud-arrow-up text-success fs-2 d-block mb-1"></i>
+                                            <span class="small fw-bold text-dark d-block">
+                                                <span class="lang-mr">फोटो निवडण्यासाठी येथे क्लिक करा</span>
+                                                <span class="lang-en">Click here to upload category image</span>
+                                            </span>
+                                            <small class="text-muted d-block" style="font-size:11px;">JPG, PNG, WebP (Max 5MB)</small>
+                                            <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 mt-2 fw-semibold" style="font-size:12px;">
+                                                <i class="bi bi-folder2-open me-1"></i> Choose Image
+                                            </button>
+                                        </div>
+
+                                        <!-- Live Preview -->
+                                        <div id="catImagePreviewWrap" class="d-none text-center py-1">
+                                            <div class="position-relative d-inline-block shadow-sm rounded-3 overflow-hidden border bg-white p-1">
+                                                <img id="catImagePreview" src="" alt="Category Image" style="max-height: 120px; max-width: 100%; object-fit: cover; border-radius: 6px;">
+                                                <button type="button" onclick="removeCatImage(event)" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; padding:0;" title="Remove image">
+                                                    <i class="bi bi-x-lg" style="font-size: 11px;"></i>
+                                                </button>
+                                            </div>
+                                            <div class="mt-2 d-flex align-items-center justify-content-center gap-2">
+                                                <span id="catFileName" class="badge bg-success-subtle text-success border border-success-subtle small" style="font-size:11px;"></span>
+                                                <button type="button" onclick="triggerCatFileInput(); event.stopPropagation();" class="btn btn-sm btn-link text-success text-decoration-none p-0 fw-bold" style="font-size:12px;">Change</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <button type="submit" class="btn btn-success w-100 fw-bold py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
-                                    Create Category
+                                    <span class="lang-mr">कॅटेगरी तयार करा</span>
+                                    <span class="lang-en">Create Category</span>
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Categories List Table (Screenshot 5 right) -->
+                <!-- Categories List Table (Screenshot 1 right) -->
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
                         <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-tags-fill text-success me-2"></i>Product Categories (8)</h5>
+                            <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                                <i class="bi bi-tags-fill text-success"></i>
+                                <span>Product Categories (<span id="catCountSpan">8</span>)</span>
+                            </h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -678,6 +733,7 @@ def build_admin_categories():
                                     <thead class="table-light text-muted small">
                                         <tr>
                                             <th class="ps-4">#</th>
+                                            <th>IMAGE</th>
                                             <th>CATEGORY NAME</th>
                                             <th>MARATHI NAME</th>
                                             <th>DESCRIPTION</th>
@@ -685,12 +741,13 @@ def build_admin_categories():
                                             <th class="text-end pe-4">ACTIONS</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="categoryTableBody">
                                         <tr>
                                             <td class="ps-4 fw-bold">1</td>
+                                            <td><img src="images/wheat_seeds.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Seeds</strong></td>
                                             <td>बियाणे</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">High yield certified hyb...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">High yield certified hyb...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -699,9 +756,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">2</td>
+                                            <td><img src="images/fertilizer_npk.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Fertilizers</strong></td>
                                             <td>खते</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Chemical, water-solub...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Chemical, water-solub...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -710,9 +768,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">3</td>
+                                            <td><img src="images/urea_bag.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Pesticides</strong></td>
                                             <td>कीटकनाशके</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Broad-spectrum insec...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Broad-spectrum insec...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -721,9 +780,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">4</td>
+                                            <td><img src="images/battery_sprayer.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Farming Tools</strong></td>
                                             <td>शेती अवजारे</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Battery sprayers, pruni...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Battery sprayers, pruni...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -732,9 +792,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">5</td>
+                                            <td><img src="images/saptashrungi_shop.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Drip Irrigation</strong></td>
                                             <td>ठिबक सिंचन</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Drip laterals, drippers, ...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Drip laterals, drippers, ...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -743,9 +804,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">6</td>
+                                            <td><img src="images/cotton_seeds.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Animal Feed</strong></td>
                                             <td>पशूखाद्य</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Cattle feed pellets, mi...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Cattle feed pellets, mi...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -754,9 +816,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">7</td>
+                                            <td><img src="images/soybean_seeds.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Organic Products</strong></td>
                                             <td>सेंद्रिय उत्पादने</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Neem cake, vermicom...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Neem cake, vermicom...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -765,9 +828,10 @@ def build_admin_categories():
                                         </tr>
                                         <tr>
                                             <td class="ps-4 fw-bold">8</td>
+                                            <td><img src="images/saptashrungi_logo_round.jpg" class="rounded-3 border" style="width:36px;height:36px;object-fit:cover;"></td>
                                             <td><strong class="text-dark">Plant Growth Promoters</strong></td>
                                             <td>वाढ संप्रेरके</td>
-                                            <td class="small text-muted text-truncate" style="max-width: 180px;">Humic acid, seaweed e...</td>
+                                            <td class="small text-muted text-truncate" style="max-width: 160px;">Humic acid, seaweed e...</td>
                                             <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
                                             <td class="text-end pe-4">
                                                 <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
@@ -784,13 +848,137 @@ def build_admin_categories():
         </div>
     </div>
 </div>
+
+<script>
+let selectedCatImageDataUrl = '';
+
+function triggerCatFileInput() {{
+    const input = document.getElementById('catImageInput');
+    if (input) input.click();
+}}
+
+function previewCatImage(event) {{
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {{
+        selectedCatImageDataUrl = e.target.result;
+        const img = document.getElementById('catImagePreview');
+        const promptBox = document.getElementById('catUploadPrompt');
+        const previewWrap = document.getElementById('catImagePreviewWrap');
+        const fileNameBadge = document.getElementById('catFileName');
+
+        if (img) img.src = selectedCatImageDataUrl;
+        if (fileNameBadge) fileNameBadge.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        if (promptBox) promptBox.classList.add('d-none');
+        if (previewWrap) previewWrap.classList.remove('d-none');
+    }};
+    reader.readAsDataURL(file);
+}}
+
+function removeCatImage(event) {{
+    if (event) event.stopPropagation();
+    selectedCatImageDataUrl = '';
+    const input = document.getElementById('catImageInput');
+    if (input) input.value = '';
+    const promptBox = document.getElementById('catUploadPrompt');
+    const previewWrap = document.getElementById('catImagePreviewWrap');
+    if (promptBox) promptBox.classList.remove('d-none');
+    if (previewWrap) previewWrap.classList.add('d-none');
+}}
+
+function handleCreateCategory(e) {{
+    if (e && e.preventDefault) e.preventDefault();
+
+    const nameEn = document.getElementById('catNameEn').value.trim();
+    const nameMr = document.getElementById('catNameMr').value.trim() || nameEn;
+    const desc = document.getElementById('catDesc').value.trim();
+    const image = selectedCatImageDataUrl || 'images/saptashrungi_logo_round.jpg';
+
+    const newCat = {{
+        id: Date.now(),
+        nameEn: nameEn,
+        nameMr: nameMr,
+        desc: desc,
+        image: image
+    }};
+
+    // Save to localStorage
+    const saved = JSON.parse(localStorage.getItem('ksk_custom_categories') || '[]');
+    saved.unshift(newCat);
+    localStorage.setItem('ksk_custom_categories', JSON.stringify(saved));
+
+    const alertBox = document.getElementById('catSuccessAlert');
+    if (alertBox) alertBox.classList.remove('d-none');
+
+    // Prepend to table
+    const tbody = document.getElementById('categoryTableBody');
+    if (tbody) {{
+        const tr = document.createElement('tr');
+        tr.className = 'table-success-subtle';
+        tr.innerHTML = `
+            <td class="ps-4 fw-bold">NEW</td>
+            <td><img src="${{image}}" class="rounded-3 border shadow-sm" style="width:36px;height:36px;object-fit:cover;"></td>
+            <td><strong class="text-dark">${{nameEn}}</strong></td>
+            <td>${{nameMr}}</td>
+            <td class="small text-muted text-truncate" style="max-width: 160px;">${{desc}}</td>
+            <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
+            <td class="text-end pe-4">
+                <button class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size:0.75rem;">Disable</button>
+            </td>
+        `;
+        tbody.insertBefore(tr, tbody.firstChild);
+    }}
+
+    // Reset form
+    document.getElementById('addCategoryForm').reset();
+    removeCatImage();
+
+    setTimeout(() => {{
+        if (alertBox) alertBox.classList.add('d-none');
+    }}, 3000);
+
+    return false;
+}}
+
+document.addEventListener('DOMContentLoaded', function(){{
+    const saved = JSON.parse(localStorage.getItem('ksk_custom_categories') || '[]');
+    const tbody = document.getElementById('categoryTableBody');
+    const countSpan = document.getElementById('catCountSpan');
+    if (countSpan) countSpan.textContent = 8 + saved.length;
+
+    if (tbody && saved.length > 0) {{
+        saved.forEach((c, idx) => {{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="ps-4 fw-bold">+${{idx+1}}</td>
+                <td><img src="${{c.image}}" class="rounded-3 border shadow-sm" style="width:36px;height:36px;object-fit:cover;"></td>
+                <td><strong class="text-dark">${{c.nameEn}}</strong></td>
+                <td>${{c.nameMr}}</td>
+                <td class="small text-muted text-truncate" style="max-width: 160px;">${{c.desc}}</td>
+                <td><span class="badge bg-success px-2 py-1">ACTIVE</span></td>
+                <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" style="font-size:0.75rem;" onclick="deleteCustomCategory(${{c.id}})">Delete</button>
+                </td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+        }});
+    }}
+}});
+
+function deleteCustomCategory(id) {{
+    let saved = JSON.parse(localStorage.getItem('ksk_custom_categories') || '[]');
+    saved = saved.filter(c => c.id !== id);
+    localStorage.setItem('ksk_custom_categories', JSON.stringify(saved));
+    window.location.reload();
+}}
+</script>
 """ + foot_html()
     save_admin_page("admin-categories.html", content)
-    print("Generated dist/admin-categories.html matching Screenshot 5")
+    print("Generated dist/admin-categories.html matching Screenshot 1 with Image Upload!")
 
-# ==============================================================================
-# 4. ADMIN PRODUCTS LIST
-# ==============================================================================
+
 def build_admin_products():
     sidebar = render_admin_sidebar("products")
     content = head_html("उत्पादने व्यवस्थापन", "Product Management") + nav_html("dashboard") + f"""

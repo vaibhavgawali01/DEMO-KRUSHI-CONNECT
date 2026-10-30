@@ -356,12 +356,15 @@
 document.addEventListener('DOMContentLoaded', function(){
     var savedName = localStorage.getItem('user_name') || 'VSGAWALI';
     var savedLoc = localStorage.getItem('user_location') || 'KOPARGAON, AHILYANAGAR';
+    var savedPhone = localStorage.getItem('user_phone') || '8605000000';
     
     var elName = document.getElementById('profName');
+    var elMobile = document.getElementById('profMobile');
     var elSideName = document.getElementById('sidebarUserDisplayName');
     var elSideLoc = document.getElementById('sidebarUserDisplayLoc');
     
     if (elName && savedName) elName.value = savedName;
+    if (elMobile && savedPhone) elMobile.value = savedPhone;
     if (elSideName && savedName) elSideName.textContent = savedName;
     if (elSideLoc && savedLoc) elSideLoc.textContent = savedLoc;
 });

@@ -285,7 +285,7 @@
                         <form onsubmit="alert('पेमेंट पडताळणी पूर्ण झाली! पावती लवकरच अपडेट होईल.'); return false;">
                             <div class="mb-3">
                                 <label class="form-label small fw-bold text-success">शेतकरी नाव</label>
-                                <input type="text" class="form-control" value="VSGAWALI" readonly>
+                                <input type="text" class="form-control" id="payFarmerName" value="VSGAWALI" readonly>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small fw-bold text-success">रक्कम (₹)</label>
@@ -305,6 +305,14 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var saved = localStorage.getItem('user_name');
+    var el = document.getElementById('payFarmerName');
+    if (saved && el) el.value = saved;
+});
+</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">
