@@ -245,14 +245,118 @@
 
 <script>
 const productsData = [
-    { id: 1, name_mr: "माहिको बीजी-२ कापूस बियाणे (475g)", name_en: "Mahyco BG-II Cotton Seeds (475g)", company: "Mahyco Seeds", cat: "seeds", price: 820, oldPrice: 864, img: "images/cotton_seeds.jpg", tag_mr: "उत्कृष्ट उगवणक्षमता", tag_en: "High Germination" },
-    { id: 2, name_mr: "जेएस ३३५ प्रमाणित सोयाबीन बियाणे (30 Kg)", name_en: "JS-335 Certified Soybean Seeds (30 Kg)", company: "Mahabeej", cat: "seeds", price: 2700, oldPrice: 2850, img: "images/soybean_seeds.jpg", tag_mr: "प्रमाणित बियाणे", tag_en: "Govt Certified" },
-    { id: 3, name_mr: "महाधन २४:२४:० खत (५० किलो)", name_en: "Mahadhan 24:24:0 Fertilizer (50 Kg)", company: "Deepak Fertilisers", cat: "fertilizers", price: 1680, oldPrice: 1750, img: "images/fertilizer_npk.jpg", tag_mr: "NPK कॉम्प्लेक्स", tag_en: "NPK Complex" },
-    { id: 4, name_mr: "इफको नीम कोटेड युरिया (४५ किलो)", name_en: "IFFCO Neem Coated Urea (45 Kg)", company: "IFFCO Ltd", cat: "fertilizers", price: 266, oldPrice: 266, img: "images/urea_bag.jpg", tag_mr: "शासकीय अनुदानित", tag_en: "Govt Subsidized" },
-    { id: 5, name_mr: "कोरोमंडल ग्रोमोर १०:२६:२६ खत (50 Kg)", name_en: "Coromandel Gromor 10:26:26 (50 Kg)", company: "Coromandel", cat: "fertilizers", price: 1750, oldPrice: 1820, img: "images/fertilizer_npk.jpg", tag_mr: "पोटॅशयुक्त खत", tag_en: "High Potash" },
-    { id: 6, name_mr: "फाल्कन १६ लिटर १२V बॅटरी स्प्रे पंप", name_en: "Falcon 16L 12V Battery Sprayer Pump", company: "Falcon Agri", cat: "tools", price: 2850, oldPrice: 3200, img: "images/battery_sprayer.jpg", tag_mr: "डबल मोटर तंत्रज्ञान", tag_en: "Dual Motor" },
-    { id: 7, name_mr: "जैन ठिबक १६ मिमी लॅटरल पाईप (४०० मीटर)", name_en: "Jain Drip 16mm Lateral Pipe (400m)", company: "Jain Irrigation", cat: "drip", price: 3350, oldPrice: 3600, img: "images/saptashrungi_shop.jpg", tag_mr: "ISI प्रमाणित", tag_en: "ISI Certified" },
-    { id: 8, name_mr: "लोक-१ प्रमाणित गहू बियाणे (४० किलो)", name_en: "Lok-1 Certified Wheat Seeds (40 Kg)", company: "Mahabeej", cat: "seeds", price: 1350, oldPrice: 1450, img: "images/wheat_seeds.jpg", tag_mr: "प्रमाणित बियाणे", tag_en: "Govt Certified" }
+    { 
+        id: 1, 
+        name_mr: "माहिको बीजी-२ कापूस बियाणे (475g)", 
+        name_en: "Mahyco BG-II Cotton Seeds (475g)", 
+        company: "Mahyco Seeds", 
+        cat: "seeds", 
+        price: 820, 
+        oldPrice: 864, 
+        img: "images/cotton_seeds.jpg", 
+        tag_mr: "उत्कृष्ट उगवणक्षमता", 
+        tag_en: "High Germination",
+        desc_mr: "उत्कृष्ट उगवण क्षमता (९५%+), बोंडअळी प्रतिकारक्षमता आणि जास्त उत्पादनाची खात्री. शिफारस: मध्यम ते भारी जमिनीसाठी. एकरी प्रमाण: २ पाकिटे (४७५ ग्रॅम).",
+        desc_en: "High germination rate (95%+), bollworm resistance, and superior yield. Recommended: 2 packets (475g) per acre for medium to heavy soils."
+    },
+    { 
+        id: 2, 
+        name_mr: "जेएस ३३५ प्रमाणित सोयाबीन बियाणे (30 Kg)", 
+        name_en: "JS-335 Certified Soybean Seeds (30 Kg)", 
+        company: "Mahabeej", 
+        cat: "seeds", 
+        price: 2700, 
+        oldPrice: 2850, 
+        img: "images/soybean_seeds.jpg", 
+        tag_mr: "प्रमाणित बियाणे", 
+        tag_en: "Govt Certified",
+        desc_mr: "महाराष्ट्र शासनाचे महाबीज प्रमाणित बियाणे. एकसमान दाणे, अधिक तेलाचे प्रमाण आणि रोगप्रतिकारक. एकरी प्रमाण: २५ ते ३० किलो बियाणे. पेरणीपूर्वी बीजप्रक्रिया आवश्यक.",
+        desc_en: "Govt Certified JS-335 Soybean Seeds by Mahabeej. High oil content, disease resistant. Sowing rate: 25-30 kg per acre."
+    },
+    { 
+        id: 3, 
+        name_mr: "महाधन २४:२४:० खत (५० किलो)", 
+        name_en: "Mahadhan 24:24:0 Fertilizer (50 Kg)", 
+        company: "Deepak Fertilisers", 
+        cat: "fertilizers", 
+        price: 1680, 
+        oldPrice: 1750, 
+        img: "images/fertilizer_npk.jpg", 
+        tag_mr: "NPK कॉम्प्लेक्स", 
+        tag_en: "NPK Complex",
+        desc_mr: "नायट्रोजन २४% आणि फॉस्फरस २४% युक्त संतुलित खत. मुळांची जोमदार वाढ आणि फुटवे वाढवण्यासाठी अत्यंत प्रभावी. कपाशी, ऊस, कांदा व डाळिंब पिकासाठी शिफारस.",
+        desc_en: "Balanced complex fertilizer with 24% N and 24% P. Stimulates deep root growth and vigorous tillering. Excellent for cotton, sugarcane, onion."
+    },
+    { 
+        id: 4, 
+        name_mr: "इफको नीम कोटेड युरिया (४५ किलो)", 
+        name_en: "IFFCO Neem Coated Urea (45 Kg)", 
+        company: "IFFCO Ltd", 
+        cat: "fertilizers", 
+        price: 266, 
+        oldPrice: 266, 
+        img: "images/urea_bag.jpg", 
+        tag_mr: "शासकीय अनुदानित", 
+        tag_en: "Govt Subsidized",
+        desc_mr: "कडुलिंब अर्क लेपित (Neem Coated) ४६% नत्र. खताचा अपव्यय कमी होऊन पिकांना हळूहळू आणि दीर्घकाळ नत्र मिळते. शासकीय नियंत्रित दरात थेट उपलब्ध.",
+        desc_en: "Neem coated Urea with 46% Nitrogen. Slow-release formula ensures minimum leaching and prolonged crop nourishment at govt subsidized rate."
+    },
+    { 
+        id: 5, 
+        name_mr: "कोरोमंडल ग्रोमोर १०:२६:२६ खत (50 Kg)", 
+        name_en: "Coromandel Gromor 10:26:26 (50 Kg)", 
+        company: "Coromandel", 
+        cat: "fertilizers", 
+        price: 1750, 
+        oldPrice: 1820, 
+        img: "images/fertilizer_npk.jpg", 
+        tag_mr: "पोटॅशयुक्त खत", 
+        tag_en: "High Potash",
+        desc_mr: "पोटॅशयुक्त (२६% पोटॅश, २६% फॉस्फरस, १०% नत्र) खत. फळांचा व दाण्यांचा आकार, चमक आणि वजन वाढवण्यासाठी सर्वोत्तम. सोयाबीन, कांदा, बटाटा पिकासाठी आदर्श.",
+        desc_en: "High-grade NPK (10:26:26) enriched with potassium. Maximizes grain weight, fruit size, and drought resilience in all crops."
+    },
+    { 
+        id: 6, 
+        name_mr: "फाल्कन १६ लिटर १२V बॅटरी स्प्रे पंप", 
+        name_en: "Falcon 16L 12V Battery Sprayer Pump", 
+        company: "Falcon Agri", 
+        cat: "tools", 
+        price: 2850, 
+        oldPrice: 3200, 
+        img: "images/battery_sprayer.jpg", 
+        tag_mr: "डबल मोटर तंत्रज्ञान", 
+        tag_en: "Dual Motor",
+        desc_mr: "१६ लिटर क्षमतेची मजबूत टाकी, १२V / १२Ah पॉवरफुल बॅटरी, डबल मोटर प्रेशर तंत्रज्ञान. एका चार्जवर १५ ते १८ पंप फवारणी. सोबत ४ प्रकारचे नोझल्स व चार्जर मोफत.",
+        desc_en: "Heavy-duty 16L battery sprayer with dual motor pressure system and 12V battery. Sprays up to 15-18 tanks on a single full charge. Includes 4 nozzles."
+    },
+    { 
+        id: 7, 
+        name_mr: "जैन ठिबक १६ मिमी लॅटरल पाईप (४०० मीटर)", 
+        name_en: "Jain Drip 16mm Lateral Pipe (400m)", 
+        company: "Jain Irrigation", 
+        cat: "drip", 
+        price: 3350, 
+        oldPrice: 3600, 
+        img: "images/drip_lateral_pipe.jpg", 
+        tag_mr: "ISI प्रमाणित", 
+        tag_en: "ISI Certified",
+        desc_mr: "जैन इरिगेशन ओरिजिनल १६ मिमी लॅटरल पाईप, क्लास २, ४०० मीटर बंडल. यूव्ही स्टेबिलाइझ्ड व्हर्जिन पॉलिमर, ऊन व खतांच्या पाण्याच्या संपर्कात ५+ वर्षे टिकते. आयएसआय हॉलमार्क.",
+        desc_en: "Original Jain Irrigation 16mm Lateral Pipe (Class 2, 400m bundle). UV-stabilized virgin polymer, crack resistant, 5+ years operational life. ISI certified."
+    },
+    { 
+        id: 8, 
+        name_mr: "लोक-१ प्रमाणित गहू बियाणे (४० किलो)", 
+        name_en: "Lok-1 Certified Wheat Seeds (40 Kg)", 
+        company: "Mahabeej", 
+        cat: "seeds", 
+        price: 1350, 
+        oldPrice: 1450, 
+        img: "images/wheat_seeds.jpg", 
+        tag_mr: "प्रमाणित बियाणे", 
+        tag_en: "Govt Certified",
+        desc_mr: "लोक-१ उत्कृष्ट चपाती गुणवत्ता असलेले महाबीज प्रमाणित गहू बियाणे. १००-१०५ दिवसांत पक्व. एकरी उत्पादन १८ ते २२ क्विंटल. एकरी प्रमाण: ४० किलो बियाणे.",
+        desc_en: "Certified Lok-1 Wheat Seeds by Mahabeej. Premium rotis, matures in 100-105 days, average yield 18-22 quintals/acre. 40kg per acre."
+    }
 ];
 
 function updatePrice(val) { document.getElementById('priceVal').textContent = '₹' + val; filterProducts(); }
@@ -308,10 +412,12 @@ function filterProducts() {
                         <span class="fs-4 fw-bold text-success">₹${p.price.toLocaleString('en-IN')}</span>
                         ${p.oldPrice > p.price ? `<span class="text-decoration-line-through text-muted ms-2 small">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : ''}
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                        <span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle me-1"></i><span class="lang-mr">उपलब्ध</span><span class="lang-en">In Stock</span></span>
-                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20${encodeURIComponent(p.name_mr)}%20खरेदी%20करायचे%20आहे." target="_blank" class="btn btn-sm btn-success rounded-pill px-3">
-                            <i class="bi bi-whatsapp me-1"></i><span class="lang-mr">मागवा</span><span class="lang-en">Order</span>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top gap-2 flex-wrap">
+                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold flex-fill shadow-sm" onclick="openProductModal(${p.id})">
+                            <i class="bi bi-info-circle me-1"></i><span class="lang-mr">माहिती पाहा</span><span class="lang-en">View Details</span>
+                        </button>
+                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20${encodeURIComponent(p.name_mr)}%20खरेदी%20करायचे%20आहे." target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold flex-fill shadow-sm" style="background:#16a34a; border:none;">
+                            <i class="bi bi-whatsapp me-1"></i><span class="lang-mr">ऑर्डर</span><span class="lang-en">Order</span>
                         </a>
                     </div>
                 </div>
@@ -321,7 +427,95 @@ function filterProducts() {
     });
 }
 document.addEventListener('DOMContentLoaded', filterProducts);
+
+function openProductModal(id) {
+    const p = productsData.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('modalProdTitle').textContent = p.name_mr;
+    document.getElementById('modalProdName').textContent = p.name_mr;
+    document.getElementById('modalProdNameEn').textContent = p.name_en;
+    document.getElementById('modalProdCompany').textContent = p.company;
+    document.getElementById('modalProdImg').src = p.img;
+    document.getElementById('modalProdTag').textContent = p.tag_mr;
+    document.getElementById('modalProdPrice').textContent = '₹' + p.price.toLocaleString('en-IN');
+    
+    if (p.oldPrice > p.price) {
+        document.getElementById('modalProdOldPrice').textContent = '₹' + p.oldPrice.toLocaleString('en-IN');
+        document.getElementById('modalProdSave').textContent = 'बचत: ₹' + (p.oldPrice - p.price).toLocaleString('en-IN');
+        document.getElementById('modalProdOldPrice').classList.remove('d-none');
+        document.getElementById('modalProdSave').classList.remove('d-none');
+    } else {
+        document.getElementById('modalProdOldPrice').classList.add('d-none');
+        document.getElementById('modalProdSave').classList.add('d-none');
+    }
+    
+    document.getElementById('modalProdCat').textContent = p.cat.toUpperCase();
+    document.getElementById('modalProdDesc').textContent = p.desc_mr || 'उत्कृष्ट गुणवत्ता आणि हमखास उत्पादन देणारे प्रमाणित कृषी उत्पादन.';
+    document.getElementById('modalProdWaBtn').href = 'https://wa.me/918600813827?text=' + encodeURIComponent('नमस्कार, मला ' + p.name_mr + ' बद्दल माहिती हवी आहे आणि खरेदी करायची आहे.');
+    
+    const m = new bootstrap.Modal(document.getElementById('productDetailsModal'));
+    m.show();
+}
 </script>
+
+<!-- Product Details Modal -->
+<div class="modal fade" id="productDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-success text-white py-3 px-4">
+                <h5 class="modal-title fw-bold d-flex align-items-center gap-2">
+                    <i class="bi bi-box-seam"></i>
+                    <span id="modalProdTitle">उत्पादन तपशील (Product Details)</span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-5 text-center">
+                        <div class="p-2 border rounded-4 bg-light shadow-sm">
+                            <img id="modalProdImg" src="" alt="Product" class="img-fluid rounded-3" style="max-height: 260px; object-fit: contain;">
+                        </div>
+                        <div class="mt-3">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold" id="modalProdTag">
+                                Verified
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <span class="badge bg-light text-muted border px-2 py-1 small fw-bold text-uppercase" id="modalProdCompany">Brand</span>
+                        <h4 class="fw-bold text-dark mt-2 mb-1" id="modalProdName">Name</h4>
+                        <small class="text-muted d-block mb-3" id="modalProdNameEn">Name EN</small>
+                        
+                        <div class="d-flex align-items-baseline gap-2 mb-3">
+                            <span class="fs-2 fw-bold text-success" id="modalProdPrice">₹0</span>
+                            <span class="text-decoration-line-through text-muted small" id="modalProdOldPrice"></span>
+                            <span class="badge bg-danger text-white px-2 py-1 rounded-pill small" id="modalProdSave"></span>
+                        </div>
+                        
+                        <div class="p-3 rounded-4 bg-light border mb-3">
+                            <div class="row g-2 small">
+                                <div class="col-6"><strong>वर्गवारी (Category):</strong> <span id="modalProdCat" class="text-success fw-bold"></span></div>
+                                <div class="col-6"><strong>उपलब्धता (Stock):</strong> <span class="badge bg-success text-white">उपलब्ध (In Stock)</span></div>
+                                <div class="col-12 mt-2"><strong>वापर व प्रमाण (Dosage / Specifications):</strong></div>
+                                <div class="col-12 text-muted" id="modalProdDesc" style="line-height: 1.6; font-size:13.5px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <a id="modalProdWaBtn" href="#" target="_blank" class="btn btn-success rounded-pill px-4 py-2 fw-bold flex-fill shadow-sm d-flex align-items-center justify-content-center gap-2" style="background:#15803d; border:none;">
+                                <i class="bi bi-whatsapp fs-5"></i>
+                                <span><span class="lang-mr">व्हॉट्सॲपवर ऑर्डर करा</span><span class="lang-en">Order on WhatsApp</span></span>
+                            </a>
+                            <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-bold" data-bs-dismiss="modal">
+                                <span class="lang-mr">बंद करा</span><span class="lang-en">Close</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">
