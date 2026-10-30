@@ -294,7 +294,7 @@
                                     <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="adminProductsTableBody">
                                 <tr>
                                     <td class="ps-4"><img src="images/wheat_seeds.jpg" class="rounded-3" style="width:40px;height:40px;object-fit:cover;"></td>
                                     <td><strong class="text-dark">Wheat Seeds (Lok-1)</strong></td>
@@ -342,6 +342,47 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const tbody = document.getElementById('adminProductsTableBody');
+    const customProds = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+    if (tbody && customProds.length > 0) {
+        customProds.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.className = 'table-success-subtle';
+            tr.innerHTML = `
+                <td class="ps-4">
+                    <img src="${p.image}" class="rounded-3 shadow-sm border" style="width:44px;height:44px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
+                </td>
+                <td>
+                    <strong class="text-dark d-block">${p.nameEn}</strong>
+                    <small class="text-muted">${p.nameMr}</small>
+                </td>
+                <td>${p.company}</td>
+                <td><span class="badge bg-light text-dark border">${p.category}</span></td>
+                <td><strong class="text-success">₹${p.discountPrice || p.price}</strong></td>
+                <td><span class="badge bg-success">${p.stock}</span></td>
+                <td><span class="badge bg-success-subtle text-success">Active</span></td>
+                <td class="text-end pe-4">
+                    <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${p.id})"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+        });
+    }
+});
+
+function deleteCustomProduct(id) {
+    if (confirm('या उत्पादनाला काढून टाकायचे आहे का? (Delete this product?)')) {
+        let prods = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+        prods = prods.filter(p => p.id !== id);
+        localStorage.setItem('ksk_custom_products', JSON.stringify(prods));
+        window.location.reload();
+    }
+}
+</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container">

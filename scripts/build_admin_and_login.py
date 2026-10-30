@@ -824,7 +824,7 @@ def build_admin_products():
                                     <th class="text-end pe-4">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="adminProductsTableBody">
                                 <tr>
                                     <td class="ps-4"><img src="images/wheat_seeds.jpg" class="rounded-3" style="width:40px;height:40px;object-fit:cover;"></td>
                                     <td><strong class="text-dark">Wheat Seeds (Lok-1)</strong></td>
@@ -872,6 +872,47 @@ def build_admin_products():
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){{
+    const tbody = document.getElementById('adminProductsTableBody');
+    const customProds = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+    if (tbody && customProds.length > 0) {{
+        customProds.forEach(p => {{
+            const tr = document.createElement('tr');
+            tr.className = 'table-success-subtle';
+            tr.innerHTML = `
+                <td class="ps-4">
+                    <img src="${{p.image}}" class="rounded-3 shadow-sm border" style="width:44px;height:44px;object-fit:cover;" onerror="this.src='images/cotton_seeds.jpg'">
+                </td>
+                <td>
+                    <strong class="text-dark d-block">${{p.nameEn}}</strong>
+                    <small class="text-muted">${{p.nameMr}}</small>
+                </td>
+                <td>${{p.company}}</td>
+                <td><span class="badge bg-light text-dark border">${{p.category}}</span></td>
+                <td><strong class="text-success">₹${{p.discountPrice || p.price}}</strong></td>
+                <td><span class="badge bg-success">${{p.stock}}</span></td>
+                <td><span class="badge bg-success-subtle text-success">Active</span></td>
+                <td class="text-end pe-4">
+                    <a href="admin-product-form.html" class="btn btn-sm btn-outline-primary py-1 px-2"><i class="bi bi-pencil-square"></i></a>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteCustomProduct(${{p.id}})"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            tbody.insertBefore(tr, tbody.firstChild);
+        }});
+    }}
+}});
+
+function deleteCustomProduct(id) {{
+    if (confirm('या उत्पादनाला काढून टाकायचे आहे का? (Delete this product?)')) {{
+        let prods = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+        prods = prods.filter(p => p.id !== id);
+        localStorage.setItem('ksk_custom_products', JSON.stringify(prods));
+        window.location.reload();
+    }}
+}}
+</script>
 """ + foot_html()
     save_admin_page("admin-products.html", content)
     print("Generated dist/admin-products.html")
@@ -891,65 +932,167 @@ def build_admin_product_form():
 
         <div class="col-lg-9 col-xl-10">
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-plus-circle text-success me-2"></i><span class="lang-mr">उत्पादन जोडा / बदला</span><span class="lang-en">Add / Edit Product</span></h5>
-                    <a href="admin-products.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">&larr; Back to Products</a>
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle text-success fs-5"></i>
+                        <span class="lang-mr">उत्पादन जोडा / बदला</span>
+                        <span class="lang-en">Add / Edit Product</span>
+                    </h5>
+                    <a href="admin-products.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">&larr; <span class="lang-mr">उत्पादनांकडे परत जा</span><span class="lang-en">Back to Products</span></a>
                 </div>
                 <div class="card-body p-4">
-                    <form onsubmit="alert('Product saved successfully!'); window.location.href='admin-products.html'; return false;">
+                    <div id="saveAlert" class="alert alert-success d-none py-2 mb-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <span class="lang-mr">उत्पादन फोटोसह यशस्वीरित्या सेव्ह केले!</span>
+                        <span class="lang-en">Product saved successfully with image!</span>
+                    </div>
+
+                    <form id="productForm" onsubmit="return handleSaveProduct(event)">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold text-success">Product Name (English) *</label>
-                                <input type="text" class="form-control" placeholder="e.g. Wheat Seeds (Lok-1)" required>
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाचे नाव (इंग्रजी) *</span>
+                                    <span class="lang-en">Product Name (English) *</span>
+                                </label>
+                                <input type="text" id="pNameEn" class="form-control" placeholder="e.g. Wheat Seeds (Lok-1)" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold text-success">Product Name (Marathi)</label>
-                                <input type="text" class="form-control" placeholder="उदा. गहू बियाणे (लोक-१)">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाचे नाव (मराठी)</span>
+                                    <span class="lang-en">Product Name (Marathi)</span>
+                                </label>
+                                <input type="text" id="pNameMr" class="form-control" placeholder="उदा. गहू बियाणे (लोक-१)">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold text-success">Company / Brand</label>
-                                <input type="text" class="form-control" placeholder="e.g. MAHABEEJ / IFFCO">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">कंपनी / ब्रँड</span>
+                                    <span class="lang-en">Company / Brand</span>
+                                </label>
+                                <input type="text" id="pCompany" class="form-control" placeholder="e.g. MAHABEEJ / IFFCO">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold text-success">Category</label>
-                                <select class="form-select">
-                                    <option value="1">Seeds (बियाणे)</option>
-                                    <option value="2">Fertilizers (खते)</option>
-                                    <option value="3">Pesticides (कीटकनाशके)</option>
-                                    <option value="4">Farming Tools (शेती अवजारे)</option>
-                                    <option value="5">Drip Irrigation (ठिबक सिंचन)</option>
-                                    <option value="6">Animal Feed (पशूखाद्य)</option>
-                                    <option value="7">Organic Products (सेंद्रिय)</option>
-                                    <option value="8">Plant Growth Promoters (वाढ संप्रेरके)</option>
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">वर्गवारी (Category)</span>
+                                    <span class="lang-en">Category</span>
+                                </label>
+                                <select id="pCategory" class="form-select">
+                                    <option value="Seeds">Seeds (बियाणे)</option>
+                                    <option value="Fertilizers">Fertilizers (खते)</option>
+                                    <option value="Pesticides">Pesticides (कीटकनाशके)</option>
+                                    <option value="Farming Tools">Farming Tools (शेती अवजारे)</option>
+                                    <option value="Drip Irrigation">Drip Irrigation (ठिबक सिंचन)</option>
+                                    <option value="Animal Feed">Animal Feed (पशूखाद्य)</option>
+                                    <option value="Organic Products">Organic Products (सेंद्रिय)</option>
+                                    <option value="Plant Growth Promoters">Plant Growth Promoters (वाढ संप्रेरके)</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold text-success">GST Rate (%)</label>
-                                <input type="number" step="0.01" class="form-control" placeholder="0.00 or 5.00" value="0.00">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">जीएसटी दर (%)</span>
+                                    <span class="lang-en">GST Rate (%)</span>
+                                </label>
+                                <input type="number" step="0.01" id="pGst" class="form-control" placeholder="0.00 or 5.00" value="0.00">
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-success">Original Price (₹) *</label>
-                                <input type="number" step="0.01" class="form-control" placeholder="1450" required>
+
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">मूळ किंमत (₹) *</span>
+                                    <span class="lang-en">Original Price (₹) *</span>
+                                </label>
+                                <input type="number" step="0.01" id="pPrice" class="form-control" placeholder="1450" required>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold text-success">Discount Price (₹)</label>
-                                <input type="number" step="0.01" class="form-control" placeholder="1350">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">सवलत किंमत (₹)</span>
+                                    <span class="lang-en">Discount Price (₹)</span>
+                                </label>
+                                <input type="number" step="0.01" id="pDiscount" class="form-control" placeholder="1350">
                             </div>
-                            <div class="col-md-2">
-                                <label class="form-label small fw-bold text-success">Stock Quantity</label>
-                                <input type="number" class="form-control" placeholder="60" value="50">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उपलब्ध साठा (Stock)</span>
+                                    <span class="lang-en">Stock Quantity</span>
+                                </label>
+                                <input type="number" id="pStock" class="form-control" placeholder="50" value="50">
                             </div>
-                            <div class="col-md-2">
-                                <label class="form-label small fw-bold text-success">Minimum Stock Alert</label>
-                                <input type="number" class="form-control" placeholder="10" value="10">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">किमान साठा अलर्ट</span>
+                                    <span class="lang-en">Minimum Stock Alert</span>
+                                </label>
+                                <input type="number" id="pMinStock" class="form-control" placeholder="10" value="10">
                             </div>
+
+                            <!-- Product Image Upload Box (Requested Feature) -->
                             <div class="col-12">
-                                <label class="form-label small fw-bold text-success">Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter product usage details, application dosage, etc."></textarea>
+                                <label class="form-label small fw-bold text-success d-flex align-items-center gap-1">
+                                    <i class="bi bi-image-fill"></i>
+                                    <span class="lang-mr">उत्पादनाचा फोटो (Product Image) *</span>
+                                    <span class="lang-en">Product Image *</span>
+                                </label>
+
+                                <div class="product-image-upload-box p-4 rounded-4 text-center border-dashed"
+                                     id="productDropzone"
+                                     onclick="triggerFileInput()"
+                                     style="border: 2px dashed #16a34a; background: #f0fdf4; cursor: pointer; transition: all 0.2s;">
+                                    
+                                    <input type="file" id="productImageInput" accept="image/jpeg,image/png,image/webp,image/jpg,image/gif" class="d-none" onchange="previewProductImage(event)">
+                                    
+                                    <!-- Upload Prompt (Click or Drag) -->
+                                    <div id="uploadPrompt" class="py-2">
+                                        <div class="mb-2">
+                                            <i class="bi bi-cloud-arrow-up-fill text-success" style="font-size: 2.75rem;"></i>
+                                        </div>
+                                        <h6 class="fw-bold text-dark mb-1">
+                                            <span class="lang-mr">फोटो निवडण्यासाठी येथे क्लिक करा</span>
+                                            <span class="lang-en">Click here to upload product image</span>
+                                        </h6>
+                                        <p class="small text-muted mb-2">
+                                            <span class="lang-mr">किंवा तुमच्या डिव्हाइसवरून इमेज फाइल येथे ड्रॅग आणि ड्रॉप करा (JPG, PNG, WebP)</span>
+                                            <span class="lang-en">or drag and drop your image file here (JPG, PNG, WebP, max 10MB)</span>
+                                        </p>
+                                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 fw-bold">
+                                            <i class="bi bi-folder2-open me-1"></i>
+                                            <span class="lang-mr">फाइल निवडा (Choose File)</span>
+                                            <span class="lang-en">Choose File</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Live Selected Image Preview -->
+                                    <div id="imagePreviewWrap" class="d-none text-center py-2">
+                                        <div class="d-inline-block position-relative shadow-sm rounded-4 overflow-hidden border p-2 bg-white">
+                                            <img id="productImagePreview" src="" alt="Selected Product Image" style="max-height: 200px; max-width: 100%; object-fit: contain; border-radius: 10px;">
+                                            <button type="button" onclick="removeProductImage(event)" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Remove image">
+                                                <i class="bi bi-trash-fill fs-6"></i>
+                                            </button>
+                                        </div>
+                                        <div class="mt-2 d-flex align-items-center justify-content-center gap-2">
+                                            <span id="imageFileName" class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small fw-semibold"></span>
+                                            <button type="button" onclick="triggerFileInput(); event.stopPropagation();" class="btn btn-sm btn-link text-success text-decoration-none fw-bold">
+                                                <i class="bi bi-arrow-repeat me-1"></i>
+                                                <span class="lang-mr">फोटो बदला (Change Image)</span>
+                                                <span class="lang-en">Change Image</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-text small text-muted">
+                                    <span class="lang-mr">दुकानात व वेबसाइटवर दाखवण्यासाठी उत्पादनाचा स्पष्ट फोटो निवडा.</span>
+                                    <span class="lang-en">Select a clear product image to display in store catalog.</span>
+                                </div>
                             </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-success">
+                                    <span class="lang-mr">उत्पादनाची माहिती / वापर (Description)</span>
+                                    <span class="lang-en">Description</span>
+                                </label>
+                                <textarea id="pDesc" class="form-control" rows="3" placeholder="Enter product usage details, application dosage, etc."></textarea>
+                            </div>
+
                             <div class="col-12 text-end pt-3">
-                                <button type="submit" class="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
-                                    💾 Save Product
+                                <button type="submit" id="btnSaveProd" class="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm" style="background:#16a34a;border:none;">
+                                    💾 <span class="lang-mr">उत्पादन सेव्ह करा</span><span class="lang-en">Save Product</span>
                                 </button>
                             </div>
                         </div>
@@ -959,13 +1102,127 @@ def build_admin_product_form():
         </div>
     </div>
 </div>
+
+<script>
+let selectedProductImageDataUrl = '';
+
+function triggerFileInput() {{
+    var input = document.getElementById('productImageInput');
+    if (input) input.click();
+}}
+
+function previewProductImage(event) {{
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {{
+        selectedProductImageDataUrl = e.target.result;
+        const img = document.getElementById('productImagePreview');
+        const promptBox = document.getElementById('uploadPrompt');
+        const previewWrap = document.getElementById('imagePreviewWrap');
+        const fileNameBadge = document.getElementById('imageFileName');
+
+        if (img) img.src = selectedProductImageDataUrl;
+        if (fileNameBadge) fileNameBadge.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        if (promptBox) promptBox.classList.add('d-none');
+        if (previewWrap) previewWrap.classList.remove('d-none');
+    }};
+    reader.readAsDataURL(file);
+}}
+
+function removeProductImage(event) {{
+    if (event) event.stopPropagation();
+    selectedProductImageDataUrl = '';
+    const input = document.getElementById('productImageInput');
+    if (input) input.value = '';
+    const promptBox = document.getElementById('uploadPrompt');
+    const previewWrap = document.getElementById('imagePreviewWrap');
+    if (promptBox) promptBox.classList.remove('d-none');
+    if (previewWrap) previewWrap.classList.add('d-none');
+}}
+
+// Drag & Drop event bindings
+document.addEventListener('DOMContentLoaded', function(){{
+    const dropzone = document.getElementById('productDropzone');
+    if (dropzone) {{
+        ['dragenter', 'dragover'].forEach(eventName => {{
+            dropzone.addEventListener(eventName, (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.style.background = '#dcfce7';
+                dropzone.style.borderColor = '#15803d';
+            }}, false);
+        }});
+        ['dragleave', 'drop'].forEach(eventName => {{
+            dropzone.addEventListener(eventName, (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.style.background = '#f0fdf4';
+                dropzone.style.borderColor = '#16a34a';
+            }}, false);
+        }});
+        dropzone.addEventListener('drop', (e) => {{
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files[0]) {{
+                const input = document.getElementById('productImageInput');
+                input.files = files;
+                previewProductImage({{ target: {{ files: files }} }});
+            }}
+        }}, false);
+    }}
+}});
+
+function handleSaveProduct(e) {{
+    if (e && e.preventDefault) e.preventDefault();
+    
+    const nameEn = document.getElementById('pNameEn').value.trim();
+    const nameMr = document.getElementById('pNameMr').value.trim() || nameEn;
+    const company = document.getElementById('pCompany').value.trim() || 'Saptashrungi Agro';
+    const category = document.getElementById('pCategory').value;
+    const price = parseFloat(document.getElementById('pPrice').value) || 0;
+    const discountPrice = parseFloat(document.getElementById('pDiscount').value) || price;
+    const stock = parseInt(document.getElementById('pStock').value) || 50;
+    const desc = document.getElementById('pDesc').value.trim();
+    const image = selectedProductImageDataUrl || 'images/cotton_seeds.jpg';
+
+    const newProd = {{
+        id: Date.now(),
+        nameEn: nameEn,
+        nameMr: nameMr,
+        company: company,
+        category: category,
+        price: price,
+        discountPrice: discountPrice,
+        stock: stock,
+        desc: desc,
+        image: image,
+        createdAt: new Date().toISOString()
+    }};
+
+    // Save to localStorage
+    const saved = JSON.parse(localStorage.getItem('ksk_custom_products') || '[]');
+    saved.unshift(newProd);
+    localStorage.setItem('ksk_custom_products', JSON.stringify(saved));
+
+    const alertBox = document.getElementById('saveAlert');
+    if (alertBox) {{
+        alertBox.classList.remove('d-none');
+    }}
+
+    setTimeout(() => {{
+        window.location.href = 'admin-products.html';
+    }}, 1200);
+
+    return false;
+}}
+</script>
 """ + foot_html()
     save_admin_page("admin-product-form.html", content)
-    print("Generated dist/admin-product-form.html")
+    print("Generated dist/admin-product-form.html with Image Upload and Live Preview!")
 
-# ==============================================================================
-# 6. ADMIN UDHARI (Credit Ledger)
-# ==============================================================================
+
 def build_admin_udhari():
     sidebar = render_admin_sidebar("udhari")
     content = head_html("उधारी व्यवस्थापन", "Credit Ledger Management") + nav_html("dashboard") + f"""
