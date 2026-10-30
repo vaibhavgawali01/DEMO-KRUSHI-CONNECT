@@ -33,3 +33,5 @@ target/
 Thumbs.db
 *.log
 *.tmp
+__pycache__/
+*.pyc

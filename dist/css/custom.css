@@ -2839,3 +2839,53 @@ body {
     display: block !important;
 }
 
+
+
+/* ===================================================================
+   Full Bilingual Switcher (Marathi / English)
+=================================================================== */
+html[lang="mr"] .lang-en {
+    display: none !important;
+}
+html[lang="mr"] .lang-mr {
+    display: inline;
+}
+html[lang="mr"] div.lang-mr,
+html[lang="mr"] p.lang-mr,
+html[lang="mr"] section.lang-mr,
+html[lang="mr"] h1.lang-mr,
+html[lang="mr"] h2.lang-mr,
+html[lang="mr"] h3.lang-mr,
+html[lang="mr"] h4.lang-mr,
+html[lang="mr"] h5.lang-mr,
+html[lang="mr"] h6.lang-mr,
+html[lang="mr"] ul.lang-mr,
+html[lang="mr"] li.lang-mr {
+    display: block !important;
+}
+html[lang="mr"] .lang-mr.d-flex {
+    display: flex !important;
+}
+
+html[lang="en"] .lang-mr {
+    display: none !important;
+}
+html[lang="en"] .lang-en {
+    display: inline;
+}
+html[lang="en"] div.lang-en,
+html[lang="en"] p.lang-en,
+html[lang="en"] section.lang-en,
+html[lang="en"] h1.lang-en,
+html[lang="en"] h2.lang-en,
+html[lang="en"] h3.lang-en,
+html[lang="en"] h4.lang-en,
+html[lang="en"] h5.lang-en,
+html[lang="en"] h6.lang-en,
+html[lang="en"] ul.lang-en,
+html[lang="en"] li.lang-en {
+    display: block !important;
+}
+html[lang="en"] .lang-en.d-flex {
+    display: flex !important;
+}

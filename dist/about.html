@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro)</title>
+    <title>आमच्याबद्दल | About Us - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons & Tabler Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,129 +32,207 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
-        <!-- Logo & Branding -->
+        <!-- Brand -->
         <a class="navbar-brand-custom" href="index.html">
-            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Saptashrungi Agro Services Logo">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
             <div>
-                <span class="brand-text-primary">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
-                <span class="brand-text-secondary d-none d-sm-block">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Quality Agricultural Guidance</span>
+                </span>
             </div>
         </a>
 
         <!-- Mobile Language Switcher -->
         <div class="d-flex align-items-center d-lg-none ms-auto me-2">
             <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
-                <button type="button" onclick="setLang('mr')" id="btnLangMrMob" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold" style="font-size:0.75rem;">🌾 मराठी</button>
-                <button type="button" onclick="setLang('en')" id="btnLangEnMob" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold" style="font-size:0.75rem;">Eng</button>
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">Eng</button>
             </div>
         </div>
 
-        <!-- Mobile Toggle -->
         <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-2 gap-xl-3">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="index.html"><i class="bi bi-house-door me-1"></i><span class="lang-text" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="index.html">
+                        <i class="bi bi-house-door me-1"></i>
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="products.html"><i class="bi bi-grid me-1"></i><span class="lang-text" data-mr="उत्पादने" data-en="Products">उत्पादने</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="products.html">
+                        <i class="bi bi-grid me-1"></i>
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom px-lg-3" href="index.html#reviews">
-                        <i class="bi bi-star-fill text-warning me-1"></i><span class="lang-text" data-mr="अभिप्राय (Reviews)" data-en="Reviews">अभिप्राय (Reviews)</span>
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय (Reviews)</span><span class="lang-en">Reviews</span>
                     </a>
                 </li>
 
                 <!-- Farming Advisory Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-link-custom px-lg-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-cloud-sun text-success me-1"></i><span class="lang-text" data-mr="कृषी सल्लागार" data-en="Farming Advisory">कृषी सल्लागार</span>
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
                     </a>
                     <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
-                        <li><a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html"><i class="bi bi-calculator me-2 text-success"></i><span class="lang-text" data-mr="खत कॅल्क्युलेटर" data-en="Fertilizer Calculator">खत कॅल्क्युलेटर</span></a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" href="weather.html"><i class="bi bi-cloud-rain me-2 text-primary"></i><span class="lang-text" data-mr="हवामान अंदाज" data-en="Weather Forecast">हवामान अंदाज</span></a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" href="farming-tips.html"><i class="bi bi-journal-text me-2 text-warning"></i><span class="lang-text" data-mr="पीक संरक्षण व कीड सल्ला" data-en="Crop Care & Pest Advice">पीक संरक्षण व कीड सल्ला</span></a></li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3 active fw-bold" href="about.html"><span class="lang-text" data-mr="आमच्याबद्दल" data-en="About Us">आमच्याबद्दल</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3 active fw-bold" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="contact.html"><span class="lang-text" data-mr="संपर्क" data-en="Contact">संपर्क</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="faq.html"><span class="lang-text" data-mr="FAQ" data-en="FAQ">FAQ</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="faq.html">
+                        <span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span>
+                    </a>
                 </li>
             </ul>
 
-            <!-- Right Controls: Language Switcher & Login -->
+            <!-- Desktop Language Switcher & Login -->
             <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                 <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
-                    <button type="button" onclick="setLang('mr')" id="btnLangMr" class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold" style="font-size:0.8rem;">🌾 मराठी</button>
-                    <button type="button" onclick="setLang('en')" id="btnLangEn" class="btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold" style="font-size:0.8rem;">Eng</button>
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr" style="font-size:0.8rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en" style="font-size:0.8rem;">Eng</button>
                 </div>
 
                 <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person-circle me-1"></i><span class="lang-text" data-mr="लॉगिन" data-en="Login">लॉगिन</span>
+                    <i class="bi bi-person-circle me-1"></i>
+                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
                 </a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container my-5">
+<section style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 50%, #0d3b0d 100%); min-height: 280px; display:flex; align-items:center; position:relative; overflow:hidden;">
+    <div class="container text-center py-5 text-white position-relative" style="z-index:2;">
+        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;">
+            🌾 <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+        </span>
+        <h1 class="display-5 fw-bold mb-3">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+            <span class="lang-en">Saptashrungi Agro Services</span>
+        </h1>
+        <p class="lead mb-0 text-white-50" style="max-width:650px; margin:0 auto;">
+            <span class="lang-mr">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र</span>
+            <span class="lang-en">Authorized agricultural service center in Mirakhnagar, Vaijapur</span>
+        </p>
+    </div>
+</section>
+
+<section class="container my-5">
     <div class="row align-items-center g-5">
         <div class="col-lg-6">
-            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
-                आमची ओळख (About Us)
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">
+                🌱 <span class="lang-mr">आमची कहाणी</span><span class="lang-en">Our Story</span>
             </span>
-            <h2 class="display-6 fw-bold text-success mb-3">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर, वैजापूर</h2>
-            <p class="text-secondary lead fs-6">
-                आम्ही वैजापूर व पंचक्रोशीतील शेतकरी बांधवांच्या समृद्धीसाठी कटिबद्ध असलेले अधिकृत व प्रमाणित कृषी सेवा केंद्र आहोत.
+            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;">
+                <span class="lang-mr">शेतकऱ्यांच्या समृद्धीसाठी<br><span style="color:#1b5e20;">समर्पित कृषी सेवा</span></span>
+                <span class="lang-en">Dedicated Agricultural Support<br><span style="color:#1b5e20;">For Farmer Prosperity</span></span>
+            </h2>
+
+            <p class="text-muted mb-3" style="line-height:1.8;">
+                <span class="lang-mr"><strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे मिरखनगर (वैजापूर, छत्रपती संभाजीनगर) येथील नामांकित कृषी सेवा केंद्र आहे. आमच्या केंद्रावर परिसरातील शेतकरी बांधवांना लागणारे सर्व प्रकारचे प्रमाणित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, परिणामकारक पीक संरक्षण औषधे आणि आधुनिक ठिबक सिंचन साहित्य एकाच छताखाली उपलब्ध आहे.</span>
+                <span class="lang-en"><strong>Saptashrungi Agro Services</strong> is a premier authorized agricultural inputs center situated in Mirakhnagar, Vaijapur. We provide certified hybrid seeds, high-efficiency chemical and organic fertilizers, crop protection agrochemicals, and micro-irrigation systems under one roof.</span>
             </p>
-            <p class="text-muted small">
-                गेल्या अनेक वर्षांपासून आम्ही उच्च प्रतीची महाबीज व नामांकित कंपन्यांची बियाणे, इफको व कोरोमंडलची खते, कीटकनाशके आणि जैन ठिबक सिंचन साहित्य रास्त भावात शेतकऱ्यांना उपलब्ध करून देत आहोत. आमच्याकडे केवळ माल विकला जात नाही, तर शेतकऱ्याला योग्य पीक सल्ला आणि आर्थिक सहकार्य दिले जाते.
+            <p class="text-muted mb-4" style="line-height:1.8;">
+                <span class="lang-mr">आमचा उद्देश केवळ उत्पादने विकणे हा नसून, प्रत्येक शेतकऱ्याला जमिनीचे आरोग्य टिकवून कमी खर्चात अधिक उत्पादन घेण्यासाठी योग्य व शास्त्रीय मार्गदर्शन देणे हा आहे.</span>
+                <span class="lang-en">Our core mission extends beyond retailing; we empower farmers with scientific nutrient schedules and IPM practices to maximize yields while minimizing cultivation costs.</span>
             </p>
-            <div class="row g-3 pt-2">
-                <div class="col-6">
-                    <div class="p-3 rounded-3 bg-light border">
-                        <h4 class="fw-bold text-success mb-0">५००+</h4>
-                        <small class="text-muted">समाधानी शेतकरी ग्राहक</small>
+
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-3">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-patch-check-fill text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1"><span class="lang-mr">१००% अस्सल व खात्रीशीर साहित्य</span><span class="lang-en">100% Genuine & Certified Stock</span></h6>
+                        <p class="text-muted small mb-0"><span class="lang-mr">महाबीज, माहिको, कोरोमंडल, इफको आणि जैन इरिगेशन सारख्या नामांकित कंपन्यांचे अधिकृत वितरक.</span><span class="lang-en">Authorized distributor for Mahabeej, Mahyco, Coromandel, IFFCO, and Jain Irrigation.</span></p>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="p-3 rounded-3 bg-light border">
-                        <h4 class="fw-bold text-primary mb-0">१००%</h4>
-                        <small class="text-muted">अधिकृत GST पक्के बिल</small>
+                <div class="d-flex align-items-start gap-3">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#fff3e0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-people-fill fs-5" style="color:#f97316;"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1"><span class="lang-mr">तज्ज्ञ कृषी मार्गदर्शन</span><span class="lang-en">Agronomy Advisory</span></h6>
+                        <p class="text-muted small mb-0"><span class="lang-mr">पीक रोग निदान, हवामान अंदाज आणि खत कॅल्क्युलेटरद्वारे अचूक मात्रा निर्धारण.</span><span class="lang-en">Scientific diagnosis, real-time weather advisory, and precise fertilizer dosage calculations.</span></p>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-6">
-            <img src="images/saptashrungi_shop.jpg" alt="Shop Front" class="img-fluid rounded-4 shadow-lg border" onerror="this.src='images/farm_hero_bg.jpg'">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <img src="images/saptashrungi_shop.jpg" alt="Saptashrungi Agro Store" class="img-fluid" style="min-height:360px;object-fit:cover;">
+                <div class="card-body p-4 bg-light">
+                    <h5 class="fw-bold text-success mb-1">
+                        <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
+                        <span class="lang-en">Saptashrungi Agro Services, Mirakhnagar</span>
+                    </h5>
+                    <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-success me-1"></i> Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar - 423703</p>
+                    <p class="text-muted small mb-0"><i class="bi bi-telephone-fill text-success me-1"></i> <a href="tel:+918600813827" class="text-success text-decoration-none fw-bold">+91 8600813827</a> | सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
         <div class="row g-4 mb-4">
-            <!-- Brand Column -->
+            <!-- Brand -->
             <div class="col-lg-4 col-md-6">
                 <div class="d-flex align-items-center gap-3 mb-3">
                     <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow" style="width:52px;height:52px;object-fit:cover;border:2px solid #22c55e;">
                     <div>
-                        <h5 class="fw-bold text-white mb-0">सप्तशृंगी ॲग्रो सर्व्हिसेस</h5>
-                        <small class="text-success fw-semibold">Saptashrungi Agro Services</small>
+                        <h5 class="fw-bold text-white mb-0">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </h5>
+                        <small class="text-success fw-semibold">Mirakhnagar, Vaijapur</small>
                     </div>
                 </div>
-                <p class="small" style="color:rgba(200,230,201,0.75);line-height:1.6;">
-                    मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र. १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.
+                <p class="small text-white-50" style="line-height:1.6;">
+                    <span class="lang-mr">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र. १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.</span>
+                    <span class="lang-en">Leading authorized agricultural retail center in Mirakhnagar, Vaijapur. Providing 100% certified seeds, fertilizers, crop protection and modern drip irrigation at fair rates.</span>
                 </p>
                 <div class="d-flex gap-2">
                     <a href="https://wa.me/918600813827" target="_blank" class="btn btn-sm btn-success rounded-circle" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-whatsapp"></i></a>
@@ -163,69 +241,80 @@
                 </div>
             </div>
 
-            <!-- Quick Links -->
+            <!-- Categories -->
             <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-white fw-bold mb-3">उत्पादने वर्गवारी</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">उत्पादने वर्गवारी</span>
+                    <span class="lang-en">Categories</span>
+                </h6>
                 <ul class="list-unstyled d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <li><a href="products.html?cat=seeds" class="text-decoration-none text-light">🌾 बियाणे (Seeds)</a></li>
-                    <li><a href="products.html?cat=fertilizers" class="text-decoration-none text-light">🧪 खते (Fertilizers)</a></li>
-                    <li><a href="products.html?cat=pesticides" class="text-decoration-none text-light">🐛 कीटकनाशके (Pesticides)</a></li>
-                    <li><a href="products.html?cat=tools" class="text-decoration-none text-light">🔧 शेती अवजारे (Farm Tools)</a></li>
-                    <li><a href="products.html?cat=drip" class="text-decoration-none text-light">💧 ठिबक सिंचन (Drip Irrigation)</a></li>
+                    <li><a href="products.html?cat=seeds" class="text-decoration-none text-light"><span class="lang-mr">🌾 बियाणे (Seeds)</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?cat=fertilizers" class="text-decoration-none text-light"><span class="lang-mr">🧪 खते (Fertilizers)</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?cat=pesticides" class="text-decoration-none text-light"><span class="lang-mr">🐛 कीटकनाशके (Pesticides)</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?cat=tools" class="text-decoration-none text-light"><span class="lang-mr">🔧 शेती अवजारे (Farm Tools)</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?cat=drip" class="text-decoration-none text-light"><span class="lang-mr">💧 ठिबक सिंचन (Drip)</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
                 </ul>
             </div>
 
-            <!-- Agro Advisory -->
+            <!-- Advisory -->
             <div class="col-lg-3 col-md-6 col-6">
-                <h6 class="text-white fw-bold mb-3">कृषी माहिती व साधने</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">कृषी साधने</span>
+                    <span class="lang-en">Agri Tools</span>
+                </h6>
                 <ul class="list-unstyled d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <li><a href="fertilizer-calc.html" class="text-decoration-none text-light"><i class="bi bi-calculator me-1 text-success"></i>खत कॅल्क्युलेटर</a></li>
-                    <li><a href="weather.html" class="text-decoration-none text-light"><i class="bi bi-cloud-sun me-1 text-primary"></i>हवामान अंदाज</a></li>
-                    <li><a href="farming-tips.html" class="text-decoration-none text-light"><i class="bi bi-journal-text me-1 text-warning"></i>पीक सल्ला व कीड नियंत्रण</a></li>
-                    <li><a href="index.html#reviews" class="text-decoration-none text-light"><i class="bi bi-star-fill me-1 text-warning"></i>शेतकरी अभिप्राय (Reviews)</a></li>
-                    <li><a href="faq.html" class="text-decoration-none text-light"><i class="bi bi-question-circle me-1 text-info"></i>वारंवार विचारले जाणारे प्रश्न</a></li>
+                    <li><a href="fertilizer-calc.html" class="text-decoration-none text-light"><i class="bi bi-calculator me-1 text-success"></i><span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span></a></li>
+                    <li><a href="weather.html" class="text-decoration-none text-light"><i class="bi bi-cloud-sun me-1 text-primary"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none text-light"><i class="bi bi-journal-text me-1 text-warning"></i><span class="lang-mr">पीक सल्ला व कीड नियंत्रण</span><span class="lang-en">Crop Care & Pest Advice</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none text-light"><i class="bi bi-star-fill me-1 text-warning"></i><span class="lang-mr">शेतकरी अभिप्राय (Reviews)</span><span class="lang-en">Farmer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none text-light"><i class="bi bi-question-circle me-1 text-info"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
                 </ul>
             </div>
 
-            <!-- Address & Hours -->
+            <!-- Address & Contact -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="text-white fw-bold mb-3">📍 दुकानाचा पत्ता</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Location</span>
+                </h6>
                 <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <div><i class="bi bi-geo-alt-fill text-success me-1"></i> मिरखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - ४२३७०३</div>
+                    <div><i class="bi bi-geo-alt-fill text-success me-1"></i> Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar - 423703</div>
                     <div><i class="bi bi-telephone-fill text-success me-1"></i> <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a></div>
-                    <div><i class="bi bi-clock-fill text-success me-1"></i> सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</div>
+                    <div><i class="bi bi-clock-fill text-success me-1"></i> <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span><span class="lang-en">Mon - Sat: 8:00 AM to 8:30 PM</span></div>
                     <div><i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5</div>
                 </div>
             </div>
         </div>
 
-        <!-- Clean Footer Bottom without badges -->
+        <!-- Clean Footer Bottom without payment badges -->
         <div class="footer-bottom text-center pt-3 border-top border-secondary border-opacity-25">
             <div style="color:rgba(200,230,201,0.55);font-size:0.85rem;">
-                &copy; 2026 <strong class="text-white">सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</strong>. शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
             </div>
         </div>
     </div>
 
-    <!-- Client-side Multi-Language Switcher -->
+    <!-- Universal Bilingual Switcher Engine -->
     <script>
         function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
             localStorage.setItem('site_lang', lang);
-            document.querySelectorAll('.lang-text').forEach(function(el) {
-                var text = el.getAttribute('data-' + lang);
-                if (text) el.textContent = text;
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
             });
-            var mrBtns = [document.getElementById('btnLangMr'), document.getElementById('btnLangMrMob')];
-            var enBtns = [document.getElementById('btnLangEn'), document.getElementById('btnLangEnMob')];
-            if (lang === 'mr') {
-                mrBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold'; } });
-                enBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold'; } });
-            } else {
-                mrBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold'; } });
-                enBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold'; } });
-            }
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
         });

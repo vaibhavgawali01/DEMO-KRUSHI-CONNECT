@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fertilizer Calculator | सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro)</title>
+    <title>खत कॅल्क्युलेटर | Fertilizer Calculator - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons & Tabler Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,75 +32,109 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
-        <!-- Logo & Branding -->
+        <!-- Brand -->
         <a class="navbar-brand-custom" href="index.html">
-            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Saptashrungi Agro Services Logo">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
             <div>
-                <span class="brand-text-primary">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
-                <span class="brand-text-secondary d-none d-sm-block">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Quality Agricultural Guidance</span>
+                </span>
             </div>
         </a>
 
         <!-- Mobile Language Switcher -->
         <div class="d-flex align-items-center d-lg-none ms-auto me-2">
             <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
-                <button type="button" onclick="setLang('mr')" id="btnLangMrMob" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold" style="font-size:0.75rem;">🌾 मराठी</button>
-                <button type="button" onclick="setLang('en')" id="btnLangEnMob" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold" style="font-size:0.75rem;">Eng</button>
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">Eng</button>
             </div>
         </div>
 
-        <!-- Mobile Toggle -->
         <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-2 gap-xl-3">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="index.html"><i class="bi bi-house-door me-1"></i><span class="lang-text" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="index.html">
+                        <i class="bi bi-house-door me-1"></i>
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="products.html"><i class="bi bi-grid me-1"></i><span class="lang-text" data-mr="उत्पादने" data-en="Products">उत्पादने</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="products.html">
+                        <i class="bi bi-grid me-1"></i>
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom px-lg-3" href="index.html#reviews">
-                        <i class="bi bi-star-fill text-warning me-1"></i><span class="lang-text" data-mr="अभिप्राय (Reviews)" data-en="Reviews">अभिप्राय (Reviews)</span>
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय (Reviews)</span><span class="lang-en">Reviews</span>
                     </a>
                 </li>
 
                 <!-- Farming Advisory Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-link-custom px-lg-3 dropdown-toggle active fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-cloud-sun text-success me-1"></i><span class="lang-text" data-mr="कृषी सल्लागार" data-en="Farming Advisory">कृषी सल्लागार</span>
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
                     </a>
                     <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
-                        <li><a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html"><i class="bi bi-calculator me-2 text-success"></i><span class="lang-text" data-mr="खत कॅल्क्युलेटर" data-en="Fertilizer Calculator">खत कॅल्क्युलेटर</span></a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" href="weather.html"><i class="bi bi-cloud-rain me-2 text-primary"></i><span class="lang-text" data-mr="हवामान अंदाज" data-en="Weather Forecast">हवामान अंदाज</span></a></li>
-                        <li><a class="dropdown-item rounded-2 py-2" href="farming-tips.html"><i class="bi bi-journal-text me-2 text-warning"></i><span class="lang-text" data-mr="पीक संरक्षण व कीड सल्ला" data-en="Crop Care & Pest Advice">पीक संरक्षण व कीड सल्ला</span></a></li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="about.html"><span class="lang-text" data-mr="आमच्याबद्दल" data-en="About Us">आमच्याबद्दल</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="contact.html"><span class="lang-text" data-mr="संपर्क" data-en="Contact">संपर्क</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-custom px-lg-3" href="faq.html"><span class="lang-text" data-mr="FAQ" data-en="FAQ">FAQ</span></a>
+                    <a class="nav-link nav-link-custom px-lg-3" href="faq.html">
+                        <span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span>
+                    </a>
                 </li>
             </ul>
 
-            <!-- Right Controls: Language Switcher & Login -->
+            <!-- Desktop Language Switcher & Login -->
             <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                 <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
-                    <button type="button" onclick="setLang('mr')" id="btnLangMr" class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold" style="font-size:0.8rem;">🌾 मराठी</button>
-                    <button type="button" onclick="setLang('en')" id="btnLangEn" class="btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold" style="font-size:0.8rem;">Eng</button>
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr" style="font-size:0.8rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en" style="font-size:0.8rem;">Eng</button>
                 </div>
 
                 <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person-circle me-1"></i><span class="lang-text" data-mr="लॉगिन" data-en="Login">लॉगिन</span>
+                    <i class="bi bi-person-circle me-1"></i>
+                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
                 </a>
             </div>
         </div>
@@ -110,10 +144,18 @@
 <div class="container my-4">
     <div class="text-center mb-4">
         <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
-            <i class="bi bi-cpu me-1"></i> स्मार्ट कृषी सल्ला इंजिन
+            <i class="bi bi-cpu me-1"></i>
+            <span class="lang-mr">स्मार्ट कृषी सल्ला इंजिन</span>
+            <span class="lang-en">Smart Agronomy Engine</span>
         </span>
-        <h2 class="fw-bold text-success">खत कॅल्क्युलेटर (Smart Fertilizer Calculator)</h2>
-        <p class="text-muted">पीक, क्षेत्रफळ आणि जमिनीच्या प्रकारावर आधारित रासायनिक व जैविक खतांचे शास्त्रीय प्रमाण.</p>
+        <h2 class="fw-bold text-success">
+            <span class="lang-mr">खत कॅल्क्युलेटर (Smart Fertilizer Calculator)</span>
+            <span class="lang-en">Smart Fertilizer Dosage Calculator</span>
+        </h2>
+        <p class="text-muted" style="max-width:650px;margin:0 auto;">
+            <span class="lang-mr">पीक, क्षेत्रफळ आणि जमिनीच्या प्रकारावर आधारित रासायनिक व सेंद्रिय खतांचे शास्त्रीय प्रमाण.</span>
+            <span class="lang-en">Scientific recommendation of essential fertilizers tailored to your crop, acreage, and soil profile.</span>
+        </p>
     </div>
 
     <div class="row g-4 mb-5">
@@ -121,15 +163,21 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-success text-white py-3 rounded-top-4">
-                    <h6 class="mb-0 fw-bold"><i class="bi bi-sliders me-2"></i>शेतीची माहिती निवडा</h6>
+                    <h6 class="mb-0 fw-bold">
+                        <i class="bi bi-sliders me-2"></i>
+                        <span class="lang-mr">शेतीची माहिती निवडा</span>
+                        <span class="lang-en">Select Crop & Land Details</span>
+                    </h6>
                 </div>
                 <div class="card-body p-4">
                     <form id="calcForm" onsubmit="calculateFertilizer(event)">
                         <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">पीक निवडा (Select Crop)</label>
+                            <label class="form-label fw-bold text-success small text-uppercase">
+                                <span class="lang-mr">पीक निवडा</span><span class="lang-en">Select Crop</span>
+                            </label>
                             <select id="crop" class="form-select">
-                                <option value="sugarcane">ऊस (Sugarcane)</option>
                                 <option value="cotton" selected>कापूस - बीजी २ (Cotton)</option>
+                                <option value="sugarcane">ऊस (Sugarcane)</option>
                                 <option value="soybean">सोयाबीन (Soybean)</option>
                                 <option value="wheat">गहू (Wheat)</option>
                                 <option value="onion">कांदा (Onion)</option>
@@ -138,24 +186,30 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">शेत क्षेत्रफळ (Acres)</label>
+                            <label class="form-label fw-bold text-success small text-uppercase">
+                                <span class="lang-mr">शेत क्षेत्रफळ (Acres)</span><span class="lang-en">Farm Area (Acres)</span>
+                            </label>
                             <div class="input-group">
-                                <input type="number" step="0.5" min="0.5" max="100" id="acres" class="form-control" value="2" required>
-                                <span class="input-group-text">एकर (Acres)</span>
+                                <input type="number" step="0.5" min="0.5" max="100" id="acres" class="form-control" value="2" required onchange="calculateFertilizer()">
+                                <span class="input-group-text"><span class="lang-mr">एकर</span><span class="lang-en">Acres</span></span>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">जमिनीचा प्रकार (Soil Type)</label>
+                            <label class="form-label fw-bold text-success small text-uppercase">
+                                <span class="lang-mr">जमिनीचा प्रकार</span><span class="lang-en">Soil Type</span>
+                            </label>
                             <select id="soil" class="form-select">
                                 <option value="medium">मध्यम काळी जमीन (Medium Black)</option>
                                 <option value="heavy">भारी काळी चिकण जमीन (Heavy Clay)</option>
-                                <option value="light">हलकी व पोयट्याची जमीन (Light / Sandy)</option>
+                                <option value="light">हलकी व पोयट्याची जमीन (Light Sandy)</option>
                             </select>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold text-success small text-uppercase">पिकाचा टप्पा (Growth Stage)</label>
+                            <label class="form-label fw-bold text-success small text-uppercase">
+                                <span class="lang-mr">पिकाचा टप्पा</span><span class="lang-en">Growth Stage</span>
+                            </label>
                             <select id="stage" class="form-select">
                                 <option value="full">संपूर्ण हंगाम (Full Season Cycle)</option>
                                 <option value="basal">पेरणी / लागवड वेळ (Basal Dose)</option>
@@ -165,7 +219,9 @@
                         </div>
 
                         <button type="submit" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm">
-                            <i class="bi bi-calculator me-1"></i> खत प्रमाण काढा (Calculate Bags)
+                            <i class="bi bi-calculator me-1"></i>
+                            <span class="lang-mr">खत प्रमाण काढा (Calculate Bags)</span>
+                            <span class="lang-en">Calculate Bags Required</span>
                         </button>
                     </form>
                 </div>
@@ -176,13 +232,20 @@
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 <div class="card-header bg-dark text-white py-3 rounded-top-4 d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 fw-bold"><i class="bi bi-check-circle-fill text-success me-2"></i>शिफारस केलेले खतांचे प्रमाण</h6>
-                    <span class="badge bg-success" id="resultAcreBadge">२ एकर साठी</span>
+                    <h6 class="mb-0 fw-bold">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span class="lang-mr">शिफारस केलेले खतांचे प्रमाण</span>
+                        <span class="lang-en">Recommended Fertilizer Dosage</span>
+                    </h6>
+                    <span class="badge bg-success" id="resultAcreBadge">२ एकर साठी (For 2 Acres)</span>
                 </div>
                 <div class="card-body p-4">
                     <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
                         <i class="bi bi-info-circle-fill fs-5"></i>
-                        <span id="summaryText">कापूस पिकासाठी २ एकर क्षेत्रानुसार खतांची आवश्यक मात्रा खालीलप्रमाणे:</span>
+                        <span id="summaryText">
+                            <span class="lang-mr">कापूस पिकासाठी २ एकर क्षेत्रानुसार आवश्यक खतांचे प्रमाण खालीलप्रमाणे:</span>
+                            <span class="lang-en">Recommended fertilizer quantities for 2 acres of cotton cultivation:</span>
+                        </span>
                     </div>
 
                     <div class="row g-3 text-center mb-4" id="bagsRow">
@@ -190,17 +253,23 @@
                     </div>
 
                     <div class="p-3 rounded-3 bg-light border">
-                        <h6 class="fw-bold text-success mb-2"><i class="bi bi-lightbulb-fill text-warning me-1"></i>तज्ज्ञांचा कृषी सल्ला:</h6>
-                        <ul class="small text-muted mb-0 ps-3" id="tipsList">
-                            <li>युरिया खताचा वापर दोन ते तीन समान हप्त्यांमध्ये विभागून ओल असतानाच करा.</li>
-                            <li>फॉस्फरस व पोटॅशयुक्त खते (DAP / 10:26:26) जमिनीत मुळांच्या सानिध्यात ४ इंचांवर द्या.</li>
-                            <li>सूक्ष्म अन्नद्रव्ये (Zinc, Boron) शेणखतामध्ये मिसळून वापरल्यास अधिक फायदा मिळतो.</li>
+                        <h6 class="fw-bold text-success mb-2">
+                            <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                            <span class="lang-mr">तज्ज्ञांचा कृषी सल्ला:</span>
+                            <span class="lang-en">Agronomist Best Practices:</span>
+                        </h6>
+                        <ul class="small text-muted mb-0 ps-3">
+                            <li><span class="lang-mr">युरिया खताचा वापर दोन ते तीन समान हप्त्यांमध्ये विभागून ओल असतानाच करा.</span><span class="lang-en">Apply Urea in 2-3 split applications strictly when sufficient soil moisture is present.</span></li>
+                            <li><span class="lang-mr">फॉस्फरस व पोटॅशयुक्त खते (DAP / 10:26:26) जमिनीत मुळांच्या सानिध्यात ४ इंचांवर द्या.</span><span class="lang-en">Place Phosphatic and Potash fertilizers (DAP / 10:26:26) 3-4 inches deep near the root zone.</span></li>
+                            <li><span class="lang-mr">सूक्ष्म अन्नद्रव्ये (Zinc, Boron) शेणखतामध्ये मिसळून वापरल्यास अधिक फायदा मिळतो.</span><span class="lang-en">Incorporate micronutrients (Zinc, Boron) with well-decomposed organic manure for high absorption.</span></li>
                         </ul>
                     </div>
 
                     <div class="mt-4 pt-3 border-top text-center">
-                        <a href="https://wa.me/918600813827?text=मला%20खत%20कॅल्क्युलेटरनुसार%20खते%20खरेदी%20करायची%20आहेत." target="_blank" class="btn btn-outline-success rounded-pill px-4 fw-semibold">
-                            <i class="bi bi-whatsapp me-1"></i> ही खते दुकानातून मागवा (Order Bags)
+                        <a id="btnOrderFert" href="https://wa.me/918600813827?text=मला%20खत%20कॅल्क्युलेटरनुसार%20खते%20खरेदी%20करायची%20आहेत." target="_blank" class="btn btn-outline-success rounded-pill px-4 fw-semibold">
+                            <i class="bi bi-whatsapp me-1"></i>
+                            <span class="lang-mr">ही खते दुकानातून मागवा (Order Bags)</span>
+                            <span class="lang-en">Order Fertilizer Bags on WhatsApp</span>
                         </a>
                     </div>
                 </div>
@@ -214,7 +283,8 @@ function calculateFertilizer(e) {
     if(e) e.preventDefault();
     const crop = document.getElementById('crop').value;
     const acres = parseFloat(document.getElementById('acres').value) || 1;
-    document.getElementById('resultAcreBadge').textContent = acres + ' एकर साठी';
+    
+    document.getElementById('resultAcreBadge').innerHTML = `<span class="lang-mr">${acres} एकर साठी</span><span class="lang-en">For ${acres} Acre(s)</span>`;
 
     let ureaBags = Math.round(acres * 2.5);
     let dapBags = Math.round(acres * 1.5);
@@ -231,6 +301,11 @@ function calculateFertilizer(e) {
         dapBags = Math.round(acres * 2.0);
         mopBags = Math.round(acres * 1.0);
         npkBags = Math.round(acres * 1.5);
+    } else if (crop === 'onion') {
+        ureaBags = Math.round(acres * 2.0);
+        dapBags = Math.round(acres * 2.0);
+        mopBags = Math.round(acres * 1.5);
+        npkBags = Math.round(acres * 2.5);
     }
 
     const row = document.getElementById('bagsRow');
@@ -238,50 +313,60 @@ function calculateFertilizer(e) {
         <div class="col-6 col-md-3">
             <div class="p-3 rounded-3 border bg-white shadow-sm">
                 <div class="fw-bold fs-2 text-success">${ureaBags}</div>
-                <div class="fw-semibold text-dark small">युरिया बॅग्स</div>
-                <small class="text-muted">(45 kg bag)</small>
+                <div class="fw-semibold text-dark small"><span class="lang-mr">युरिया बॅग्स</span><span class="lang-en">Urea Bags</span></div>
+                <small class="text-muted">(45 kg)</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="p-3 rounded-3 border bg-white shadow-sm">
                 <div class="fw-bold fs-2 text-primary">${dapBags}</div>
-                <div class="fw-semibold text-dark small">DAP बॅग्स</div>
+                <div class="fw-semibold text-dark small"><span class="lang-mr">DAP बॅग्स</span><span class="lang-en">DAP Bags</span></div>
                 <small class="text-muted">(18:46:0 50kg)</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="p-3 rounded-3 border bg-white shadow-sm">
                 <div class="fw-bold fs-2 text-warning">${mopBags}</div>
-                <div class="fw-semibold text-dark small">पोटॅश (MOP)</div>
-                <small class="text-muted">(Potash 50kg)</small>
+                <div class="fw-semibold text-dark small"><span class="lang-mr">पोटॅश बॅग्स</span><span class="lang-en">Potash (MOP)</span></div>
+                <small class="text-muted">(0:0:60 50kg)</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="p-3 rounded-3 border bg-white shadow-sm">
-                <div class="fw-bold fs-2 text-danger">${npkBags}</div>
-                <div class="fw-semibold text-dark small">१०:२६:२६ NPK</div>
-                <small class="text-muted">(50 kg bag)</small>
+                <div class="fw-bold fs-2 text-info">${npkBags}</div>
+                <div class="fw-semibold text-dark small"><span class="lang-mr">१०:२६:२६ बॅग्स</span><span class="lang-en">10:26:26 NPK</span></div>
+                <small class="text-muted">(50 kg)</small>
             </div>
         </div>
     `;
+
+    const orderText = `नमस्कार, मला ${acres} एकर शेतीसाठी ${ureaBags} युरिया, ${dapBags} DAP, ${mopBags} पोटॅश खरेदी करायचे आहेत.`;
+    document.getElementById('btnOrderFert').href = 'https://wa.me/918600813827?text=' + encodeURIComponent(orderText);
 }
-document.addEventListener('DOMContentLoaded', function(){ calculateFertilizer(); });
+
+document.addEventListener('DOMContentLoaded', function(){
+    calculateFertilizer();
+});
 </script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
         <div class="row g-4 mb-4">
-            <!-- Brand Column -->
+            <!-- Brand -->
             <div class="col-lg-4 col-md-6">
                 <div class="d-flex align-items-center gap-3 mb-3">
                     <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow" style="width:52px;height:52px;object-fit:cover;border:2px solid #22c55e;">
                     <div>
-                        <h5 class="fw-bold text-white mb-0">सप्तशृंगी ॲग्रो सर्व्हिसेस</h5>
-                        <small class="text-success fw-semibold">Saptashrungi Agro Services</small>
+                        <h5 class="fw-bold text-white mb-0">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </h5>
+                        <small class="text-success fw-semibold">Mirakhnagar, Vaijapur</small>
                     </div>
                 </div>
-                <p class="small" style="color:rgba(200,230,201,0.75);line-height:1.6;">
-                    मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र. १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.
+                <p class="small text-white-50" style="line-height:1.6;">
+                    <span class="lang-mr">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र. १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध.</span>
+                    <span class="lang-en">Leading authorized agricultural retail center in Mirakhnagar, Vaijapur. Providing 100% certified seeds, fertilizers, crop protection and modern drip irrigation at fair rates.</span>
                 </p>
                 <div class="d-flex gap-2">
                     <a href="https://wa.me/918600813827" target="_blank" class="btn btn-sm btn-success rounded-circle" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-whatsapp"></i></a>
@@ -290,69 +375,80 @@ document.addEventListener('DOMContentLoaded', function(){ calculateFertilizer();
                 </div>
             </div>
 
-            <!-- Quick Links -->
+            <!-- Categories -->
             <div class="col-lg-2 col-md-6 col-6">
-                <h6 class="text-white fw-bold mb-3">उत्पादने वर्गवारी</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">उत्पादने वर्गवारी</span>
+                    <span class="lang-en">Categories</span>
+                </h6>
                 <ul class="list-unstyled d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <li><a href="products.html?cat=seeds" class="text-decoration-none text-light">🌾 बियाणे (Seeds)</a></li>
-                    <li><a href="products.html?cat=fertilizers" class="text-decoration-none text-light">🧪 खते (Fertilizers)</a></li>
-                    <li><a href="products.html?cat=pesticides" class="text-decoration-none text-light">🐛 कीटकनाशके (Pesticides)</a></li>
-                    <li><a href="products.html?cat=tools" class="text-decoration-none text-light">🔧 शेती अवजारे (Farm Tools)</a></li>
-                    <li><a href="products.html?cat=drip" class="text-decoration-none text-light">💧 ठिबक सिंचन (Drip Irrigation)</a></li>
+                    <li><a href="products.html?cat=seeds" class="text-decoration-none text-light"><span class="lang-mr">🌾 बियाणे (Seeds)</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?cat=fertilizers" class="text-decoration-none text-light"><span class="lang-mr">🧪 खते (Fertilizers)</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?cat=pesticides" class="text-decoration-none text-light"><span class="lang-mr">🐛 कीटकनाशके (Pesticides)</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?cat=tools" class="text-decoration-none text-light"><span class="lang-mr">🔧 शेती अवजारे (Farm Tools)</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?cat=drip" class="text-decoration-none text-light"><span class="lang-mr">💧 ठिबक सिंचन (Drip)</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
                 </ul>
             </div>
 
-            <!-- Agro Advisory -->
+            <!-- Advisory -->
             <div class="col-lg-3 col-md-6 col-6">
-                <h6 class="text-white fw-bold mb-3">कृषी माहिती व साधने</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">कृषी साधने</span>
+                    <span class="lang-en">Agri Tools</span>
+                </h6>
                 <ul class="list-unstyled d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <li><a href="fertilizer-calc.html" class="text-decoration-none text-light"><i class="bi bi-calculator me-1 text-success"></i>खत कॅल्क्युलेटर</a></li>
-                    <li><a href="weather.html" class="text-decoration-none text-light"><i class="bi bi-cloud-sun me-1 text-primary"></i>हवामान अंदाज</a></li>
-                    <li><a href="farming-tips.html" class="text-decoration-none text-light"><i class="bi bi-journal-text me-1 text-warning"></i>पीक सल्ला व कीड नियंत्रण</a></li>
-                    <li><a href="index.html#reviews" class="text-decoration-none text-light"><i class="bi bi-star-fill me-1 text-warning"></i>शेतकरी अभिप्राय (Reviews)</a></li>
-                    <li><a href="faq.html" class="text-decoration-none text-light"><i class="bi bi-question-circle me-1 text-info"></i>वारंवार विचारले जाणारे प्रश्न</a></li>
+                    <li><a href="fertilizer-calc.html" class="text-decoration-none text-light"><i class="bi bi-calculator me-1 text-success"></i><span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span></a></li>
+                    <li><a href="weather.html" class="text-decoration-none text-light"><i class="bi bi-cloud-sun me-1 text-primary"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none text-light"><i class="bi bi-journal-text me-1 text-warning"></i><span class="lang-mr">पीक सल्ला व कीड नियंत्रण</span><span class="lang-en">Crop Care & Pest Advice</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none text-light"><i class="bi bi-star-fill me-1 text-warning"></i><span class="lang-mr">शेतकरी अभिप्राय (Reviews)</span><span class="lang-en">Farmer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none text-light"><i class="bi bi-question-circle me-1 text-info"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
                 </ul>
             </div>
 
-            <!-- Address & Hours -->
+            <!-- Address & Contact -->
             <div class="col-lg-3 col-md-6">
-                <h6 class="text-white fw-bold mb-3">📍 दुकानाचा पत्ता</h6>
+                <h6 class="text-white fw-bold mb-3">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Location</span>
+                </h6>
                 <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
-                    <div><i class="bi bi-geo-alt-fill text-success me-1"></i> मिरखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - ४२३७०३</div>
+                    <div><i class="bi bi-geo-alt-fill text-success me-1"></i> Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar - 423703</div>
                     <div><i class="bi bi-telephone-fill text-success me-1"></i> <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a></div>
-                    <div><i class="bi bi-clock-fill text-success me-1"></i> सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</div>
+                    <div><i class="bi bi-clock-fill text-success me-1"></i> <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span><span class="lang-en">Mon - Sat: 8:00 AM to 8:30 PM</span></div>
                     <div><i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5</div>
                 </div>
             </div>
         </div>
 
-        <!-- Clean Footer Bottom without badges -->
+        <!-- Clean Footer Bottom without payment badges -->
         <div class="footer-bottom text-center pt-3 border-top border-secondary border-opacity-25">
             <div style="color:rgba(200,230,201,0.55);font-size:0.85rem;">
-                &copy; 2026 <strong class="text-white">सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</strong>. शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
             </div>
         </div>
     </div>
 
-    <!-- Client-side Multi-Language Switcher -->
+    <!-- Universal Bilingual Switcher Engine -->
     <script>
         function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
             localStorage.setItem('site_lang', lang);
-            document.querySelectorAll('.lang-text').forEach(function(el) {
-                var text = el.getAttribute('data-' + lang);
-                if (text) el.textContent = text;
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
             });
-            var mrBtns = [document.getElementById('btnLangMr'), document.getElementById('btnLangMrMob')];
-            var enBtns = [document.getElementById('btnLangEn'), document.getElementById('btnLangEnMob')];
-            if (lang === 'mr') {
-                mrBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold'; } });
-                enBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold'; } });
-            } else {
-                mrBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold'; } });
-                enBtns.forEach(function(b){ if(b){ b.className = 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold'; } });
-            }
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
         });
