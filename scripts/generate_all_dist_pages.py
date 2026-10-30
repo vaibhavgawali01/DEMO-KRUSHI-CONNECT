@@ -692,24 +692,281 @@ with open(os.path.join(DIST_DIR, "farming-tips.html"), "w", encoding="utf-8") as
     f.write(tips_content)
 print("5. farming-tips.html")
 
-# 6. ABOUT
+# 6. ABOUT (Matching Screen 1 & Screen 2)
 about_content = head_html("आमच्याबद्दल", "About Us") + nav_html("about") + """
-<div class="container my-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold text-success"><span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span><span class="lang-en">Saptashrungi Agro Services</span></h2>
-        <p class="text-muted">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र</p>
+<!-- 1. Hero Section -->
+<section class="position-relative py-5 text-center text-white overflow-hidden" style="background: linear-gradient(135deg, rgba(20, 83, 45, 0.92), rgba(21, 128, 61, 0.88)), url('/images/farm_hero_bg.jpg') center/cover no-repeat;">
+    <div class="container py-4 position-relative" style="z-index: 2;">
+        <span class="badge px-3 py-2 rounded-pill fw-semibold text-white shadow-sm mb-3 d-inline-flex align-items-center gap-1" style="background: linear-gradient(135deg, #f59e0b, #d97706); font-size: 0.85rem;">
+            <span>🌾</span> <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+        </span>
+        <h1 class="fw-bold text-white mb-2" style="font-size: clamp(2rem, 3.5vw, 2.75rem); letter-spacing: -0.5px;">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span><span class="lang-en">Saptashrungi Agro Services</span>
+        </h1>
+        <p class="text-white-50 fs-6 mb-0">
+            <span class="lang-mr">मिरखनगर, वैजापूर येथील कृषी सेवा केंद्र</span><span class="lang-en">Agricultural store in Mirakhnagar, Vaijapur</span>
+        </p>
     </div>
-    <div class="row align-items-center g-4">
-        <div class="col-md-6">
-            <p class="text-muted" style="line-height:1.8;">
-                सप्तशृंगी ॲग्रो सर्व्हिसेस हे मिरखनगर, वैजापूर येथील अधिकृत कृषी केंद्र आहे. येथे १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध आहे.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <img src="images/saptashrungi_shop.jpg" alt="Shop" class="img-fluid rounded-4 shadow-sm" onerror="this.src='images/saptashrungi_logo_round.jpg'">
+</section>
+
+<!-- 2. Our Story Section (Screen 1) -->
+<section class="py-5 bg-white">
+    <div class="container py-2">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-3 fw-semibold">
+                    <span class="me-1">🌱</span> <span class="lang-mr">आमची माहिती</span><span class="lang-en">Our Story</span>
+                </span>
+                <h2 class="fw-bold text-success mb-3" style="font-size: 1.85rem; line-height: 1.3;">
+                    <span class="lang-mr">मिरखनगर, वैजापूर येथील कृषी भांडार</span><span class="lang-en">Agricultural Store in Mirakhnagar, Vaijapur</span>
+                </h2>
+                <p class="text-secondary mb-3" style="line-height: 1.7; font-size: 0.95rem;">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस हे मिरखनगर, वैजापूर येथील एक अग्रगण्य कृषी सेवा केंद्र आहे. येथे उच्च दर्जाची प्रमाणित बियाणे, रासायनिक व सेंद्रिय खते, पीक संरक्षण उत्पादने आणि आधुनिक शेती साहित्य रास्त दरात उपलब्ध आहे.</span>
+                    <span class="lang-en">Saptashrungi Agro Services is an agricultural store in Mirakhnagar, Vaijapur. The store offers seeds, fertilizers, crop protection products, and farming supplies.</span>
+                </p>
+                <p class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                    <span class="lang-mr">उत्पादक, वापर आणि बॅच माहितीसाठी कृपया उत्पादन पॅकेजिंग तपासा. दुकानात उपलब्ध उत्पादनांची खात्री करण्यासाठी अथवा थेट चौकशीसाठी फोन किंवा व्हॉट्सॲपवर संपर्क साधा.</span>
+                    <span class="lang-en">Check product packaging for manufacturer, usage, and batch information. Contact the store to confirm product availability.</span>
+                </p>
+
+                <div class="d-flex flex-column gap-3 pt-1">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-shield-check fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;">
+                                <span class="lang-mr">प्रमाणित उत्पादने (Product Information)</span><span class="lang-en">Product Information</span>
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;">
+                                <span class="lang-mr">उत्पादक, वापर व बॅच माहितीसाठी पॅकिंग तपासा किंवा दुकानातून खात्री करा.</span>
+                                <span class="lang-en">Refer to product packaging for manufacturer, usage, and batch information.</span>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-people-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;">
+                                <span class="lang-mr">कृषी तज्ज्ञ सल्ला (Expert Agronomist Guidance)</span><span class="lang-en">Expert Agronomist Guidance</span>
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;">
+                                <span class="lang-mr">पीक माहिती, लाइव्ह हवामान व खत कॅल्क्युलेटर या संकेतस्थळावर मोफत उपलब्ध आहे.</span>
+                                <span class="lang-en">Crop information, weather, and a fertilizer calculator are available on this site.</span>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background: #e8f5e9;">
+                            <i class="bi bi-credit-card-2-front-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <strong class="d-block text-dark" style="font-size: 0.95rem;">
+                                <span class="lang-mr">पारदर्शक उधारी खातेवही (Hassle-Free Credit)</span><span class="lang-en">Hassle-Free Credit (Udhari)</span>
+                            </strong>
+                            <small class="text-muted" style="line-height: 1.5; display:block;">
+                                <span class="lang-mr">नोंदणीकृत शेतकरी ग्राहक संकेतस्थळावर त्यांची उधारी खातेवही पाहू शकतात.</span>
+                                <span class="lang-en">Registered customers can view their credit ledger on the website.</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="position-relative p-2 rounded-4 shadow-sm bg-white border text-center">
+                    <img src="/images/saptashrungi_shop.jpg" alt="Saptashrungi Agro Services Shop" class="img-fluid rounded-3 w-100" style="max-height: 380px; object-fit: cover;" onerror="this.src='/images/saptashrungi_logo_round.jpg'">
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4 bg-white px-3 py-2 rounded-pill shadow-sm border d-flex align-items-center gap-2" style="white-space: nowrap; max-width: 90%;">
+                        <img src="/images/saptashrungi_logo_round.jpg" width="28" height="28" class="rounded-circle" alt="Logo">
+                        <div class="text-start">
+                            <strong class="d-block text-dark" style="font-size: 0.85rem; line-height: 1.2;">Saptashrungi Agro Services</strong>
+                            <small class="text-muted" style="font-size: 0.75rem;"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Mirakhnagar, Vaijapur</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- 3. Category Strip (Screen 1 bottom bar) -->
+<section class="py-4 text-white" style="background: #14532d;">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold text-white mb-1" style="font-size: 1.75rem;">
+                    Seeds
+                </h3>
+                <p class="text-white-50 small mb-0">
+                    <span class="lang-mr">उपलब्ध बियाणे</span><span class="lang-en">Available products</span>
+                </p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #facc15;">
+                    Fertilizers
+                </h3>
+                <p class="text-white-50 small mb-0">
+                    <span class="lang-mr">शेतीसाठी खते</span><span class="lang-en">For farming</span>
+                </p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #6ee7b7;">
+                    Crop care
+                </h3>
+                <p class="text-white-50 small mb-0">
+                    <span class="lang-mr">पीक संरक्षण</span><span class="lang-en">Products</span>
+                </p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="fw-bold mb-1" style="font-size: 1.75rem; color: #fbbf24;">
+                    Irrigation
+                </h3>
+                <p class="text-white-50 small mb-0">
+                    <span class="lang-mr">सिंचन साहित्य</span><span class="lang-en">Supplies</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Visit Our Store Section (Screen 2) -->
+<section class="py-5" style="background: #f8fafc;">
+    <div class="container py-2 text-center mb-4">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
+            <span class="me-1">📍</span> <span class="lang-mr">दुकानाचे ठिकाण</span><span class="lang-en">Our Location</span>
+        </span>
+        <h2 class="fw-bold text-success" style="font-size: 1.85rem;">
+            <span class="lang-mr">आमच्या दुकानाला प्रत्यक्ष भेट द्या</span><span class="lang-en">Visit Our Store</span>
+        </h2>
+    </div>
+
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <!-- Left Card: Contact Details -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="fw-bold text-dark d-flex align-items-center gap-2 mb-4 pb-2 border-bottom">
+                            <i class="bi bi-telephone-outbound-fill text-success"></i>
+                            <span class="lang-mr">संपर्क तपशील</span><span class="lang-en">Contact Details</span>
+                        </h5>
+
+                        <div class="d-flex flex-column gap-3 mb-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold"><span class="lang-mr">दुकानाचा पत्ता</span><span class="lang-en">Store Address</span></strong>
+                                    <div class="text-muted small" style="line-height: 1.5;">
+                                        Saptashrungi Agro Services, Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-telephone-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold"><span class="lang-mr">फोन नंबर</span><span class="lang-en">Phone Number</span></strong>
+                                    <a href="tel:+918600813827" class="text-dark fw-bold text-decoration-none small">+91 8600813827</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 34px; height: 34px; background: #e8f5e9;">
+                                    <i class="bi bi-whatsapp fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold">WhatsApp</strong>
+                                    <a href="https://wa.me/918600813827" target="_blank" class="text-muted text-decoration-none small">
+                                        Chat on WhatsApp: <strong class="text-dark">+91 8600813827</strong>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-warning flex-shrink-0" style="width: 34px; height: 34px; background: #fef3c7;">
+                                    <i class="bi bi-clock-fill fs-5"></i>
+                                </div>
+                                <div class="text-start">
+                                    <strong class="d-block text-dark small text-uppercase fw-bold"><span class="lang-mr">दुकानाची वेळ</span><span class="lang-en">Store Hours</span></strong>
+                                    <div class="text-muted small" style="line-height: 1.5;">
+                                        Monday – Saturday: 8:00 AM – 8:00 PM<br>
+                                        Sunday: 9:00 AM – 2:00 PM
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <a href="tel:+918600813827" class="btn btn-success rounded-pill px-4 py-2 fw-bold text-white flex-fill d-flex align-items-center justify-content-center gap-2 shadow-sm" style="background: #15803d; border:none;">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span><span class="lang-mr">कॉल करा</span><span class="lang-en">Call Now</span></span>
+                        </a>
+                        <a href="https://maps.google.com/?q=Saptashrungi+Agro+Services+Mirakhnagar+Vaijapur" target="_blank" class="btn btn-outline-success rounded-pill px-3 py-2 fw-bold flex-fill d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-compass"></i>
+                            <span><span class="lang-mr">दिशा दाखवा</span><span class="lang-en">Get Directions</span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Card: Google Map Embed -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 d-flex flex-column justify-content-between">
+                    <div class="rounded-3 overflow-hidden border flex-grow-1" style="min-height: 290px;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15003.585794719018!2d74.721477!3d19.923838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdc103e689bf1db%3A0xc3fcaea9554d6fa7!2sVaijapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; min-height: 290px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.google.com/?q=Saptashrungi+Agro+Services+Mirakhnagar+Vaijapur" target="_blank" class="btn btn-success w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background: #15803d; border:none;">
+                        <i class="bi bi-google"></i>
+                        <span><span class="lang-mr">गुगल मॅप्सवर उघडा</span><span class="lang-en">Open in Google Maps</span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Our Mission Section (Screen 2 bottom) -->
+<section class="py-5 text-center text-white" style="background: #14532d;">
+    <div class="container py-2">
+        <div class="mb-2">
+            <span style="font-size: 2.2rem; color: #facc15;">🌾</span>
+        </div>
+        <h2 class="fw-bold text-white mb-3" style="font-size: 1.85rem;">
+            <span class="lang-mr">आमचे ध्येय</span><span class="lang-en">Our Mission</span>
+        </h2>
+        <p class="text-white-50 mx-auto mb-4" style="max-width: 680px; font-size: 1rem; line-height: 1.7;">
+            <span class="lang-mr">प्रत्येक शेतकऱ्याला वाजवी दरात १००% अस्सल व प्रमाणित कृषी निविष्ठा पुरवणे आणि आधुनिक शेती तंत्रज्ञान व मार्गदर्शनाद्वारे पिकांचे उत्पादन वाढवणे.</span>
+            <span class="lang-en">To provide every farmer with genuine, certified agri-inputs at fair prices and enhance crop yields through modern agricultural guidance.</span>
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="products.html" class="btn rounded-pill px-4 py-2 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-2" style="background: #d97706; border: none;">
+                <span>🌾</span>
+                <span><span class="lang-mr">उत्पादने पाहा</span><span class="lang-en">Browse Products</span></span>
+            </a>
+            <a href="tel:+918600813827" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                <i class="bi bi-telephone-fill"></i>
+                <span><span class="lang-mr">थेट कॉल करा</span><span class="lang-en">Call Us Now</span></span>
+            </a>
+        </div>
+    </div>
+</section>
 """ + foot_html()
 with open(os.path.join(DIST_DIR, "about.html"), "w", encoding="utf-8") as f:
     f.write(about_content)
