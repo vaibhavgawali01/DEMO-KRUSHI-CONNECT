@@ -463,346 +463,29 @@ with open(os.path.join(DIST_DIR, "forgot-password.html"), "w", encoding="utf-8")
     f.write(forgot_content)
 print("11. forgot-password.html")
 
-# 12. LOGIN.HTML (Direct Instant Working Login without demo mode warning)
-login_content = head_html("लॉगिन", "Login") + nav_html("login") + """
-<div class="container my-5 py-3" style="max-width:460px;">
-    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-        <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
-            <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
-            <h4 class="fw-bold mb-1">
-                <span class="lang-mr">सप्तशृंगी ॲग्रो पोर्टल</span>
-                <span class="lang-en">Staff & Admin Portal</span>
-            </h4>
-            <small class="text-white-50">
-                <span class="lang-mr">शेतकरी व ॲडमिन सुरक्षित लॉगिन</span>
-                <span class="lang-en">Farmer & Staff Portal Access</span>
-            </small>
-        </div>
-        <div class="card-body p-4">
-            <!-- Role Selector Pills -->
-            <div class="d-flex p-1 bg-light rounded-pill mb-4 border shadow-sm">
-                <button type="button" id="tabFarmer" class="btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm" onclick="switchLoginRole('farmer')">
-                    🌾 <span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Farmer</span>
-                </button>
-                <button type="button" id="tabAdmin" class="btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark" onclick="switchLoginRole('admin')">
-                    🛡️ <span class="lang-mr">ॲडमिन पॅनल</span><span class="lang-en">Admin Panel</span>
-                </button>
-            </div>
+# 12. LOGIN.HTML & 13. ADMIN PORTAL PAGES (Matching authentic Spring Boot templates & screenshots)
+from build_admin_and_login import (
+    build_login_page,
+    build_admin_dashboard,
+    build_admin_products,
+    build_admin_product_form,
+    build_admin_udhari,
+    build_admin_inventory,
+    build_admin_categories,
+    build_admin_customers,
+)
 
-            <form id="loginForm" method="GET" action="farmer-dashboard.html" onsubmit="return handleLogin(event)">
-                <input type="hidden" id="loginRole" value="farmer">
-
-                <div class="mb-3">
-                    <label id="lblUsername" class="form-label small fw-bold text-success text-uppercase">
-                        <span class="lang-mr">शेतकरी नाव किंवा मोबाईल नंबर *</span>
-                        <span class="lang-en">Farmer Name or Mobile *</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
-                        <input type="text" id="username" class="form-control" required autofocus
-                               value="रमेश पाटील (९८२३४५६७८९)"
-                               placeholder="उदा. रमेश पाटील किंवा ९८२३४५६७८९">
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label small fw-bold text-success text-uppercase">
-                        <span class="lang-mr">पासवर्ड *</span>
-                        <span class="lang-en">Password</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
-                        <input type="password" id="password" class="form-control" required value="farmer123"
-                               placeholder="••••••••">
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePass('password', 'eyeIcon')">
-                            <i class="bi bi-eye" id="eyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center mb-4 small">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="rememberMe" checked>
-                        <label class="form-check-label text-muted" for="rememberMe">
-                            <span class="lang-mr">लक्षात ठेवा</span>
-                            <span class="lang-en">Remember me</span>
-                        </label>
-                    </div>
-                    <a href="forgot-password.html" class="text-success text-decoration-none fw-semibold">
-                        <span class="lang-mr">पासवर्ड विसरलात?</span>
-                        <span class="lang-en">Forgot password?</span>
-                    </a>
-                </div>
-
-                <button type="submit" id="btnSubmitLogin" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm mb-3">
-                    <i class="bi bi-box-arrow-in-right me-1"></i>
-                    <span id="btnSubmitText">
-                        <span class="lang-mr">शेतकरी खात्यात प्रवेश करा</span>
-                        <span class="lang-en">Sign In to Farmer Dashboard</span>
-                    </span>
-                </button>
-
-                <div id="loginSuccessBox" class="alert alert-success small d-none text-center py-2">
-                    <i class="bi bi-check-circle-fill me-1"></i>
-                    <span id="loginSuccessText">लॉगिन यशस्वी! डॅशबोर्ड उघडत आहे...</span>
-                    <div class="mt-2">
-                        <a id="directDashboardBtn" href="farmer-dashboard.html" class="btn btn-sm btn-success text-white px-3 py-1 fw-bold rounded-pill">
-                            <span class="lang-mr">येथे क्लिक करा &rarr;</span>
-                            <span class="lang-en">Click here &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-            </form>
-
-            <!-- 1-Click Direct Demo Access Buttons -->
-            <div class="border-top pt-3 mt-3">
-                <div class="text-center mb-2">
-                    <span class="badge bg-light text-dark border px-3 py-1 rounded-pill small fw-semibold">
-                        ⚡ <span class="lang-mr">थेट १-क्लिक प्रवेश (Quick Direct Access)</span>
-                        <span class="lang-en">1-Click Direct Access</span>
-                    </span>
-                </div>
-                <div class="d-grid gap-2">
-                    <a href="farmer-dashboard.html" onclick="quickLoginFarmer()" class="btn btn-outline-success fw-bold py-2 rounded-pill shadow-sm small text-center">
-                        🌾 <span class="lang-mr">थेट शेतकरी डॅशबोर्ड उघडा (Farmer Dashboard)</span>
-                        <span class="lang-en">Open Farmer Dashboard Directly</span>
-                    </a>
-                    <a href="admin-dashboard.html" onclick="quickLoginAdmin()" class="btn btn-outline-dark fw-bold py-2 rounded-pill shadow-sm small text-center">
-                        🛡️ <span class="lang-mr">थेट ॲडमिन पॅनल उघडा (Admin Panel)</span>
-                        <span class="lang-en">Open Admin Panel Directly</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="text-center pt-3 border-top mt-3 small">
-                <span class="text-muted"><span class="lang-mr">नवीन शेतकरी?</span><span class="lang-en">New farmer?</span></span>
-                <a href="register.html" class="text-success fw-bold text-decoration-none ms-1">
-                    <span class="lang-mr">येथे नोंदणी करा</span><span class="lang-en">Register here</span>
-                </a>
-            </div>
-        </div>
-        <div class="card-footer text-center bg-light py-2 border-0">
-            <a href="index.html" class="text-muted small text-decoration-none">
-                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home Page</span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<script>
-function switchLoginRole(role) {
-    const tabF = document.getElementById('tabFarmer');
-    const tabA = document.getElementById('tabAdmin');
-    const roleInput = document.getElementById('loginRole');
-    const form = document.getElementById('loginForm');
-    const uInput = document.getElementById('username');
-    const pInput = document.getElementById('password');
-    const lbl = document.getElementById('lblUsername');
-    const btnText = document.getElementById('btnSubmitText');
-
-    roleInput.value = role;
-
-    if (role === 'admin') {
-        tabA.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm';
-        tabF.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark';
-        form.action = 'admin-dashboard.html';
-        uInput.value = 'admin@krushiseva.com';
-        pInput.value = 'admin123';
-        lbl.innerHTML = '<span class="lang-mr">ॲडमिन वापरकर्ता नाव / ईमेल *</span><span class="lang-en">Admin Username / Email *</span>';
-        btnText.innerHTML = '<span class="lang-mr">ॲडमिन पॅनलमध्ये प्रवेश करा</span><span class="lang-en">Sign In to Admin Panel</span>';
-    } else {
-        tabF.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-success text-white shadow-sm';
-        tabA.className = 'btn btn-sm flex-fill rounded-pill fw-bold btn-light text-dark';
-        form.action = 'farmer-dashboard.html';
-        uInput.value = 'रमेश पाटील (९८२३४५६७८९)';
-        pInput.value = 'farmer123';
-        lbl.innerHTML = '<span class="lang-mr">शेतकरी नाव किंवा मोबाईल नंबर *</span><span class="lang-en">Farmer Name or Mobile *</span>';
-        btnText.innerHTML = '<span class="lang-mr">शेतकरी खात्यात प्रवेश करा</span><span class="lang-en">Sign In to Farmer Dashboard</span>';
-    }
-}
-
-function quickLoginFarmer() {
-    localStorage.setItem('user_role', 'farmer');
-    localStorage.setItem('user_name', 'रमेश पाटील');
-}
-
-function quickLoginAdmin() {
-    localStorage.setItem('user_role', 'admin');
-    localStorage.setItem('user_name', 'Admin');
-}
-
-function togglePass(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    if(input.type === 'password') {
-        input.type = 'text';
-        icon.className = 'bi bi-eye-slash';
-    } else {
-        input.type = 'password';
-        icon.className = 'bi bi-eye';
-    }
-}
-
-function handleLogin(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    const roleInput = document.getElementById('loginRole');
-    const uInput = document.getElementById('username');
-    const u = (uInput ? uInput.value : '').trim().toLowerCase();
-    const alertBox = document.getElementById('loginSuccessBox');
-    const textSpan = document.getElementById('loginSuccessText');
-    const btn = document.getElementById('btnSubmitLogin');
-    const directBtn = document.getElementById('directDashboardBtn');
-
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Signing in...';
-    }
-
-    const currentTabRole = roleInput ? roleInput.value : 'farmer';
-    const isAdmin = (currentTabRole === 'admin' || u.includes('admin') || u === 'admin@krushiseva.com' || u === 'staff' || u === 'owner');
-    const target = isAdmin ? 'admin-dashboard.html' : 'farmer-dashboard.html';
-
-    if (isAdmin) {
-        localStorage.setItem('user_role', 'admin');
-        localStorage.setItem('user_name', 'Admin');
-        if (textSpan) {
-            textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! ॲडमिन डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Admin Dashboard...</span>';
-        }
-        if (directBtn) {
-            directBtn.href = 'admin-dashboard.html';
-            directBtn.innerHTML = '<span class="lang-mr">ॲडमिन डॅशबोर्ड वर जा &rarr;</span><span class="lang-en">Go to Admin Dashboard &rarr;</span>';
-        }
-    } else {
-        localStorage.setItem('user_role', 'farmer');
-        var displayUName = (uInput ? uInput.value : '').replace(/\\s*\\(.*\\)/, '').trim() || 'रमेश पाटील';
-        localStorage.setItem('user_name', displayUName);
-        if (textSpan) {
-            textSpan.innerHTML = '<span class="lang-mr">लॉगिन यशस्वी! शेतकरी डॅशबोर्ड उघडत आहे...</span><span class="lang-en">Login Successful! Opening Farmer Dashboard...</span>';
-        }
-        if (directBtn) {
-            directBtn.href = 'farmer-dashboard.html';
-            directBtn.innerHTML = '<span class="lang-mr">शेतकरी डॅशबोर्ड वर जा &rarr;</span><span class="lang-en">Go to Farmer Dashboard &rarr;</span>';
-        }
-    }
-
-    if (alertBox) {
-        alertBox.classList.remove('d-none');
-    }
-
-    setTimeout(() => {
-        window.location.replace(target);
-    }, 200);
-
-    return false;
-}
-</script>
-""" + foot_html()
-with open(os.path.join(DIST_DIR, "login.html"), "w", encoding="utf-8") as f:
-    f.write(login_content)
+build_login_page()
 print("12. login.html")
 
-# 13. ADMIN DASHBOARD
-admin_dash_content = head_html("ॲडमिन डॅशबोर्ड", "Admin Dashboard") + nav_html("dashboard") + """
-<div class="container-fluid px-3 px-lg-4 my-4" style="max-width:1400px;">
-    <div class="card border-0 shadow-sm rounded-4 text-white p-4 mb-4 overflow-hidden position-relative" style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 60%, #14532d 100%);">
-        <div class="row align-items-center g-3 position-relative" style="z-index:2;">
-            <div class="col-md-8">
-                <span class="badge bg-white bg-opacity-25 text-white px-3 py-1 rounded-pill mb-2 fw-semibold">
-                    🌱 <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span><span class="lang-en">Saptashrungi Agro Services, Mirakhnagar</span>
-                </span>
-                <h2 class="display-6 fw-bold mb-1"><span class="lang-mr">व्यवस्थापन डॅशबोर्ड</span><span class="lang-en">Admin Management Dashboard</span></h2>
-                <p class="text-white-50 small mb-0"><span class="lang-mr">विक्री, इन्व्हेंटरी, शेतकरी खाती आणि दुकानाच्या कामगिरीचा थेट आढावा.</span><span class="lang-en">Live overview of store sales, stock inventory, farmer credit ledgers and orders.</span></p>
-            </div>
-            <div class="col-md-4 text-md-end">
-                <a href="products.html" class="btn btn-light text-success fw-bold px-3 py-2 rounded-pill shadow-sm me-2"><i class="bi bi-grid-fill me-1"></i>उत्पादने पहा</a>
-                <button onclick="handleLogout()" class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill"><i class="bi bi-box-arrow-right me-1"></i>लॉगआउट</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Low Stock Alert Banner -->
-    <div class="alert alert-warning border-0 shadow-sm rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 p-3" style="background:#fffbeb; border-left: 5px solid #f59e0b !important;">
-        <div class="d-flex align-items-center gap-3">
-            <div style="width:40px;height:40px;border-radius:10px;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.25rem;">⚠️</div>
-            <div>
-                <h6 class="fw-bold mb-0 text-dark"><span class="lang-mr">कमी साठा चेतावणी (Low Stock Alert)</span><span class="lang-en">Low Stock Alert</span></h6>
-                <small class="text-muted"><span class="lang-mr"><strong>३ उत्पादनांचा</strong> साठा कमी झाला आहे (उदा. फाल्कन बॅटरी पंप, 10:26:26 खत).</span><span class="lang-en"><strong>3 products</strong> are running below safety threshold.</span></small>
-            </div>
-        </div>
-        <a href="products.html" class="btn btn-sm btn-warning fw-bold px-3 py-2 rounded-pill">तपासा &rarr;</a>
-    </div>
-
-    <!-- 6 KPI Metric Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">एकूण विक्री</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#dcfce7;color:#16a34a;"><i class="bi bi-graph-up-arrow"></i></div></div>
-                <h4 class="fw-bold text-success mb-1">₹4,85,250</h4>
-                <small class="text-success"><i class="bi bi-arrow-up-short"></i>+14.2% चालू वर्ष</small>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">एकूण ऑर्डर्स</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#e0f2fe;color:#0284c7;"><i class="bi bi-bag-check-fill"></i></div></div>
-                <h4 class="fw-bold text-primary mb-1">342</h4>
-                <small class="text-muted">पावत्या जनरेट</small>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">शेतकरी ग्राहक</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#fef3c7;color:#d97706;"><i class="bi bi-people-fill"></i></div></div>
-                <h4 class="fw-bold text-warning mb-1">520+</h4>
-                <small class="text-muted">नोंदणीकृत शेतकरी</small>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">उधारी बाकी</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#fee2e2;color:#dc2626;"><i class="bi bi-clock-history"></i></div></div>
-                <h4 class="fw-bold text-danger mb-1">₹42,800</h4>
-                <small class="text-muted">१२ शेतकऱ्यांकडे</small>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">एकूण उत्पादने</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#f3e8ff;color:#7e22ce;"><i class="bi bi-box-seam-fill"></i></div></div>
-                <h4 class="fw-bold text-dark mb-1">128</h4>
-                <small class="text-success">१२५ स्टॉकमध्ये</small>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-                <div class="d-flex justify-content-between align-items-start mb-2"><span class="text-muted small fw-bold">सल्ला विचारणा</span><div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:#dbeafe;color:#2563eb;"><i class="bi bi-whatsapp"></i></div></div>
-                <h4 class="fw-bold text-primary mb-1">68</h4>
-                <small class="text-muted">आजचे संपर्क</small>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Store Invoices & Orders -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-receipt text-success me-2"></i>नुकत्याच झालेल्या विक्री पावत्या (Recent Sales)</h5>
-            <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Live Billing</span>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr><th># पावती (Inv)</th><th>शेतकरी नाव</th><th>खरेदी साहित्य</th><th>रक्कम</th><th>स्थिती</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><span class="fw-bold text-dark">INV-2026-089</span></td><td>रमेश पाटील (वैजापूर)</td><td>माहिको कापूस बियाणे (२ बॅग), ००:५२:३४</td><td class="fw-bold text-success">₹2,450</td><td><span class="badge bg-success-subtle text-success">Paid (रोख)</span></td></tr>
-                    <tr><td><span class="fw-bold text-dark">INV-2026-088</span></td><td>संदीप सोनवणे (मिरखनगर)</td><td>महाधन २४:२४:० (४ बॅग्स), युरिया (२)</td><td class="fw-bold text-success">₹7,252</td><td><span class="badge bg-success-subtle text-success">Paid (UPI)</span></td></tr>
-                    <tr><td><span class="fw-bold text-dark">INV-2026-087</span></td><td>बाळासाहेब गायकवाड (गंगापूर)</td><td>जेएस ३३५ सोयाबीन (२ बॅग)</td><td class="fw-bold text-warning">₹5,400</td><td><span class="badge bg-warning-subtle text-dark">उधारी (Pending)</span></td></tr>
-                    <tr><td><span class="fw-bold text-dark">INV-2026-086</span></td><td>ज्ञानेश्वर शिंदे (वैजापूर)</td><td>जैन ठिबक पाईप (१ बंडल) + ड्रिपर्स</td><td class="fw-bold text-success">₹3,850</td><td><span class="badge bg-success-subtle text-success">Paid (रोख)</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-""" + foot_html()
-with open(os.path.join(DIST_DIR, "admin-dashboard.html"), "w", encoding="utf-8") as f:
-    f.write(admin_dash_content)
-print("13. admin-dashboard.html")
+build_admin_dashboard()
+build_admin_products()
+build_admin_product_form()
+build_admin_udhari()
+build_admin_inventory()
+build_admin_categories()
+build_admin_customers()
+print("13. admin-dashboard.html and admin portal pages")
 
 # 14. FARMER DASHBOARD
 farmer_dash_content = head_html("शेतकरी डॅशबोर्ड", "Farmer Dashboard") + nav_html("dashboard") + """
@@ -875,11 +558,28 @@ redirects_content = """/products /products.html 200
 /register /register.html 200
 /forgot-password /forgot-password.html 200
 /offers /offers.html 200
-/admin/dashboard /admin-dashboard.html 200
 /admin /admin-dashboard.html 200
+/admin/ /admin-dashboard.html 200
+/admin/dashboard /admin-dashboard.html 200
 /admin-dashboard /admin-dashboard.html 200
+/admin/products /admin-products.html 200
+/admin-products /admin-products.html 200
+/admin/product-form /admin-product-form.html 200
+/admin-product-form /admin-product-form.html 200
+/admin/categories /admin-categories.html 200
+/admin-categories /admin-categories.html 200
+/admin/inventory /admin-inventory.html 200
+/admin-inventory /admin-inventory.html 200
+/admin/udhari /admin-udhari.html 200
+/admin-udhari /admin-udhari.html 200
+/admin/customers /admin-customers.html 200
+/admin-customers /admin-customers.html 200
 /farmer/dashboard /farmer-dashboard.html 200
 /farmer-dashboard /farmer-dashboard.html 200
+/farmer/cart /cart.html 200
+/cart /cart.html 200
+/checkout /checkout.html 200
+/profile /profile.html 200
 """
 with open(os.path.join(DIST_DIR, "_redirects"), "w", encoding="utf-8") as f:
     f.write(redirects_content)

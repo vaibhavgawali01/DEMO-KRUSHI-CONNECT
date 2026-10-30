@@ -107,6 +107,17 @@ def render_admin_sidebar(active_tab="dashboard"):
 # ==============================================================================
 # 1. AUTH LOGIN PAGE (Matching Screenshot 1 exactly)
 # ==============================================================================
+def save_admin_page(filename, content):
+    p = os.path.join(DIST_DIR, filename)
+    with open(p, 'w', encoding='utf-8') as f:
+        f.write(content)
+    if filename.startswith('admin-'):
+        admin_sub = filename.replace('admin-', '')
+        admin_dir = os.path.join(DIST_DIR, 'admin')
+        os.makedirs(admin_dir, exist_ok=True)
+        with open(os.path.join(admin_dir, admin_sub), 'w', encoding='utf-8') as f:
+            f.write(content)
+
 def build_login_page():
     html = """<!DOCTYPE html>
 <html lang="mr">
@@ -544,8 +555,7 @@ def build_admin_dashboard():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-dashboard.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-dashboard.html", content)
     print("Generated dist/admin-dashboard.html matching Screenshot 2, 3, 4")
 
 # ==============================================================================
@@ -714,8 +724,7 @@ def build_admin_categories():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-categories.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-categories.html", content)
     print("Generated dist/admin-categories.html matching Screenshot 5")
 
 # ==============================================================================
@@ -803,8 +812,7 @@ def build_admin_products():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-products.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-products.html", content)
     print("Generated dist/admin-products.html")
 
 # ==============================================================================
@@ -891,8 +899,7 @@ def build_admin_product_form():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-product-form.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-product-form.html", content)
     print("Generated dist/admin-product-form.html")
 
 # ==============================================================================
@@ -962,8 +969,7 @@ def build_admin_udhari():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-udhari.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-udhari.html", content)
     print("Generated dist/admin-udhari.html")
 
 # ==============================================================================
@@ -1040,8 +1046,7 @@ def build_admin_inventory():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-inventory.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-inventory.html", content)
     print("Generated dist/admin-inventory.html")
 
 # ==============================================================================
@@ -1109,8 +1114,7 @@ def build_admin_customers():
     </div>
 </div>
 """ + foot_html()
-    with open(os.path.join(DIST_DIR, "admin-customers.html"), "w", encoding="utf-8") as f:
-        f.write(content)
+    save_admin_page("admin-customers.html", content)
     print("Generated dist/admin-customers.html")
 
 if __name__ == "__main__":
