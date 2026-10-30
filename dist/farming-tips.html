@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>पीक संरक्षण व कीड सल्ला | Crop Care & Pest Advice - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <title>पीक सल्ला | Farming Tips - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,15 +145,27 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -162,145 +173,23 @@
 
 <div class="container my-4">
     <div class="text-center mb-5">
-        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">
-            <span class="lang-mr">कृषी तज्ज्ञ मार्गदर्शक सूचना</span>
-            <span class="lang-en">Agronomist Guidelines</span>
-        </span>
-        <h2 class="fw-bold text-success">
-            <span class="lang-mr">पीक संरक्षण व कीड नियंत्रण मार्गदर्शिका</span>
-            <span class="lang-en">Crop Care & Pest Management Guide</span>
-        </h2>
-        <p class="text-muted" style="max-width:650px;margin:0 auto;">
-            <span class="lang-mr">हंगामी पीक व्यवस्थापन, रोग लक्षणे आणि एकात्मिक कीड नियंत्रण (IPM) शास्त्रीय उपाय.</span>
-            <span class="lang-en">Seasonal crop management practices, disease symptom identification, and integrated pest management (IPM) measures.</span>
-        </p>
+        <span class="badge bg-success px-3 py-1 rounded-pill mb-2">कृषी तज्ज्ञ सल्ला</span>
+        <h2 class="fw-bold text-success"><span class="lang-mr">पीक संरक्षण व कीड नियंत्रण</span><span class="lang-en">Crop Care & Pest Advice</span></h2>
     </div>
-
-    <!-- Seasonal Crop Management Grid -->
-    <h4 class="fw-bold text-dark mb-3">
-        <i class="bi bi-flower1 text-success me-2"></i>
-        <span class="lang-mr">हंगामी पीक व्यवस्थापन</span>
-        <span class="lang-en">Seasonal Crop Management</span>
-    </h4>
     <div class="row g-4 mb-5">
         <div class="col-md-6">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-white">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-success"><span class="lang-mr">कापूस (Cotton)</span><span class="lang-en">Cotton</span></span>
-                    <i class="bi bi-check2-circle text-success fs-5"></i>
-                </div>
-                <h5 class="fw-bold text-dark">
-                    <span class="lang-mr">पातेगळ व बोंड वाढ टप्पा व्यवस्थापन</span>
-                    <span class="lang-en">Square Drop & Boll Development</span>
-                </h5>
-                <p class="text-muted small m-0" style="line-height:1.7;">
-                    <span class="lang-mr">कापूस पिकात पातेगळ रोखण्यासाठी बोरॉन (१ ग्रॅम/लिटर) आणि ००:५२:३४ (५ ग्रॅम/लिटर) ची फवारणी करावी. गुलाबी बोंडअळीच्या नियंत्रणासाठी हेक्टरी ५ कामगंध सापळे (Pheromone Traps) उभारावेत.</span>
-                    <span class="lang-en">Spray Boron (1g/L) and 00:52:34 (5g/L) to prevent flower bud shedding. Install 5 pheromone traps per hectare to monitor and mass-trap pink bollworm moths.</span>
-                </p>
+                <span class="badge bg-success w-auto d-inline-block mb-2">कापूस (Cotton)</span>
+                <h5 class="fw-bold">पातेगळ व बोंड वाढ टप्पा</h5>
+                <p class="text-muted small">कापूस पिकात पातेगळ रोखण्यासाठी बोरॉन (१ ग्रॅम/लिटर) आणि ००:५२:३४ ची फवारणी करावी. बोंडअळीसाठी कामगंध सापळे लावावेत.</p>
             </div>
         </div>
-
         <div class="col-md-6">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-white">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-success"><span class="lang-mr">सोयाबीन (Soybean)</span><span class="lang-en">Soybean</span></span>
-                    <i class="bi bi-check2-circle text-success fs-5"></i>
-                </div>
-                <h5 class="fw-bold text-dark">
-                    <span class="lang-mr">शेंगा भरण्याच्या टप्प्यातील पोषण</span>
-                    <span class="lang-en">Pod Filling Nutritional Care</span>
-                </h5>
-                <p class="text-muted small m-0" style="line-height:1.7;">
-                    <span class="lang-mr">सोयाबीनच्या शेंगांमध्ये दाणा भरताना पोटॅशियम नायट्रेट (१३:००:४५ - १ किलो/१०० लिटर पाणी) फवारावे, ज्यामुळे दाण्याचा आकार मोठा होऊन चकचकीतपणा वाढतो आणि वजन भरते.</span>
-                    <span class="lang-en">Spray Potassium Nitrate (13:00:45 at 1kg/100L water) during pod development to ensure bolder grain size, higher test weight, and disease tolerance.</span>
-                </p>
+                <span class="badge bg-success w-auto d-inline-block mb-2">सोयाबीन (Soybean)</span>
+                <h5 class="fw-bold">शेंगा भरण्याचा टप्पा</h5>
+                <p class="text-muted small">शेंगांमध्ये दाणा भरताना पोटॅशियम नायट्रेट (१३:००:४५ - १ किलो/१०० लिटर) फवारावे, ज्यामुळे दाण्याचा आकार मोठा होतो.</p>
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-white">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-success"><span class="lang-mr">ऊस (Sugarcane)</span><span class="lang-en">Sugarcane</span></span>
-                    <i class="bi bi-check2-circle text-success fs-5"></i>
-                </div>
-                <h5 class="fw-bold text-dark">
-                    <span class="lang-mr">मोठी बांधणी व खत डोस</span>
-                    <span class="lang-en">Earthing Up & Heavy Dressing</span>
-                </h5>
-                <p class="text-muted small m-0" style="line-height:1.7;">
-                    <span class="lang-mr">ऊस लागवडीनंतर १०० ते १२० दिवसांनी मोठी बांधणी करावी. या वेळी प्रति एकर २ बॅग युरिया, २ बॅग १०:२६:२६ आणि १० किलो फेरस सल्फेट देऊन मातीची भर लावावी.</span>
-                    <span class="lang-en">Perform heavy earthing up between 100-120 days after planting. Apply 2 bags Urea, 2 bags 10:26:26, and 10 kg Ferrous Sulphate per acre before earthing up.</span>
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-white">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-success"><span class="lang-mr">कांदा (Onion)</span><span class="lang-en">Onion</span></span>
-                    <i class="bi bi-check2-circle text-success fs-5"></i>
-                </div>
-                <h5 class="fw-bold text-dark">
-                    <span class="lang-mr">फुलकिडे (थ्रिप्स) व जांभळा करपा नियंत्रण</span>
-                    <span class="lang-en">Thrips & Purple Blotch Management</span>
-                </h5>
-                <p class="text-muted small m-0" style="line-height:1.7;">
-                    <span class="lang-mr">कांद्यावरील पांढरे ठिपके आणि पिळा रोखण्यासाठी डायफेनोकोनाझोल (१ मिली/लिटर) + फिप्रोनिल (१.५ मिली/लिटर) स्टिकरसह मिसळून फवारावे.</span>
-                    <span class="lang-en">Control curling and purple spots by spraying Difenoconazole (1 ml/L) mixed with Fipronil (1.5 ml/L) along with a non-ionic silicone spreader.</span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pest & Disease Identification Guide -->
-    <h4 class="fw-bold text-dark mb-3">
-        <i class="bi bi-bug-fill text-danger me-2"></i>
-        <span class="lang-mr">कीड व रोग निदान तक्ता</span>
-        <span class="lang-en">Pest & Disease Diagnosis Table</span>
-    </h4>
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-success">
-                    <tr>
-                        <th><span class="lang-mr">कीड / रोग</span><span class="lang-en">Pest / Disease</span></th>
-                        <th><span class="lang-mr">बाधित पिके</span><span class="lang-en">Affected Crops</span></th>
-                        <th><span class="lang-mr">लक्षणे व नुकसान</span><span class="lang-en">Symptoms & Damage</span></th>
-                        <th><span class="lang-mr">रासायनिक उपाय</span><span class="lang-en">Chemical Control</span></th>
-                        <th><span class="lang-mr">जैविक / सेंद्रिय उपाय</span><span class="lang-en">Organic Control</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong class="text-danger"><span class="lang-mr">गुलाबी बोंडअळी</span><span class="lang-en">Pink Bollworm</span></strong></td>
-                        <td><span class="lang-mr">कापूस</span><span class="lang-en">Cotton</span></td>
-                        <td class="small"><span class="lang-mr">पात्यांचे व बोंडांचे नुकसान, लिंट खराब होणे.</span><span class="lang-en">Damaged rosetted flowers, bored bolls and stained lint.</span></td>
-                        <td class="small text-primary"><i class="bi bi-prescription2 me-1"></i>प्रोफेनोफॉस ५०% EC (२ मिली/लिटर)</td>
-                        <td class="small text-success"><i class="bi bi-tree me-1"></i>कामगंध सापळे (हेक्टरी ५) + निंबोळी अर्क ५%</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="text-danger"><span class="lang-mr">तांबेरा व करपा</span><span class="lang-en">Rust & Blight</span></strong></td>
-                        <td><span class="lang-mr">सोयाबीन, गहू</span><span class="lang-en">Soybean, Wheat</span></td>
-                        <td class="small"><span class="lang-mr">पानांवर तपकिरी-तांबूस ठिपके, पाने सुकणे.</span><span class="lang-en">Brown rust pustules on leaves, premature defoliation.</span></td>
-                        <td class="small text-primary"><i class="bi bi-prescription2 me-1"></i>टेबुकोनाझोल + ट्रायफ्लॉक्सीस्ट्रॉबिन (०.७ ग्रॅम/लिटर)</td>
-                        <td class="small text-success"><i class="bi bi-tree me-1"></i>ट्रायकोडर्मा व्हिरीडी (५ ग्रॅम/लिटर)</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="text-danger"><span class="lang-mr">फुलकिडे (थ्रिप्स)</span><span class="lang-en">Thrips</span></strong></td>
-                        <td><span class="lang-mr">कांदा, मिरची, भाजीपाला</span><span class="lang-en">Onion, Chilli, Vegetables</span></td>
-                        <td class="small"><span class="lang-mr">पानांवर चंदेरी रेषा, पाने गोळा होणे (चुरडा-मुरडा).</span><span class="lang-en">Silvering and curling of leaf tips, stunted growth.</span></td>
-                        <td class="small text-primary"><i class="bi bi-prescription2 me-1"></i>फिप्रोनिल ५% SC (१.५ मिली/लिटर)</td>
-                        <td class="small text-success"><i class="bi bi-tree me-1"></i>निळे चिकट सापळे (Blue Sticky Traps)</td>
-                    </tr>
-                    <tr>
-                        <td><strong class="text-danger"><span class="lang-mr">खोडकिडा</span><span class="lang-en">Early Shoot Borer</span></strong></td>
-                        <td><span class="lang-mr">ऊस, मका</span><span class="lang-en">Sugarcane, Maize</span></td>
-                        <td class="small"><span class="lang-mr">मधला पोंगा सुकणे (Dead Heart), उसाची वाढ खुंटणे.</span><span class="lang-en">Central whorl drying (Dead Heart), tillers dying.</span></td>
-                        <td class="small text-primary"><i class="bi bi-prescription2 me-1"></i>क्लोरँट्रानिलीप्रोल (कोराजन - ०.४ मिली/लिटर)</td>
-                        <td class="small text-success"><i class="bi bi-tree me-1"></i>ट्रायकोग्रामा कार्ड (Trichogramma Cards)</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
@@ -385,7 +274,7 @@
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -426,11 +315,38 @@
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

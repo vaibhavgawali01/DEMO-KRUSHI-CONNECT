@@ -9,3 +9,6 @@
 /register /register.html 200
 /forgot-password /forgot-password.html 200
 /offers /offers.html 200
+/admin/dashboard /admin-dashboard.html 200
+/admin /admin-dashboard.html 200
+/farmer/dashboard /farmer-dashboard.html 200

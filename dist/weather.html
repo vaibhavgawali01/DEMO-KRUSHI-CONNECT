@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,149 +145,65 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
 <div class="container my-4">
-    <!-- Header -->
     <div class="text-center mb-4">
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
-            <i class="bi bi-cloud-sun me-1"></i>
-            <span class="lang-mr">स्थानिक हवामान व शेती सल्ला</span>
-            <span class="lang-en">Local Agri Meteorology & Advisory</span>
-        </span>
-        <h2 class="fw-bold text-success">
-            <span class="lang-mr">हवामान अंदाज (Agri Weather Forecast)</span>
-            <span class="lang-en">Agricultural Weather Forecast</span>
-        </h2>
-        <p class="text-muted" style="max-width:650px; margin:0 auto;">
-            <span class="lang-mr">फवारणी किंवा सिंचनापूर्वी स्थानिक हवामानाचा अंदाज तपासा आणि पिकाचे नुकसान टाळा.</span>
-            <span class="lang-en">Check agricultural forecast before spraying pesticides or irrigating crops to prevent wash-off and disease outbreaks.</span>
-        </p>
+        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill mb-2 fw-semibold"><i class="bi bi-cloud-sun me-1"></i>हवामान व सल्ला</span>
+        <h2 class="fw-bold text-success"><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></h2>
     </div>
-
-    <!-- City Search Form & Presets -->
     <div class="row justify-content-center mb-4">
-        <div class="col-md-7">
-            <div class="d-flex gap-2 mb-2">
-                <input type="text" id="cityInput" class="form-control" 
-                       data-placeholder-mr="शहर / तालुका टाका (उदा. वैजापूर, संभाजीनगर, नाशिक)..."
-                       data-placeholder-en="Enter City / Taluka (e.g. Vaijapur, Sambhajinagar)..."
-                       placeholder="शहर / तालुका टाका (उदा. वैजापूर, संभाजीनगर, नाशिक)..." value="वैजापूर (Vaijapur)">
-                <button type="button" onclick="searchWeather()" class="btn btn-krushi px-4">
-                    <span class="lang-mr">शोधा</span><span class="lang-en">Search</span>
-                </button>
-            </div>
-            <!-- City Quick Pills -->
-            <div class="d-flex gap-2 flex-wrap justify-content-center">
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0" onclick="setCity('Vaijapur')">वैजापूर (Vaijapur)</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0" onclick="setCity('Sambhajinagar')">संभाजीनगर</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0" onclick="setCity('Nashik')">नाशिक</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0" onclick="setCity('Pune')">पुणे</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-0" onclick="setCity('Sangli')">सांगली</button>
-            </div>
+        <div class="col-md-6 d-flex gap-2">
+            <input type="text" id="cityInput" class="form-control" value="वैजापूर (Vaijapur)">
+            <button onclick="searchWeather()" class="btn btn-krushi px-4">शोधा</button>
         </div>
     </div>
-
-    <!-- Weather Overview Card -->
     <div class="row justify-content-center mb-5">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden text-white" style="background: linear-gradient(135deg, #1565c0, #0288d1);">
-                <div class="card-body p-4 p-md-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h3 class="fw-bold mb-0 text-white"><i class="bi bi-geo-alt-fill text-warning me-2"></i><span id="weatherCityName">वैजापूर (Vaijapur)</span></h3>
-                            <small class="text-white-50">Maharashtra, India</small>
-                        </div>
-                        <span class="badge bg-light text-dark px-3 py-2 fw-bold"><span class="lang-mr">आजचा अंदाज</span><span class="lang-en">Today's Forecast</span></span>
+            <div class="card border-0 shadow-sm rounded-4 text-white p-4" style="background: linear-gradient(135deg, #1565c0, #0288d1);">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0" id="weatherCityName">वैजापूर (Vaijapur)</h3>
+                    <span class="badge bg-light text-dark px-3 py-1">Live Advisory</span>
+                </div>
+                <div class="row align-items-center my-3">
+                    <div class="col-md-6"><h1 class="display-3 fw-bold mb-0">29°C</h1><p class="lead mb-0 text-white-50">अंशतः ढगाळ व कोरडे</p></div>
+                    <div class="col-md-6 bg-white bg-opacity-10 p-3 rounded-3">
+                        <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25"><span>पाऊस:</span><strong>20%</strong></div>
+                        <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25"><span>आर्द्रता:</span><strong>65%</strong></div>
+                        <div class="d-flex justify-content-between py-1"><span>वारा:</span><strong>12 km/h</strong></div>
                     </div>
-
-                    <div class="row align-items-center my-4">
-                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            <h1 class="display-3 fw-bold mb-0 text-white" id="weatherTemp">29°C</h1>
-                            <p class="lead text-white-50 mb-0" id="weatherCondition">
-                                <span class="lang-mr">अंशतः ढगाळ व कोरडे हवामान</span>
-                                <span class="lang-en">Partly Cloudy & Dry</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="bg-white bg-opacity-10 p-3 rounded-3">
-                                <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
-                                    <span class="text-white-50"><span class="lang-mr">पावसाची शक्यता:</span><span class="lang-en">Rain Chance:</span></span>
-                                    <strong class="text-white" id="weatherRain">20%</strong>
-                                </div>
-                                <div class="d-flex justify-content-between py-1 border-bottom border-light border-opacity-25">
-                                    <span class="text-white-50"><span class="lang-mr">हवेतील आर्द्रता:</span><span class="lang-en">Humidity:</span></span>
-                                    <strong class="text-white" id="weatherHumidity">65%</strong>
-                                </div>
-                                <div class="d-flex justify-content-between py-1">
-                                    <span class="text-white-50"><span class="lang-mr">वाऱ्याचा वेग:</span><span class="lang-en">Wind Speed:</span></span>
-                                    <strong class="text-white" id="weatherWind">12 km/h</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Agri Advisory Alert -->
-                    <div class="bg-warning text-dark p-3 rounded-3 fw-semibold small mt-3" id="weatherAdvisoryBox">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        <span class="lang-mr">फवारणी सल्ला: आज वाऱ्याचा वेग कमी असल्याने कीटकनाशक फवारणीसाठी हवामान अनुकूल आहे. दुपारच्या उन्हात फवारणी टाळा.</span>
-                        <span class="lang-en">Spraying Advisory: Low wind velocity makes today suitable for pesticide application. Avoid spraying during peak midday heat.</span>
-                    </div>
+                </div>
+                <div class="bg-warning text-dark p-3 rounded-3 fw-semibold small mt-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>फवारणी सल्ला: आज वाऱ्याचा वेग अनुकूल असून फवारणीसाठी योग्य वेळ आहे.
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-const weatherPresets = {
-    'Vaijapur': { name_mr: 'वैजापूर (Vaijapur)', name_en: 'Vaijapur, MH', temp: '29°C', cond_mr: 'अंशतः ढगाळ व कोरडे', cond_en: 'Partly Cloudy & Dry', rain: '20%', hum: '65%', wind: '12 km/h', adv_mr: 'फवारणी सल्ला: वाऱ्याचा वेग अनुकूल असून फवारणीसाठी योग्य वेळ आहे. ठिबक सिंचन नियमित चालू ठेवा.', adv_en: 'Spraying Advisory: Mild winds present optimal conditions for foliar spray. Keep regular drip schedules.' },
-    'Sambhajinagar': { name_mr: 'छत्रपती संभाजीनगर', name_en: 'Chh. Sambhajinagar', temp: '31°C', cond_mr: 'निरभ्र व सूर्यप्रकाश', cond_en: 'Sunny & Clear', rain: '10%', hum: '58%', wind: '14 km/h', adv_mr: 'सिंचन सल्ला: सूर्यप्रकाश तीव्र असल्याने बाष्पीभवन वाढेल. संध्याकाळच्या वेळेत पाणी द्या.', adv_en: 'Irrigation Advisory: High evaporation rate today; irrigate crops during evening hours.' },
-    'Nashik': { name_mr: 'नाशिक (Nashik)', name_en: 'Nashik, MH', temp: '27°C', cond_mr: 'ढगाळ हवामान', cond_en: 'Cloudy Sky', rain: '40%', hum: '75%', wind: '16 km/h', adv_mr: 'रोग नियंत्रण: जास्त आर्द्रतेमुळे बुरशीजन्य रोगांचा प्रादुर्भाव होऊ शकतो, बोर्डो मिश्रण किंवा बुरशीनाशक तयार ठेवा.', adv_en: 'Disease Alert: Elevated humidity may trigger fungal spread. Keep preventative fungicides ready.' },
-    'Pune': { name_mr: 'पुणे (Pune)', name_en: 'Pune, MH', temp: '28°C', cond_mr: 'अंशतः ढगाळ', cond_en: 'Partly Cloudy', rain: '25%', hum: '68%', wind: '11 km/h', adv_mr: 'फवारणी सल्ला: हवामान स्थिर आहे. भाजीपाला पिकांवर कीटकनाशक फवारणी करता येईल.', adv_en: 'Advisory: Weather is calm. Ideal for preventive spraying on vegetable and fruit crops.' },
-    'Sangli': { name_mr: 'सांगली (Sangli)', name_en: 'Sangli, MH', temp: '30°C', cond_mr: 'उबदार व निरभ्र', cond_en: 'Warm & Fair', rain: '15%', hum: '62%', wind: '13 km/h', adv_mr: 'ऊस पीक सल्ला: उसाला हलके पाणी द्यावे व नत्र खताचा हप्ता देण्यास अनुकूल वेळ आहे.', adv_en: 'Sugarcane Advisory: Good window for light irrigation and top-dressing nitrogen fertilizers.' }
-};
-
-function setCity(key) {
-    const data = weatherPresets[key] || weatherPresets['Vaijapur'];
-    document.getElementById('cityInput').value = data.name_mr;
-    applyWeatherData(data);
-}
-
-function searchWeather() {
-    const val = document.getElementById('cityInput').value.toLowerCase();
-    let matched = weatherPresets['Vaijapur'];
-    for(const k in weatherPresets) {
-        if(val.includes(k.toLowerCase()) || weatherPresets[k].name_mr.includes(val)) {
-            matched = weatherPresets[k];
-            break;
-        }
-    }
-    applyWeatherData(matched);
-}
-
-function applyWeatherData(d) {
-    document.getElementById('weatherCityName').textContent = d.name_mr;
-    document.getElementById('weatherTemp').textContent = d.temp;
-    document.getElementById('weatherRain').textContent = d.rain;
-    document.getElementById('weatherHumidity').textContent = d.hum;
-    document.getElementById('weatherWind').textContent = d.wind;
-    document.getElementById('weatherCondition').innerHTML = `<span class="lang-mr">${d.cond_mr}</span><span class="lang-en">${d.cond_en}</span>`;
-    document.getElementById('weatherAdvisoryBox').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i><span class="lang-mr">${d.adv_mr}</span><span class="lang-en">${d.adv_en}</span>`;
-}
-</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
@@ -370,7 +285,7 @@ function applyWeatherData(d) {
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -411,11 +326,38 @@ function applyWeatherData(d) {
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,21 +145,32 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-<!-- ===== HERO SECTION ===== -->
 <section class="hero-section">
     <div class="hero-farm-bg" id="heroBg"></div>
     <div class="video-overlay"></div>
@@ -225,7 +235,7 @@
     </div>
 </section>
 
-<!-- ===== QUICK ACTION CARDS ===== -->
+<!-- QUICK ACTION CARDS -->
 <section class="container-fluid px-3 px-md-5" style="margin-top:-40px; position:relative; z-index:10;">
     <div class="row g-3 justify-content-center">
         <div class="col-6 col-md-3">
@@ -271,7 +281,7 @@
     </div>
 </section>
 
-<!-- ===== FEATURED PRODUCTS ===== -->
+<!-- FEATURED PRODUCTS -->
 <section class="container featured-section my-5">
     <div class="featured-header d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -293,7 +303,6 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <!-- P1 -->
         <div class="col">
             <div class="product-featured-card">
                 <div class="product-featured-img-wrap">
@@ -321,7 +330,6 @@
             </div>
         </div>
 
-        <!-- P2 -->
         <div class="col">
             <div class="product-featured-card">
                 <div class="product-featured-img-wrap">
@@ -349,7 +357,6 @@
             </div>
         </div>
 
-        <!-- P3 -->
         <div class="col">
             <div class="product-featured-card">
                 <div class="product-featured-img-wrap">
@@ -379,7 +386,7 @@
     </div>
 </section>
 
-<!-- ===== WHY CHOOSE US ===== -->
+<!-- WHY CHOOSE US -->
 <section class="py-5" style="background:#f8fafc;">
     <div class="container">
         <div class="text-center mb-5">
@@ -423,7 +430,7 @@
     </div>
 </section>
 
-<!-- ===== ⭐ FARMER REVIEWS SECTION (#reviews) ===== -->
+<!-- REVIEWS (#reviews) -->
 <section class="container my-5 py-4" id="reviews">
     <div class="text-center mb-5">
         <span class="badge bg-warning-subtle text-dark border border-warning px-3 py-1 rounded-pill mb-2 fw-semibold">
@@ -440,7 +447,6 @@
         </p>
     </div>
 
-    <!-- Rating Summary Bar -->
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
         <div class="row align-items-center g-3 text-center text-md-start">
             <div class="col-md-3 text-center border-end-md">
@@ -469,107 +475,58 @@
         </div>
     </div>
 
-    <!-- Review Cards Grid -->
     <div class="row g-4">
-        <!-- Review 1 -->
         <div class="col-md-6 col-lg-3">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 d-flex flex-column justify-content-between bg-white">
                 <div>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-muted small mb-3" style="line-height:1.6;">
-                        <span class="lang-mr">"कापूस बियाणे आणि कीटकनाशकांसाठी सप्तशृंगी ॲग्रोचे मार्गदर्शन अतिशय अचूक ठरले. बोंडअळीच्या नियंत्रणासाठी त्यांनी दिलेल्या सल्ल्याने माझ्या उत्पादनात मोठी वाढ झाली!"</span>
-                        <span class="lang-en">"Their guidance for cotton seeds and pest control was spot on. The advisory on bollworm management noticeably increased our crop output this season!"</span>
-                    </p>
+                    <div class="text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="text-muted small mb-3">"कापूस बियाणे आणि कीटकनाशकांसाठी सप्तशृंगी ॲग्रोचे मार्गदर्शन अतिशय अचूक ठरले. उत्पादनात मोठी वाढ झाली!"</p>
                 </div>
                 <div class="d-flex align-items-center gap-3 pt-3 border-top">
                     <div class="rounded-circle bg-success text-white fw-bold d-flex align-items-center justify-content-center" style="width:40px;height:40px;">RP</div>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark"><span class="lang-mr">रमेश पाटील</span><span class="lang-en">Ramesh Patil</span></h6>
-                        <small class="text-muted"><span class="lang-mr">वैजापूर • कापूस शेतकरी</span><span class="lang-en">Vaijapur • Cotton Farmer</span></small>
-                    </div>
+                    <div><h6 class="mb-0 fw-bold text-dark">रमेश पाटील</h6><small class="text-muted">वैजापूर • कापूस</small></div>
                 </div>
             </div>
         </div>
 
-        <!-- Review 2 -->
         <div class="col-md-6 col-lg-3">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 d-flex flex-column justify-content-between bg-white">
                 <div>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-muted small mb-3" style="line-height:1.6;">
-                        <span class="lang-mr">"ऊस पिकासाठी लागणाऱ्या खतांचे प्रमाण कॅल्क्युलेटरद्वारे समजून घेऊन योग्य वेळी खते टाकली. योग्य भाव आणि नेहमी वेळेत खते उपलब्ध असतात."</span>
-                        <span class="lang-en">"Used their fertilizer calculator for sugarcane nutrient management. Genuine fertilizer bags always in stock at completely fair market rates."</span>
-                    </p>
+                    <div class="text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="text-muted small mb-3">"ऊस पिकासाठी खत कॅल्क्युलेटरने योग्य नियोजन केले. योग्य भाव आणि नेहमी वेळेत खते उपलब्ध असतात."</p>
                 </div>
                 <div class="d-flex align-items-center gap-3 pt-3 border-top">
                     <div class="rounded-circle bg-primary text-white fw-bold d-flex align-items-center justify-content-center" style="width:40px;height:40px;">SS</div>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark"><span class="lang-mr">संदीप सोनवणे</span><span class="lang-en">Sandeep Sonawane</span></h6>
-                        <small class="text-muted"><span class="lang-mr">मिरखनगर • ऊस उत्पादक</span><span class="lang-en">Mirakhnagar • Sugarcane Grower</span></small>
-                    </div>
+                    <div><h6 class="mb-0 fw-bold text-dark">संदीप सोनवणे</h6><small class="text-muted">मिरखनगर • ऊस</small></div>
                 </div>
             </div>
         </div>
 
-        <!-- Review 3 -->
         <div class="col-md-6 col-lg-3">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 d-flex flex-column justify-content-between bg-white">
                 <div>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-muted small mb-3" style="line-height:1.6;">
-                        <span class="lang-mr">"सोयाबीन बियाणे १००% उगवणक्षम निघाले. दुकानातील कर्मचारी प्रत्येक औषधाची माहिती सविस्तर सांगतात, त्यामुळे फवारणी वाया जात नाही."</span>
-                        <span class="lang-en">"Mahabeej soybean seeds had 100% germination rate. The team explains spray dilution carefully so no chemical gets wasted."</span>
-                    </p>
+                    <div class="text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="text-muted small mb-3">"सोयाबीन बियाणे १००% उगवणक्षम निघाले. दुकानातील कर्मचारी औषधांची माहिती सविस्तर सांगतात."</p>
                 </div>
                 <div class="d-flex align-items-center gap-3 pt-3 border-top">
                     <div class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center" style="width:40px;height:40px;">BG</div>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark"><span class="lang-mr">बाळासाहेब गायकवाड</span><span class="lang-en">Balasaheb Gaikwad</span></h6>
-                        <small class="text-muted"><span class="lang-mr">गंगापूर • सोयाबीन शेतकरी</span><span class="lang-en">Gangapur • Soybean Farmer</span></small>
-                    </div>
+                    <div><h6 class="mb-0 fw-bold text-dark">बाळासाहेब गायकवाड</h6><small class="text-muted">गंगापूर • सोयाबीन</small></div>
                 </div>
             </div>
         </div>
 
-        <!-- Review 4 -->
         <div class="col-md-6 col-lg-3">
             <div class="card h-100 border-0 shadow-sm rounded-4 p-4 d-flex flex-column justify-content-between bg-white">
                 <div>
-                    <div class="text-warning mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    <p class="text-muted small mb-3" style="line-height:1.6;">
-                        <span class="lang-mr">"कांदा आणि भाजीपाल्यासाठी ठिबक सिंचन साहित्य व वॉटर सोल्युबल खते एकाच ठिकाणी मिळतात. व्हॉट्सॲपवर विचारले तरी लगेच उत्तर मिळते!"</span>
-                        <span class="lang-en">"Drip irrigation materials and water-soluble fertilizers in one place. Quick and helpful replies even when contacting via WhatsApp!"</span>
-                    </p>
+                    <div class="text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="text-muted small mb-3">"कांदा आणि भाजीपाल्यासाठी ठिबक सिंचन साहित्य एकाच ठिकाणी मिळते. व्हॉट्सॲपवर विचारले तरी लगेच उत्तर मिळते!"</p>
                 </div>
                 <div class="d-flex align-items-center gap-3 pt-3 border-top">
                     <div class="rounded-circle bg-info text-white fw-bold d-flex align-items-center justify-content-center" style="width:40px;height:40px;">DS</div>
-                    <div>
-                        <h6 class="mb-0 fw-bold text-dark"><span class="lang-mr">ज्ञानेश्वर शिंदे</span><span class="lang-en">Dnyaneshwar Shinde</span></h6>
-                        <small class="text-muted"><span class="lang-mr">वैजापूर • कांदा व भाजीपाला</span><span class="lang-en">Vaijapur • Vegetable Farmer</span></small>
-                    </div>
+                    <div><h6 class="mb-0 fw-bold text-dark">ज्ञानेश्वर शिंदे</h6><small class="text-muted">वैजापूर • भाजीपाला</small></div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Review CTA Buttons -->
-    <div class="text-center mt-4 pt-2">
-        <a href="products.html" class="btn btn-krushi px-4 py-2 rounded-pill fw-semibold shadow-sm me-2">
-            <i class="bi bi-grid-fill me-1"></i>
-            <span class="lang-mr">उत्पादने पहा</span><span class="lang-en">Explore Catalog</span>
-        </a>
-        <a href="https://wa.me/918600813827?text=नमस्कार,%20मी%20सप्तशृंगी%20ॲग्रो%20सर्व्हिसेसबद्दल%20अभिप्राय%20देऊ%20इच्छितो." target="_blank" class="btn btn-outline-success px-4 py-2 rounded-pill fw-semibold shadow-sm">
-            <i class="bi bi-whatsapp me-1"></i>
-            <span class="lang-mr">व्हॉट्सॲपवर अभिप्राय पाठवा</span><span class="lang-en">Share Feedback on WhatsApp</span>
-        </a>
     </div>
 </section>
 
@@ -653,7 +610,7 @@
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -694,11 +651,38 @@
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

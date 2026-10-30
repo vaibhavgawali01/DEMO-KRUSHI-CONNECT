@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,93 +145,48 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-<section style="background: linear-gradient(135deg, #0a2e0a 0%, #1b5e20 50%, #0d3b0d 100%); min-height: 280px; display:flex; align-items:center; position:relative; overflow:hidden;">
-    <div class="container text-center py-5 text-white position-relative" style="z-index:2;">
-        <span class="badge mb-3 px-4 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#eab308,#f97316);font-size:0.85rem;">
-            🌾 <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
-        </span>
-        <h1 class="display-5 fw-bold mb-3">
-            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
-            <span class="lang-en">Saptashrungi Agro Services</span>
-        </h1>
-        <p class="lead mb-0 text-white-50" style="max-width:650px; margin:0 auto;">
-            <span class="lang-mr">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र</span>
-            <span class="lang-en">Authorized agricultural service center in Mirakhnagar, Vaijapur</span>
-        </p>
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-success"><span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span><span class="lang-en">Saptashrungi Agro Services</span></h2>
+        <p class="text-muted">मिरखनगर, वैजापूर येथील अग्रगण्य व अधिकृत कृषी सेवा केंद्र</p>
     </div>
-</section>
-
-<section class="container my-5">
-    <div class="row align-items-center g-5">
-        <div class="col-lg-6">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-block">
-                🌱 <span class="lang-mr">आमची कहाणी</span><span class="lang-en">Our Story</span>
-            </span>
-            <h2 class="fw-bold text-success mb-4" style="font-size:2rem; line-height:1.3;">
-                <span class="lang-mr">शेतकऱ्यांच्या समृद्धीसाठी<br><span style="color:#1b5e20;">समर्पित कृषी सेवा</span></span>
-                <span class="lang-en">Dedicated Agricultural Support<br><span style="color:#1b5e20;">For Farmer Prosperity</span></span>
-            </h2>
-
-            <p class="text-muted mb-3" style="line-height:1.8;">
-                <span class="lang-mr"><strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong> हे मिरखनगर (वैजापूर, छत्रपती संभाजीनगर) येथील नामांकित कृषी सेवा केंद्र आहे. आमच्या केंद्रावर परिसरातील शेतकरी बांधवांना लागणारे सर्व प्रकारचे प्रमाणित बियाणे, दर्जेदार रासायनिक व सेंद्रिय खते, परिणामकारक पीक संरक्षण औषधे आणि आधुनिक ठिबक सिंचन साहित्य एकाच छताखाली उपलब्ध आहे.</span>
-                <span class="lang-en"><strong>Saptashrungi Agro Services</strong> is a premier authorized agricultural inputs center situated in Mirakhnagar, Vaijapur. We provide certified hybrid seeds, high-efficiency chemical and organic fertilizers, crop protection agrochemicals, and micro-irrigation systems under one roof.</span>
+    <div class="row align-items-center g-4">
+        <div class="col-md-6">
+            <p class="text-muted" style="line-height:1.8;">
+                सप्तशृंगी ॲग्रो सर्व्हिसेस हे मिरखनगर, वैजापूर येथील अधिकृत कृषी केंद्र आहे. येथे १००% प्रमाणित बियाणे, खते, कीटकनाशके आणि आधुनिक ठिबक सिंचन साहित्य रास्त दरात उपलब्ध आहे.
             </p>
-            <p class="text-muted mb-4" style="line-height:1.8;">
-                <span class="lang-mr">आमचा उद्देश केवळ उत्पादने विकणे हा नसून, प्रत्येक शेतकऱ्याला जमिनीचे आरोग्य टिकवून कमी खर्चात अधिक उत्पादन घेण्यासाठी योग्य व शास्त्रीय मार्गदर्शन देणे हा आहे.</span>
-                <span class="lang-en">Our core mission extends beyond retailing; we empower farmers with scientific nutrient schedules and IPM practices to maximize yields while minimizing cultivation costs.</span>
-            </p>
-
-            <div class="d-flex flex-column gap-3">
-                <div class="d-flex align-items-start gap-3">
-                    <div style="width:42px;height:42px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-patch-check-fill text-success fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-dark mb-1"><span class="lang-mr">१००% अस्सल व खात्रीशीर साहित्य</span><span class="lang-en">100% Genuine & Certified Stock</span></h6>
-                        <p class="text-muted small mb-0"><span class="lang-mr">महाबीज, माहिको, कोरोमंडल, इफको आणि जैन इरिगेशन सारख्या नामांकित कंपन्यांचे अधिकृत वितरक.</span><span class="lang-en">Authorized distributor for Mahabeej, Mahyco, Coromandel, IFFCO, and Jain Irrigation.</span></p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                    <div style="width:42px;height:42px;border-radius:10px;background:#fff3e0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-people-fill fs-5" style="color:#f97316;"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-dark mb-1"><span class="lang-mr">तज्ज्ञ कृषी मार्गदर्शन</span><span class="lang-en">Agronomy Advisory</span></h6>
-                        <p class="text-muted small mb-0"><span class="lang-mr">पीक रोग निदान, हवामान अंदाज आणि खत कॅल्क्युलेटरद्वारे अचूक मात्रा निर्धारण.</span><span class="lang-en">Scientific diagnosis, real-time weather advisory, and precise fertilizer dosage calculations.</span></p>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                <img src="images/saptashrungi_shop.jpg" alt="Saptashrungi Agro Store" class="img-fluid" style="min-height:360px;object-fit:cover;">
-                <div class="card-body p-4 bg-light">
-                    <h5 class="fw-bold text-success mb-1">
-                        <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर</span>
-                        <span class="lang-en">Saptashrungi Agro Services, Mirakhnagar</span>
-                    </h5>
-                    <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-success me-1"></i> Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar - 423703</p>
-                    <p class="text-muted small mb-0"><i class="bi bi-telephone-fill text-success me-1"></i> <a href="tel:+918600813827" class="text-success text-decoration-none fw-bold">+91 8600813827</a> | सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</p>
-                </div>
-            </div>
+        <div class="col-md-6">
+            <img src="images/saptashrungi_shop.jpg" alt="Shop" class="img-fluid rounded-4 shadow-sm" onerror="this.src='images/saptashrungi_logo_round.jpg'">
         </div>
     </div>
-</section>
+</div>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
@@ -314,7 +268,7 @@
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -355,11 +309,38 @@
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

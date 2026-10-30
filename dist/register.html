@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>नवीन शेतकरी नोंदणी | Farmer Registration - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <title>नोंदणी करा | Register - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
     <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
     <meta name="theme-color" content="#16a34a">
     <link rel="icon" type="image/jpeg" href="images/saptashrungi_logo_round.jpg">
@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,199 +145,63 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-                <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
-                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
-                    <h4 class="fw-bold mb-1">
-                        👨‍🌾 <span class="lang-mr">नवीन शेतकरी नोंदणी</span>
-                        <span class="lang-en">New Farmer Registration</span>
-                    </h4>
-                    <small class="text-white-50">
-                        <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस - तुमचे शेतकरी खाते तयार करा</span>
-                        <span class="lang-en">Saptashrungi Agro Services - Create your farmer account</span>
-                    </small>
+<div class="container my-5" style="max-width:680px;">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
+            <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width:64px;height:64px;object-fit:cover;border:2px solid #fff;">
+            <h4 class="fw-bold mb-1">👨‍🌾 नवीन शेतकरी नोंदणी</h4>
+            <small class="text-white-50">सप्तशृंगी ॲग्रो सर्व्हिसेस - खाते तयार करा</small>
+        </div>
+        <div class="card-body p-4">
+            <form id="regForm" onsubmit="handleReg(event)">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label small fw-bold text-success">पूर्ण नाव *</label><input type="text" id="rName" class="form-control" required placeholder="उदा. रमेश पाटील"></div>
+                    <div class="col-md-6"><label class="form-label small fw-bold text-success">मोबाईल नंबर *</label><input type="tel" id="rPhone" class="form-control" required maxlength="10" placeholder="१० अंकी नंबर"></div>
+                    <div class="col-md-6"><label class="form-label small fw-bold text-success">गाव *</label><input type="text" id="rVillage" class="form-control" required placeholder="उदा. मिरखनगर"></div>
+                    <div class="col-md-6"><label class="form-label small fw-bold text-success">तालुका *</label><input type="text" id="rTaluka" class="form-control" required placeholder="उदा. वैजापूर"></div>
+                    <div class="col-12"><label class="form-label small fw-bold text-success">पासवर्ड *</label><input type="password" id="rPass" class="form-control" required placeholder="••••••••"></div>
                 </div>
-
-                <div class="card-body p-4 p-md-5">
-                    <form id="registerForm" onsubmit="handleRegister(event)">
-                        <div class="row g-3">
-                            <!-- Full Name -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">पूर्ण नाव *</span><span class="lang-en">Full Name *</span>
-                                </label>
-                                <input type="text" id="regName" class="form-control" required
-                                       data-placeholder-mr="उदा. रमेश आनंदा पाटील"
-                                       data-placeholder-en="e.g. Ramesh Ananda Patil"
-                                       placeholder="उदा. रमेश आनंदा पाटील">
-                            </div>
-
-                            <!-- Mobile Number -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">मोबाईल नंबर *</span><span class="lang-en">Mobile Number *</span>
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text">+91</span>
-                                    <input type="tel" id="regMobile" class="form-control" maxlength="10" required
-                                           data-placeholder-mr="१० अंकी मोबाईल नंबर"
-                                           data-placeholder-en="10-digit mobile"
-                                           placeholder="१० अंकी मोबाईल नंबर">
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">ईमेल पत्ता</span><span class="lang-en">Email Address</span>
-                                </label>
-                                <input type="email" id="regEmail" class="form-control"
-                                       data-placeholder-mr="farmer@example.com"
-                                       data-placeholder-en="farmer@example.com"
-                                       placeholder="farmer@example.com">
-                            </div>
-
-                            <!-- Village -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">गाव *</span><span class="lang-en">Village *</span>
-                                </label>
-                                <input type="text" id="regVillage" class="form-control" required
-                                       data-placeholder-mr="उदा. मिरखनगर / कसबे डिग्रज"
-                                       data-placeholder-en="e.g. Mirakhnagar / Kasbe Digraj"
-                                       placeholder="उदा. मिरखनगर / कसबे डिग्रज">
-                            </div>
-
-                            <!-- Taluka -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">तालुका *</span><span class="lang-en">Taluka *</span>
-                                </label>
-                                <input type="text" id="regTaluka" class="form-control" required
-                                       data-placeholder-mr="उदा. वैजापूर"
-                                       data-placeholder-en="e.g. Vaijapur"
-                                       placeholder="उदा. वैजापूर">
-                            </div>
-
-                            <!-- District -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">जिल्हा *</span><span class="lang-en">District *</span>
-                                </label>
-                                <input type="text" id="regDistrict" class="form-control" required
-                                       data-placeholder-mr="उदा. छत्रपती संभाजीनगर"
-                                       data-placeholder-en="e.g. Chh. Sambhajinagar"
-                                       placeholder="उदा. छत्रपती संभाजीनगर">
-                            </div>
-
-                            <!-- Address -->
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">शेतीचा / घराचा पत्ता *</span><span class="lang-en">Farm / Home Address *</span>
-                                </label>
-                                <textarea id="regAddress" class="form-control" rows="2" required
-                                          data-placeholder-mr="गट क्र., लँडमार्क, पोस्ट..."
-                                          data-placeholder-en="Gat No, Landmark, Post..."
-                                          placeholder="गट क्र., लँडमार्क, पोस्ट..."></textarea>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">पासवर्ड तयार करा *</span><span class="lang-en">Create Password *</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="password" id="regPass" class="form-control" minlength="6" required placeholder="••••••••">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('regPass', 'eyeReg1')">
-                                        <i class="bi bi-eye" id="eyeReg1"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Confirm Password -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success">
-                                    <span class="lang-mr">पासवर्डची पुष्टी करा *</span><span class="lang-en">Confirm Password *</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="password" id="regConfirmPass" class="form-control" minlength="6" required placeholder="••••••••">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('regConfirmPass', 'eyeReg2')">
-                                        <i class="bi bi-eye" id="eyeReg2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="regAlert" class="alert alert-success mt-4 d-none">
-                            <i class="bi bi-check-circle-fill me-2"></i>
-                            <span class="lang-mr">अभिनंदन! आपले शेतकरी खाते तयार झाले आहे. लॉगिन पानावर नेले जात आहे...</span>
-                            <span class="lang-en">Congratulations! Your farmer account has been created. Redirecting to login...</span>
-                        </div>
-
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-krushi w-100 py-2 rounded-pill fw-bold shadow-sm">
-                                <i class="bi bi-person-check-fill me-1"></i>
-                                <span class="lang-mr">नोंदणी पूर्ण करा (Register Account)</span>
-                                <span class="lang-en">Complete Registration</span>
-                            </button>
-                        </div>
-
-                        <div class="text-center mt-3 pt-3 border-top small">
-                            <span class="text-muted"><span class="lang-mr">आधीच नोंदणी केली आहे का?</span><span class="lang-en">Already registered?</span></span>
-                            <a href="login.html" class="text-success fw-bold text-decoration-none ms-1">
-                                <span class="lang-mr">येथे लॉगिन करा</span><span class="lang-en">Login here</span>
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-krushi w-100 py-2 rounded-pill fw-bold shadow-sm mt-4">नोंदणी पूर्ण करा</button>
+                <div id="regSuccess" class="alert alert-success mt-3 d-none text-center">नोंदणी यशस्वी! लॉगिन केले जात आहे...</div>
+            </form>
+            <div class="text-center pt-3 border-top mt-3 small"><a href="login.html" class="text-success fw-bold text-decoration-none">आधीच खाते आहे? लॉगिन करा</a></div>
         </div>
     </div>
 </div>
-
 <script>
-function togglePass(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    if(input.type === 'password') {
-        input.type = 'text';
-        icon.className = 'bi bi-eye-slash';
-    } else {
-        input.type = 'password';
-        icon.className = 'bi bi-eye';
-    }
-}
-
-function handleRegister(e) {
+function handleReg(e) {
     e.preventDefault();
-    const p1 = document.getElementById('regPass').value;
-    const p2 = document.getElementById('regConfirmPass').value;
-    if(p1 !== p2) {
-        alert("दोन्ही पासवर्ड समान असणे आवश्यक आहे! / Both passwords must match!");
-        return;
-    }
-    const alertBox = document.getElementById('regAlert');
-    alertBox.classList.remove('d-none');
-    setTimeout(() => {
-        window.location.href = 'login.html';
-    }, 1500);
+    const name = document.getElementById('rName').value;
+    localStorage.setItem('user_role', 'farmer');
+    localStorage.setItem('user_name', name || 'शेतकरी');
+    document.getElementById('regSuccess').classList.remove('d-none');
+    setTimeout(() => { window.location.href = 'farmer-dashboard.html'; }, 800);
 }
 </script>
 
@@ -422,7 +285,7 @@ function handleRegister(e) {
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -463,11 +326,38 @@ function handleRegister(e) {
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

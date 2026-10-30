@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,15 +145,27 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -163,209 +174,72 @@
 <div class="container my-4">
     <div class="text-center mb-4">
         <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-semibold">
-            <i class="bi bi-cpu me-1"></i>
-            <span class="lang-mr">स्मार्ट कृषी सल्ला इंजिन</span>
-            <span class="lang-en">Smart Agronomy Engine</span>
+            <i class="bi bi-cpu me-1"></i><span class="lang-mr">स्मार्ट कृषी सल्ला इंजिन</span><span class="lang-en">Smart Agronomy Engine</span>
         </span>
-        <h2 class="fw-bold text-success">
-            <span class="lang-mr">खत कॅल्क्युलेटर (Smart Fertilizer Calculator)</span>
-            <span class="lang-en">Smart Fertilizer Dosage Calculator</span>
-        </h2>
-        <p class="text-muted" style="max-width:650px;margin:0 auto;">
-            <span class="lang-mr">पीक, क्षेत्रफळ आणि जमिनीच्या प्रकारावर आधारित रासायनिक व सेंद्रिय खतांचे शास्त्रीय प्रमाण.</span>
-            <span class="lang-en">Scientific recommendation of essential fertilizers tailored to your crop, acreage, and soil profile.</span>
-        </p>
+        <h2 class="fw-bold text-success"><span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Dosage Calculator</span></h2>
+        <p class="text-muted"><span class="lang-mr">पीक व क्षेत्रफळानुसार खतांचे अचूक प्रमाण.</span><span class="lang-en">Scientific recommendation based on crop and acreage.</span></p>
     </div>
-
     <div class="row g-4 mb-5">
-        <!-- Form -->
         <div class="col-lg-5">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-success text-white py-3 rounded-top-4">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="bi bi-sliders me-2"></i>
-                        <span class="lang-mr">शेतीची माहिती निवडा</span>
-                        <span class="lang-en">Select Crop & Land Details</span>
-                    </h6>
-                </div>
-                <div class="card-body p-4">
-                    <form id="calcForm" onsubmit="calculateFertilizer(event)">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">
-                                <span class="lang-mr">पीक निवडा</span><span class="lang-en">Select Crop</span>
-                            </label>
-                            <select id="crop" class="form-select">
-                                <option value="cotton" selected>कापूस - बीजी २ (Cotton)</option>
-                                <option value="sugarcane">ऊस (Sugarcane)</option>
-                                <option value="soybean">सोयाबीन (Soybean)</option>
-                                <option value="wheat">गहू (Wheat)</option>
-                                <option value="onion">कांदा (Onion)</option>
-                                <option value="vegetables">भाजीपाला व फळबाग (Vegetables)</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">
-                                <span class="lang-mr">शेत क्षेत्रफळ (Acres)</span><span class="lang-en">Farm Area (Acres)</span>
-                            </label>
-                            <div class="input-group">
-                                <input type="number" step="0.5" min="0.5" max="100" id="acres" class="form-control" value="2" required onchange="calculateFertilizer()">
-                                <span class="input-group-text"><span class="lang-mr">एकर</span><span class="lang-en">Acres</span></span>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-success small text-uppercase">
-                                <span class="lang-mr">जमिनीचा प्रकार</span><span class="lang-en">Soil Type</span>
-                            </label>
-                            <select id="soil" class="form-select">
-                                <option value="medium">मध्यम काळी जमीन (Medium Black)</option>
-                                <option value="heavy">भारी काळी चिकण जमीन (Heavy Clay)</option>
-                                <option value="light">हलकी व पोयट्याची जमीन (Light Sandy)</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-success small text-uppercase">
-                                <span class="lang-mr">पिकाचा टप्पा</span><span class="lang-en">Growth Stage</span>
-                            </label>
-                            <select id="stage" class="form-select">
-                                <option value="full">संपूर्ण हंगाम (Full Season Cycle)</option>
-                                <option value="basal">पेरणी / लागवड वेळ (Basal Dose)</option>
-                                <option value="vegetative">शाकीय वाढ टप्पा (Vegetative Growth)</option>
-                                <option value="flowering">फुलोरा व फळधारणा (Flowering & Pod Filling)</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm">
-                            <i class="bi bi-calculator me-1"></i>
-                            <span class="lang-mr">खत प्रमाण काढा (Calculate Bags)</span>
-                            <span class="lang-en">Calculate Bags Required</span>
-                        </button>
-                    </form>
-                </div>
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <form id="calcForm" onsubmit="calculateFertilizer(event)">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-success small text-uppercase">पीक निवडा (Crop)</label>
+                        <select id="crop" class="form-select">
+                            <option value="cotton" selected>कापूस (Cotton)</option>
+                            <option value="sugarcane">ऊस (Sugarcane)</option>
+                            <option value="soybean">सोयाबीन (Soybean)</option>
+                            <option value="wheat">गहू (Wheat)</option>
+                            <option value="onion">कांदा (Onion)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-success small text-uppercase">क्षेत्रफळ (Acres)</label>
+                        <input type="number" step="0.5" min="0.5" max="100" id="acres" class="form-control" value="2" required onchange="calculateFertilizer()">
+                    </div>
+                    <button type="submit" class="btn btn-krushi w-100 fw-bold py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-calculator me-1"></i> <span class="lang-mr">खत प्रमाण काढा</span><span class="lang-en">Calculate Bags</span>
+                    </button>
+                </form>
             </div>
         </div>
-
-        <!-- Output Cards -->
         <div class="col-lg-7">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-dark text-white py-3 rounded-top-4 d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        <span class="lang-mr">शिफारस केलेले खतांचे प्रमाण</span>
-                        <span class="lang-en">Recommended Fertilizer Dosage</span>
-                    </h6>
-                    <span class="badge bg-success" id="resultAcreBadge">२ एकर साठी (For 2 Acres)</span>
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-info-circle-fill fs-5"></i>
+                    <span id="summaryText"><span class="lang-mr">शिफारस केलेले खतांचे प्रमाण खालीलप्रमाणे आहे:</span><span class="lang-en">Recommended dosage as per university agronomy norms:</span></span>
                 </div>
-                <div class="card-body p-4">
-                    <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
-                        <i class="bi bi-info-circle-fill fs-5"></i>
-                        <span id="summaryText">
-                            <span class="lang-mr">कापूस पिकासाठी २ एकर क्षेत्रानुसार आवश्यक खतांचे प्रमाण खालीलप्रमाणे:</span>
-                            <span class="lang-en">Recommended fertilizer quantities for 2 acres of cotton cultivation:</span>
-                        </span>
-                    </div>
-
-                    <div class="row g-3 text-center mb-4" id="bagsRow">
-                        <!-- Calculated dynamically -->
-                    </div>
-
-                    <div class="p-3 rounded-3 bg-light border">
-                        <h6 class="fw-bold text-success mb-2">
-                            <i class="bi bi-lightbulb-fill text-warning me-1"></i>
-                            <span class="lang-mr">तज्ज्ञांचा कृषी सल्ला:</span>
-                            <span class="lang-en">Agronomist Best Practices:</span>
-                        </h6>
-                        <ul class="small text-muted mb-0 ps-3">
-                            <li><span class="lang-mr">युरिया खताचा वापर दोन ते तीन समान हप्त्यांमध्ये विभागून ओल असतानाच करा.</span><span class="lang-en">Apply Urea in 2-3 split applications strictly when sufficient soil moisture is present.</span></li>
-                            <li><span class="lang-mr">फॉस्फरस व पोटॅशयुक्त खते (DAP / 10:26:26) जमिनीत मुळांच्या सानिध्यात ४ इंचांवर द्या.</span><span class="lang-en">Place Phosphatic and Potash fertilizers (DAP / 10:26:26) 3-4 inches deep near the root zone.</span></li>
-                            <li><span class="lang-mr">सूक्ष्म अन्नद्रव्ये (Zinc, Boron) शेणखतामध्ये मिसळून वापरल्यास अधिक फायदा मिळतो.</span><span class="lang-en">Incorporate micronutrients (Zinc, Boron) with well-decomposed organic manure for high absorption.</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-top text-center">
-                        <a id="btnOrderFert" href="https://wa.me/918600813827?text=मला%20खत%20कॅल्क्युलेटरनुसार%20खते%20खरेदी%20करायची%20आहेत." target="_blank" class="btn btn-outline-success rounded-pill px-4 fw-semibold">
-                            <i class="bi bi-whatsapp me-1"></i>
-                            <span class="lang-mr">ही खते दुकानातून मागवा (Order Bags)</span>
-                            <span class="lang-en">Order Fertilizer Bags on WhatsApp</span>
-                        </a>
-                    </div>
+                <div class="row g-3 text-center mb-4" id="bagsRow"></div>
+                <div class="text-center pt-2">
+                    <a id="btnOrderFert" href="https://wa.me/918600813827" target="_blank" class="btn btn-outline-success rounded-pill px-4 fw-semibold">
+                        <i class="bi bi-whatsapp me-1"></i> <span class="lang-mr">ही खते दुकानातून मागवा</span><span class="lang-en">Order on WhatsApp</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
 function calculateFertilizer(e) {
     if(e) e.preventDefault();
     const crop = document.getElementById('crop').value;
     const acres = parseFloat(document.getElementById('acres').value) || 1;
+    let urea = Math.round(acres * 2.5);
+    let dap = Math.round(acres * 1.5);
+    let mop = Math.round(acres * 1.0);
+    let npk = Math.round(acres * 2.0);
+    if(crop === 'sugarcane'){ urea = Math.round(acres*5.5); dap = Math.round(acres*3); mop = Math.round(acres*3); npk = Math.round(acres*4); }
+    else if(crop === 'soybean'){ urea = Math.round(acres*1); dap = Math.round(acres*2); mop = Math.round(acres*1); npk = Math.round(acres*1.5); }
     
-    document.getElementById('resultAcreBadge').innerHTML = `<span class="lang-mr">${acres} एकर साठी</span><span class="lang-en">For ${acres} Acre(s)</span>`;
-
-    let ureaBags = Math.round(acres * 2.5);
-    let dapBags = Math.round(acres * 1.5);
-    let mopBags = Math.round(acres * 1.0);
-    let npkBags = Math.round(acres * 2.0);
-
-    if (crop === 'sugarcane') {
-        ureaBags = Math.round(acres * 5.5);
-        dapBags = Math.round(acres * 3.0);
-        mopBags = Math.round(acres * 3.0);
-        npkBags = Math.round(acres * 4.0);
-    } else if (crop === 'soybean') {
-        ureaBags = Math.round(acres * 1.0);
-        dapBags = Math.round(acres * 2.0);
-        mopBags = Math.round(acres * 1.0);
-        npkBags = Math.round(acres * 1.5);
-    } else if (crop === 'onion') {
-        ureaBags = Math.round(acres * 2.0);
-        dapBags = Math.round(acres * 2.0);
-        mopBags = Math.round(acres * 1.5);
-        npkBags = Math.round(acres * 2.5);
-    }
-
-    const row = document.getElementById('bagsRow');
-    row.innerHTML = `
-        <div class="col-6 col-md-3">
-            <div class="p-3 rounded-3 border bg-white shadow-sm">
-                <div class="fw-bold fs-2 text-success">${ureaBags}</div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">युरिया बॅग्स</span><span class="lang-en">Urea Bags</span></div>
-                <small class="text-muted">(45 kg)</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="p-3 rounded-3 border bg-white shadow-sm">
-                <div class="fw-bold fs-2 text-primary">${dapBags}</div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">DAP बॅग्स</span><span class="lang-en">DAP Bags</span></div>
-                <small class="text-muted">(18:46:0 50kg)</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="p-3 rounded-3 border bg-white shadow-sm">
-                <div class="fw-bold fs-2 text-warning">${mopBags}</div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">पोटॅश बॅग्स</span><span class="lang-en">Potash (MOP)</span></div>
-                <small class="text-muted">(0:0:60 50kg)</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="p-3 rounded-3 border bg-white shadow-sm">
-                <div class="fw-bold fs-2 text-info">${npkBags}</div>
-                <div class="fw-semibold text-dark small"><span class="lang-mr">१०:२६:२६ बॅग्स</span><span class="lang-en">10:26:26 NPK</span></div>
-                <small class="text-muted">(50 kg)</small>
-            </div>
-        </div>
+    document.getElementById('bagsRow').innerHTML = `
+        <div class="col-6 col-md-3"><div class="p-3 border rounded-3"><div class="fs-2 fw-bold text-success">${urea}</div><small>युरिया / Urea</small></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 border rounded-3"><div class="fs-2 fw-bold text-primary">${dap}</div><small>DAP 18:46:0</small></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 border rounded-3"><div class="fs-2 fw-bold text-warning">${mop}</div><small>पोटॅश / MOP</small></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 border rounded-3"><div class="fs-2 fw-bold text-info">${npk}</div><small>10:26:26 NPK</small></div></div>
     `;
-
-    const orderText = `नमस्कार, मला ${acres} एकर शेतीसाठी ${ureaBags} युरिया, ${dapBags} DAP, ${mopBags} पोटॅश खरेदी करायचे आहेत.`;
-    document.getElementById('btnOrderFert').href = 'https://wa.me/918600813827?text=' + encodeURIComponent(orderText);
+    document.getElementById('btnOrderFert').href = 'https://wa.me/918600813827?text=' + encodeURIComponent(`नमस्कार, मला ${acres} एकरसाठी खते खरेदी करायची आहेत.`);
 }
-
-document.addEventListener('DOMContentLoaded', function(){
-    calculateFertilizer();
-});
+document.addEventListener('DOMContentLoaded', calculateFertilizer);
 </script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
@@ -448,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function(){
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -489,11 +363,38 @@ document.addEventListener('DOMContentLoaded', function(){
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>

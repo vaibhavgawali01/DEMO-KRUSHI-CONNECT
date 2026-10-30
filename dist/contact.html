@@ -27,7 +27,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="js/premium.js" defer></script>
-    <script src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -146,15 +145,27 @@
                     <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
                 </button>
 
-                <!-- Auth Area: Login AND Register -->
-                <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
-                    <i class="bi bi-person me-1"></i>
-                    <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
-                </a>
-                <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
-                    <i class="bi bi-person-plus-fill me-1"></i>
-                    <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
-                </a>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 fw-semibold">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white shadow-sm">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -162,161 +173,20 @@
 
 <div class="container my-5">
     <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill mb-2 fw-semibold">
-            <span class="lang-mr">थेट संपर्क</span><span class="lang-en">Get in Touch</span>
-        </span>
-        <h2 class="fw-bold text-success">
-            <span class="lang-mr">आमच्याशी संपर्क साधा</span>
-            <span class="lang-en">Contact Saptashrungi Agro</span>
-        </h2>
-        <p class="text-muted" style="max-width:650px; margin:0 auto;">
-            <span class="lang-mr">बियाणे, खते किंवा पीक सल्ल्यासाठी आम्हाला कधीही कॉल किंवा व्हॉट्सॲप करा किंवा दुकानाला भेट द्या.</span>
-            <span class="lang-en">Feel free to call, message on WhatsApp, or visit our retail store in Mirakhnagar, Vaijapur for any farming inquiry.</span>
-        </p>
+        <h2 class="fw-bold text-success"><span class="lang-mr">आमच्याशी संपर्क साधा</span><span class="lang-en">Contact Us</span></h2>
+        <p class="text-muted">मिरखनगर, वैजापूर, छत्रपती संभाजीनगर - ४२३७०३ | फोन: +91 8600813827</p>
     </div>
-
-    <div class="row g-4 mb-5">
-        <!-- Contact Information Cards -->
-        <div class="col-lg-5">
-            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
-                <h5 class="fw-bold text-dark mb-4">
-                    <span class="lang-mr">संपर्क माहिती</span>
-                    <span class="lang-en">Contact Details</span>
-                </h5>
-
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
-                        <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-1"><span class="lang-mr">दुकानाचा पत्ता</span><span class="lang-en">Store Address</span></h6>
-                        <p class="text-muted small mb-0">
-                            सप्तशृंगी ॲग्रो सर्व्हिसेस, मिरखनगर, वैजापूर,<br>
-                            छत्रपती संभाजीनगर, महाराष्ट्र - ४२३७०३
-                        </p>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
-                        <i class="bi bi-telephone-fill fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-1"><span class="lang-mr">फोन व कॉल</span><span class="lang-en">Phone & Mobile</span></h6>
-                        <p class="text-muted small mb-1"><a href="tel:+918600813827" class="text-dark fw-bold text-decoration-none">+91 8600813827</a></p>
-                        <small class="text-muted"><span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span><span class="lang-en">Mon - Sat: 8:00 AM to 8:30 PM</span></small>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
-                        <i class="bi bi-whatsapp fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-1"><span class="lang-mr">व्हॉट्सॲप सल्ला</span><span class="lang-en">WhatsApp Advisory</span></h6>
-                        <p class="text-muted small mb-2"><span class="lang-mr">पिकांच्या रोगांचे फोटो पाठवून त्वरित सल्ला मिळवा.</span><span class="lang-en">Send crop disease photos for immediate dosage advice.</span></p>
-                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20माहिती%20हवी%20आहे." target="_blank" class="btn btn-sm btn-success rounded-pill px-3">
-                            <i class="bi bi-whatsapp me-1"></i><span class="lang-mr">व्हॉट्सॲप सुरू करा</span><span class="lang-en">Message on WhatsApp</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-start gap-3">
-                    <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
-                        <i class="bi bi-receipt fs-5"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold mb-1"><span class="lang-mr">नोंदणी व परवाना</span><span class="lang-en">Licenses</span></h6>
-                        <p class="text-muted small mb-0">GSTIN: 27AAAAA0000A1Z5<br>कृषी विभाग परवानाधारक केंद्र</p>
-                    </div>
-                </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center">
+                <i class="bi bi-telephone-fill fs-1 text-success mb-3"></i>
+                <h5>थेट संपर्क करा</h5>
+                <p class="text-muted"><a href="tel:+918600813827" class="fw-bold text-dark text-decoration-none">+91 8600813827</a></p>
+                <a href="https://wa.me/918600813827" target="_blank" class="btn btn-success rounded-pill px-4"><i class="bi bi-whatsapp me-1"></i>व्हॉट्सॲप</a>
             </div>
-        </div>
-
-        <!-- Interactive Contact Form -->
-        <div class="col-lg-7">
-            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
-                <h5 class="fw-bold text-dark mb-3">
-                    <span class="lang-mr">संदेश पाठवा / चौकशी करा</span>
-                    <span class="lang-en">Send Message / Inquiry</span>
-                </h5>
-                <form id="contactForm" onsubmit="submitContactForm(event)">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">आपले नाव</span><span class="lang-en">Your Full Name</span></label>
-                        <input type="text" id="contactName" class="form-control" required 
-                               data-placeholder-mr="उदा. रमेश पाटील"
-                               data-placeholder-en="e.g. Ramesh Patil"
-                               placeholder="उदा. रमेश पाटील">
-                    </div>
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">मोबाईल नंबर</span><span class="lang-en">Mobile Number</span></label>
-                            <input type="tel" id="contactPhone" class="form-control" required 
-                                   data-placeholder-mr="१० अंकी मोबाईल नंबर"
-                                   data-placeholder-en="10-digit Mobile Number"
-                                   placeholder="१० अंकी मोबाईल नंबर">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">मुख्य पीक</span><span class="lang-en">Crop Type</span></label>
-                            <select id="contactCrop" class="form-select">
-                                <option value="कापूस">कापूस (Cotton)</option>
-                                <option value="सोयाबीन">सोयाबीन (Soybean)</option>
-                                <option value="ऊस">ऊस (Sugarcane)</option>
-                                <option value="कांदा">कांदा (Onion)</option>
-                                <option value="भाजीपाला">भाजीपाला (Vegetables)</option>
-                                <option value="इतर">इतर (Other)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-success text-uppercase"><span class="lang-mr">आपला संदेश किंवा शंका</span><span class="lang-en">Your Inquiry / Message</span></label>
-                        <textarea id="contactMsg" class="form-control" rows="4" required 
-                                  data-placeholder-mr="उत्पादनाची उपलब्धता किंवा पीक समस्येबद्दल लिहा..."
-                                  data-placeholder-en="Ask about product availability or crop issue..."
-                                  placeholder="उत्पादनाची उपलब्धता किंवा पीक समस्येबद्दल लिहा..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-krushi px-4 py-2 rounded-pill fw-semibold shadow-sm">
-                        <i class="bi bi-send-fill me-1"></i>
-                        <span class="lang-mr">संदेश पाठवा</span><span class="lang-en">Send Message</span>
-                    </button>
-                    <div id="contactAlert" class="alert alert-success mt-3 d-none">
-                        <i class="bi bi-check-circle-fill me-2"></i>
-                        <span class="lang-mr">धन्यवाद! आपला संदेश प्राप्त झाला आहे. आम्ही लवकरच संपर्क करू.</span>
-                        <span class="lang-en">Thank you! Your inquiry has been received. We will contact you shortly.</span>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Google Map Embed -->
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
-        <div class="card-header bg-dark text-white py-3">
-            <h6 class="mb-0 fw-bold"><i class="bi bi-map-fill text-success me-2"></i><span class="lang-mr">गुगल मॅप स्थान</span><span class="lang-en">Google Maps Location</span> (Mirakhnagar, Vaijapur)</h6>
-        </div>
-        <div class="ratio ratio-21x9" style="min-height:350px;">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15002.585794828135!2d74.7214!3d19.9248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdc33c1622b7a95%3A0x6b2b73bcba5256e4!2sVaijapur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </div>
 </div>
-
-<script>
-function submitContactForm(e) {
-    e.preventDefault();
-    const name = document.getElementById('contactName').value;
-    const phone = document.getElementById('contactPhone').value;
-    const crop = document.getElementById('contactCrop').value;
-    const msg = document.getElementById('contactMsg').value;
-
-    const alertBox = document.getElementById('contactAlert');
-    alertBox.classList.remove('d-none');
-    
-    const waText = `नमस्कार, मी ${name} (मोबाईल: ${phone}). पीक: ${crop}. संदेश: ${msg}`;
-    setTimeout(() => {
-        window.open('https://wa.me/918600813827?text=' + encodeURIComponent(waText), '_blank');
-    }, 1200);
-}
-</script>
 
 <footer class="footer-krushi pt-5 pb-4 mt-5">
     <div class="container-fluid px-3 px-sm-4 px-xl-5">
@@ -398,7 +268,7 @@ function submitContactForm(e) {
         </div>
     </div>
 
-    <!-- Universal Bilingual Switcher & Dark Mode Engine -->
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
     <script>
         function setLang(lang) {
             document.documentElement.setAttribute('lang', lang);
@@ -439,11 +309,38 @@ function submitContactForm(e) {
             });
         }
 
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
         document.addEventListener('DOMContentLoaded', function(){
             var savedLang = localStorage.getItem('site_lang') || 'mr';
             setLang(savedLang);
             var savedTheme = localStorage.getItem('krushi-theme') || 'light';
             applyTheme(savedTheme);
+            checkAuthNavbar();
         });
     </script>
 </footer>
