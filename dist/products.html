@@ -416,8 +416,8 @@ function filterProducts() {
                         <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold flex-fill shadow-sm" onclick="openProductModal(${p.id})">
                             <i class="bi bi-info-circle me-1"></i><span class="lang-mr">माहिती पाहा</span><span class="lang-en">View Details</span>
                         </button>
-                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20${encodeURIComponent(p.name_mr)}%20खरेदी%20करायचे%20आहे." target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold flex-fill shadow-sm" style="background:#16a34a; border:none;">
-                            <i class="bi bi-whatsapp me-1"></i><span class="lang-mr">ऑर्डर</span><span class="lang-en">Order</span>
+                        <a href="https://wa.me/918600813827?text=नमस्कार,%20मला%20${encodeURIComponent(p.name_mr)}%20बद्दल%20अधिक%20माहिती%20हवी%20आहे." target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold flex-fill shadow-sm" style="background:#16a34a; border:none;">
+                            <i class="bi bi-whatsapp me-1"></i><span class="lang-mr">अधिक माहिती</span><span class="lang-en">More Info</span>
                         </a>
                     </div>
                 </div>
@@ -451,7 +451,7 @@ function openProductModal(id) {
     
     document.getElementById('modalProdCat').textContent = p.cat.toUpperCase();
     document.getElementById('modalProdDesc').textContent = p.desc_mr || 'उत्कृष्ट गुणवत्ता आणि हमखास उत्पादन देणारे प्रमाणित कृषी उत्पादन.';
-    document.getElementById('modalProdWaBtn').href = 'https://wa.me/918600813827?text=' + encodeURIComponent('नमस्कार, मला ' + p.name_mr + ' बद्दल माहिती हवी आहे आणि खरेदी करायची आहे.');
+    document.getElementById('modalProdWaBtn').href = 'https://wa.me/918600813827?text=' + encodeURIComponent('नमस्कार, मला ' + p.name_mr + ' (' + p.name_en + ') या उत्पादनाबद्दल अधिक माहिती हवी आहे.');
     
     const m = new bootstrap.Modal(document.getElementById('productDetailsModal'));
     m.show();
@@ -504,7 +504,7 @@ function openProductModal(id) {
                         <div class="d-flex gap-2">
                             <a id="modalProdWaBtn" href="#" target="_blank" class="btn btn-success rounded-pill px-4 py-2 fw-bold flex-fill shadow-sm d-flex align-items-center justify-content-center gap-2" style="background:#15803d; border:none;">
                                 <i class="bi bi-whatsapp fs-5"></i>
-                                <span><span class="lang-mr">व्हॉट्सॲपवर ऑर्डर करा</span><span class="lang-en">Order on WhatsApp</span></span>
+                                <span><span class="lang-mr">अधिक माहितीसाठी व्हॉट्सॲप करा</span><span class="lang-en">More Information on WhatsApp</span></span>
                             </a>
                             <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-bold" data-bs-dismiss="modal">
                                 <span class="lang-mr">बंद करा</span><span class="lang-en">Close</span>
