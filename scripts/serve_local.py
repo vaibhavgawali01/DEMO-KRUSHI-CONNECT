@@ -15,7 +15,7 @@ class CleanUrlHandler(http.server.SimpleHTTPRequestHandler):
 
     def proxy_to_backend(self):
         target_url = BACKEND_URL + self.path
-        headers = {k: v for k, v in self.headers.items() if k.lower() != 'host'}
+        headers = {k: v for k, v in self.headers.items() if k.lower() not in ('host', 'connection')}
         body = None
         content_length = int(self.headers.get('Content-Length', 0))
         if content_length > 0:
@@ -24,22 +24,30 @@ class CleanUrlHandler(http.server.SimpleHTTPRequestHandler):
         req = urllib.request.Request(target_url, data=body, headers=headers, method=self.command)
         try:
             with urllib.request.urlopen(req, timeout=10) as resp:
+                resp_body = resp.read()
                 self.send_response(resp.status)
                 for k, v in resp.getheaders():
-                    self.send_header(k, v)
+                    if k.lower() not in ('transfer-encoding', 'connection', 'content-length'):
+                        self.send_header(k, v)
+                self.send_header('Content-Length', str(len(resp_body)))
                 self.end_headers()
-                self.wfile.write(resp.read())
+                self.wfile.write(resp_body)
         except urllib.error.HTTPError as e:
+            err_body = e.read()
             self.send_response(e.code)
             for k, v in e.headers.items():
-                self.send_header(k, v)
+                if k.lower() not in ('transfer-encoding', 'connection', 'content-length'):
+                    self.send_header(k, v)
+            self.send_header('Content-Length', str(len(err_body)))
             self.end_headers()
-            self.wfile.write(e.read())
+            self.wfile.write(err_body)
         except Exception as e:
+            err_json = f'{{"error": "Backend offline or unreachable: {str(e)}"}}'.encode('utf-8')
             self.send_response(502)
             self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(err_json)))
             self.end_headers()
-            self.wfile.write(f'{{"error": "Backend offline or unreachable: {str(e)}"}}'.encode('utf-8'))
+            self.wfile.write(err_json)
 
     def do_POST(self):
         if self.path.startswith('/api/'):
