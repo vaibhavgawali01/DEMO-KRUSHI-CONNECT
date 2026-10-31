@@ -1,141 +1,677 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head('Farmer Registration')}"></head>
-<body>
-<div th:replace="~{layout/navbar :: navbar}"></div>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>नोंदणी करा | Register - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
-                <div class="card-header bg-success text-white py-4 text-center position-relative">
-                    <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="Shop Logo" class="rounded-circle shadow mb-2" style="width: 60px; height: 60px; object-fit: cover; border: 3px solid #ffffff;">
-                    <h4 class="fw-bold mb-1 text-white" th:text="${#locale.language == 'mr' ? '👨🌾 नवीन शेतकरी नोंदणी' : '👨🌾 New Farmer Registration'}">👨🌾 New Farmer Registration</h4>
-                    <small class="text-white-50" th:text="${#locale.language == 'mr' ? 'सप्तशृंगी ॲग्रो सर्व्हिसेस - तुमचे शेतकरी खाते तयार करा' : 'Saptashrungi Agro Services - Create your farmer account'}">Saptashrungi Agro Services - Create your farmer account</small>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
+        </div>
+
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
+
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
                 </div>
 
-                <div class="card-body p-4 p-md-5">
-                    <!-- General Error Alert -->
-                    <div th:if="${errorMessage}" class="alert alert-danger border-0 d-flex align-items-center gap-2 small">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <span th:text="${errorMessage}">Error Message</span>
-                    </div>
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
 
-                    <form th:action="@{/register}" th:object="${registrationDto}" method="POST">
-                        <div class="row g-3">
-                            <!-- Full Name -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'पूर्ण नाव *' : 'Full Name *'}">Full Name *</label>
-                                <input type="text" th:field="*{name}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'उदा. रमेश आनंदा पाटील' : 'e.g. Ramesh Ananda Patil'}"
-                                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
-                            </div>
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
 
-                            <!-- Mobile Number -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'मोबाईल नंबर *' : 'Mobile Number *'}">Mobile Number *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">+91</span>
-                                    <input type="tel" th:field="*{mobile}" class="form-control"
-                                           th:placeholder="${#locale.language == 'mr' ? '१० अंकी मोबाईल नंबर' : '10-digit mobile'}"
-                                           maxlength="10" th:classappend="${#fields.hasErrors('mobile')} ? 'is-invalid'">
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Mobile Error</div>
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'ईमेल पत्ता *' : 'Email Address *'}">Email Address *</label>
-                                <input type="email" th:field="*{email}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'farmer@example.com' : 'farmer@example.com'}"
-                                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
-                            </div>
-
-                            <!-- Village -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'गाव *' : 'Village *'}">Village *</label>
-                                <input type="text" th:field="*{village}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'उदा. कसबे डिग्रज' : 'e.g. Kasbe Digraj'}"
-                                       th:classappend="${#fields.hasErrors('village')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('village')}" th:errors="*{village}">Village Error</div>
-                            </div>
-
-                            <!-- Taluka -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'तालुका *' : 'Taluka *'}">Taluka *</label>
-                                <input type="text" th:field="*{taluka}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'उदा. मिरज' : 'e.g. Miraj'}"
-                                       th:classappend="${#fields.hasErrors('taluka')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('taluka')}" th:errors="*{taluka}">Taluka Error</div>
-                            </div>
-
-                            <!-- District -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'जिल्हा *' : 'District *'}">District *</label>
-                                <input type="text" th:field="*{district}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'उदा. सांगली' : 'e.g. Sangli'}"
-                                       th:classappend="${#fields.hasErrors('district')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('district')}" th:errors="*{district}">District Error</div>
-                            </div>
-
-                            <!-- Address -->
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'पूर्ण पत्ता *' : 'Complete Address *'}">Complete Address *</label>
-                                <textarea th:field="*{address}" class="form-control" rows="2"
-                                          th:placeholder="${#locale.language == 'mr' ? 'गट क्र., लँडमार्क, पोस्ट...' : 'Gat No, Landmark, Post...'}"
-                                          th:classappend="${#fields.hasErrors('address')} ? 'is-invalid'"></textarea>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</div>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'पासवर्ड *' : 'Password *'}">Password *</label>
-                                <input type="password" th:field="*{password}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'किमान ६ अक्षरे/अंक' : 'At least 6 characters'}"
-                                       th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-                            </div>
-
-                            <!-- Confirm Password -->
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small text-success"
-                                       th:text="${#locale.language == 'mr' ? 'पासवर्ड पुष्टी करा *' : 'Confirm Password *'}">Confirm Password *</label>
-                                <input type="password" th:field="*{confirmPassword}" class="form-control"
-                                       th:placeholder="${#locale.language == 'mr' ? 'पासवर्ड पुन्हा टाका' : 'Re-enter password'}"
-                                       th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Password Match Error</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-krushi w-100 py-2 fw-bold">
-                                <i class="bi bi-person-check-fill me-1"></i>
-                                <span th:text="${#locale.language == 'mr' ? 'खाते तयार करा' : 'Register Account'}">Register Account</span>
-                            </button>
-                        </div>
-
-                        <div class="text-center small text-muted mt-3">
-                            <span th:text="${#locale.language == 'mr' ? 'आधीच खाते आहे का?' : 'Already registered?'}">Already registered?</span>
-                            <a th:href="@{/login}" class="text-success fw-bold text-decoration-none ms-1"
-                               th:text="${#locale.language == 'mr' ? 'खात्यात लॉगिन करा' : 'Login to your account'}">Login to your account</a>
-                        </div>
-                    </form>
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</nav>
+
+<div class="container my-5" style="max-width: 760px;">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        <!-- Header Banner matching authentic Spring Boot template -->
+        <div class="card-header text-center py-4 text-white" style="background: linear-gradient(135deg, #1b5e20, #15803d);">
+            <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle shadow mb-2" style="width: 68px; height: 68px; object-fit: cover; border: 3px solid #ffffff;">
+            <h4 class="fw-bold mb-1 text-white">
+                <span class="lang-mr">👨‍🌾 नवीन शेतकरी नोंदणी</span>
+                <span class="lang-en">👨‍🌾 New Farmer Registration</span>
+            </h4>
+            <small class="text-white-50">
+                <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस - तुमचे शेतकरी खाते तयार करा</span>
+                <span class="lang-en">Saptashrungi Agro Services - Create your farmer account</span>
+            </small>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <!-- Validation Error Alert -->
+            <div id="regErrorBox" class="alert alert-danger d-none align-items-center gap-2 small rounded-3 mb-4">
+                <i class="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
+                <div id="regErrorMsg"></div>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="regForm" onsubmit="return handleReg(event)">
+                <div class="row g-3">
+                    <!-- Full Name -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">पूर्ण नाव *</span>
+                            <span class="lang-en">Full Name *</span>
+                        </label>
+                        <input type="text" id="rName" class="form-control" required
+                               data-placeholder-mr="उदा. रमेश आनंदा पाटील"
+                               data-placeholder-en="e.g. Ramesh Ananda Patil"
+                               placeholder="उदा. रमेश आनंदा पाटील">
+                    </div>
+
+                    <!-- Mobile Number -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">मोबाईल नंबर (१० अंक) *</span>
+                            <span class="lang-en">Mobile Number (10 digits) *</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted fw-bold">+91</span>
+                            <input type="tel" id="rPhone" class="form-control" required maxlength="10" pattern="[0-9]{10}"
+                                   data-placeholder-mr="१० अंकी मोबाईल नंबर"
+                                   data-placeholder-en="10-digit mobile number"
+                                   placeholder="१० अंकी मोबाईल नंबर">
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">ईमेल पत्ता (ऐच्छिक)</span>
+                            <span class="lang-en">Email Address (Optional)</span>
+                        </label>
+                        <input type="email" id="rEmail" class="form-control"
+                               data-placeholder-mr="उदा. farmer@example.com"
+                               data-placeholder-en="e.g. farmer@example.com"
+                               placeholder="उदा. farmer@example.com">
+                    </div>
+
+                    <!-- Village -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">गाव *</span>
+                            <span class="lang-en">Village *</span>
+                        </label>
+                        <input type="text" id="rVillage" class="form-control" required
+                               data-placeholder-mr="उदा. मिरखनगर"
+                               data-placeholder-en="e.g. Mirakhnagar"
+                               placeholder="उदा. मिरखनगर">
+                    </div>
+
+                    <!-- Taluka -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">तालुका *</span>
+                            <span class="lang-en">Taluka *</span>
+                        </label>
+                        <input type="text" id="rTaluka" class="form-control" required
+                               data-placeholder-mr="उदा. वैजापूर"
+                               data-placeholder-en="e.g. Vaijapur"
+                               placeholder="उदा. वैजापूर">
+                    </div>
+
+                    <!-- District -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">जिल्हा *</span>
+                            <span class="lang-en">District *</span>
+                        </label>
+                        <input type="text" id="rDistrict" class="form-control" required
+                               data-placeholder-mr="उदा. छत्रपती संभाजीनगर"
+                               data-placeholder-en="e.g. Chhatrapati Sambhajinagar"
+                               placeholder="उदा. छत्रपती संभाजीनगर"
+                               value="छत्रपती संभाजीनगर">
+                    </div>
+
+                    <!-- Complete Address -->
+                    <div class="col-12">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">शेताचा पत्ता / घराचा पत्ता (ऐच्छिक)</span>
+                            <span class="lang-en">Farm Address / Home Address (Optional)</span>
+                        </label>
+                        <textarea id="rAddress" class="form-control" rows="2"
+                                  data-placeholder-mr="उदा. गट क्र., पोस्ट, वैजापूर..."
+                                  data-placeholder-en="e.g. Gat No, Post, Vaijapur..."
+                                  placeholder="उदा. गट क्र., पोस्ट, वैजापूर..."></textarea>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">पासवर्ड *</span>
+                            <span class="lang-en">Password *</span>
+                        </label>
+                        <input type="password" id="rPass" class="form-control" required minlength="4"
+                               data-placeholder-mr="किमान ४ अक्षरे किंवा अंक"
+                               data-placeholder-en="At least 4 characters"
+                               placeholder="••••••••">
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">पासवर्डची खात्री करा *</span>
+                            <span class="lang-en">Confirm Password *</span>
+                        </label>
+                        <input type="password" id="rPassConfirm" class="form-control" required minlength="4"
+                               data-placeholder-mr="पासवर्ड पुन्हा टाका"
+                               data-placeholder-en="Re-enter password"
+                               placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button type="submit" id="btnRegSubmit" class="btn btn-success w-100 py-3 rounded-pill fw-bold shadow-sm mt-4 text-white" style="background:#15803d; border-color:#15803d; font-size:1.05rem;">
+                    <i class="bi bi-person-check-fill me-1"></i>
+                    <span class="lang-mr">नोंदणी पूर्ण करा</span>
+                    <span class="lang-en">Complete Registration</span>
+                </button>
+            </form>
+
+            <!-- Success Confirmation Card (Shown after registration, NO AUTO LOGIN) -->
+            <div id="regSuccessCard" class="d-none text-center py-4">
+                <div class="mb-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="fw-bold text-success mb-2">
+                    <span class="lang-mr">🎉 अभिनंदन! शेतकरी नोंदणी यशस्वी झाली आहे.</span>
+                    <span class="lang-en">🎉 Congratulations! Registration Successful.</span>
+                </h4>
+                <p class="text-muted mb-4" style="max-width: 520px; margin: 0 auto; line-height: 1.6;">
+                    <span class="lang-mr">आपले शेतकरी खाते तयार झाले आहे. आता कृपया आपल्या मोबाईल नंबर आणि पासवर्डचा वापर करून लॉगिन करा.</span>
+                    <span class="lang-en">Your farmer account has been created. Now please log in using your registered mobile number and password.</span>
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a id="regGoToLoginBtn" href="login.html" class="btn btn-success btn-lg px-4 py-2 rounded-pill fw-bold shadow-sm" style="background:#15803d; border-color:#15803d;">
+                        <span class="lang-mr">लॉगिन पृष्ठावर जा &rarr;</span>
+                        <span class="lang-en">Proceed to Login &rarr;</span>
+                    </a>
+                </div>
+                <small class="text-muted d-block mt-3">
+                    <span class="lang-mr">२ सेकंदात लॉगिन पानाकडे रिडायरेक्ट करत आहे...</span>
+                    <span class="lang-en">Redirecting to login page in 2 seconds...</span>
+                </small>
+            </div>
+
+            <!-- Bottom Links -->
+            <div class="text-center pt-4 border-top mt-4 small">
+                <span class="text-muted">
+                    <span class="lang-mr">आधीच नोंदणीकृत आहात का?</span>
+                    <span class="lang-en">Already registered?</span>
+                </span>
+                <a href="login.html" class="text-success fw-bold text-decoration-none ms-1">
+                    <span class="lang-mr">लॉगिन करा</span>
+                    <span class="lang-en">Sign In here</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-footer text-center bg-light py-3 border-0">
+            <a href="index.html" class="text-muted small text-decoration-none">
+                ← <span class="lang-mr">मुख्यपृष्ठावर परत जा</span><span class="lang-en">Back to Home Page</span>
+            </a>
+        </div>
+    </div>
 </div>
 
-<div th:replace="~{layout/footer :: footer}"></div>
+<script>
+function handleReg(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    
+    var name = document.getElementById('rName').value.trim();
+    var phone = document.getElementById('rPhone').value.trim();
+    var email = document.getElementById('rEmail').value.trim();
+    var village = document.getElementById('rVillage').value.trim();
+    var taluka = document.getElementById('rTaluka').value.trim();
+    var district = document.getElementById('rDistrict').value.trim();
+    var address = document.getElementById('rAddress').value.trim();
+    var pass = document.getElementById('rPass').value;
+    var passConf = document.getElementById('rPassConfirm').value;
+    var errBox = document.getElementById('regErrorBox');
+    var errMsg = document.getElementById('regErrorMsg');
+
+    // 1. Validate Phone
+    if (phone.length !== 10 || !/^\d{10}$/.test(phone)) {
+        errBox.classList.remove('d-none');
+        errBox.classList.add('d-flex');
+        errMsg.innerHTML = '<span class="lang-mr">कृपया अचूक १० अंकी मोबाईल नंबर टाका.</span><span class="lang-en">Please enter a valid 10-digit mobile number.</span>';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
+    }
+
+    // 2. Validate Password Match
+    if (pass !== passConf) {
+        errBox.classList.remove('d-none');
+        errBox.classList.add('d-flex');
+        errMsg.innerHTML = '<span class="lang-mr">पासवर्ड जुळत नाहीत. कृपया दोन्ही रकान्यात एकच पासवर्ड टाका.</span><span class="lang-en">Passwords do not match. Please verify.</span>';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
+    }
+
+    errBox.classList.add('d-none');
+    errBox.classList.remove('d-flex');
+
+    // 3. Save to localStorage (WITHOUT auto-logging in!)
+    var defaultFarmers = [
+        { id: 1, farmerId: "KSK-8600813827", loginId: "8600813827", name: "Ramesh Patil", mobile: "8600813827", phone: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active", registeredAt: "2026-10-15T10:00:00.000Z" },
+        { id: 2, farmerId: "KSK-9822001122", loginId: "9822001122", name: "Suresh Deshmukh", mobile: "9822001122", phone: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active", registeredAt: "2026-10-18T11:30:00.000Z" },
+        { id: 3, farmerId: "KSK-9421003344", loginId: "9421003344", name: "Dnyaneshwar Pawar", mobile: "9421003344", phone: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active", registeredAt: "2026-10-20T14:15:00.000Z" },
+        { id: 4, farmerId: "KSK-8605000000", loginId: "8605000000", name: "VSGAWALI", mobile: "8605000000", phone: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active", registeredAt: "2026-10-22T09:00:00.000Z" },
+        { id: 5, farmerId: "KSK-9850123456", loginId: "9850123456", name: "Balasaheb Thorat", mobile: "9850123456", phone: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active", registeredAt: "2026-10-25T16:45:00.000Z" },
+        { id: 6, farmerId: "KSK-9763112233", loginId: "9763112233", name: "Sanjay Kadam", mobile: "9763112233", phone: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active", registeredAt: "2026-10-28T08:20:00.000Z" },
+        { id: 7, farmerId: "KSK-9922445566", loginId: "9922445566", name: "Eknath Shinde", mobile: "9922445566", phone: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active", registeredAt: "2026-10-29T12:00:00.000Z" }
+    ];
+
+    var list = [];
+    var raw = localStorage.getItem('ksk_registered_farmers');
+    if (raw) {
+        try { list = JSON.parse(raw); } catch(err) { list = []; }
+    }
+    if (!list || list.length === 0) {
+        list = defaultFarmers.slice();
+    }
+
+    var farmerLoginId = 'KSK-' + phone;
+    var newFarmer = {
+        id: Date.now(),
+        farmerId: farmerLoginId,
+        loginId: phone,
+        name: name,
+        mobile: phone,
+        phone: phone,
+        email: email || (phone + '@krushi.local'),
+        village: village || 'Maharashtra',
+        taluka: taluka || '',
+        district: district || '',
+        address: address || '',
+        crop: 'सर्व पिके (General Farming)',
+        purchases: '₹0.00',
+        status: 'Active',
+        registeredAt: new Date().toISOString()
+    };
+    
+    // Add new farmer at the top of the list so admin sees it first!
+    list.unshift(newFarmer);
+    localStorage.setItem('ksk_registered_farmers', JSON.stringify(list));
+    localStorage.setItem('last_registered_phone', phone);
+    localStorage.setItem('last_registered_name', name);
+    localStorage.setItem('last_registered_id', farmerLoginId);
+    if (village) {
+        localStorage.setItem('user_location', village + (district ? ', ' + district : ''));
+    }
+
+    // Save auth record for instant login
+    var usersDb = JSON.parse(localStorage.getItem('ksk_user_accounts') || '{}');
+    usersDb[phone] = {
+        name: name,
+        password: pass,
+        role: 'farmer',
+        farmerId: farmerLoginId,
+        village: village,
+        taluka: taluka,
+        district: district
+    };
+    localStorage.setItem('ksk_user_accounts', JSON.stringify(usersDb));
+
+    // DO NOT set user_role yet! Registration and login are two distinct steps.
+    localStorage.removeItem('user_role');
+
+    // 4. Show Success Card and hide Form
+    document.getElementById('regForm').classList.add('d-none');
+    var successCard = document.getElementById('regSuccessCard');
+    successCard.classList.remove('d-none');
+
+    var targetLoginUrl = 'login.html?registered=true&phone=' + encodeURIComponent(phone);
+    var loginBtn = document.getElementById('regGoToLoginBtn');
+    if (loginBtn) loginBtn.href = targetLoginUrl;
+
+    // 5. Automatically redirect to login page after 2.5 seconds
+    setTimeout(function(){
+        window.location.href = targetLoginUrl;
+    }, 2500);
+
+    return false;
+}
+</script>
+
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

@@ -399,25 +399,66 @@ function handleReg(e) {
     errBox.classList.remove('d-flex');
 
     // 3. Save to localStorage (WITHOUT auto-logging in!)
+    var defaultFarmers = [
+        { id: 1, farmerId: "KSK-8600813827", loginId: "8600813827", name: "Ramesh Patil", mobile: "8600813827", phone: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active", registeredAt: "2026-10-15T10:00:00.000Z" },
+        { id: 2, farmerId: "KSK-9822001122", loginId: "9822001122", name: "Suresh Deshmukh", mobile: "9822001122", phone: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active", registeredAt: "2026-10-18T11:30:00.000Z" },
+        { id: 3, farmerId: "KSK-9421003344", loginId: "9421003344", name: "Dnyaneshwar Pawar", mobile: "9421003344", phone: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active", registeredAt: "2026-10-20T14:15:00.000Z" },
+        { id: 4, farmerId: "KSK-8605000000", loginId: "8605000000", name: "VSGAWALI", mobile: "8605000000", phone: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active", registeredAt: "2026-10-22T09:00:00.000Z" },
+        { id: 5, farmerId: "KSK-9850123456", loginId: "9850123456", name: "Balasaheb Thorat", mobile: "9850123456", phone: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active", registeredAt: "2026-10-25T16:45:00.000Z" },
+        { id: 6, farmerId: "KSK-9763112233", loginId: "9763112233", name: "Sanjay Kadam", mobile: "9763112233", phone: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active", registeredAt: "2026-10-28T08:20:00.000Z" },
+        { id: 7, farmerId: "KSK-9922445566", loginId: "9922445566", name: "Eknath Shinde", mobile: "9922445566", phone: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active", registeredAt: "2026-10-29T12:00:00.000Z" }
+    ];
+
+    var list = [];
+    var raw = localStorage.getItem('ksk_registered_farmers');
+    if (raw) {
+        try { list = JSON.parse(raw); } catch(err) { list = []; }
+    }
+    if (!list || list.length === 0) {
+        list = defaultFarmers.slice();
+    }
+
+    var farmerLoginId = 'KSK-' + phone;
     var newFarmer = {
+        id: Date.now(),
+        farmerId: farmerLoginId,
+        loginId: phone,
         name: name,
+        mobile: phone,
         phone: phone,
-        email: email,
-        village: village,
-        taluka: taluka,
-        district: district,
-        address: address,
+        email: email || (phone + '@krushi.local'),
+        village: village || 'Maharashtra',
+        taluka: taluka || '',
+        district: district || '',
+        address: address || '',
+        crop: 'सर्व पिके (General Farming)',
+        purchases: '₹0.00',
+        status: 'Active',
         registeredAt: new Date().toISOString()
     };
     
-    var list = JSON.parse(localStorage.getItem('ksk_registered_farmers') || '[]');
-    list.push(newFarmer);
+    // Add new farmer at the top of the list so admin sees it first!
+    list.unshift(newFarmer);
     localStorage.setItem('ksk_registered_farmers', JSON.stringify(list));
     localStorage.setItem('last_registered_phone', phone);
     localStorage.setItem('last_registered_name', name);
+    localStorage.setItem('last_registered_id', farmerLoginId);
     if (village) {
         localStorage.setItem('user_location', village + (district ? ', ' + district : ''));
     }
+
+    // Save auth record for instant login
+    var usersDb = JSON.parse(localStorage.getItem('ksk_user_accounts') || '{}');
+    usersDb[phone] = {
+        name: name,
+        password: pass,
+        role: 'farmer',
+        farmerId: farmerLoginId,
+        village: village,
+        taluka: taluka,
+        district: district
+    };
+    localStorage.setItem('ksk_user_accounts', JSON.stringify(usersDb));
 
     // DO NOT set user_role yet! Registration and login are two distinct steps.
     localStorage.removeItem('user_role');

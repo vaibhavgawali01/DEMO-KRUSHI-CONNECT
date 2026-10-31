@@ -426,7 +426,7 @@ def build_admin_dashboard():
                     </a>
                 </div>
 
-                <!-- 2. Total Users -->
+                <!-- 2. Total Users (Dynamically synced from ksk_registered_farmers) -->
                 <div class="col-sm-6 col-xl-3">
                     <a href="admin-customers.html" class="admin-kpi-card text-decoration-none text-reset h-100 d-block">
                         <div class="d-flex justify-content-between align-items-start">
@@ -436,9 +436,9 @@ def build_admin_dashboard():
                             </div>
                         </div>
                         <div>
-                            <div class="admin-kpi-val">7</div>
-                            <span class="admin-kpi-badge" style="background: #faf5ff; color: #7c3aed;">
-                                <i class="bi bi-person-check-fill"></i> <span class="lang-mr">नोंदणीकृत शेतकरी</span><span class="lang-en">Registered Farmers</span>
+                            <div class="admin-kpi-val" id="dashTotalUsersVal" style="color: #7c3aed;">7</div>
+                            <span class="admin-kpi-badge" id="dashTotalUsersBadge" style="background: #faf5ff; color: #7c3aed;">
+                                <i class="bi bi-person-check-fill"></i> <span id="dashTotalUsersText"><span class="lang-mr">७ नोंदणीकृत शेतकरी</span><span class="lang-en">7 Registered Farmers</span></span>
                             </span>
                         </div>
                     </a>
@@ -625,7 +625,82 @@ function syncDashboardUdhariState() {
         }
     }
 }
-document.addEventListener('DOMContentLoaded', syncDashboardUdhariState);
+function syncDashboardUsersState() {
+    const DEFAULT_FARMERS = [
+        { id: 1, farmerId: "KSK-8600813827", loginId: "8600813827", name: "Ramesh Patil", mobile: "8600813827", phone: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active", registeredAt: "2026-10-15T10:00:00.000Z" }},
+        { id: 2, farmerId: "KSK-9822001122", loginId: "9822001122", name: "Suresh Deshmukh", mobile: "9822001122", phone: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active", registeredAt: "2026-10-18T11:30:00.000Z" }},
+        { id: 3, farmerId: "KSK-9421003344", loginId: "9421003344", name: "Dnyaneshwar Pawar", mobile: "9421003344", phone: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active", registeredAt: "2026-10-20T14:15:00.000Z" }},
+        { id: 4, farmerId: "KSK-8605000000", loginId: "8605000000", name: "VSGAWALI", mobile: "8605000000", phone: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active", registeredAt: "2026-10-22T09:00:00.000Z" }},
+        { id: 5, farmerId: "KSK-9850123456", loginId: "9850123456", name: "Balasaheb Thorat", mobile: "9850123456", phone: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active", registeredAt: "2026-10-25T16:45:00.000Z" }},
+        { id: 6, farmerId: "KSK-9763112233", loginId: "9763112233", name: "Sanjay Kadam", mobile: "9763112233", phone: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active", registeredAt: "2026-10-28T08:20:00.000Z" }},
+        { id: 7, farmerId: "KSK-9922445566", loginId: "9922445566", name: "Eknath Shinde", mobile: "9922445566", phone: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active", registeredAt: "2026-10-29T12:00:00.000Z" }}
+    ];
+
+    let farmers = [];
+    const raw = localStorage.getItem('ksk_registered_farmers');
+    if (raw) {
+        try { farmers = JSON.parse(raw); } catch(e) { farmers = []; }
+    }
+    if (!farmers || farmers.length === 0) {
+        farmers = DEFAULT_FARMERS.slice();
+        localStorage.setItem('ksk_registered_farmers', JSON.stringify(farmers));
+    }
+
+    // 1. Update KPI Count
+    const valEl = document.getElementById('dashTotalUsersVal');
+    const badgeCountEl = document.getElementById('dashTotalUsersText');
+    const countBadge = document.getElementById('dashRecentFarmersCount');
+    if (valEl) valEl.textContent = farmers.length;
+    if (badgeCountEl) {
+        badgeCountEl.innerHTML = '<span class="lang-mr">' + farmers.length + ' नोंदणीकृत शेतकरी</span><span class="lang-en">' + farmers.length + ' Registered Farmers</span>';
+    }
+    if (countBadge) countBadge.textContent = farmers.length + ' शेतकरी';
+
+    // 2. Populate Recent Registered Farmers table
+    const tbody = document.getElementById('dashRecentFarmersTableBody');
+    if (tbody) {
+        const recent = farmers.slice(0, 6);
+        tbody.innerHTML = recent.map(f => {
+            const mob = f.mobile || f.phone || '-';
+            const fid = f.farmerId || 'KSK-' + mob;
+            const dt = f.registeredAt ? new Date(f.registeredAt).toLocaleDateString('mr-IN', { day:'2-digit', month:'short', year:'numeric' }) : 'नुकतीच';
+            return `
+                <tr>
+                    <td class="ps-4">
+                        <div class="fw-bold text-dark d-flex align-items-center gap-2">
+                            <i class="bi bi-person-circle text-success fs-5"></i>
+                            <div>
+                                <span class="d-block">${f.name}</span>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0 fw-semibold" style="font-size:10px;">
+                                    <i class="bi bi-person-badge me-1"></i>ID: ${fid}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="tel:${mob}" class="text-decoration-none fw-semibold text-dark">
+                            <i class="bi bi-telephone text-muted me-1"></i>${mob}
+                        </a>
+                    </td>
+                    <td><i class="bi bi-geo-alt text-danger me-1"></i>${f.village || '-'}</td>
+                    <td><span class="badge bg-light text-dark border">${f.crop || 'सर्व पिके'}</span></td>
+                    <td><small class="text-muted"><i class="bi bi-calendar-event me-1"></i>${dt}</small></td>
+                    <td><span class="badge ${f.status === 'Active' ? 'bg-success' : 'bg-secondary'}">${f.status || 'Active'}</span></td>
+                    <td class="text-end pe-4">
+                        <a href="admin-customers.html" class="btn btn-sm btn-outline-success py-1 px-2 fw-semibold">
+                            <i class="bi bi-pencil-square"></i> संपादन
+                        </a>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    syncDashboardUdhariState();
+    syncDashboardUsersState();
+});
 </script>
 """).replace("{sidebar}", sidebar) + foot_html()
     save_admin_page("admin-dashboard.html", content)
@@ -2130,13 +2205,13 @@ def build_admin_customers():
 
 <script>
 const DEFAULT_FARMERS = [
-    {{ id: 1, name: "Ramesh Patil", mobile: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active" }},
-    {{ id: 2, name: "Suresh Deshmukh", mobile: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active" }},
-    {{ id: 3, name: "Dnyaneshwar Pawar", mobile: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active" }},
-    {{ id: 4, name: "VSGAWALI", mobile: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active" }},
-    {{ id: 5, name: "Balasaheb Thorat", mobile: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active" }},
-    {{ id: 6, name: "Sanjay Kadam", mobile: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active" }},
-    {{ id: 7, name: "Eknath Shinde", mobile: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active" }}
+    {{ id: 1, farmerId: "KSK-8600813827", loginId: "8600813827", name: "Ramesh Patil", mobile: "8600813827", phone: "8600813827", village: "Vaijapur", crop: "Cotton, Maize", purchases: "₹14,500", status: "Active", registeredAt: "2026-10-15T10:00:00.000Z" }},
+    {{ id: 2, farmerId: "KSK-9822001122", loginId: "9822001122", name: "Suresh Deshmukh", mobile: "9822001122", phone: "9822001122", village: "Shrirampur", crop: "Sugarcane", purchases: "₹28,900", status: "Active", registeredAt: "2026-10-18T11:30:00.000Z" }},
+    {{ id: 3, farmerId: "KSK-9421003344", loginId: "9421003344", name: "Dnyaneshwar Pawar", mobile: "9421003344", phone: "9421003344", village: "Gangapur", crop: "Soybean, Gram", purchases: "₹8,200", status: "Active", registeredAt: "2026-10-20T14:15:00.000Z" }},
+    {{ id: 4, farmerId: "KSK-8605000000", loginId: "8605000000", name: "VSGAWALI", mobile: "8605000000", phone: "8605000000", village: "Kopargaon", crop: "Wheat, Onion", purchases: "₹15,650", status: "Active", registeredAt: "2026-10-22T09:00:00.000Z" }},
+    {{ id: 5, farmerId: "KSK-9850123456", loginId: "9850123456", name: "Balasaheb Thorat", mobile: "9850123456", phone: "9850123456", village: "Yeola", crop: "Pomegranate, Grapes", purchases: "₹32,000", status: "Active", registeredAt: "2026-10-25T16:45:00.000Z" }},
+    {{ id: 6, farmerId: "KSK-9763112233", loginId: "9763112233", name: "Sanjay Kadam", mobile: "9763112233", phone: "9763112233", village: "Mirakhnagar", crop: "Vegetables, Bajra", purchases: "₹11,200", status: "Active", registeredAt: "2026-10-28T08:20:00.000Z" }},
+    {{ id: 7, farmerId: "KSK-9922445566", loginId: "9922445566", name: "Eknath Shinde", mobile: "9922445566", phone: "9922445566", village: "Dhondalgaon", crop: "Maize, Wheat", purchases: "₹19,800", status: "Active", registeredAt: "2026-10-29T12:00:00.000Z" }}
 ];
 
 function getStoredFarmers() {{
@@ -2177,21 +2252,38 @@ function renderFarmersTable() {{
             ? '<span class="badge bg-success">Active</span>'
             : '<span class="badge bg-secondary">Inactive</span>';
 
+        const mob = f.mobile || f.phone || '-';
+        const fid = f.farmerId || ('KSK-' + mob);
+        const dt = f.registeredAt ? new Date(f.registeredAt).toLocaleDateString('mr-IN', {{ day:'2-digit', month:'short', year:'numeric' }}) : 'नुकतीच';
+        const safeName = (f.name || 'Farmer').replace(/'/g, "\\'");
+
         return `
             <tr id="farmerRow_${{f.id}}">
-                <td class="ps-4 fw-bold text-dark">
-                    <i class="bi bi-person-circle text-success me-2"></i>${{f.name}}
+                <td class="ps-4">
+                    <div class="fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-person-circle text-success fs-5"></i>
+                        <div>
+                            <span class="d-block text-dark">${{f.name}}</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0 fw-semibold" style="font-size:10px;">
+                                <i class="bi bi-person-badge me-1"></i>ID: ${{fid}}
+                            </span>
+                        </div>
+                    </div>
                 </td>
-                <td><a href="tel:${{f.mobile}}" class="text-decoration-none text-dark">${{f.mobile}}</a></td>
-                <td>${{f.village}}</td>
-                <td><span class="badge bg-light text-dark border">${{f.crop}}</span></td>
-                <td class="fw-bold text-success">${{f.purchases || '₹0'}}</td>
+                <td>
+                    <a href="tel:${{mob}}" class="text-decoration-none fw-semibold text-dark">
+                        <i class="bi bi-telephone text-muted me-1"></i>${{mob}}
+                    </a>
+                </td>
+                <td><i class="bi bi-geo-alt text-danger me-1"></i>${{f.village || '-'}}</td>
+                <td><span class="badge bg-light text-dark border">${{f.crop || 'सर्व पिके'}}</span></td>
+                <td class="fw-bold text-success">${{f.purchases || '₹0.00'}}</td>
                 <td>${{statusBadge}}</td>
                 <td class="text-end pe-4">
                     <button type="button" class="btn btn-sm btn-outline-success py-1 px-2" onclick="editFarmer(${{f.id}})" title="Edit Farmer Details">
                         <i class="bi bi-pencil-square"></i> Edit
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteFarmer(${{f.id}}, '${{f.name.replace(/'/g, "\\\'")}}')" title="Delete Farmer">
+                    <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 ms-1" onclick="deleteFarmer(${{f.id}}, '${{safeName}}')" title="Delete Farmer">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
