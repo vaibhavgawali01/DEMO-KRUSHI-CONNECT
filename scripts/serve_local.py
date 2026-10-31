@@ -2,15 +2,68 @@
 import http.server
 import socketserver
 import os
+import urllib.request
+import urllib.error
 
 PORT = 8080
 DIRECTORY = "dist"
+BACKEND_URL = "http://localhost:8082"
 
 class CleanUrlHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
+    def proxy_to_backend(self):
+        target_url = BACKEND_URL + self.path
+        headers = {k: v for k, v in self.headers.items() if k.lower() != 'host'}
+        body = None
+        content_length = int(self.headers.get('Content-Length', 0))
+        if content_length > 0:
+            body = self.rfile.read(content_length)
+
+        req = urllib.request.Request(target_url, data=body, headers=headers, method=self.command)
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                self.send_response(resp.status)
+                for k, v in resp.getheaders():
+                    self.send_header(k, v)
+                self.end_headers()
+                self.wfile.write(resp.read())
+        except urllib.error.HTTPError as e:
+            self.send_response(e.code)
+            for k, v in e.headers.items():
+                self.send_header(k, v)
+            self.end_headers()
+            self.wfile.write(e.read())
+        except Exception as e:
+            self.send_response(502)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(f'{{"error": "Backend offline or unreachable: {str(e)}"}}'.encode('utf-8'))
+
+    def do_POST(self):
+        if self.path.startswith('/api/'):
+            self.proxy_to_backend()
+        else:
+            self.send_error(405, "Method Not Allowed")
+
+    def do_PUT(self):
+        if self.path.startswith('/api/'):
+            self.proxy_to_backend()
+        else:
+            self.send_error(405, "Method Not Allowed")
+
+    def do_DELETE(self):
+        if self.path.startswith('/api/'):
+            self.proxy_to_backend()
+        else:
+            self.send_error(405, "Method Not Allowed")
+
     def do_GET(self):
+        if self.path.startswith('/api/'):
+            self.proxy_to_backend()
+            return
+
         parts = self.path.split('?')
         clean_path = parts[0].split('#')[0].rstrip('/')
         query = '?' + parts[1] if len(parts) > 1 else ''
@@ -88,5 +141,5 @@ class CleanUrlHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     with socketserver.TCPServer(("", PORT), CleanUrlHandler) as httpd:
-        print(f"Local Server running at http://localhost:{PORT}")
+        print(f"Local Server running at http://localhost:{PORT} (Proxying /api/ to {BACKEND_URL})")
         httpd.serve_forever()
