@@ -501,8 +501,9 @@ public class AdminController {
                 regDto.setAddress(v + ", Vaijapur, Chhatrapati Sambhajinagar");
                 regDto.setTaluka("Vaijapur");
                 regDto.setDistrict("Chhatrapati Sambhajinagar");
-                regDto.setPassword("Farmer@123");
-                regDto.setConfirmPassword("Farmer@123");
+                String randomPassword = java.util.UUID.randomUUID().toString();
+                regDto.setPassword(randomPassword);
+                regDto.setConfirmPassword(randomPassword);
                 customer = userService.registerCustomer(regDto);
             }
         }

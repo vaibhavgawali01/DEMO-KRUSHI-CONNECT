@@ -547,6 +547,7 @@ function handleSaveUdhari(e) {
         fetch((window.API_BASE_URL || '') + '/api/admin/udhari/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({
                 farmerId: farmerId,
                 name: name,

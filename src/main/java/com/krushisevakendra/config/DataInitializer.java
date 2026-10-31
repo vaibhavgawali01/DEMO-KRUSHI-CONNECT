@@ -79,10 +79,10 @@ public class DataInitializer implements CommandLineRunner {
                 .orElseGet(() -> roleRepository.save(new Role(RoleName.ROLE_CUSTOMER)));
 
         // 2. Initialize Users (Admin & Sample Farmers)
-        // STRICT RULE: Only admin@krushiseva.com receives ROLE_ADMIN, with guaranteed password admin123
+        // STRICT RULE: Only admin@krushiseva.com receives ROLE_ADMIN. Password must be set via APP_BOOTSTRAP_ADMIN_PASSWORD.
         String adminPass = (bootstrapAdminPassword != null && !bootstrapAdminPassword.isBlank())
                 ? bootstrapAdminPassword
-                : (bootstrapDemoData ? "admin123" : null);
+                : null;
 
         User admin = userRepository.findByEmail("admin@krushiseva.com").orElseGet(() -> {
             User u = new User();
@@ -98,9 +98,11 @@ public class DataInitializer implements CommandLineRunner {
             return u;
         });
 
-        // Always guarantee master admin password and ACTIVE status
+        // Always guarantee master admin status. Password encoded only when explicitly configured.
         if (adminPass != null && (admin.getPasswordHash() == null || admin.getPasswordHash().isBlank())) {
             admin.setPasswordHash(passwordEncoder.encode(adminPass));
+        } else if (admin.getPasswordHash() == null || admin.getPasswordHash().isBlank()) {
+            log.warn("Master admin initialized without password. Configure APP_BOOTSTRAP_ADMIN_PASSWORD in environment.");
         }
         admin.setStatus("ACTIVE");
         Set<Role> adminRoles = new HashSet<>();

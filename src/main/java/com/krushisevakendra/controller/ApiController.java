@@ -14,14 +14,22 @@ import com.krushisevakendra.repository.UdhariRepository;
 import com.krushisevakendra.repository.UserRepository;
 import com.krushisevakendra.security.CustomUserDetails;
 import com.krushisevakendra.service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -33,6 +41,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+
+    private static final Logger log = LoggerFactory.getLogger(ApiController.class);
 
     private final ProductService productService;
     private final CategoryService categoryService;
@@ -84,22 +94,28 @@ public class ApiController {
             String mobile = payload.getOrDefault("mobile", "").trim();
             String email = payload.getOrDefault("email", "").trim();
             String password = payload.getOrDefault("password", "");
-            String address = payload.getOrDefault("address", "Farm Address");
-            String village = payload.getOrDefault("village", "Vaijapur");
-            String taluka = payload.getOrDefault("taluka", "Vaijapur");
-            String district = payload.getOrDefault("district", "Chhatrapati Sambhajinagar");
+            String address = payload.getOrDefault("address", "Farm Address").trim();
+            String village = payload.getOrDefault("village", "Vaijapur").trim();
+            String taluka = payload.getOrDefault("taluka", "Vaijapur").trim();
+            String district = payload.getOrDefault("district", "Chhatrapati Sambhajinagar").trim();
 
-            if (mobile.isEmpty() || password.isEmpty()) {
+            if (mobile.isEmpty() || password.isEmpty() || name.isEmpty()) {
                 return ResponseEntity.badRequest().headers(noCacheHeaders())
-                        .body(ApiResponse.error("Mobile and password are required."));
+                        .body(ApiResponse.error("Name, mobile number, and password are required."));
+            }
+
+            if (!mobile.matches("^[0-9]{10}$")) {
+                return ResponseEntity.badRequest().headers(noCacheHeaders())
+                        .body(ApiResponse.error("Please enter a valid 10-digit mobile number."));
+            }
+
+            if (password.length() < 6) {
+                return ResponseEntity.badRequest().headers(noCacheHeaders())
+                        .body(ApiResponse.error("Password must be at least 6 characters long."));
             }
 
             if (email.isEmpty()) {
                 email = mobile + "@krushiseva.local";
-            }
-
-            if (name.isEmpty()) {
-                name = "Farmer " + mobile;
             }
 
             UserRegistrationDto dto = new UserRegistrationDto();
@@ -131,21 +147,44 @@ public class ApiController {
             return ResponseEntity.status(HttpStatus.CONFLICT).headers(noCacheHeaders())
                     .body(ApiResponse.error(e.getMessage()));
         } catch (Exception e) {
+            log.error("Farmer registration error", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).headers(noCacheHeaders())
-                    .body(ApiResponse.error("Registration failed: " + e.getMessage()));
+                    .body(ApiResponse.error("Registration could not be completed. Please check your details and try again."));
         }
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> loginFarmer(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<ApiResponse<Map<String, Object>>> loginFarmer(
+            @RequestBody Map<String, String> payload,
+            HttpServletRequest request,
+            HttpServletResponse response) {
         String username = payload.getOrDefault("username", "").trim();
         String password = payload.getOrDefault("password", "");
+
+        if (username.isBlank() || password.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Username and password are required."));
+        }
 
         Optional<User> userOpt = userRepository.findByEmailOrMobile(username);
         if (userOpt.isPresent()) {
             User u = userOpt.get();
             if (passwordEncoder.matches(password, u.getPasswordHash())) {
-                boolean isAdmin = u.getRoles().stream().anyMatch(r -> r.getName().name().equals("ROLE_ADMIN"));
+                CustomUserDetails userDetails = new CustomUserDetails(u);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
+
+                if (request != null) {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
+                }
+
+                boolean isAdmin = authentication.getAuthorities().stream()
+                        .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+
                 Map<String, Object> data = new HashMap<>();
                 data.put("id", u.getId());
                 data.put("farmerId", "KSK-" + u.getMobile());
@@ -165,6 +204,12 @@ public class ApiController {
 
     @GetMapping("/admin/stats")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getAdminStats() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Admin authorization required."));
+        }
+
         long totalUsers = userService.getCustomerCount();
         long totalProducts = productService.getTotalProductCount();
         long totalOrders = orderService.getTotalOrderCount();
@@ -184,6 +229,12 @@ public class ApiController {
 
     @GetMapping("/admin/customers")
     public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getAdminCustomers() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Admin authorization required."));
+        }
+
         List<User> customers = userService.getAllCustomers();
         List<Map<String, Object>> result = new ArrayList<>();
         for (User u : customers) {
@@ -207,22 +258,37 @@ public class ApiController {
 
     @PostMapping("/admin/udhari/add")
     public ResponseEntity<ApiResponse<Map<String, Object>>> addUdhariTransaction(@RequestBody Map<String, Object> payload) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getAuthorities().stream().noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Admin authorization required."));
+        }
+
         try {
-            String name = (String) payload.getOrDefault("name", "Farmer");
+            String name = (String) payload.getOrDefault("name", "");
             String mobile = (String) payload.getOrDefault("mobile", "");
-            String village = (String) payload.getOrDefault("village", "Vaijapur");
             String notes = (String) payload.getOrDefault("notes", "Store purchase");
-            String dueDateStr = (String) payload.getOrDefault("dueDate", LocalDate.now().plusDays(30).toString());
+            String dueDateStr = (String) payload.getOrDefault("dueDate", "");
 
             BigDecimal amount = BigDecimal.ZERO;
             Object amtObj = payload.get("amount");
             if (amtObj instanceof Number) {
                 amount = BigDecimal.valueOf(((Number) amtObj).doubleValue());
-            } else if (amtObj instanceof String) {
-                amount = new BigDecimal((String) amtObj);
+            } else if (amtObj instanceof String && !((String) amtObj).isBlank()) {
+                try {
+                    amount = new BigDecimal(((String) amtObj).trim());
+                } catch (NumberFormatException nfe) {
+                    return ResponseEntity.badRequest().headers(noCacheHeaders())
+                            .body(ApiResponse.error("Invalid transaction amount format."));
+                }
             }
 
-            // Find or associate user
+            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                return ResponseEntity.badRequest().headers(noCacheHeaders())
+                        .body(ApiResponse.error("Transaction amount must be greater than zero."));
+            }
+
+            // Find existing registered farmer
             User user = null;
             if (mobile != null && !mobile.isBlank()) {
                 user = userRepository.findByMobile(mobile.trim()).orElse(null);
@@ -230,34 +296,23 @@ public class ApiController {
             if (user == null && name != null && !name.isBlank()) {
                 List<User> found = userRepository.findAllCustomers();
                 user = found.stream()
-                        .filter(u -> u.getName().equalsIgnoreCase(name.trim()))
+                        .filter(u -> u.getName() != null && u.getName().equalsIgnoreCase(name.trim()))
                         .findFirst()
                         .orElse(null);
             }
 
-            // If user doesn't exist yet in DB, create one so Udhari is permanently linked
+            // Never auto-create customer with hardcoded credentials!
             if (user == null) {
-                String safeMobile = (mobile != null && !mobile.isBlank()) ? mobile.trim() : "98" + (System.currentTimeMillis() % 100000000L);
-                String safeEmail = safeMobile + "@krushiseva.local";
-                UserRegistrationDto newDto = new UserRegistrationDto();
-                newDto.setName(name != null && !name.isBlank() ? name.trim() : "Farmer " + safeMobile);
-                newDto.setMobile(safeMobile);
-                newDto.setEmail(safeEmail);
-                newDto.setAddress(village);
-                newDto.setVillage(village);
-                newDto.setTaluka("Vaijapur");
-                newDto.setDistrict("Chhatrapati Sambhajinagar");
-                newDto.setPassword("farmer123");
-                newDto.setConfirmPassword("farmer123");
-                user = userService.registerCustomer(newDto);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(noCacheHeaders())
+                        .body(ApiResponse.error("Customer not found. Please register the farmer before recording credit dues."));
             }
 
             LocalDate dueDate = LocalDate.now().plusDays(30);
-            try {
-                if (dueDateStr != null && !dueDateStr.isBlank()) {
-                    dueDate = LocalDate.parse(dueDateStr);
-                }
-            } catch (Exception ignored) {}
+            if (dueDateStr != null && !dueDateStr.isBlank()) {
+                try {
+                    dueDate = LocalDate.parse(dueDateStr.trim());
+                } catch (Exception ignored) {}
+            }
 
             Udhari record = new Udhari();
             record.setUser(user);
@@ -266,7 +321,7 @@ public class ApiController {
             record.setRemainingAmount(amount);
             record.setDueDate(dueDate);
             record.setStatus(UdhariStatus.ACTIVE);
-            record.setNotes(notes);
+            record.setNotes(notes != null && !notes.isBlank() ? notes.trim() : "Store credit");
             record.setCreatedAt(LocalDateTime.now());
             record.setUpdatedAt(LocalDateTime.now());
 
@@ -280,15 +335,16 @@ public class ApiController {
             resp.put("village", user.getVillage());
             resp.put("amount", saved.getTotalAmount());
             resp.put("remainingAmount", saved.getRemainingAmount());
-            resp.put("dueDate", saved.getDueDate().toString());
+            resp.put("dueDate", saved.getDueDate() != null ? saved.getDueDate().toString() : null);
             resp.put("notes", saved.getNotes());
             resp.put("status", saved.getStatus().name());
 
             return ResponseEntity.status(HttpStatus.CREATED).headers(noCacheHeaders())
                     .body(ApiResponse.ok("Udhari transaction recorded", resp));
         } catch (Exception e) {
+            log.error("Failed to add udhari transaction", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).headers(noCacheHeaders())
-                    .body(ApiResponse.error("Failed to add udhari: " + e.getMessage()));
+                    .body(ApiResponse.error("Unable to record transaction. Please verify data and try again."));
         }
     }
 
@@ -299,47 +355,53 @@ public class ApiController {
             @RequestParam(required = false) String mobile,
             @RequestParam(required = false) String name) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getName())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Authentication required to view credit ledger."));
+        }
+
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+        User currentUser = null;
+        if (auth.getPrincipal() instanceof CustomUserDetails userDetails) {
+            currentUser = userDetails.getUser();
+        } else {
+            currentUser = userRepository.findByEmailOrMobile(auth.getName()).orElse(null);
+        }
+
+        User targetFarmer;
         String lookup = identifier;
         if (lookup == null || lookup.isBlank() || "{identifier}".equals(lookup)) {
             lookup = farmerId != null ? farmerId : (mobile != null ? mobile : name);
         }
 
-        // Try authenticated context if no param
-        if (lookup == null || lookup.isBlank()) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
-                lookup = userDetails.getUser().getMobile();
+        if (isAdmin) {
+            if (lookup != null && !lookup.isBlank()) {
+                targetFarmer = findUserByLookup(lookup);
+            } else {
+                targetFarmer = currentUser;
             }
+        } else {
+            if (currentUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(noCacheHeaders())
+                        .body(ApiResponse.error("User profile not found."));
+            }
+            if (lookup != null && !lookup.isBlank()) {
+                User requested = findUserByLookup(lookup);
+                if (requested != null && !requested.getId().equals(currentUser.getId())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(noCacheHeaders())
+                            .body(ApiResponse.error("Access denied. You can only view your own credit ledger."));
+                }
+            }
+            targetFarmer = currentUser;
         }
 
-        User farmer = null;
-        if (lookup != null && !lookup.isBlank()) {
-            String clean = lookup.replace("KSK-", "").trim();
-            farmer = userRepository.findByMobile(clean).orElse(null);
-            if (farmer == null) {
-                farmer = userRepository.findByEmail(lookup).orElse(null);
-            }
-            if (farmer == null) {
-                String search = lookup.toLowerCase();
-                List<User> list = userRepository.findAllCustomers();
-                farmer = list.stream()
-                        .filter(u -> u.getName().toLowerCase().contains(search) || search.contains(u.getName().toLowerCase()))
-                        .findFirst()
-                        .orElse(null);
-            }
+        if (targetFarmer == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(noCacheHeaders())
+                    .body(ApiResponse.error("Farmer record not found."));
         }
 
-        if (farmer == null) {
-            Map<String, Object> emptyResp = new HashMap<>();
-            emptyResp.put("farmerId", lookup != null ? lookup : "KSK-UNKNOWN");
-            emptyResp.put("totalCredit", BigDecimal.ZERO);
-            emptyResp.put("totalPaid", BigDecimal.ZERO);
-            emptyResp.put("pendingDue", BigDecimal.ZERO);
-            emptyResp.put("transactions", Collections.emptyList());
-            return ResponseEntity.ok().headers(noCacheHeaders()).body(ApiResponse.ok("No records found", emptyResp));
-        }
-
-        List<Udhari> userUdhari = udhariRepository.findByUserIdOrderByCreatedAtDesc(farmer.getId());
+        List<Udhari> userUdhari = udhariRepository.findByUserIdOrderByCreatedAtDesc(targetFarmer.getId());
         BigDecimal totalCredit = BigDecimal.ZERO;
         BigDecimal totalPaid = BigDecimal.ZERO;
         List<Map<String, Object>> txns = new ArrayList<>();
@@ -355,7 +417,7 @@ public class ApiController {
             t.put("debit", u.getTotalAmount());
             t.put("credit", u.getPaidAmount());
             t.put("balance", u.getRemainingAmount());
-            t.put("status", u.getStatus().name());
+            t.put("status", u.getStatus() != null ? u.getStatus().name() : "ACTIVE");
             t.put("dueDate", u.getDueDate() != null ? u.getDueDate().toString() : null);
             txns.add(t);
         }
@@ -363,15 +425,29 @@ public class ApiController {
         BigDecimal pendingDue = totalCredit.subtract(totalPaid).max(BigDecimal.ZERO);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("farmerId", "KSK-" + farmer.getMobile());
-        data.put("farmerName", farmer.getName());
-        data.put("mobile", farmer.getMobile());
+        data.put("farmerId", "KSK-" + targetFarmer.getMobile());
+        data.put("farmerName", targetFarmer.getName());
+        data.put("mobile", targetFarmer.getMobile());
         data.put("totalCredit", totalCredit);
         data.put("totalPaid", totalPaid);
         data.put("pendingDue", pendingDue);
         data.put("transactions", txns);
 
         return ResponseEntity.ok().headers(noCacheHeaders()).body(ApiResponse.ok("Credit ledger fetched", data));
+    }
+
+    private User findUserByLookup(String lookup) {
+        if (lookup == null || lookup.isBlank()) return null;
+        String clean = lookup.replace("KSK-", "").trim();
+        Optional<User> byMobile = userRepository.findByMobile(clean);
+        if (byMobile.isPresent()) return byMobile.get();
+        Optional<User> byEmail = userRepository.findByEmail(lookup.trim());
+        if (byEmail.isPresent()) return byEmail.get();
+        String search = lookup.trim().toLowerCase();
+        return userRepository.findAllCustomers().stream()
+                .filter(u -> u.getName() != null && (u.getName().equalsIgnoreCase(lookup.trim()) || u.getName().toLowerCase().contains(search)))
+                .findFirst()
+                .orElse(null);
     }
 
     // --- 4. Product & Farming Public Endpoints ---

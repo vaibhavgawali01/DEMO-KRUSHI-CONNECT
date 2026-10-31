@@ -123,14 +123,15 @@ public class SecurityConfig {
                                  "/farming-tips/**", "/weather/**", "/fertilizer-calculator/**", 
                                  "/crop-care/**", "/about/**", "/contact/**", "/faq/**", 
                                  "/login", "/register", "/forgot-password", "/admin-switch", "/farmer-switch", "/h2-console/**").permitAll()
-                // Public REST APIs (Allow CORS & direct access for cross-platform and Vercel sync)
-                .requestMatchers("/api/products/barcode/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**", "/api/admin/stats", "/api/admin/customers", "/api/admin/udhari/**", "/api/ledger/**", "/api/farmer/**").permitAll()
-                // Admin-only area (Strictly only ROLE_ADMIN)
-                .requestMatchers("/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
+                // Barcode search and admin APIs / views strictly require ROLE_ADMIN
+                .requestMatchers("/api/products/barcode/**", "/admin", "/admin/**", "/api/admin/**").hasAuthority("ROLE_ADMIN")
+                // Public REST APIs (Catalog, tips, calculator, auth)
+                .requestMatchers("/api/auth/**", "/api/products/**", "/api/categories/**", "/api/farming/**", "/api/offers/**").permitAll()
                 // Customer & Farmer authenticated area
                 .requestMatchers("/customer/**", "/farmer/**", "/cart/**", "/checkout/**", "/orders/**",
                                  "/my-udhari/**", "/my-profile/**", "/invoice/**", "/payment-receipt/**").hasAuthority("ROLE_CUSTOMER")
+                // Authenticated ledger & farmer APIs (strictly authenticated, access-controlled per-user)
+                .requestMatchers("/api/ledger/**", "/api/farmer/**").authenticated()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exceptions -> exceptions

@@ -8,7 +8,7 @@
 
 | Status | Result |
 |---|---|
-| Passed | `mvn test`: 9 tests, 0 failures, 0 errors, 0 skipped. `mvn package`: `BUILD SUCCESS` and executable JAR produced. `node --check` passed for `admin.js`, `app.js`, and `premium.js`; `git diff --check` passed. |
+| Passed | `mvn test`: 15 tests, 0 failures, 0 errors, 0 skipped. `mvn package`: `BUILD SUCCESS` and executable JAR produced. `node --check` passed for `admin.js`, `app.js`, and `premium.js`; `git diff --check` passed. |
 | Failed | No application workflow failure was confirmed. |
 | Blocked | Runtime launch and all browser/HTTP/database workflow execution. A fresh isolated H2 launch attempt for final QA did not yield a detected debug session within 120 seconds; one subsequent session check found none, and opening `http://localhost:18082/` returned `ERR_CONNECTION_REFUSED`. No automatic retry was made. |
 | Not Tested | Behavior requiring an active application, persisted test data, valid user sessions, database assertions, or external service credentials. |
@@ -58,7 +58,7 @@ The launch attempt used an in-memory H2 database and a disposable bootstrap pass
 
 ## Final QA Checks Completed
 
-- **Automated tests:** `mvn test` passed: 9 tests, 0 failures, 0 errors, 0 skipped. This includes unit tests for demo-data opt-out, fertilizer inputs, active product lookup, and public product DTO field exposure.
+- **Automated tests:** `mvn test` passed: 15 tests, 0 failures, 0 errors, 0 skipped. This includes unit tests for demo-data opt-out, fertilizer inputs, active product lookup, public product DTO field exposure, API endpoint role access control, customer credit ledger data isolation, and customer non-existence validation.
 - **Production packaging:** `mvn package` completed with `BUILD SUCCESS` and created `target/krushi-seva-kendra-1.0.0.jar`.
 - **Frontend JavaScript syntax:** `node --check` succeeded for `admin.js`, `app.js`, and `premium.js`.
 - **Patch formatting:** `git diff --check` succeeded.

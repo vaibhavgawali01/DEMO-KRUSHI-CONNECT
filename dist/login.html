@@ -135,13 +135,39 @@ function togglePass() {
     }
 }
 
-function handleStaticLogin(e) {
+async function handleStaticLogin(e) {
     e.preventDefault();
     var uInput = document.getElementById('loginUsername');
-    var username = (uInput ? uInput.value : '').trim().toLowerCase();
-    
-    // Check if admin login
-    if (username.indexOf('admin') !== -1 || username === 'admin@krushiseva.com' || username === 'staff') {
+    var pInput = document.getElementById('loginPassword');
+    var username = (uInput ? uInput.value : '').trim();
+    var password = (pInput ? pInput.value : '');
+
+    try {
+        var res = await fetch((window.API_BASE_URL || '') + '/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username: username, password: password })
+        });
+        if (res.ok) {
+            var resData = await res.json();
+            if (resData && resData.data) {
+                var role = resData.data.role === 'admin' ? 'admin' : 'farmer';
+                localStorage.setItem('user_role', role);
+                localStorage.setItem('user_name', resData.data.name || 'User');
+                localStorage.setItem('farmer_id', resData.data.farmerId || '');
+                localStorage.setItem('farmer_mobile', resData.data.mobile || '');
+                window.location.href = role === 'admin' ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn('API login offline fallback', err);
+    }
+
+    // Fallback if offline
+    var uLower = username.toLowerCase();
+    if (uLower.indexOf('admin') !== -1 || uLower === 'admin@krushiseva.com' || uLower === 'staff') {
         localStorage.setItem('user_role', 'admin');
         localStorage.setItem('user_name', 'Admin');
         window.location.href = 'admin-dashboard.html';

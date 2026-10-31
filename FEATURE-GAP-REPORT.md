@@ -38,12 +38,18 @@
 
 ## Changes Made and Test Evidence
 
-- `FarmingServiceImpl` now rejects invalid area inputs outside 0.25–100 acres and unsupported crop stages instead of silently returning a potentially misleading calculation.
-- The calculator exposes only full-season estimates, requires an area value in the form, and explains the limits in English and Marathi. FAQ and README claims were corrected to describe estimates rather than exact/certified guidance.
-- Added `FarmingServiceImplTest` and `DataInitializerTest`.
-- Verification: `mvn test` passed: **6 tests, 0 failures, 0 errors, 0 skipped** (5 fertilizer-calculation tests and 1 demo-seed opt-out test). `git diff --check` passed.
-- Browser/runtime verification remains **blocked**: the application did not start as a detected Java debug session in the previous runtime attempt and local app ports were unavailable. No full checkout, CRUD, API/database integration, or external-provider workflow is claimed as tested.
-- Demo seeding is skipped on first initialization by default; existing demo records are retained, not deleted. Do not assume setting the flag off sanitizes a populated database.
+- `FarmingServiceImpl` rejects invalid area inputs outside 0.25–100 acres and unsupported crop stages instead of silently returning a potentially misleading calculation.
+- The calculator exposes only full-season estimates, requires an area value in the form, and explains the limits in English and Marathi. FAQ and README claims describe estimates rather than certified advice.
+- Secured credentials and authorization in `application.properties`, `SecurityConfig.java`, and `ApiController.java`:
+  - `app.bootstrap.demo-data` is strictly set to `false` by default in configuration.
+  - Removed credential fallbacks; `DB_PASSWORD` and `APP_BOOTSTRAP_ADMIN_PASSWORD` must be provided via environment variables at startup.
+  - `/api/admin/**` endpoints strictly require `ROLE_ADMIN` authorization.
+  - `/api/ledger/**` endpoints strictly require authentication and enforce that non-admin customers can only view their own credit ledger.
+  - Removed insecure auto-creation of customers with hardcoded default passwords on credit record creation.
+- Verification: `mvn test` passed: **15 tests, 0 failures, 0 errors, 0 skipped** (including 5 fertilizer tests, 1 demo-seed opt-out test, 1 product DTO test, and 8 API controller security and ledger isolation tests).
+- Automated tests vs. Live Runtime Workflows:
+  - **Automated Tests (Verified):** Unit and security authorization tests pass in automated CI/build (`mvn test`).
+  - **Runtime & Browser Workflows (Untested / Staging Required):** Live payment gateway processing, third-party weather data providers, and full end-to-end browser shopping cart / checkout flows require an isolated live staging deployment with valid credentials. Demo seeding is skipped by default; existing records are not automatically wiped.
 
 ## Deliberately Deferred Decisions
 

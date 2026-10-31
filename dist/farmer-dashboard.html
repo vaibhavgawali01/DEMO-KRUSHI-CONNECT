@@ -1289,7 +1289,7 @@ async function syncFarmerUdhariDashboard() {
     // 1. Try fetching live from backend API if available
     try {
         var apiUrl = (window.API_BASE_URL || '') + '/api/ledger/' + encodeURIComponent(farmerId) + '?mobile=' + encodeURIComponent(mobile) + '&name=' + encodeURIComponent(name);
-        var res = await fetch(apiUrl, { cache: 'no-store' });
+        var res = await fetch(apiUrl, { cache: 'no-store', credentials: 'include' });
         if (res.ok) {
             var data = await res.json();
             if (data && data.data) {
