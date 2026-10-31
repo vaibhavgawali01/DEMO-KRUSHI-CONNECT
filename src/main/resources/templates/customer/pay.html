@@ -1,16 +1,271 @@
-﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head('Pay Now - UPI Payment')}"></head>
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>पेमेंट करा | Pay Now - UPI Payment - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
 <body>
-<div th:replace="~{layout/navbar :: navbar}"></div>
 
-<div class="container my-4">
-    <div class="row g-4">
-        <div class="col-lg-3">
-            <div th:replace="~{layout/sidebar-customer :: customer-sidebar('pay')}"></div>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
         </div>
-        <div class="col-lg-9">
 
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
+
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
+                </div>
+
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
+                    </a>
+                </div>
+
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-4" style="max-width: 1240px;">
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-4">
+            
+<div class="customer-sidebar-shell mb-4" style="background: linear-gradient(180deg, #091f14 0%, #0d281a 100%) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 22px !important; padding: 26px 16px !important; box-shadow: 0 14px 36px -4px rgba(0, 0, 0, 0.22) !important;">
+    <!-- User Profile Header (Screenshot 1) -->
+    <div class="customer-sidebar-user text-center pb-3 mb-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;">
+        <div class="customer-avatar-circle mx-auto mb-2" style="width: 66px !important; height: 66px !important; border-radius: 50% !important; background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; color: #ffffff !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 28px !important; margin: 0 auto 10px !important; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4) !important; border: 3px solid rgba(255, 255, 255, 0.2) !important;">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <h6 class="mb-1 fw-bold text-white text-uppercase" id="sidebarUserDisplayName" style="letter-spacing: 0.6px; font-size: 15px;">Vaibhav Gawali</h6>
+        <small class="text-secondary small text-uppercase d-block" id="sidebarUserDisplayLoc" style="font-size: 11px; letter-spacing: 0.5px; color: #94a3b8 !important;">TAMASWADI, छत्रपती संभाजीनगर</small>
+    </div>
+
+    <!-- Section: FARMER MENU -->
+    <div class="customer-sidebar-title" style="color: #86efac !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 1.2px !important; padding: 8px 14px 6px !important; display: block !important;">
+        <span class="lang-mr">शेतकरी मेनू</span>
+        <span class="lang-en">FARMER MENU</span>
+    </div>
+    <nav class="customer-sidebar-nav" style="display: flex !important; flex-direction: column !important; gap: 4px !important; margin-bottom: 14px !important;">
+        <a href="farmer-dashboard.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-grid-fill fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">डॅशबोर्ड</span>
+            <span class="lang-en">Dashboard</span>
+        </a>
+        <a href="farmer-orders.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-bag-fill fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">माझ्या ऑर्डर्स</span>
+            <span class="lang-en">My Orders</span>
+        </a>
+        <a href="farmer-udhari.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-credit-card-2-front-fill fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">उधारी खातेवही</span>
+            <span class="lang-en">My Credit Ledger</span>
+        </a>
+        <a href="farmer-pay.html" class="customer-sidebar-item active" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #ffffff !important; text-decoration: none !important; font-weight: 700 !important; font-size: 13.5px !important; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important; box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4) !important;">
+            <i class="bi bi-qr-code-scan fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">💳 Pay Now (UPI)</span>
+            <span class="lang-en">💳 Pay Now (UPI)</span>
+        </a>
+        <a href="farmer-payments.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-receipt-cutoff fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">जमा पावत्या</span>
+            <span class="lang-en">Payment History</span>
+        </a>
+        <a href="farmer-notifications.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-bell-fill fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">सूचना व अलर्ट</span>
+            <span class="lang-en">Notifications</span>
+        </a>
+        <a href="farmer-profile.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-person-lines-fill fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">माझी माहिती / प्रोफाइल</span>
+            <span class="lang-en">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Section: AGRI TOOLS -->
+    <div class="customer-sidebar-title" style="color: #86efac !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 1.2px !important; padding: 10px 14px 6px !important; display: block !important;">
+        <span class="lang-mr">कृषी साधने</span>
+        <span class="lang-en">AGRI TOOLS</span>
+    </div>
+    <nav class="customer-sidebar-nav" style="display: flex !important; flex-direction: column !important; gap: 4px !important; margin-bottom: 14px !important;">
+        <a href="weather.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-cloud-sun-fill text-info fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">हवामान अंदाज</span>
+            <span class="lang-en">Agri Weather</span>
+        </a>
+        <a href="farming-tips.html" class="customer-sidebar-item" style="display: flex !important; align-items: center !important; gap: 12px !important; padding: 11px 16px !important; border-radius: 14px !important; color: #cbd5e1 !important; text-decoration: none !important; font-weight: 600 !important; font-size: 13.5px !important; transition: all 0.2s ease !important;">
+            <i class="bi bi-journal-check text-warning fs-5" style="width: 22px; text-align: center;"></i>
+            <span class="lang-mr">पीक सल्ला</span>
+            <span class="lang-en">Crop Tips</span>
+        </a>
+    </nav>
+
+    <!-- Logout Action -->
+    <button type="button" onclick="handleLogout()" class="customer-sidebar-logout" style="width: 100% !important; background: rgba(239, 68, 68, 0.12) !important; color: #ef4444 !important; border: 1px solid rgba(239, 68, 68, 0.25) !important; border-radius: 12px !important; padding: 11px 16px !important; font-weight: 700 !important; font-size: 13.5px !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; cursor: pointer !important; margin-top: 14px !important; transition: all 0.2s ease !important;">
+        <i class="bi bi-box-arrow-right fs-5"></i>
+        <span><span class="lang-mr">बाहेर पडा (Logout)</span><span class="lang-en">Logout</span></span>
+    </button>
+</div>
+<script>
+(function(){
+    var name = localStorage.getItem('user_name') || 'Vaibhav Gawali';
+    var loc = localStorage.getItem('user_location') || 'TAMASWADI, छत्रपती संभाजीनगर';
+    var elSideName = document.getElementById('sidebarUserDisplayName');
+    var elSideLoc = document.getElementById('sidebarUserDisplayLoc');
+    var elGreet = document.getElementById('farmerGreetName');
+    if (elSideName) elSideName.textContent = name;
+    if (elSideLoc) elSideLoc.textContent = loc;
+    if (elGreet) elGreet.textContent = name;
+})();
+</script>
+
+        </div>
+        <div class="col-lg-9 col-md-8">
             <div class="d-flex align-items-center gap-3 mb-4">
                 <div style="width:50px;height:50px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:14px;display:flex;align-items:center;justify-content:center;">
                     <i class="bi bi-qr-code text-white fs-4"></i>
@@ -22,133 +277,246 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm rounded-4 h-100" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0!important;">
-                        <div class="card-body p-4 text-center">
-                            <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold" style="background:linear-gradient(135deg,#16a34a,#15803d);color:white;font-size:0.8rem;">📱 QR Code Scan करा</span>
-                            <div class="mx-auto mb-3" style="max-width:240px;background:white;border-radius:16px;padding:12px;box-shadow:0 8px 30px rgba(22,163,74,0.15);border:2px solid #bbf7d0;">
-                                <img th:src="@{/images/upi_qr.jpg}" alt="UPI QR Code" class="img-fluid" style="border-radius:10px;">
-                            </div>
-                            <div class="mb-3">
-                                <p class="text-muted small mb-1">UPI ID</p>
-                                <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill fw-bold" style="background:white;border:2px solid #16a34a;font-size:1rem;color:#15803d;">
-                                    <i class="bi bi-upc-scan"></i>
-                                    <span id="upiId">8600813827@upi</span>
-                                    <button onclick="copyUPI()" class="btn btn-sm p-0 ms-1" style="color:#16a34a;background:none;border:none;" title="Copy">
-                                        <i class="bi bi-copy fs-6" id="copyIcon"></i>
-                                    </button>
-                                </div>
-                                <div id="copyMsg" class="text-success small mt-1 fw-bold" style="display:none;">✅ Copied!</div>
-                            </div>
-                            <p class="text-muted small mb-2">या apps ने pay करा:</p>
-                            <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#5f259f;"><div style="font-size:1.4rem;">📲</div><small>PhonePe</small></a>
-                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#1a73e8;"><div style="font-size:1.4rem;">💳</div><small>GPay</small></a>
-                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#002970;"><div style="font-size:1.4rem;">💰</div><small>Paytm</small></a>
-                                <a href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR" class="pay-app-btn" style="--app-color:#ff6600;"><div style="font-size:1.4rem;">🏦</div><small>BHIM</small></a>
-                            </div>
+                <!-- QR Box -->
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100" style="background:#f0fdf4; border:1.5px solid #bbf7d0 !important;">
+                        <span class="badge mb-3 px-3 py-2 rounded-pill fw-bold align-self-center" style="background:#16a34a;color:white;">📱 QR Code Scan करा</span>
+                        <div class="bg-white p-3 rounded-4 shadow-sm d-inline-block mx-auto mb-3">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=8600813827@upi%26pn=Saptashrungi%20Agro%20Services" alt="UPI QR Code" class="img-fluid" style="width:190px;height:190px;">
                         </div>
+                        <h6 class="fw-bold text-dark mb-1">सप्तशृंगी ॲग्रो सर्व्हिसेस</h6>
+                        <p class="small text-muted mb-2">UPI ID: <strong class="text-success">8600813827@upi</strong></p>
+                        <p class="small text-muted">Google Pay, PhonePe, Paytm किंवा BHIM द्वारे स्कॅन करून पैसे भरा.</p>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm rounded-4" style="border:1px solid #e5e7eb!important;">
-                        <div class="card-body p-4">
-                            <h6 class="fw-bold text-dark mb-4"><i class="bi bi-send-fill text-success me-2"></i>Payment Details</h6>
+                <!-- Payment Details Form -->
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                        <h5 class="fw-bold text-dark mb-3">पेमेंट तपशील भरा</h5>
+                        <form onsubmit="alert('पेमेंट पडताळणी पूर्ण झाली! पावती लवकरच अपडेट होईल.'); return false;">
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-dark small">💵 Amount (₹)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text fw-bold fs-5" style="background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;">₹</span>
-                                    <input type="number" id="payAmount" class="form-control fw-bold" placeholder="0.00" min="1" style="border-color:#bbf7d0;font-size:1.2rem;" oninput="updateLinks()">
-                                </div>
-                                <div class="d-flex gap-2 flex-wrap mt-2">
-                                    <button onclick="setAmt(500)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹500</button>
-                                    <button onclick="setAmt(1000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹1,000</button>
-                                    <button onclick="setAmt(2000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹2,000</button>
-                                    <button onclick="setAmt(5000)" class="btn btn-sm btn-outline-success rounded-pill px-3">₹5,000</button>
-                                </div>
+                                <label class="form-label small fw-bold text-success">शेतकरी नाव</label>
+                                <input type="text" class="form-control" id="payFarmerName" value="VSGAWALI" readonly>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold text-dark small">📋 Payment कशासाठी?</label>
-                                <select class="form-select" id="payPurpose" style="border-color:#d1fae5;" onchange="updateLinks()">
-                                    <option value="">-- Select Purpose --</option>
-                                    <option value="Udhari Payment - उधारी परतफेड">💳 Udhari Payment — उधारी परतफेड</option>
-                                    <option value="Seeds Purchase - बियाणे">🌱 Seeds — बियाणे</option>
-                                    <option value="Fertilizer Purchase - खत">🌿 Fertilizer — खत</option>
-                                    <option value="Pesticide Purchase - कीटकनाशक">🛡️ Pesticide — कीटकनाशक</option>
-                                    <option value="Equipment Purchase - साहित्य">🔧 Equipment — साहित्य</option>
-                                    <option value="Other Payment">📌 Other</option>
-                                </select>
+                                <label class="form-label small fw-bold text-success">रक्कम (₹)</label>
+                                <input type="number" class="form-control form-control-lg fw-bold text-success" value="1000" min="10" required>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold text-dark small">📝 Note (Optional)</label>
-                                <input type="text" id="payNote" class="form-control" placeholder="Invoice #, शेत नाव..." style="border-color:#d1fae5;" oninput="updateLinks()">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-success">UPI Transaction ID / Ref #</label>
+                                <input type="text" class="form-control" placeholder="उदा. 423456789012" required>
                             </div>
-                            <a id="upiPayBtn" href="upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR"
-                               class="btn w-100 fw-bold py-3 mb-3 d-flex align-items-center justify-content-center gap-2"
-                               style="background:linear-gradient(135deg,#16a34a,#15803d);color:white;border-radius:12px;font-size:1rem;border:none;">
-                                <i class="bi bi-phone-fill fs-5"></i> UPI App ने Pay करा
-                            </a>
-                            <a id="waBtn" href="https://wa.me/918600813827" target="_blank"
-                               class="btn btn-outline-success w-100 fw-bold py-2 d-flex align-items-center justify-content-center gap-2"
-                               style="border-radius:12px;border-width:2px;">
-                                <i class="bi bi-whatsapp fs-5"></i> WhatsApp वर Confirm करा
-                            </a>
-                        </div>
+                            <button type="submit" class="btn btn-success fw-bold w-100 py-2 rounded-3 shadow-sm" style="background:#15803d;">
+                                <i class="bi bi-check2-circle me-1"></i> पेमेंट नोंदवा (Submit Receipt)
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <div class="card border-0 shadow-sm rounded-4 mt-4" style="background:#fefce8;border:1px solid #fef9c3!important;">
-                <div class="card-body p-4">
-                    <h6 class="fw-bold text-warning-emphasis mb-3">📖 UPI ने Pay कसे करावे?</h6>
-                    <div class="row g-3 text-center">
-                        <div class="col-6 col-md-3"><div style="font-size:2rem;">1️⃣</div><small class="text-muted fw-semibold">Amount आणि Purpose टाका</small></div>
-                        <div class="col-6 col-md-3"><div style="font-size:2rem;">2️⃣</div><small class="text-muted fw-semibold">QR Scan करा किंवा UPI ID Copy करा</small></div>
-                        <div class="col-6 col-md-3"><div style="font-size:2rem;">3️⃣</div><small class="text-muted fw-semibold">PhonePe / GPay / Paytm ने Pay करा</small></div>
-                        <div class="col-6 col-md-3"><div style="font-size:2rem;">4️⃣</div><small class="text-muted fw-semibold">WhatsApp वर Screenshot पाठवा</small></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card border-0 shadow-sm rounded-4 mt-4" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);">
-                <div class="card-body p-4 text-white d-flex align-items-center justify-content-between flex-wrap gap-3">
-                    <div><h6 class="fw-bold mb-1">🙋 मदत हवी?</h6><small style="color:rgba(255,255,255,0.8);">Payment बद्दल अडचण असल्यास संपर्क करा</small></div>
-                    <div class="d-flex gap-2">
-                        <a href="tel:+918600813827" class="btn btn-sm fw-bold px-4 py-2" style="background:linear-gradient(135deg,#eab308,#f97316);color:white;border:none;border-radius:10px;"><i class="bi bi-telephone-fill me-1"></i>8600813827</a>
-                        <a href="https://wa.me/918600813827" target="_blank" class="btn btn-sm btn-outline-light fw-bold px-4 py-2" style="border-radius:10px;"><i class="bi bi-whatsapp me-1"></i>WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
 
-<style>
-.pay-app-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 12px;border-radius:14px;background:white;border:1.5px solid #e5e7eb;text-decoration:none;color:#374151;font-size:0.7rem;font-weight:600;transition:all 0.2s ease;min-width:56px;}
-.pay-app-btn:hover{border-color:var(--app-color,#16a34a);color:var(--app-color,#16a34a);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-</style>
 <script>
-function copyUPI(){navigator.clipboard.writeText('8600813827@upi').then(()=>{document.getElementById('copyMsg').style.display='block';document.getElementById('copyIcon').className='bi bi-check-circle-fill fs-6';setTimeout(()=>{document.getElementById('copyMsg').style.display='none';document.getElementById('copyIcon').className='bi bi-copy fs-6';},2500);});}
-function setAmt(a){document.getElementById('payAmount').value=a;updateLinks();}
-function updateLinks(){
-  const amt=document.getElementById('payAmount').value||'';
-  const pur=document.getElementById('payPurpose').value||'';
-  const note=document.getElementById('payNote').value||'';
-  let upi=upi://pay?pa=8600813827@upi&pn=Saptashrungi+Agro+Services&cu=INR;
-  if(amt)upi+=&am=;
-  if(pur)upi+=&tn=;
-  document.getElementById('upiPayBtn').href=upi;
-  let msg=Hello Saptashrungi Agro Services 🌾\n\nमी UPI Payment केले:\n;
-  if(amt)msg+=💵 Amount: ₹\n;
-  if(pur)msg+=📋 Purpose: \n;
-  if(note)msg+=📝 Note: \n;
-  msg+=\nUPI: 8600813827@upi\nकृपया confirm करावे. 🙏;
-  document.getElementById('waBtn').href=https://wa.me/918600813827?text=;
-}
+document.addEventListener('DOMContentLoaded', function(){
+    var saved = localStorage.getItem('user_name');
+    var el = document.getElementById('payFarmerName');
+    if (saved && el) el.value = saved;
+});
 </script>
 
-<div th:replace="~{layout/footer :: footer}"></div>
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

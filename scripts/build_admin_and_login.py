@@ -1570,11 +1570,12 @@ const DEFAULT_EDIT_PRODUCTS = [
     }}
 ];
 
-// Pre-populate form when opening in Edit mode (?edit=<id>)
-document.addEventListener('DOMContentLoaded', function() {{
+// Pre-populate form when opening in Edit mode (?edit=<id> or ?id=<id>)
+function initProductFormEdit() {{
     const params = new URLSearchParams(window.location.search);
-    const editId = params.get('edit');
-    const editSrc = params.get('src'); // 'custom' or default
+    const hashParams = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const editId = params.get('edit') || params.get('id') || params.get('editId') || hashParams.get('edit') || hashParams.get('id');
+    const editSrc = params.get('src') || hashParams.get('src');
 
     if (editId) {{
         document.getElementById('editProductId').value = editId;
@@ -1639,9 +1640,15 @@ document.addEventListener('DOMContentLoaded', function() {{
                                       '<span class="lang-mr">उत्पादनाची माहिती यशस्वीरित्या अपडेट केली!</span>' +
                                       '<span class="lang-en">Product information updated successfully!</span>';
             }}
-        }}
-    }}
-}});
+        }}}}
+    }}}}
+}}}}
+
+if (document.readyState === "complete" || document.readyState === "interactive") {{
+    initProductFormEdit();
+}} else {{
+    document.addEventListener("DOMContentLoaded", initProductFormEdit);
+}}
 
 function handleSaveProduct(e) {{
     if (e && e.preventDefault) e.preventDefault();
@@ -1786,8 +1793,17 @@ def build_admin_udhari():
             <form id="addUdhariForm" onsubmit="handleSaveUdhari(event)">
                 <div class="modal-body p-4">
                     <div class="mb-3">
+                        <label class="form-label small fw-bold text-success">
+                            <span class="lang-mr">नोंदणीकृत शेतकरी निवडा (Select Farmer)</span>
+                            <span class="lang-en">Select Registered Farmer</span>
+                        </label>
+                        <select id="udhariCustomerSelect" class="form-select" onchange="autoFillCustomerInfo(this.value)">
+                            <option value="">-- Manual Entry / नवीन शेतकरी नाव टाइप करा --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label small fw-bold text-success">Customer Name *</label>
-                        <input type="text" id="udhariName" class="form-control" placeholder="e.g. Ramesh Patil" required>
+                        <input type="text" id="udhariName" class="form-control" placeholder="e.g. Ramesh Patil or VSG" required>
                     </div>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
@@ -1916,9 +1932,38 @@ function renderUdhariTable() {
     `).join('');
 }
 
+function populateFarmerDropdown() {
+    const sel = document.getElementById('udhariCustomerSelect');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">-- Select Farmer / शेतकरी निवडा किंवा खाली टाइप करा --</option>';
+    try {
+        const farmers = JSON.parse(localStorage.getItem('ksk_registered_farmers') || '[]');
+        farmers.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f.farmerId || ('KSK-' + (f.mobile || f.id));
+            opt.textContent = (f.name || 'Farmer') + ' (' + (f.mobile || f.village || '') + ') - ID: ' + (f.farmerId || 'KSK');
+            sel.appendChild(opt);
+        });
+    } catch(e) {}
+}
+
+function autoFillCustomerInfo(val) {
+    if (!val) return;
+    try {
+        const farmers = JSON.parse(localStorage.getItem('ksk_registered_farmers') || '[]');
+        const f = farmers.find(item => String(item.farmerId) === String(val) || String(item.mobile) === String(val) || String(item.id) === String(val));
+        if (f) {
+            if (document.getElementById('udhariName')) document.getElementById('udhariName').value = f.name || '';
+            if (document.getElementById('udhariMobile')) document.getElementById('udhariMobile').value = f.mobile || f.phone || '';
+            if (document.getElementById('udhariVillage')) document.getElementById('udhariVillage').value = f.village || '';
+        }
+    } catch(e) {}
+}
+
 function openAddUdhariModal() {
     const form = document.getElementById('addUdhariForm');
     if (form) form.reset();
+    populateFarmerDropdown();
     const modalEl = document.getElementById('addUdhariModal');
     if (modalEl && typeof bootstrap !== 'undefined') {
         const m = new bootstrap.Modal(modalEl);
@@ -1934,23 +1979,54 @@ function handleSaveUdhari(e) {
     const amount = parseFloat(document.getElementById('udhariAmount').value) || 0;
     const dueDate = document.getElementById('udhariDueDate').value || '15 Nov 2026';
     const status = document.getElementById('udhariStatus').value;
+    const farmerId = 'KSK-' + (mobile || name.replace(/\s+/g, ''));
 
     if (!name || amount <= 0) {
         alert('Please enter valid customer name and amount.');
         return;
     }
 
-    let records = getUdhariRecords();
-    records.unshift({
+    const newRecord = {
         id: Date.now(),
-        name,
-        mobile,
-        village,
-        amount,
-        dueDate,
-        status
-    });
+        farmerId: farmerId,
+        name: name,
+        mobile: mobile,
+        village: village,
+        amount: amount,
+        dueDate: dueDate,
+        notes: 'कृषी माल उधारी खरेदी (Store Credit Purchase)',
+        status: status,
+        createdAt: new Date().toISOString()
+    };
+
+    // 1. Post to Spring Boot / Supabase API
+    try {
+        fetch((window.API_BASE_URL || '') + '/api/admin/udhari/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                farmerId: farmerId,
+                name: name,
+                mobile: mobile,
+                village: village,
+                amount: amount,
+                dueDate: dueDate,
+                notes: 'कृषी माल उधारी खरेदी',
+                status: status
+            })
+        }).catch(function(err){ console.warn('Offline mode or server sync note', err); });
+    } catch(e) {}
+
+    // 2. Save locally
+    let records = getUdhariRecords();
+    records.unshift(newRecord);
     saveUdhariRecords(records);
+
+    // 3. Dispatch storage event so Farmer Dashboard and Farmer Udhari page update instantly!
+    window.dispatchEvent(new StorageEvent('storage', {
+        key: 'ksk_udhari_records',
+        newValue: JSON.stringify(records)
+    }));
 
     const modalEl = document.getElementById('addUdhariModal');
     if (modalEl && typeof bootstrap !== 'undefined') {

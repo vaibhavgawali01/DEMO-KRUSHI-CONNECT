@@ -1311,6 +1311,129 @@ function handleFarmerReviewSubmit(e) {
     return false;
 }
 
+
+// --- Real-Time Credit Ledger Sync for Farmer Dashboard ---
+async function syncFarmerUdhariDashboard() {
+    var name = localStorage.getItem('user_name') || 'VSGAWALI';
+    var mobile = localStorage.getItem('user_phone') || localStorage.getItem('user_mobile') || '';
+    var farmerId = localStorage.getItem('user_farmer_id') || localStorage.getItem('farmer_id') || ('KSK-' + (mobile || name));
+
+    var greetEl = document.getElementById('farmerGreetName');
+    if (greetEl) greetEl.textContent = name;
+    var sideNameEl = document.getElementById('sidebarUserDisplayName');
+    if (sideNameEl) sideNameEl.textContent = name;
+
+    var pendingDue = 0;
+    var foundOnline = false;
+
+    // 1. Try fetching live from backend API if available
+    try {
+        var apiUrl = (window.API_BASE_URL || '') + '/api/ledger/' + encodeURIComponent(farmerId) + '?mobile=' + encodeURIComponent(mobile) + '&name=' + encodeURIComponent(name);
+        var res = await fetch(apiUrl, { cache: 'no-store' });
+        if (res.ok) {
+            var data = await res.json();
+            if (data && data.data) {
+                pendingDue = parseFloat(data.data.pendingDue) || 0;
+                foundOnline = true;
+            }
+        }
+    } catch(e) {}
+
+    // 2. If offline or not in API, compute from ksk_udhari_records in localStorage
+    if (!foundOnline) {
+        var raw = localStorage.getItem('ksk_udhari_records');
+        var records = [];
+        if (raw) {
+            try { records = JSON.parse(raw); } catch(err) { records = []; }
+        }
+        var cleanMobile = mobile.replace(/\D/g, '');
+        var normName = name.trim().toLowerCase();
+
+        var matching = records.filter(function(r) {
+            if (!r) return false;
+            if (r.farmerId && farmerId && (r.farmerId.toLowerCase() === farmerId.toLowerCase())) return true;
+            if (r.mobile && cleanMobile && (r.mobile.replace(/\D/g, '') === cleanMobile)) return true;
+            if (r.name) {
+                var rName = r.name.trim().toLowerCase();
+                if (rName === normName || rName.includes(normName) || normName.includes(rName)) return true;
+                if ((normName.includes('vsg') || normName.includes('gawali')) && (rName.includes('vsg') || rName.includes('gawali'))) return true;
+            }
+            return false;
+        });
+
+        var totalDebit = 0;
+        var totalCredit = 0;
+        matching.forEach(function(r) {
+            var amt = parseFloat(r.amount) || 0;
+            var status = (r.status || '').toLowerCase();
+            if (status === 'paid') {
+                totalCredit += amt;
+            } else {
+                totalDebit += amt;
+            }
+        });
+        pendingDue = Math.max(0, totalDebit - totalCredit);
+    }
+
+    // 3. Update Farmer Dashboard UI components
+    var heroAmount = document.getElementById('farmerHeroDueAmount');
+    var heroBadgeWrap = document.getElementById('farmerBalanceBadgeWrap');
+    var heroText = document.getElementById('farmerHeroDueText');
+    var kpiAmount = document.getElementById('farmerKpiDueAmount');
+    var kpiPillWrap = document.getElementById('farmerKpiDuePillWrap');
+
+    var formatted = '₹' + pendingDue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (pendingDue > 0) {
+        if (heroAmount) {
+            heroAmount.textContent = formatted;
+            heroAmount.style.color = '#dc2626';
+        }
+        if (heroBadgeWrap) {
+            heroBadgeWrap.innerHTML = '<span class="badge text-white px-3 py-1 rounded-pill fw-bold" style="background:#dc2626 !important; font-size:13px;"><i class="bi bi-exclamation-triangle-fill me-1"></i> <span class="lang-mr">थकीत बाकी उधारी</span><span class="lang-en">Outstanding Dues</span></span>';
+        }
+        if (heroText) {
+            heroText.className = 'm-0 mt-2 text-danger fw-semibold small';
+            heroText.innerHTML = '<span class="lang-mr">⚠️ आपल्या खात्यावर <strong>' + formatted + '</strong> उधारी प्रलंबित आहे. कृपया वेळेत परतफेड करा.</span><span class="lang-en">⚠️ You have <strong>' + formatted + '</strong> outstanding credit due on your account.</span>';
+        }
+        if (kpiAmount) {
+            kpiAmount.textContent = formatted;
+            kpiAmount.className = 'stat-amount text-danger mb-1';
+        }
+        if (kpiPillWrap) {
+            kpiPillWrap.innerHTML = '<span class="stat-pill" style="background:#fee2e2; color:#dc2626;"><i class="bi bi-clock-history"></i> <span class="lang-mr">बाकी प्रलंबित</span><span class="lang-en">Due Pending</span></span>';
+        }
+    } else {
+        if (heroAmount) {
+            heroAmount.textContent = '₹0.00';
+            heroAmount.style.color = '#059669';
+        }
+        if (heroBadgeWrap) {
+            heroBadgeWrap.innerHTML = '<span class="badge text-white px-3 py-1 rounded-pill fw-bold" style="background:#059669 !important; font-size:13px;"><i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">✓ शून्य बाकी</span><span class="lang-en">✓ Nil Balance</span></span>';
+        }
+        if (heroText) {
+            heroText.className = 'm-0 mt-2 text-success fw-semibold small';
+            heroText.innerHTML = '<span class="lang-mr">🌟 उत्तम! आपल्या खात्यावर सध्या कोणतीही उधारी बाकी नाही.</span><span class="lang-en">🌟 Great! You have zero outstanding credit dues on your account.</span>';
+        }
+        if (kpiAmount) {
+            kpiAmount.textContent = '₹0.00';
+            kpiAmount.className = 'stat-amount text-success mb-1';
+        }
+        if (kpiPillWrap) {
+            kpiPillWrap.innerHTML = '<span class="stat-pill" style="background:#ecfdf5; color:#059669;"><i class="bi bi-check-circle-fill"></i> <span class="lang-mr">शून्य बाकी</span><span class="lang-en">Nil Balance</span></span>';
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    syncFarmerUdhariDashboard();
+});
+window.addEventListener('storage', function(e){
+    if (e.key === 'ksk_udhari_records' || e.key === 'user_name') {
+        syncFarmerUdhariDashboard();
+    }
+});
+
 </script>
 """
     content = head_html("शेतकरी डॅशबोर्ड", "Farmer Dashboard") + nav_html("dashboard") + raw_dashboard.replace("<!-- SIDEBAR_PLACEHOLDER -->", sidebar) + foot_html()
@@ -1399,9 +1522,12 @@ def build_farmer_orders():
 # ==============================================================================
 # 4. FARMER UDHARI (CREDIT LEDGER)
 # ==============================================================================
+# ==============================================================================
+# 4. FARMER UDHARI (CREDIT LEDGER)
+# ==============================================================================
 def build_farmer_udhari():
     sidebar = render_customer_sidebar("udhari")
-    content = head_html("उधारी खाते", "Credit Ledger") + nav_html("dashboard") + f"""
+    content = (head_html("माझी उधारी", "Credit Ledger") + nav_html("dashboard") + """
 <div class="container my-4" style="max-width: 1240px;">
     <div class="row g-4">
         <div class="col-lg-3 col-md-4">
@@ -1409,27 +1535,40 @@ def build_farmer_udhari():
         </div>
         <div class="col-lg-9 col-md-8">
             <!-- Header Balance Highlight Card -->
-            <div class="farmer-balance-card mb-4">
+            <div class="farmer-balance-card mb-4" id="ledgerHeaderCard">
                 <div class="row align-items-center g-3">
                     <div class="col-md-7">
-                        <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="d-flex align-items-center gap-2 mb-2" id="ledgerBadgeWrap">
                             <span class="badge text-white px-3 py-1 rounded-pill fw-bold" style="background:#059669 !important;">
-                                <i class="bi bi-check-circle-fill me-1"></i> उधारी निरंक (Nil Balance)
+                                <i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">✓ शून्य बाकी</span><span class="lang-en">✓ Nil Balance</span>
                             </span>
                         </div>
-                        <h1 class="display-5 fw-bold m-0" style="color:#059669; font-weight:800;">₹0.00</h1>
-                        <span class="fs-6 fw-semibold text-muted">चालू बाकी उधारी रक्कम (Current Outstanding Due)</span>
+                        <h1 class="display-5 fw-bold m-0" id="ledgerPendingDueAmount" style="color:#059669; font-weight:800;">₹0.00</h1>
+                        <span class="fs-6 fw-semibold text-muted">
+                            <span class="lang-mr">चालू बाकी उधारी रक्कम</span>
+                            <span class="lang-en">Current Outstanding Due Balance</span>
+                        </span>
                         <div class="d-flex flex-wrap gap-2 mt-3">
-                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">खाते स्थिती (Account Status):</span><strong class="text-success">सक्रिय / Active</strong></div>
-                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small"><span class="text-muted d-block" style="font-size:11px;">चालू बाकी (Due):</span><strong class="text-success">₹0.00</strong></div>
+                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                <span class="text-muted d-block" style="font-size:11px;"><span class="lang-mr">खाते स्थिती</span><span class="lang-en">Status</span>:</span>
+                                <strong class="text-success" id="ledgerAccountStatus">सक्रिय / Active</strong>
+                            </div>
+                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                <span class="text-muted d-block" style="font-size:11px;"><span class="lang-mr">एकूण उचल (Credit)</span><span class="lang-en">Total Credit</span>:</span>
+                                <strong class="text-dark" id="ledgerTotalCredit">₹0.00</strong>
+                            </div>
+                            <div class="bg-white px-3 py-2 rounded-3 border shadow-sm small">
+                                <span class="text-muted d-block" style="font-size:11px;"><span class="lang-mr">एकूण जमा (Paid)</span><span class="lang-en">Total Repaid</span>:</span>
+                                <strong class="text-success" id="ledgerTotalPaid">₹0.00</strong>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-5 text-md-end">
                         <a href="farmer-pay.html" class="btn btn-success fw-bold px-4 py-2 rounded-3 shadow-sm mb-2 d-inline-block" style="background:#15803d;">
-                            💳 Pay via UPI
+                            💳 <span class="lang-mr">UPI द्वारे भरा</span><span class="lang-en">Pay via UPI</span>
                         </a>
                         <div>
-                            <button class="btn btn-sm btn-outline-secondary" onclick="alert('Credit Ledger statement generated for farmer.')"><i class="bi bi-download me-1"></i> Download Passbook</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="window.print()"><i class="bi bi-printer me-1"></i> <span class="lang-mr">पासबुक प्रिंट करा</span><span class="lang-en">Print Passbook</span></button>
                         </div>
                     </div>
                 </div>
@@ -1437,29 +1576,28 @@ def build_farmer_udhari():
 
             <!-- Ledger Table -->
             <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
-                <div class="card-header bg-white py-3 px-4 border-bottom">
-                    <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-clock-history me-2 text-success"></i>खातेवही व्यवहार इतिहास (Ledger Transactions)</h6>
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-clock-history me-2 text-success"></i><span class="lang-mr">खातेवही व्यवहार तपशील (Credit Ledger Transactions)</span><span class="lang-en">Ledger Transactions</span></h6>
+                    <span class="badge bg-light text-muted border px-2 py-1 small" id="ledgerTxnCount">0 नोंदी</span>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light text-muted small">
-                                <tr><th>तारीख</th><th>तपशील</th><th>नावे (Debit)</th><th>जमा (Credit)</th><th>शिल्लक (Balance)</th></tr>
-                            </thead>
-                            <tbody>
                                 <tr>
-                                    <td>28 Aug 2026</td>
-                                    <td>UPI द्वारे परतफेड (Ref: UPI/20260828/9982)</td>
-                                    <td class="text-muted">-</td>
-                                    <td class="text-success fw-bold">+₹2,450.00</td>
-                                    <td class="fw-bold text-success">₹0.00</td>
+                                    <th><span class="lang-mr">तारीख</span><span class="lang-en">Date</span></th>
+                                    <th><span class="lang-mr">तपशील</span><span class="lang-en">Description</span></th>
+                                    <th><span class="lang-mr">नावे (Debit)</span><span class="lang-en">Debit (₹)</span></th>
+                                    <th><span class="lang-mr">जमा (Credit)</span><span class="lang-en">Credit (₹)</span></th>
+                                    <th><span class="lang-mr">शिल्लक (Balance)</span><span class="lang-en">Balance (₹)</span></th>
+                                    <th><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
                                 </tr>
+                            </thead>
+                            <tbody id="farmerLedgerTbody">
                                 <tr>
-                                    <td>28 Aug 2026</td>
-                                    <td>खरेदी पावती #KSK-2026-00342 (NPK खत)</td>
-                                    <td class="text-danger fw-bold">₹2,450.00</td>
-                                    <td class="text-muted">-</td>
-                                    <td class="fw-bold text-danger">₹2,450.00</td>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="bi bi-hourglass-split me-1"></i> Loading credit ledger transactions...
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1469,9 +1607,156 @@ def build_farmer_udhari():
         </div>
     </div>
 </div>
-""" + foot_html()
+
+<script>
+async function loadFarmerCreditLedger() {
+    var name = localStorage.getItem('user_name') || 'VSGAWALI';
+    var mobile = localStorage.getItem('user_phone') || localStorage.getItem('user_mobile') || '';
+    var farmerId = localStorage.getItem('user_farmer_id') || localStorage.getItem('farmer_id') || ('KSK-' + (mobile || name));
+
+    var sideNameEl = document.getElementById('sidebarUserDisplayName');
+    if (sideNameEl) sideNameEl.textContent = name;
+
+    var txns = [];
+    var pendingDue = 0;
+    var totalCredit = 0;
+    var totalPaid = 0;
+    var fetchedOnline = false;
+
+    try {
+        var apiUrl = (window.API_BASE_URL || '') + '/api/ledger/' + encodeURIComponent(farmerId) + '?mobile=' + encodeURIComponent(mobile) + '&name=' + encodeURIComponent(name);
+        var res = await fetch(apiUrl, { cache: 'no-store' });
+        if (res.ok) {
+            var data = await res.json();
+            if (data && data.data) {
+                totalCredit = parseFloat(data.data.totalCredit) || 0;
+                totalPaid = parseFloat(data.data.totalPaid) || 0;
+                pendingDue = parseFloat(data.data.pendingDue) || 0;
+                txns = data.data.transactions || [];
+                fetchedOnline = true;
+            }
+        }
+    } catch(e) {}
+
+    if (!fetchedOnline) {
+        var raw = localStorage.getItem('ksk_udhari_records');
+        var records = [];
+        if (raw) {
+            try { records = JSON.parse(raw); } catch(err) { records = []; }
+        }
+        var cleanMobile = mobile.replace(/\D/g, '');
+        var normName = name.trim().toLowerCase();
+
+        var matching = records.filter(function(r) {
+            if (!r) return false;
+            if (r.farmerId && farmerId && (r.farmerId.toLowerCase() === farmerId.toLowerCase())) return true;
+            if (r.mobile && cleanMobile && (r.mobile.replace(/\D/g, '') === cleanMobile)) return true;
+            if (r.name) {
+                var rName = r.name.trim().toLowerCase();
+                if (rName === normName || rName.includes(normName) || normName.includes(rName)) return true;
+                if ((normName.includes('vsg') || normName.includes('gawali')) && (rName.includes('vsg') || rName.includes('gawali'))) return true;
+            }
+            return false;
+        });
+
+        matching.forEach(function(r) {
+            var amt = parseFloat(r.amount) || 0;
+            var status = (r.status || '').toLowerCase();
+            if (status === 'paid') {
+                totalPaid += amt;
+                txns.push({
+                    date: r.dueDate || new Date().toISOString().split('T')[0],
+                    notes: (r.notes || 'उधारी परतफेड') + ' (Paid via UPI/Cash)',
+                    debit: 0,
+                    credit: amt,
+                    balance: 0,
+                    status: 'Paid'
+                });
+            } else {
+                totalCredit += amt;
+                txns.push({
+                    date: r.dueDate || new Date().toISOString().split('T')[0],
+                    notes: r.notes || 'कृषी माल उधारी खरेदी (Store Credit Purchase)',
+                    debit: amt,
+                    credit: 0,
+                    balance: amt,
+                    status: r.status || 'Active'
+                });
+            }
+        });
+        pendingDue = Math.max(0, totalCredit - totalPaid);
+    }
+
+    // Update Header KPI
+    var dueEl = document.getElementById('ledgerPendingDueAmount');
+    var badgeWrap = document.getElementById('ledgerBadgeWrap');
+    var creditEl = document.getElementById('ledgerTotalCredit');
+    var paidEl = document.getElementById('ledgerTotalPaid');
+    var countEl = document.getElementById('ledgerTxnCount');
+
+    var formattedDue = '₹' + pendingDue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (dueEl) {
+        dueEl.textContent = formattedDue;
+        dueEl.style.color = pendingDue > 0 ? '#dc2626' : '#059669';
+    }
+    if (badgeWrap) {
+        if (pendingDue > 0) {
+            badgeWrap.innerHTML = '<span class="badge text-white px-3 py-1 rounded-pill fw-bold" style="background:#dc2626 !important;"><i class="bi bi-exclamation-triangle-fill me-1"></i> <span class="lang-mr">थकीत उधारी बाकी</span><span class="lang-en">Pending Dues</span></span>';
+        } else {
+            badgeWrap.innerHTML = '<span class="badge text-white px-3 py-1 rounded-pill fw-bold" style="background:#059669 !important;"><i class="bi bi-check-circle-fill me-1"></i> <span class="lang-mr">✓ शून्य बाकी (Nil Balance)</span><span class="lang-en">✓ Nil Balance</span></span>';
+        }
+    }
+    if (creditEl) creditEl.textContent = '₹' + totalCredit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (paidEl) paidEl.textContent = '₹' + totalPaid.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (countEl) countEl.textContent = txns.length + ' नोंदी';
+
+    // Render Table
+    var tbody = document.getElementById('farmerLedgerTbody');
+    if (!tbody) return;
+
+    if (txns.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center py-5">
+                    <div class="mb-2 text-success fs-1"><i class="bi bi-shield-check"></i></div>
+                    <h6 class="fw-bold text-dark mb-1"><span class="lang-mr">कोणतीही थकीत उधारी नोंद नाही</span><span class="lang-en">No Credit Transactions</span></h6>
+                    <p class="text-muted small mb-0"><span class="lang-mr">आपल्या खात्यावर सध्या कोणतीही उधारी किंवा बाकी रक्कम प्रलंबित नाही.</span><span class="lang-en">All your purchases are fully paid with zero outstanding balance.</span></p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = txns.map(function(t) {
+        var isDebit = (parseFloat(t.debit) || 0) > 0;
+        var debitText = isDebit ? ('₹' + parseFloat(t.debit).toLocaleString('en-IN', { minimumFractionDigits: 2 })) : '-';
+        var creditText = (parseFloat(t.credit) || 0) > 0 ? ('₹' + parseFloat(t.credit).toLocaleString('en-IN', { minimumFractionDigits: 2 })) : '-';
+        var balText = '₹' + (parseFloat(t.balance) || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        var statusBadge = (t.status === 'Paid') ? '<span class="badge bg-success-subtle text-success border border-success-subtle">Paid</span>' : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle">Due / बाकी</span>';
+
+        return `
+            <tr>
+                <td class="text-nowrap fw-semibold text-secondary">${t.date || '-'}</td>
+                <td><strong class="text-dark">${t.notes || 'कृषी माल खरेदी'}</strong></td>
+                <td class="fw-bold text-danger">${debitText}</td>
+                <td class="fw-bold text-success">${creditText}</td>
+                <td class="fw-bold ${parseFloat(t.balance) > 0 ? 'text-danger' : 'text-success'}">${balText}</td>
+                <td>${statusBadge}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', loadFarmerCreditLedger);
+window.addEventListener('storage', function(e){
+    if (e.key === 'ksk_udhari_records' || e.key === 'user_name') {
+        loadFarmerCreditLedger();
+    }
+});
+</script>
+""").replace("{sidebar}", sidebar) + foot_html()
     save_customer_page("farmer-udhari.html", content)
-    print("Generated dist/farmer-udhari.html")
+    print("Generated dist/farmer-udhari.html with dynamic real-time credit ledger!")
 
 # ==============================================================================
 # 5. FARMER PAY (UPI PAYMENT)

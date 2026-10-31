@@ -82,7 +82,7 @@ public class DataInitializer implements CommandLineRunner {
         // STRICT RULE: Only admin@krushiseva.com receives ROLE_ADMIN, with guaranteed password admin123
         String adminPass = (bootstrapAdminPassword != null && !bootstrapAdminPassword.isBlank())
                 ? bootstrapAdminPassword
-                : "admin123";
+                : (bootstrapDemoData ? "admin123" : null);
 
         User admin = userRepository.findByEmail("admin@krushiseva.com").orElseGet(() -> {
             User u = new User();
@@ -99,13 +99,20 @@ public class DataInitializer implements CommandLineRunner {
         });
 
         // Always guarantee master admin password and ACTIVE status
-        admin.setPasswordHash(passwordEncoder.encode(adminPass));
+        if (adminPass != null && (admin.getPasswordHash() == null || admin.getPasswordHash().isBlank())) {
+            admin.setPasswordHash(passwordEncoder.encode(adminPass));
+        }
         admin.setStatus("ACTIVE");
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
         admin.setRoles(adminRoles);
         userRepository.save(admin);
         log.info("Master administrator role and credentials (admin@krushiseva.com) guaranteed active.");
+
+        if (!bootstrapDemoData) {
+            log.info("Demo farmers, catalog, and sample transactions are not initialized.");
+            return;
+        }
 
         // STRICT RULE: Strip ROLE_ADMIN from EVERY other user in the database!
         // No other email/mobile can EVER have admin access!
@@ -122,11 +129,6 @@ public class DataInitializer implements CommandLineRunner {
                     log.info("Ensured customer role for non-admin user: {}", u.getEmail());
                 }
             }
-        }
-
-        if (!bootstrapDemoData) {
-            log.info("Demo farmers, catalog, and sample transactions are not initialized.");
-            return;
         }
 
         User ramesh = userRepository.findByEmail("ramesh@patil.com").orElseGet(() -> {

@@ -1,247 +1,527 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/header :: head('Inventory Management')}"></head>
-<body class="page-bg-light">
-<div th:replace="~{layout/navbar :: navbar}"></div>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>इन्व्हेंटरी व एक्सपायरी | Inventory & Expiry - सप्तशृंगी ॲग्रो सर्व्हिसेस (Saptashrungi Agro Services)</title>
+    <meta name="description" content="Saptashrungi Agro Services - Certified Agricultural Products, Seeds, Fertilizers, Pesticides, Drip Irrigation and Farming Advisory in Mirakhnagar, Vaijapur.">
+    <meta name="theme-color" content="#16a34a">
+    <link rel="icon" type="image/jpeg" href="/images/saptashrungi_logo_round.jpg">
 
-<div class="container-fluid px-lg-4 my-4">
-    <div class="row g-4">
-        <!-- Sidebar -->
-        <div class="col-lg-2">
-            <div th:replace="~{layout/sidebar-admin :: admin-sidebar('inventory')}"></div>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Theme CSS -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/dark-mode.css" rel="stylesheet">
+    <link href="/css/ui-polish.css" rel="stylesheet">
+    <link href="/css/login-page.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/js/premium.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-krushi sticky-top">
+    <div class="container-fluid px-3 px-sm-4 px-xl-5">
+        <!-- Brand -->
+        <a class="navbar-brand-custom" href="index.html">
+            <img class="brand-logo" src="images/saptashrungi_logo_round.jpg" alt="Logo">
+            <div>
+                <span class="brand-text-primary">
+                    <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                    <span class="lang-en">Saptashrungi Agro Services</span>
+                </span>
+                <span class="brand-text-secondary d-none d-sm-block">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </span>
+            </div>
+        </a>
+
+        <!-- Mobile Controls: Theme + Lang Switcher -->
+        <div class="d-flex align-items-center d-lg-none ms-auto me-2 gap-1">
+            <button class="btn btn-sm btn-outline-light rounded-circle p-1" style="width:30px;height:30px;" onclick="toggleTheme()" title="Dark Mode">
+                <i class="bi bi-moon-stars-fill" id="themeIconMob" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1" style="background:#f8fafc;">
+                <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.75rem;">🌾 मराठी</button>
+                <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.75rem;">🌐 Eng</button>
+            </div>
         </div>
 
-        <div class="col-lg-10">
-            <!-- Header -->
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-                <div>
-                    <h1 class="h3 fw-bold text-dark m-0 d-flex align-items-center gap-2">
-                        <span th:text="${#locale.language == 'mr' ? '📦 साठा व इन्व्हेंटरी व्यवहार' : '📦 Inventory & Stock Movement'}">📦 Inventory & Stock Movement</span>
-                    </h1>
-                    <p class="text-muted small m-0 mt-1" th:text="${#locale.language == 'mr' ? 'सर्व आवक, जावक, समायोजन आणि खराब मालाच्या साठ्याची नोंद' : 'Audit log of all inward, outward, adjustments, and damaged stock movements'}">Audit log of all inward, outward, adjustments, and damaged stock movements</p>
+        <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-lg-1 gap-xl-2">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html">
+                        <span class="lang-mr">मुख्यपृष्ठ</span><span class="lang-en">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="products.html">
+                        <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="index.html#reviews">
+                        <i class="bi bi-star-fill text-warning me-1"></i>
+                        <span class="lang-mr">अभिप्राय</span><span class="lang-en">Reviews</span>
+                    </a>
+                </li>
+
+                <!-- Farming Advisory Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom px-lg-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cloud-sun text-success me-1"></i>
+                        <span class="lang-mr">कृषी सल्लागार</span><span class="lang-en">Farming Advisory</span>
+                    </a>
+                    <ul class="dropdown-menu shadow border-0 rounded-3 mt-1 p-1">
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="fertilizer-calc.html">
+                                <i class="bi bi-calculator me-2 text-success"></i>
+                                <span class="lang-mr">खत कॅल्क्युलेटर</span><span class="lang-en">Fertilizer Calculator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="weather.html">
+                                <i class="bi bi-cloud-rain me-2 text-primary"></i>
+                                <span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="farming-tips.html">
+                                <i class="bi bi-journal-text me-2 text-warning"></i>
+                                <span class="lang-mr">पीक संरक्षण व कीड सल्ला</span><span class="lang-en">Crop Care & Pest Advice</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="about.html">
+                        <span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom px-lg-2" href="contact.html">
+                        <span class="lang-mr">संपर्क</span><span class="lang-en">Contact Shop</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Live Search Bar -->
+            <div class="navbar-search-wrap me-lg-2 my-2 my-lg-0">
+                <form action="products.html" method="GET" class="d-flex m-0">
+                    <div class="position-relative">
+                        <i class="bi bi-search navbar-search-icon"></i>
+                        <input type="search" id="globalSearchInput" name="keyword" class="form-control form-control-sm navbar-search-input"
+                               placeholder="Search products, brands..." autocomplete="off">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Desktop Language Switcher, Dark Mode, Login & Register -->
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                <div class="btn-group btn-group-sm rounded-pill border shadow-sm p-1 d-none d-lg-flex" style="background:#f8fafc;">
+                    <button type="button" onclick="setLang('mr')" class="btn btn-sm btn-success text-white rounded-pill px-2 py-1 fw-bold btn-lang-mr" style="font-size:0.78rem;">🌾 मराठी</button>
+                    <button type="button" onclick="setLang('en')" class="btn btn-sm btn-light text-dark rounded-pill px-2 py-1 fw-bold btn-lang-en" style="font-size:0.78rem;">🌐 English</button>
                 </div>
-                <div class="d-flex gap-2 align-items-center">
-                    <a th:href="@{/admin/products}" class="btn btn-light border px-3 py-2 rounded-3 text-dark text-decoration-none shadow-sm" style="font-size: 13px;">
-                        <i class="ti ti-box me-1"></i> <span th:text="${#locale.language == 'mr' ? 'उत्पादने कॅटलॉग' : 'Product Catalog'}">Product Catalog</span>
+
+                <button class="btn btn-sm btn-outline-light rounded-circle p-1 d-none d-lg-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
+                <!-- Auth Area: Logged Out vs Logged In -->
+                <div id="navAuthLoggedOut" class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn-nav-login">
+                        <i class="bi bi-person"></i>
+                        <span class="lang-mr">लॉगिन</span><span class="lang-en">Login</span>
+                    </a>
+                    <a href="register.html" class="btn-nav-register d-none d-sm-inline-flex">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        <span class="lang-mr">नोंदणी करा</span><span class="lang-en">Register</span>
                     </a>
                 </div>
-            </div>
 
-            <!-- Flash Message -->
-            <div th:if="${successMessage}" class="alert alert-success border-0 shadow-sm alert-dismissible fade show small mb-3 rounded-3">
-                <i class="ti ti-check me-1"></i> <span th:text="${successMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div id="navAuthLoggedIn" class="d-none align-items-center gap-2">
+                    <a id="navDashboardLink" href="admin-dashboard.html" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-semibold text-white d-flex align-items-center gap-1 shadow-sm">
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        <span id="navUserName">Admin</span>
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-outline-danger rounded-circle p-1" style="width:32px;height:32px;" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
             </div>
+        </div>
+    </div>
+</nav>
 
-            <!-- Low Stock Alert Banner -->
-            <div th:if="${!lowStockProducts.empty}" class="urgent-alert-box d-flex align-items-center justify-content-between p-3 mb-4">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="ti ti-alert-triangle fs-4 text-warning"></i>
-                    <div>
-                        <strong class="text-dark" th:text="${#locale.language == 'mr' ? 'कमी साठा सूचना:' : 'Low Stock Warning:'}">Low Stock Warning:</strong>
-                        <span class="text-secondary small ms-1" th:if="${#locale.language == 'mr'}"><strong th:text="${lowStockProducts.size()}">0</strong> उत्पादनांचा साठा किमान मर्यादेपेक्षा कमी झाला आहे.</span>
-                        <span class="text-secondary small ms-1" th:if="${#locale.language != 'mr'}" th:text="${lowStockProducts.size()} + ' products have reached or fallen below minimum threshold.'">Alert</span>
+<div class="container-fluid px-3 px-lg-4 my-4">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2">
+            
+<div class="admin-sidebar-wrap mb-4">
+    <!-- Admin Brand Header -->
+    <div class="admin-sidebar-brand">
+        <div class="d-flex align-items-center gap-3">
+            <div class="position-relative">
+                <img src="images/saptashrungi_logo_round.jpg" class="admin-sidebar-logo shadow-sm" alt="Shop Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" style="width:10px;height:10px;"></span>
+            </div>
+            <div class="overflow-hidden">
+                <div class="admin-sidebar-title text-truncate fw-bold text-white" style="font-size:0.95rem;">
+                    <span class="lang-mr">ॲडमिन पोर्टल</span><span class="lang-en">Admin Portal</span>
+                </div>
+                <div class="admin-sidebar-sub text-truncate text-success small" style="font-size:0.75rem;">
+                    Saptashrungi Agro Services
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Operations -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">कामकाज व व्यवस्थापन</span><span class="lang-en">OPERATIONS &amp; MANAGEMENT</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-dashboard.html" class="admin-nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-link ">
+            <i class="bi bi-box-seam-fill"></i>
+            <span><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></span>
+        </a>
+        <a href="admin-categories.html" class="admin-nav-link ">
+            <i class="bi bi-tags-fill"></i>
+            <span><span class="lang-mr">कॅटेगरी</span><span class="lang-en">Categories</span></span>
+        </a>
+        <a href="admin-inventory.html" class="admin-nav-link active">
+            <i class="bi bi-boxes"></i>
+            <span><span class="lang-mr">साठा व्यवस्थापन</span><span class="lang-en">Inventory</span></span>
+        </a>
+        <a href="admin-inventory.html#expiry" class="admin-nav-link ">
+            <i class="bi bi-calendar-x-fill text-warning"></i>
+            <span><span class="lang-mr">मुदत समाप्ती</span><span class="lang-en">Expiry Tracking</span></span>
+            <span class="badge bg-warning text-dark ms-auto" style="font-size:0.65rem;">Alert</span>
+        </a>
+    </nav>
+
+    <!-- Section: Sales & Customers -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">विक्री व शेतकरी</span><span class="lang-en">SALES &amp; CUSTOMERS</span>
+    </div>
+    <nav class="nav flex-column gap-1">
+        <a href="admin-customers.html" class="admin-nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Customers</span></span>
+        </a>
+        <a href="admin-reviews.html" class="admin-nav-link ">
+            <i class="bi bi-star-fill text-warning"></i>
+            <span><span class="lang-mr">शेतकरी रिव्ह्यू व्यवस्थापन</span><span class="lang-en">Manage Reviews</span></span>
+            <span class="badge bg-success ms-auto" style="font-size:0.65rem;">New</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-link ">
+            <i class="bi bi-wallet2 text-warning"></i>
+            <span><span class="lang-mr">उधारी खाते</span><span class="lang-en">Credit Ledger</span></span>
+        </a>
+
+    </nav>
+
+    <!-- Section: Analytics & Settings -->
+    <div class="admin-nav-section text-uppercase px-3 py-2 mt-3 fw-bold" style="font-size:0.7rem;letter-spacing:0.5px;color:#22c55e;opacity:0.85;">
+        <span class="lang-mr">अहवाल व सेटिंग्ज</span><span class="lang-en">REPORTS &amp; CONFIG</span>
+    </div>
+    <nav class="nav flex-column gap-1 mb-4">
+        <a href="admin-reports.html" class="admin-nav-link ">
+            <i class="bi bi-bar-chart-line-fill text-primary"></i>
+            <span><span class="lang-mr">अहवाल केंद्र</span><span class="lang-en">Reports Center</span></span>
+        </a>
+        <a href="admin-backup.html" class="admin-nav-link ">
+            <i class="bi bi-database-check text-secondary"></i>
+            <span><span class="lang-mr">डेटाबेस बॅकअप</span><span class="lang-en">Database Backup</span></span>
+        </a>
+        <a href="admin-settings.html" class="admin-nav-link ">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span><span class="lang-mr">दुकान सेटिंग्ज</span><span class="lang-en">Shop Settings</span></span>
+        </a>
+    </nav>
+
+    <button onclick="handleLogout()" class="admin-logout-btn w-100 btn text-danger border-0 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3" style="background:rgba(239,68,68,0.12);font-weight:600;">
+        <i class="bi bi-box-arrow-right"></i>
+        <span><span class="lang-mr">लॉगआउट करा</span><span class="lang-en">Logout Portal</span></span>
+    </button>
+</div>
+
+        </div>
+
+        <div class="col-lg-9 col-xl-10">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-boxes text-success me-2"></i><span class="lang-mr">इन्व्हेंटरी व एक्सपायरी ट्रॅकिंग</span><span class="lang-en">Inventory & Expiry Tracking</span></h5>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-success">Green = OK</span>
+                        <span class="badge bg-warning text-dark">Yellow = Warning</span>
+                        <span class="badge bg-danger">Red = Low</span>
                     </div>
                 </div>
-                <a th:href="@{/admin/products(stockStatus='LOW')}" class="btn btn-warning btn-sm fw-bold shadow-sm" th:text="${#locale.language == 'mr' ? 'साठा तपासा' : 'Review Stock'}">Review Stock</a>
-            </div>
-
-            <!-- SECTION 1: Product Stock Levels with Color Coding (Red=Low, Yellow=Warning, Green=OK) -->
-            <div class="modern-card overflow-hidden mb-4 shadow-sm rounded-4 bg-white">
-                <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
-                    <div>
-                        <h5 class="h6 mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                            <i class="bi bi-bar-chart-fill text-success"></i>
-                            <span th:text="${#locale.language == 'mr' ? 'उत्पादन साठा पातळी (Stock Levels with Color Coding)' : 'Product Stock Levels'}">Product Stock Levels</span>
-                        </h5>
-                        <small class="text-muted">Color Codes: <span class="badge bg-danger">Red = Low</span> <span class="badge bg-warning text-dark">Yellow = Warning</span> <span class="badge bg-success">Green = OK</span></small>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light text-muted small">
+                                <tr>
+                                    <th class="ps-4">Product</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Min Safe Stock</th>
+                                    <th>Stock Level Status</th>
+                                    <th>Expiry Date</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Wheat Seeds (Lok-1)</td>
+                                    <td>Seeds</td>
+                                    <td>60 units</td>
+                                    <td>15 units</td>
+                                    <td><span class="badge bg-success px-3 py-1">OK (Safe)</span></td>
+                                    <td>30 Apr 2027</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Update</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">NPK 19:19:19</td>
+                                    <td>Fertilizers</td>
+                                    <td>85 units</td>
+                                    <td>20 units</td>
+                                    <td><span class="badge bg-success px-3 py-1">OK (Safe)</span></td>
+                                    <td>15 Dec 2027</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Update</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-dark">Falcon Battery Sprayer (16L)</td>
+                                    <td>Farming Tools</td>
+                                    <td>3 units</td>
+                                    <td>5 units</td>
+                                    <td><span class="badge bg-danger px-3 py-1">Low Stock Alert</span></td>
+                                    <td>N/A</td>
+                                    <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary py-1 px-2">Reorder</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <a th:href="@{/admin/products/add}" class="btn btn-sm btn-success fw-bold px-3 py-1 rounded-pill">
-                        ➕ Add Product
-                    </a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0" style="font-size: 13px;">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3">उत्पादन नाव (Product)</th>
-                                <th>कंपनी (Company)</th>
-                                <th>कॅटेगरी (Category)</th>
-                                <th class="text-center">सध्याचा साठा (Current Stock)</th>
-                                <th class="text-center">किमान मर्यादा (Min Stock)</th>
-                                <th class="text-center">स्थिती (Stock Level)</th>
-                                <th class="text-center pe-3">कृती</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${products == null or products.empty}">
-                                <td colspan="7" class="text-center py-4 text-muted">कोणतेही उत्पादने सापडले नाहीत.</td>
-                            </tr>
-                            <tr th:each="p : ${products}" style="border-bottom: 1px solid #f3f4f6;">
-                                <td class="ps-3">
-                                    <strong class="text-dark d-block" th:text="${p.name}">Product Name</strong>
-                                    <small class="text-muted" th:if="${p.nameMr != null}" th:text="${p.nameMr}">नाव</small>
-                                </td>
-                                <td th:text="${p.company != null ? p.company : 'सप्तशृंगी ॲग्रो'}">Company</td>
-                                <td>
-                                    <span class="badge bg-light text-dark border" th:text="${p.category != null ? p.category.name : 'General'}">Category</span>
-                                </td>
-                                <td class="text-center">
-                                    <!-- Stock Pill with Color Coding -->
-                                    <span class="badge px-3 py-2 fs-6 rounded-pill"
-                                          th:classappend="${p.stockQuantity <= p.minimumStock} ? 'bg-danger text-white' : (${p.stockQuantity <= p.minimumStock * 2} ? 'bg-warning text-dark' : 'bg-success text-white')"
-                                          th:text="${p.stockQuantity} + ' नग'">
-                                        0 नग
-                                    </span>
-                                </td>
-                                <td class="text-center fw-semibold text-secondary" th:text="${p.minimumStock} + ' नग'">5 नग</td>
-                                <td class="text-center">
-                                    <!-- Red = Low, Yellow = Warning, Green = OK -->
-                                    <span th:if="${p.stockQuantity <= p.minimumStock}" class="badge bg-danger-subtle text-danger border border-danger px-2 py-1 rounded-pill fw-bold">
-                                        🔴 कमी साठा (Low)
-                                    </span>
-                                    <span th:if="${p.stockQuantity > p.minimumStock and p.stockQuantity <= p.minimumStock * 2}" class="badge bg-warning-subtle text-warning-emphasis border border-warning px-2 py-1 rounded-pill fw-bold">
-                                        🟡 मध्यम साठा (Warning)
-                                    </span>
-                                    <span th:if="${p.stockQuantity > p.minimumStock * 2}" class="badge bg-success-subtle text-success border border-success px-2 py-1 rounded-pill fw-bold">
-                                        🟢 पुरेसा साठा (OK)
-                                    </span>
-                                </td>
-                                <td class="text-center pe-3">
-                                    <a th:href="@{'/admin/products/' + ${p.id} + '/edit'}" class="btn btn-sm btn-outline-primary px-2 py-1" title="Edit Stock">
-                                        <i class="ti ti-edit"></i> साठा बदला
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- SECTION 2: Expiry Tracking Section -->
-            <div class="modern-card overflow-hidden mb-4 shadow-sm rounded-4 bg-white">
-                <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
-                    <div>
-                        <h5 class="h6 mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                            <i class="bi bi-calendar-x-fill text-danger"></i>
-                            <span th:text="${#locale.language == 'mr' ? 'मुदत समाप्ती ट्रॅकिंग (Expiry Tracking)' : 'Expiry Tracking'}">Expiry Tracking</span>
-                        </h5>
-                        <small class="text-muted">औषधे व खतांच्या बॅचची एक्सपायरी तारीख व उर्वरित दिवस</small>
-                    </div>
-                    <a th:href="@{/admin/expiry-tracking}" class="btn btn-sm btn-outline-danger fw-semibold px-3 py-1 rounded-pill">
-                        सर्व पाहा &rarr;
-                    </a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0" style="font-size: 13px;">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3">उत्पादन (Product)</th>
-                                <th>बॅच नंबर (Batch No)</th>
-                                <th>मुदत समाप्ती (Expiry Date)</th>
-                                <th class="text-center">स्थिती (Expiry Status)</th>
-                                <th class="text-center pe-3">साठा</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="p : ${products}" th:if="${p.expiryDate != null}" style="border-bottom: 1px solid #f3f4f6;">
-                                <td class="ps-3 fw-bold text-dark" th:text="${p.name}">Product Name</td>
-                                <td><code class="text-dark" th:text="${p.batchNumber != null ? p.batchNumber : 'BATCH-2026'}">BCH-01</code></td>
-                                <td>
-                                    <span class="badge bg-light text-dark border px-2 py-1" th:text="${p.expiryDate}">2026-12-31</span>
-                                </td>
-                                <td class="text-center">
-                                    <span th:if="${p.isExpired()}" class="badge bg-danger text-white px-2 py-1 rounded-pill">
-                                        ❌ मुदत संपली (Expired)
-                                    </span>
-                                    <span th:if="${!p.isExpired() and p.isExpiringSoon()}" class="badge bg-warning text-dark px-2 py-1 rounded-pill">
-                                        ⚠️ लवकरच संपणार (Expiring Soon)
-                                    </span>
-                                    <span th:if="${!p.isExpired() and !p.isExpiringSoon()}" class="badge bg-success text-white px-2 py-1 rounded-pill">
-                                        ✅ सुरक्षित (Safe)
-                                    </span>
-                                </td>
-                                <td class="text-center pe-3 fw-bold" th:text="${p.stockQuantity} + ' शिल्लक'">10</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Inventory Movements Audit Trail Table -->
-            <div class="modern-card overflow-hidden mb-4">
-                <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background: #fff; border-color: #e5e7eb !important;">
-                    <h5 class="h6 mb-0 fw-bold text-dark"><i class="ti ti-arrows-left-right text-success me-2"></i><span th:text="${#locale.language == 'mr' ? 'साठा हालचाल नोंदवही' : 'Stock Movement Log'}">Stock Movement Log</span></h5>
-                    <span class="badge bg-light text-dark border" th:text="${#locale.language == 'mr' ? 'ऑडिट नोंदी' : 'Audit Records'}">Audit Records</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0" style="font-size: 13px; border-collapse: collapse;">
-                        <thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-                            <tr>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;">Txn #</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'वेळ व दिनांक' : 'Timestamp'}">Timestamp</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'उत्पादन' : 'Product'}">Product</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'व्यवहार प्रकार' : 'Movement Type'}">Movement Type</th>
-                                <th style="padding: 12px 16px; text-align: center; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'प्रमाण (नग/किलो)' : 'Quantity'}">Quantity</th>
-                                <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #4b5563;" th:text="${#locale.language == 'mr' ? 'संदर्भ / कारण' : 'Reference / Reason'}">Reference / Reason</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${transactionsPage.empty}">
-                                <td colspan="6" class="text-center py-5 text-muted" th:text="${#locale.language == 'mr' ? 'कोणतेही साठा व्यवहार नोंदवले नाहीत.' : 'No inventory transactions recorded.'}">No inventory transactions recorded.</td>
-                            </tr>
-                            <tr th:each="tx : ${transactionsPage.content}" style="border-bottom: 1px solid #f3f4f6;">
-                                <td style="padding: 12px 16px;"><code class="text-dark fw-semibold" th:text="'TXN-' + ${tx.id}">TXN-1</code></td>
-                                <td style="padding: 12px 16px;" class="small text-muted" th:text="${#temporals.format(tx.transactionDate, 'dd MMM yyyy, hh:mm a')}">Date</td>
-                                <td style="padding: 12px 16px;">
-                                    <strong class="text-dark d-block" th:text="${tx.product.name}">Product</strong>
-                                    <small class="text-muted" th:text="'SKU: ' + ${tx.product.sku}">SKU</small>
-                                </td>
-                                <td style="padding: 12px 16px; text-align: center;">
-                                    <span class="status-pill" 
-                                          th:classappend="${tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE'} ? 'status-pill-green' : 'status-pill-red'"
-                                          th:text="${tx.type.displayNameEn}">STOCK_IN</span>
-                                </td>
-                                <td style="padding: 12px 16px; text-align: center;">
-                                    <strong th:classappend="${tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE'} ? 'text-success' : 'text-danger'"
-                                            th:text="${(tx.type.name() == 'STOCK_IN' or tx.type.name() == 'RETURN' or tx.type.name() == 'PURCHASE' ? '+' : '-') + tx.quantity + ' Units'}">+10 Units</strong>
-                                </td>
-                                <td style="padding: 12px 16px;" class="small text-muted" th:text="${tx.reason}">Reason</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="p-3 border-top d-flex justify-content-center align-items-center gap-2" style="background: #fff; border-color: #e5e7eb !important;" th:if="${transactionsPage.totalPages > 1}">
-                    <a th:href="@{/admin/inventory(page=${transactionsPage.number - 1})}" 
-                       class="btn btn-sm btn-light border" 
-                       th:classappend="${transactionsPage.first} ? 'disabled'"
-                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
-                        ← Previous
-                    </a>
-
-                    <span th:each="i : ${#numbers.sequence(0, transactionsPage.totalPages - 1)}" 
-                          th:if="${i >= transactionsPage.number - 2 and i <= transactionsPage.number + 2}">
-                        <a th:href="@{/admin/inventory(page=${i})}"
-                           class="btn btn-sm"
-                           th:classappend="${transactionsPage.number == i} ? 'btn-success text-white' : 'btn-light border'"
-                           th:style="${transactionsPage.number == i ? 'background: #16a34a; border: none; border-radius: 6px; font-size: 12px;' : 'background: #f3f4f6; border-color: #ddd; border-radius: 6px; font-size: 12px;'}"
-                           th:text="${i + 1}">1</a>
-                    </span>
-
-                    <a th:href="@{/admin/inventory(page=${transactionsPage.number + 1})}" 
-                       class="btn btn-sm btn-light border" 
-                       th:classappend="${transactionsPage.last} ? 'disabled'"
-                       style="background: #f3f4f6; border-color: #ddd; font-size: 12px; border-radius: 6px;">
-                        Next →
-                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div th:replace="~{layout/footer :: footer}"></div>
+<footer class="footer-krushi pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <!-- Brand & Social -->
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="images/saptashrungi_logo_round.jpg" alt="Logo" class="rounded-circle" style="width:46px;height:46px;object-fit:cover;border:2px solid rgba(76,175,80,0.5);">
+                    <div>
+                        <div class="fw-bold text-white" style="font-size:0.95rem;">
+                            <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+                            <span class="lang-en">Saptashrungi Agro Services</span>
+                        </div>
+                        <div style="font-size:0.68rem;color:rgba(200,230,201,0.6);">
+                            <span class="lang-mr">अधिकृत कृषी सेवा केंद्र</span>
+                            <span class="lang-en">Authorized Agricultural Center</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="small mb-3" style="color:rgba(200,230,201,0.7);line-height:1.65;">
+                    <span class="lang-mr">आपल्या शेतीसाठी योग्य मार्गदर्शन.</span>
+                    <span class="lang-en">Serving Farmers, Supporting Better Farming.</span>
+                </p>
+
+                <!-- Contact shortcuts -->
+                <div class="footer-social-links">
+                    <a href="https://wa.me/918600813827?text=Namaste%20Saptashrungi%20Agro%20Services" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-social-wa" title="WhatsApp" aria-label="Contact us on WhatsApp">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                    <a href="mailto:contact@saptashrungiagro.com" class="footer-social-btn" title="Email" aria-label="Email Saptashrungi Agro Services">
+                        <i class="bi bi-envelope-fill"></i>
+                    </a>
+                    <a href="tel:+918600813827" class="footer-social-btn" title="Call Us" aria-label="Call Saptashrungi Agro Services" style="color:#86efac!important;">
+                        <i class="bi bi-telephone-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🌱 वर्गवारी</span>
+                    <span class="lang-en">🌱 Categories</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="products.html?category=1" class="text-decoration-none"><span class="lang-mr">🌾 बियाणे</span><span class="lang-en">🌾 Seeds</span></a></li>
+                    <li><a href="products.html?category=2" class="text-decoration-none"><span class="lang-mr">🧪 खते</span><span class="lang-en">🧪 Fertilizers</span></a></li>
+                    <li><a href="products.html?category=3" class="text-decoration-none"><span class="lang-mr">🐛 कीटकनाशके</span><span class="lang-en">🐛 Pesticides</span></a></li>
+                    <li><a href="products.html?category=4" class="text-decoration-none"><span class="lang-mr">🔧 शेती अवजारे</span><span class="lang-en">🔧 Farm Tools</span></a></li>
+                    <li><a href="products.html?category=5" class="text-decoration-none"><span class="lang-mr">💧 ठिबक सिंचन</span><span class="lang-en">💧 Drip Irrigation</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Farming Hub -->
+            <div class="col-lg-3 col-md-6 col-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">🚜 कृषी माहिती</span>
+                    <span class="lang-en">🚜 Farming Hub</span>
+                </h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 small">
+                    <li><a href="weather.html" class="text-decoration-none"><i class="bi bi-cloud-sun me-1"></i><span class="lang-mr">हवामान अंदाज</span><span class="lang-en">Weather Forecast</span></a></li>
+                    <li><a href="farming-tips.html" class="text-decoration-none"><i class="bi bi-journal-text me-1"></i><span class="lang-mr">पीक सल्ला व माहिती</span><span class="lang-en">Crop Care Tips</span></a></li>
+                    <li><a href="index.html#reviews" class="text-decoration-none"><i class="bi bi-star-fill text-warning me-1"></i><span class="lang-mr">ग्राहकांची मते (Reviews)</span><span class="lang-en">Customer Reviews</span></a></li>
+                    <li><a href="faq.html" class="text-decoration-none"><i class="bi bi-question-circle me-1"></i><span class="lang-mr">वारंवार विचारले जाणारे प्रश्न</span><span class="lang-en">FAQ</span></a></li>
+                    <li><a href="about.html" class="text-decoration-none"><i class="bi bi-info-circle me-1"></i><span class="lang-mr">आमच्याबद्दल</span><span class="lang-en">About Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact / Shop Address -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="text-white fw-bold mb-3" style="font-size:1rem;">
+                    <span class="lang-mr">📍 दुकानाचा पत्ता</span>
+                    <span class="lang-en">📍 Shop Address</span>
+                </h5>
+                <div class="d-flex flex-column gap-2 small" style="color:rgba(200,230,201,0.75);">
+                    <div class="d-flex gap-2">
+                        <i class="bi bi-geo-alt-fill text-success mt-1 flex-shrink-0"></i>
+                        <span>Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</span>
+                    </div>
+                    <div>
+                        <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" class="text-success fw-semibold text-decoration-none">
+                            <i class="bi bi-map-fill me-1"></i><span class="lang-mr">📍 गुगल मॅपवर पहा</span><span class="lang-en">📍 View on Google Maps</span>
+                        </a>
+                    </div>
+                    <div>
+                        <i class="bi bi-telephone-fill text-success me-1"></i>
+                        <a href="tel:+918600813827" class="text-white text-decoration-none fw-bold">+91 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-whatsapp text-success me-1"></i>
+                        <a href="https://wa.me/918600813827" target="_blank" class="text-white text-decoration-none">WhatsApp: 8600813827</a>
+                    </div>
+                    <div>
+                        <i class="bi bi-clock-fill text-success me-1"></i>
+                        <span class="lang-mr">सोम - शनि: सकाळी ८:०० ते रात्री ८:३०</span>
+                        <span class="lang-en">Mon - Sat: 8:00 AM – 8:30 PM</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-receipt text-success me-1"></i> GSTIN: 27AAAAA0000A1Z5
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-center pt-4 mt-4 border-top border-secondary border-opacity-25">
+            <div style="color:rgba(200,230,201,0.55); font-size:0.85rem;">
+                &copy; 2026 <strong class="text-white">Saptashrungi Agro Services</strong>. <span class="lang-mr">शेतकऱ्यांच्या सेवेसाठी सदैव तत्पर.</span><span class="lang-en">Made with ❤️ for Farmers.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Bilingual Switcher, Dark Mode & Auth Engine -->
+    <script>
+        function setLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            localStorage.setItem('site_lang', lang);
+            
+            var isMr = (lang === 'mr');
+            document.querySelectorAll('.btn-lang-mr').forEach(function(b){
+                b.className = isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-mr' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-mr';
+            });
+            document.querySelectorAll('.btn-lang-en').forEach(function(b){
+                b.className = !isMr ? 'btn btn-sm btn-success text-white rounded-pill px-3 py-1 fw-bold btn-lang-en' : 'btn btn-sm btn-light text-dark rounded-pill px-3 py-1 fw-bold btn-lang-en';
+            });
+
+            document.querySelectorAll('[data-placeholder-mr]').forEach(function(el){
+                el.placeholder = isMr ? el.getAttribute('data-placeholder-mr') : el.getAttribute('data-placeholder-en');
+            });
+
+            window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang: lang } }));
+        }
+
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme');
+            var next = (cur === 'dark') ? 'light' : 'dark';
+            applyTheme(next);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('krushi-theme', theme);
+            var isDark = (theme === 'dark');
+            ['themeIcon', 'themeIconMob'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.className = isDark ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+            });
+        }
+
+        function checkAuthNavbar() {
+            var role = localStorage.getItem('user_role');
+            var name = localStorage.getItem('user_name') || 'Admin';
+            var outDiv = document.getElementById('navAuthLoggedOut');
+            var inDiv = document.getElementById('navAuthLoggedIn');
+            var dashLink = document.getElementById('navDashboardLink');
+            var nameSpan = document.getElementById('navUserName');
+            if (role && inDiv && outDiv) {
+                outDiv.classList.add('d-none');
+                inDiv.classList.remove('d-none');
+                inDiv.classList.add('d-flex');
+                if (nameSpan) nameSpan.textContent = name;
+                if (dashLink) dashLink.href = (role === 'admin') ? 'admin-dashboard.html' : 'farmer-dashboard.html';
+            } else if (outDiv && inDiv) {
+                outDiv.classList.remove('d-none');
+                inDiv.classList.add('d-none');
+                inDiv.classList.remove('d-flex');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            var savedLang = localStorage.getItem('site_lang') || 'mr';
+            setLang(savedLang);
+            var savedTheme = localStorage.getItem('krushi-theme') || 'light';
+            applyTheme(savedTheme);
+            checkAuthNavbar();
+            var savedName = localStorage.getItem('user_name');
+            var greetEl = document.getElementById('farmerDisplayGreet');
+            if (savedName && greetEl) {
+                greetEl.textContent = savedName;
+            }
+        });
+    </script>
+</footer>
 </body>
 </html>

@@ -562,11 +562,12 @@ const DEFAULT_EDIT_PRODUCTS = [
     }
 ];
 
-// Pre-populate form when opening in Edit mode (?edit=<id>)
-document.addEventListener('DOMContentLoaded', function() {
+// Pre-populate form when opening in Edit mode (?edit=<id> or ?id=<id>)
+function initProductFormEdit() {
     const params = new URLSearchParams(window.location.search);
-    const editId = params.get('edit');
-    const editSrc = params.get('src'); // 'custom' or default
+    const hashParams = new URLSearchParams(window.location.hash.replace('#', '?'));
+    const editId = params.get('edit') || params.get('id') || params.get('editId') || hashParams.get('edit') || hashParams.get('id');
+    const editSrc = params.get('src') || hashParams.get('src');
 
     if (editId) {
         document.getElementById('editProductId').value = editId;
@@ -631,9 +632,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                       '<span class="lang-mr">उत्पादनाची माहिती यशस्वीरित्या अपडेट केली!</span>' +
                                       '<span class="lang-en">Product information updated successfully!</span>';
             }
-        }
-    }
-});
+        }}
+    }}
+}}
+
+if (document.readyState === "complete" || document.readyState === "interactive") {
+    initProductFormEdit();
+} else {
+    document.addEventListener("DOMContentLoaded", initProductFormEdit);
+}
 
 function handleSaveProduct(e) {
     if (e && e.preventDefault) e.preventDefault();

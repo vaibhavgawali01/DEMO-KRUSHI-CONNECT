@@ -460,6 +460,24 @@ function handleReg(e) {
     };
     localStorage.setItem('ksk_user_accounts', JSON.stringify(usersDb));
 
+    // Also commit to Spring Boot / Supabase PostgreSQL API
+    try {
+        fetch((window.API_BASE_URL || '') + '/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                mobile: phone,
+                email: email || (phone + '@krushi.local'),
+                password: pass,
+                address: address || village,
+                village: village,
+                taluka: taluka,
+                district: district
+            })
+        }).catch(function(err){ console.warn('Backend offline or using local storage', err); });
+    } catch(e) {}
+
     // DO NOT set user_role yet! Registration and login are two distinct steps.
     localStorage.removeItem('user_role');
 

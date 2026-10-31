@@ -31,7 +31,13 @@ class ApiControllerTest {
                 productService,
                 mock(CategoryService.class),
                 mock(FarmingService.class),
-                mock(NotificationService.class)
+                mock(NotificationService.class),
+                mock(com.krushisevakendra.service.UserService.class),
+                mock(com.krushisevakendra.service.UdhariService.class),
+                mock(com.krushisevakendra.service.OrderService.class),
+                mock(com.krushisevakendra.repository.UserRepository.class),
+                mock(com.krushisevakendra.repository.UdhariRepository.class),
+                mock(org.springframework.security.crypto.password.PasswordEncoder.class)
         );
     }
 
